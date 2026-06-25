@@ -1,0 +1,9 @@
+# Netlify configuration for the FOSCOD Next.js site.
+# The official Next.js runtime handles SSR, ISR, image optimization,
+# middleware (edge), and the server handler function.
+
+[build]
+  command = "npm run build"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
