@@ -5,5 +5,12 @@
 [build]
   command = "npm run build"
 
+# NEXT_PUBLIC_* values are meant to ship in the browser bundle (the anon key
+# is a public key by design). Tell Netlify's secret scanner those keys are safe
+# to appear in build output so it doesn't fail the deploy. SUPABASE_SERVICE_ROLE_KEY
+# is intentionally NOT listed — it must never appear in output.
+[build.environment]
+  SECRETS_SCAN_OMIT_KEYS = "NEXT_PUBLIC_SUPABASE_URL,NEXT_PUBLIC_SUPABASE_ANON_KEY,NEXT_PUBLIC_SITE_URL"
+
 [[plugins]]
   package = "@netlify/plugin-nextjs"
