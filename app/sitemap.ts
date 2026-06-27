@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "",
     "/about",
     "/team",
+    "/programs",
     "/programs/global-learning-exchange",
     "/programs/community-empowerment-development",
     "/internships",

@@ -39,7 +39,41 @@ export default function ApplyPage() {
       />
 
       <section className="container-page py-12 md:py-16">
-        <h2 className="max-w-xl text-[clamp(1.7rem,3vw,2.3rem)]">How it works</h2>
+        <h2 className="max-w-xl text-[clamp(1.7rem,3vw,2.3rem)]">Program dates</h2>
+        <p className="mt-3 max-w-2xl text-[var(--muted)]">
+          Indicative intakes — confirm exact dates with our team when you apply.
+        </p>
+        <div className="mt-8 overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)]">
+          <table className="w-full text-left text-sm">
+            <thead className="border-b border-[var(--border)] bg-[var(--surface-2)] text-[var(--muted)]">
+              <tr>
+                <th className="px-5 py-3 font-medium">Intake</th>
+                <th className="px-5 py-3 font-medium">Applications close</th>
+                <th className="px-5 py-3 font-medium">Program starts</th>
+                <th className="px-5 py-3 font-medium">Durations</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[var(--border)]">
+              {[
+                ["Spring", "Rolling", "Feb / Mar", "4–12 weeks"],
+                ["Summer", "Rolling", "Jun / Jul", "4–12 weeks"],
+                ["Autumn", "Rolling", "Sep / Oct", "4–12 weeks"],
+              ].map((r) => (
+                <tr key={r[0]} className="bg-[var(--surface)]">
+                  {r.map((c, i) => (
+                    <td key={i} className={i === 0 ? "px-5 py-3 font-medium text-[var(--ink)]" : "px-5 py-3 text-[var(--muted)]"}>
+                      {c}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section className="container-page pb-4">
+        <h2 className="max-w-xl text-[clamp(1.7rem,3vw,2.3rem)]">Application procedure</h2>
         <div className="mt-10"><Steps steps={steps} /></div>
       </section>
 

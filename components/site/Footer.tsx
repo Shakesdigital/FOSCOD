@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { footerNav, site } from "@/lib/site";
+import { Newsletter } from "@/components/home/Newsletter";
 
 export function Footer() {
   return (
     <footer className="mt-24 border-t border-[var(--border)] bg-[var(--surface-2)]">
+      <Newsletter />
       <div className="container-page grid gap-12 py-16 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div className="max-w-sm">
           <div className="flex items-baseline gap-2">

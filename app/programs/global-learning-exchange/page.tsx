@@ -1,5 +1,5 @@
 import { PageHero } from "@/components/site/PageHero";
-import { SplitSection, Prose, FeatureGrid, CheckList, CTABand } from "@/components/site/blocks";
+import { SplitSection, Prose, FeatureGrid, CheckList, SupportOurCause, CTABand } from "@/components/site/blocks";
 import { Button } from "@/components/ui/Button";
 import { pageMeta } from "@/lib/seo";
 
@@ -70,6 +70,8 @@ export default function GlePage() {
           <div className="mt-6"><CheckList items={included} /></div>
         </div>
       </section>
+
+      <SupportOurCause />
 
       <CTABand
         title="Ready to start your journey?"

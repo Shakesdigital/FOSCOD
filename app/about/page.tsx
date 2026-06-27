@@ -1,5 +1,5 @@
 import { PageHero } from "@/components/site/PageHero";
-import { SplitSection, Prose, FeatureGrid, CTABand } from "@/components/site/blocks";
+import { SplitSection, Prose, FeatureGrid, FeatureRow, HowWeWork, CTABand } from "@/components/site/blocks";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata = pageMeta(
@@ -53,6 +53,26 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+
+      <FeatureRow
+        eyebrow="Our approach"
+        title="Community-led, asset-based, locally owned"
+        tone="forest"
+        imageCaption="Community planning session — add photo via CMS"
+        body="We start by listening. Through community assessment and asset-based co-design, communities set the priorities and lead delivery — we bring global knowledge, supervision, and partnerships that make solutions last."
+        cta={{ href: "/programs/community-empowerment-development", label: "See our model" }}
+      />
+
+      <HowWeWork
+        title="How we work"
+        steps={[
+          "Conduct community situation analysis",
+          "Build partnerships with local leaders",
+          "Co-design solutions with the community",
+          "Implement with local supervision",
+          "Monitor, report, and hand over ownership",
+        ]}
+      />
 
       <SplitSection eyebrow="2025–2030" title="Our strategic direction">
         <Prose>

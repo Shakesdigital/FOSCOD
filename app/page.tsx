@@ -4,7 +4,6 @@ import { Pathways } from "@/components/home/Pathways";
 import { FeaturedProjects } from "@/components/home/FeaturedProjects";
 import { AlumniLegacy } from "@/components/home/AlumniLegacy";
 import { SupportCause } from "@/components/home/SupportCause";
-import { Newsletter } from "@/components/home/Newsletter";
 import {
   getPathways,
   getFeaturedProjects,
@@ -26,7 +25,6 @@ export default async function HomePage() {
       <FeaturedProjects projects={projects} />
       <AlumniLegacy testimonials={testimonials} />
       <SupportCause />
-      <Newsletter />
     </>
   );
 }

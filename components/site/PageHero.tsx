@@ -1,16 +1,25 @@
 import type { ReactNode } from "react";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { PhotoSlot } from "@/components/ui/PhotoSlot";
 
 export function PageHero({
   eyebrow,
   title,
   intro,
   children,
+  banner = true,
+  bannerTone = "water",
+  bannerCaption = "Field photo — replace via the CMS media library",
+  bannerTag,
 }: {
   eyebrow: string;
   title: string;
   intro?: string;
   children?: ReactNode;
+  banner?: boolean;
+  bannerTone?: "earth" | "water" | "forest";
+  bannerCaption?: string;
+  bannerTag?: string;
 }) {
   return (
     <section className="relative overflow-hidden border-b border-[var(--border)]">
@@ -31,6 +40,17 @@ export function PageHero({
           </p>
         )}
         {children && <div className="mt-8 flex flex-wrap gap-3">{children}</div>}
+        {banner && (
+          <div className="mt-12">
+            <PhotoSlot
+              tone={bannerTone}
+              ratio="3/1"
+              tag={bannerTag}
+              caption={bannerCaption}
+              className="shadow-[var(--shadow-md)]"
+            />
+          </div>
+        )}
       </div>
     </section>
   );

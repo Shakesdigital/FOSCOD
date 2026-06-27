@@ -1,5 +1,5 @@
 import { PageHero } from "@/components/site/PageHero";
-import { CTABand } from "@/components/site/blocks";
+import { CTABand, FeatureRow, SupportOurCause } from "@/components/site/blocks";
 import { pageMeta } from "@/lib/seo";
 import { getImpactMetrics } from "@/lib/content";
 
@@ -51,6 +51,26 @@ export default async function ImpactPage() {
           ))}
         </div>
       </section>
+
+      <FeatureRow
+        eyebrow="Impact story"
+        title="Clean energy that powers a livelihood"
+        tone="earth"
+        imageCaption="Solar-powered salon, Naluvule — add photo via CMS"
+        body="In Naluvule, a solar-powered salon turned an unreliable income into a growing business — proof that clean energy is also economic empowerment."
+        cta={{ href: "/stories/solar-powered-salon-naluvule", label: "Read more" }}
+      />
+      <FeatureRow
+        eyebrow="Impact story"
+        title="Water, dignity, and resilience"
+        reverse
+        tone="water"
+        imageCaption="WASH project, Busoga — add photo via CMS"
+        body="Protected springs and hygiene education across Busoga communities are reducing illness and restoring dignity — designed and maintained by the communities themselves."
+        cta={{ href: "/projects/wash", label: "Read more" }}
+      />
+
+      <SupportOurCause />
 
       <CTABand
         title="Help us grow verified impact"
