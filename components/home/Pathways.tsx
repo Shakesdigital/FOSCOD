@@ -8,7 +8,7 @@ export function Pathways({ pathways }: { pathways: Pathway[] }) {
     <Section>
       <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
         <div className="max-w-xl">
-          <Eyebrow>Choose your path</Eyebrow>
+          <Eyebrow>Our programs</Eyebrow>
           <h2 className="mt-4 text-[clamp(1.9rem,3.5vw,2.6rem)]">
             Two ways to work with FOSCOD
           </h2>

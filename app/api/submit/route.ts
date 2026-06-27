@@ -9,6 +9,7 @@ const ALLOWED = new Set([
   "donor",
   "contact",
   "alumni",
+  "newsletter",
 ]);
 
 export async function POST(request: Request) {

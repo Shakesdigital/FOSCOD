@@ -14,7 +14,7 @@ export async function middleware(request: NextRequest) {
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   let response = NextResponse.next({ request: { headers: requestHeaders } });
-  if (!url || !key) return response;
+  if (!url || !/^https?:\/\/.+/i.test(url) || !key || key.length <= 20) return response;
 
   const supabase = createServerClient(url, key, {
     cookies: {
