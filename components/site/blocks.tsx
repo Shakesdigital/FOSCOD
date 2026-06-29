@@ -54,13 +54,15 @@ export function HowWeWork({
   eyebrow = "How we work",
   title,
   steps,
+  surface = false,
 }: {
   eyebrow?: string;
   title: string;
   steps: string[];
+  surface?: boolean;
 }) {
   return (
-    <section className="py-14 md:py-20">
+    <section className={`py-14 md:py-20 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
       <div className="container-page">
         <div className="max-w-2xl">
           <Eyebrow>{eyebrow}</Eyebrow>
@@ -297,6 +299,58 @@ export function CTABand({
   );
 }
 
+/** ProgramsSection — intro + two program cards in one row (CMS-driven).
+ *  Used on the home page ("Our programs") and the Programs page. */
+export function ProgramsSection({
+  eyebrow,
+  title,
+  intro,
+  items,
+  surface = false,
+}: {
+  eyebrow: string;
+  title: string;
+  intro?: string;
+  items: { slug: string; title: string; summary: string; href: string; tone: "earth" | "water" | "forest"; pillar?: string }[];
+  surface?: boolean;
+}) {
+  return (
+    <section className={`py-14 md:py-20 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
+      <div className="container-page">
+        <div className="mx-auto max-w-2xl text-center">
+          <Eyebrow>{eyebrow}</Eyebrow>
+          <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">{title}</h2>
+          {intro && (
+            <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">{intro}</p>
+          )}
+        </div>
+        <div className="mt-12 grid gap-8 md:grid-cols-2">
+          {items.map((p) => (
+            <div
+              key={p.slug}
+              className="flex flex-col overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)]"
+            >
+              <PhotoSlot tone={p.tone} ratio="16/9" caption={`${p.title} — add photo via CMS`} />
+              <div className="flex flex-1 flex-col p-7 md:p-8">
+                {p.pillar && (
+                  <p className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
+                    {p.pillar}
+                  </p>
+                )}
+                <h3 className="mt-2 text-[clamp(1.3rem,2.2vw,1.7rem)]">{p.title}</h3>
+                <p className="mt-3 flex-1 leading-relaxed text-[var(--ink-soft)]">{p.summary}</p>
+                <div className="mt-6">
+                  <Button href={p.href} variant="secondary" size="md">Learn more</Button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /** CardGrid — a 3-up grid of media/story cards with an optional trailing
  *  "Read more" button. Powers the wireframe's repeated card sections
  *  (Impact Stories, Impact Videos, Community Experiences, alumni legacy). */
@@ -482,14 +536,16 @@ export function TeamPreview({
   title,
   intro,
   cards,
+  surface = false,
 }: {
   eyebrow?: string;
   title: string;
   intro?: string;
   cards: { label: string; body: string; href: string; cta: string; tone?: "earth" | "water" | "forest" }[];
+  surface?: boolean;
 }) {
   return (
-    <section className="py-16 md:py-20">
+    <section className={`py-16 md:py-20 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
       <div className="container-page">
         <div className="max-w-2xl">
           <Eyebrow>{eyebrow}</Eyebrow>

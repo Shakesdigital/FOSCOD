@@ -41,8 +41,9 @@ export default async function AboutPage() {
         </Prose>
       </SplitSection>
 
-      {/* Our team */}
+      {/* Our team — mint */}
       <TeamPreview
+        surface
         title="The people behind the work"
         intro="Behind every project is a team of Ugandan practitioners, a committed board, and the host families and community leaders who make the work possible."
         cards={[
@@ -63,8 +64,8 @@ export default async function AboutPage() {
         ]}
       />
 
-      {/* Our mission + vision */}
-      <SplitSection eyebrow="Our mission" title="Why we exist" surface>
+      {/* Our mission + vision — white */}
+      <SplitSection eyebrow="Our mission" title="Why we exist">
         <Prose>
           <p>
             <strong>Mission.</strong> Empower rural communities through innovative
@@ -79,8 +80,8 @@ export default async function AboutPage() {
         </Prose>
       </SplitSection>
 
-      {/* What we value */}
-      <section className="py-16 md:py-20">
+      {/* What we value — mint */}
+      <section className="bg-[var(--surface-2)] py-16 md:py-20">
         <div className="container-page">
           <h2 className="max-w-xl text-[clamp(1.7rem,3vw,2.3rem)]">What we value</h2>
           <div className="mt-10">
@@ -99,8 +100,9 @@ export default async function AboutPage() {
         cta={{ href: "/programs/community-empowerment-development", label: "See our model" }}
       />
 
-      {/* How we work */}
+      {/* How we work — mint */}
       <HowWeWork
+        surface
         title="How we work"
         steps={[
           "Conduct a community situation analysis",

@@ -17,6 +17,15 @@ export type HeroSlide = {
   imageUrl?: string;
 };
 
+export type ProgramCard = {
+  slug: string;
+  title: string;
+  summary: string;
+  href: string;
+  tone: "earth" | "water" | "forest";
+  pillar?: string;
+};
+
 export type Pathway = {
   key: string;
   kicker: string;
@@ -197,6 +206,50 @@ const stories: Story[] = [
 
 export async function getPathways(): Promise<Pathway[]> {
   return pathways;
+}
+
+/* ---------- programs (two pillars — home two-up + Programs page) ---------- */
+const programsFallback: ProgramCard[] = [
+  {
+    slug: "global-learning-exchange",
+    title: "Global Learning & Exchange",
+    summary:
+      "Internships, volunteering, group programs, and research placements give students, professionals, and universities structured, supervised field experience in clean energy, WASH, livelihoods, health, and the environment.",
+    href: "/programs/global-learning-exchange",
+    tone: "water",
+    pillar: "GLE",
+  },
+  {
+    slug: "community-empowerment-development",
+    title: "Community Empowerment & Development",
+    summary:
+      "Locally owned solutions across renewable energy, environment, water, livelihoods, health, and inclusion — designed and delivered with the communities that lead them.",
+    href: "/programs/community-empowerment-development",
+    tone: "forest",
+    pillar: "CEDP",
+  },
+];
+
+export async function getPrograms(): Promise<ProgramCard[]> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    const { data } = (await supabase
+      ?.from("programs")
+      .select("slug,pillar,title,summary,order_column")
+      .eq("status", "published")
+      .order("order_column", { ascending: true })) ?? { data: null };
+    if (data && data.length) {
+      return data.map((p, i) => ({
+        slug: p.slug,
+        title: p.title,
+        summary: p.summary ?? "",
+        href: `/programs/${p.slug}`,
+        tone: p.pillar === "GLE" ? "water" : p.pillar === "CEDP" ? "forest" : (["water", "forest", "earth"] as const)[i % 3],
+        pillar: p.pillar ?? undefined,
+      }));
+    }
+  }
+  return programsFallback;
 }
 
 export async function getFeaturedProjects(): Promise<FeaturedProject[]> {

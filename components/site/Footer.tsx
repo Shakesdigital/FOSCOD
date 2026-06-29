@@ -6,6 +6,12 @@ export function Footer() {
   return (
     <footer className="mt-24 bg-[var(--accent-500)] text-white">
       <Newsletter />
+
+      {/* thick white divider separating the newsletter from the menu columns */}
+      <div className="container-page">
+        <hr className="border-0 border-t-4 border-white" />
+      </div>
+
       <div className="container-page grid gap-12 py-16 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div className="max-w-sm">
           <div className="flex items-baseline gap-2">

@@ -56,42 +56,42 @@ export default async function ImpactPage() {
         </dl>
       </section>
 
-      {/* Impact stories */}
+      {/* Impact stories — mint */}
       <CardGrid
         eyebrow="Impact stories"
         title="Real change on the ground"
         intro="The clearest measure of our work is what's different in a community after we've worked together."
         items={stories.map((s) => ({ title: s.title, excerpt: s.excerpt, href: s.href }))}
         more={{ href: "/stories", label: "Read more stories" }}
+        surface
       />
 
-      {/* Alumni experiences */}
+      {/* Alumni experiences — white */}
       <QuoteGrid
         eyebrow="Alumni experiences"
         title="In their words"
         intro="Past interns, volunteers, and university cohorts on what the experience meant to them."
         items={alumni}
         more={{ href: "/alumni", label: "Meet our alumni" }}
-        surface
       />
 
-      {/* Impact videos */}
+      {/* Impact videos — mint */}
       <CardGrid
         eyebrow="Impact videos"
         title="Short films from the field"
         intro="A few minutes with the people and projects behind the numbers."
         items={videos.map((v) => ({ title: v.title, excerpt: v.excerpt, href: v.href, video: true }))}
         more={{ href: "/stories", label: "Watch more" }}
+        surface
       />
 
-      {/* Community experiences */}
+      {/* Community experiences — white */}
       <CardGrid
         eyebrow="Community experiences"
         title="From the people we work with"
         intro="Host families, savings groups, and local leaders on co-creating change."
         items={community.map((c) => ({ title: c.title, excerpt: c.excerpt, href: c.href }))}
         more={{ href: "/stories", label: "Read more" }}
-        surface
       />
 
       <CTABand

@@ -56,6 +56,18 @@ insert into public.redirects (source, destination, status_code) values
   ('/sample-page', '/', 410)
 on conflict (source) do update set destination = excluded.destination, status_code = excluded.status_code;
 
+-- ---------- programs (two pillars) ----------
+insert into public.programs (slug, pillar, title, summary, status, featured, order_column) values
+  ('global-learning-exchange', 'GLE', 'Global Learning & Exchange',
+    'Internships, volunteering, group programs, and research placements give students, professionals, and universities structured, supervised field experience in clean energy, WASH, livelihoods, health, and the environment.',
+    'published', true, 1),
+  ('community-empowerment-development', 'CEDP', 'Community Empowerment & Development',
+    'Locally owned solutions across renewable energy, environment, water, livelihoods, health, and inclusion — designed and delivered with the communities that lead them.',
+    'published', true, 2)
+on conflict (slug) do update set
+  pillar = excluded.pillar, title = excluded.title, summary = excluded.summary,
+  status = excluded.status, featured = excluded.featured, order_column = excluded.order_column;
+
 -- ---------- projects ----------
 insert into public.projects (slug, title, theme, location, status, featured, excerpt, order_column) values
   ('biochar-uganda', 'Biochar Uganda', 'Climate & Soil', 'Kalagala Parish, Buikwe', 'published', true,
