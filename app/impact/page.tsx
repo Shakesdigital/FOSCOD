@@ -1,7 +1,15 @@
-import { PageHero } from "@/components/site/PageHero";
-import { CTABand, FeatureRow, SupportOurCause } from "@/components/site/blocks";
+import { HeroSlider } from "@/components/site/HeroSlider";
+import { CardGrid, QuoteGrid, CTABand } from "@/components/site/blocks";
+import { Eyebrow } from "@/components/ui/Eyebrow";
 import { pageMeta } from "@/lib/seo";
-import { getImpactMetrics } from "@/lib/content";
+import {
+  getHeroSlides,
+  getImpactMetrics,
+  getImpactStories,
+  getImpactVideos,
+  getCommunityExperiences,
+  getAlumniExperiences,
+} from "@/lib/content";
 
 export const metadata = pageMeta(
   "Our Impact",
@@ -9,17 +17,26 @@ export const metadata = pageMeta(
 );
 
 export default async function ImpactPage() {
-  const metrics = await getImpactMetrics();
+  const [heroSlides, metrics, stories, alumni, videos, community] = await Promise.all([
+    getHeroSlides("impact"),
+    getImpactMetrics(),
+    getImpactStories(),
+    getAlumniExperiences(),
+    getImpactVideos(),
+    getCommunityExperiences(),
+  ]);
+
   return (
     <>
-      <PageHero
-        eyebrow="Field report · impact"
-        title="Impact we can stand behind"
-        intro="We publish verified numbers only. Metrics still being confirmed show as drafts until our team validates them in the field — we never display zeros."
-      />
+      <HeroSlider slides={heroSlides} />
 
+      {/* Heading + metric strip */}
       <section className="container-page py-12 md:py-16">
-        <dl className="grid gap-px overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--border)] sm:grid-cols-2 lg:grid-cols-4">
+        <div className="max-w-2xl">
+          <Eyebrow>By the numbers</Eyebrow>
+          <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">The difference, measured honestly</h2>
+        </div>
+        <dl className="mt-8 grid gap-px overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--border)] sm:grid-cols-2 lg:grid-cols-4">
           {metrics.map((m) => (
             <div key={m.label} className="bg-[var(--surface)] p-6">
               <dd className="font-[family-name:var(--font-display)] text-[clamp(2.2rem,4vw,3rem)] leading-none text-[var(--ink)]">
@@ -37,40 +54,45 @@ export default async function ImpactPage() {
             </div>
           ))}
         </dl>
-
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
-          {[
-            { t: "Map of active locations", b: "Kalagala, Buikwe, Busoga, Greater Mukono and more — map view managed in the CMS." },
-            { t: "Impact by theme", b: "WASH, energy, climate, livelihoods, health, and inclusion outcomes." },
-            { t: "Annual reports", b: "Downloadable reports and verified outcomes, published as they're confirmed." },
-          ].map((c) => (
-            <div key={c.t} className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-2)] p-6">
-              <h3 className="text-lg">{c.t}</h3>
-              <p className="mt-2 text-[0.92rem] leading-relaxed text-[var(--muted)]">{c.b}</p>
-            </div>
-          ))}
-        </div>
       </section>
 
-      <FeatureRow
-        eyebrow="Impact story"
-        title="Clean energy that powers a livelihood"
-        tone="earth"
-        imageCaption="Solar-powered salon, Naluvule — add photo via CMS"
-        body="In Naluvule, a solar-powered salon turned an unreliable income into a growing business — proof that clean energy is also economic empowerment."
-        cta={{ href: "/stories/solar-powered-salon-naluvule", label: "Read more" }}
-      />
-      <FeatureRow
-        eyebrow="Impact story"
-        title="Water, dignity, and resilience"
-        reverse
-        tone="water"
-        imageCaption="WASH project, Busoga — add photo via CMS"
-        body="Protected springs and hygiene education across Busoga communities are reducing illness and restoring dignity — designed and maintained by the communities themselves."
-        cta={{ href: "/projects/wash", label: "Read more" }}
+      {/* Impact stories */}
+      <CardGrid
+        eyebrow="Impact stories"
+        title="Real change on the ground"
+        intro="The clearest measure of our work is what's different in a community after we've worked together."
+        items={stories.map((s) => ({ title: s.title, excerpt: s.excerpt, href: s.href }))}
+        more={{ href: "/stories", label: "Read more stories" }}
       />
 
-      <SupportOurCause />
+      {/* Alumni experiences */}
+      <QuoteGrid
+        eyebrow="Alumni experiences"
+        title="In their words"
+        intro="Past interns, volunteers, and university cohorts on what the experience meant to them."
+        items={alumni}
+        more={{ href: "/alumni", label: "Meet our alumni" }}
+        surface
+      />
+
+      {/* Impact videos */}
+      <CardGrid
+        eyebrow="Impact videos"
+        title="Short films from the field"
+        intro="A few minutes with the people and projects behind the numbers."
+        items={videos.map((v) => ({ title: v.title, excerpt: v.excerpt, href: v.href, video: true }))}
+        more={{ href: "/stories", label: "Watch more" }}
+      />
+
+      {/* Community experiences */}
+      <CardGrid
+        eyebrow="Community experiences"
+        title="From the people we work with"
+        intro="Host families, savings groups, and local leaders on co-creating change."
+        items={community.map((c) => ({ title: c.title, excerpt: c.excerpt, href: c.href }))}
+        more={{ href: "/stories", label: "Read more" }}
+        surface
+      />
 
       <CTABand
         title="Help us grow verified impact"

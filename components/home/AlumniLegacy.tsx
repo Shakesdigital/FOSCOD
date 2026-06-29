@@ -12,9 +12,9 @@ export function AlumniLegacy() {
           Showcasing our alumni&rsquo;s legacy in community transformation
         </h2>
         <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
-          Past interns, volunteers, and university cohorts leave more than a
-          report behind — they leave working projects and lasting relationships
-          with the communities they served.
+          Our past interns, volunteers, and university cohorts leave more than a
+          report behind. They leave working projects, new skills in the
+          community, and friendships that outlast any placement.
         </p>
       </div>
 

@@ -11,9 +11,10 @@ export function WhoWeAre() {
         </h2>
         <p className="mt-5 max-w-2xl text-lg leading-relaxed text-[var(--ink-soft)]">
           FOSCOD is a registered Ugandan indigenous NGO advancing sustainable,
-          community-led development in rural and underserved communities. We pair
-          local innovation with global learning so communities, students,
-          researchers, and partners can co-create solutions that last.
+          community-led development in rural and underserved areas. We believe the
+          people closest to a problem are closest to its solution — so we listen
+          first, build alongside communities, and bring the global knowledge and
+          partnerships that help good ideas last.
         </p>
         <div className="mt-8">
           <Button href="/about" variant="secondary" size="md">

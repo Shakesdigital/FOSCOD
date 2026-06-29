@@ -34,7 +34,7 @@ export function Newsletter() {
   return (
     <section className="py-16 md:py-20">
       <div className="container-page">
-        <div className="relative overflow-hidden rounded-[var(--radius-xl)] bg-[var(--ink)] px-8 py-12 text-[var(--bg)] md:px-14 md:py-14">
+        <div className="relative overflow-hidden rounded-[var(--radius-xl)] border border-white/10 bg-[var(--accent-600)] px-8 py-12 text-white md:px-14 md:py-14">
           <div className="grid items-center gap-8 md:grid-cols-2">
             <div>
               <span className="eyebrow text-[var(--accent-300)] [&::before]:bg-[var(--accent-300)]">
@@ -90,9 +90,9 @@ export function Newsletter() {
                 <button
                   type="submit"
                   disabled={state === "loading"}
-                  className="justify-self-start rounded-[var(--radius-full)] bg-[var(--surface)] px-6 py-3 font-medium text-[var(--ink)] transition-colors hover:bg-[var(--surface-2)] disabled:opacity-60"
+                  className="justify-self-start rounded-[var(--radius-full)] bg-[var(--green-cta)] px-7 py-3 font-medium text-white transition-colors hover:bg-[var(--green-cta-hover)] disabled:opacity-60"
                 >
-                  {state === "loading" ? "Subscribing…" : "Subscribe now"}
+                  {state === "loading" ? "Signing up…" : "Sign up"}
                 </button>
               </form>
             )}

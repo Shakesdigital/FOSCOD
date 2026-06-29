@@ -1,11 +1,14 @@
-import { PageHero } from "@/components/site/PageHero";
+import { HeroSlider } from "@/components/site/HeroSlider";
 import { SubmitForm, type Field } from "@/components/forms/SubmitForm";
+import { LocationBlock } from "@/components/site/blocks";
+import { Eyebrow } from "@/components/ui/Eyebrow";
 import { site } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
+import { getHeroSlides } from "@/lib/content";
 
 export const metadata = pageMeta(
   "Contact FOSCOD",
-  "Questions about programs, partnerships, donations, or community projects? We'd be happy to help."
+  "Questions about programs, partnerships, donations, or community projects? We'd be glad to help."
 );
 
 const fields: Field[] = [
@@ -22,22 +25,29 @@ const quick = [
   { t: "Alumni", d: "Reconnect & mentor", href: "/alumni" },
 ];
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const heroSlides = await getHeroSlides("contact");
   return (
     <>
-      <PageHero
-        eyebrow="Contact"
-        title="Get in touch with FOSCOD"
-        intro="Have a question about programs, partnerships, donations, or community projects? We'd be happy to help."
-      />
+      <HeroSlider slides={heroSlides} />
 
+      {/* Send us a message */}
       <section className="container-page py-12 md:py-16">
-        <div className="grid gap-10 lg:grid-cols-[1.3fr_0.7fr]">
+        <div className="max-w-2xl">
+          <Eyebrow>Send us a message</Eyebrow>
+          <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">Application &amp; inquiry form</h2>
+          <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
+            Whether you&rsquo;re applying for a program, exploring a partnership, or
+            just have a question, this reaches our team directly.
+          </p>
+        </div>
+
+        <div className="mt-10 grid gap-10 lg:grid-cols-[1.3fr_0.7fr]">
           <SubmitForm formType="contact" fields={fields} submitLabel="Send message" />
 
           <div className="space-y-8">
             <div>
-              <h2 className="text-xl">Reach us</h2>
+              <h3 className="text-xl">Reach us</h3>
               <div className="mt-4 space-y-1 font-[family-name:var(--font-mono)] text-sm text-[var(--ink-soft)]">
                 <p>{site.contact.location}</p>
                 <p>{site.contact.email}</p>
@@ -45,7 +55,7 @@ export default function ContactPage() {
               </div>
             </div>
             <div>
-              <h2 className="text-xl">Quick links</h2>
+              <h3 className="text-xl">Quick links</h3>
               <ul className="mt-4 grid gap-3">
                 {quick.map((q) => (
                   <li key={q.t}>
@@ -66,6 +76,15 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+
+      {/* Our location */}
+      <LocationBlock
+        embedSrc="https://www.google.com/maps?q=Jinja,Uganda&output=embed"
+        address={site.contact.location}
+        email={site.contact.email}
+        phone={site.contact.phone}
+        hours="Monday – Friday, 9:00am – 5:00pm EAT"
+      />
     </>
   );
 }

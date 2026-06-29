@@ -1,14 +1,16 @@
-import { Hero } from "@/components/home/Hero";
+import { HeroSlider } from "@/components/site/HeroSlider";
 import { WhoWeAre } from "@/components/home/WhoWeAre";
 import { AlumniLegacy } from "@/components/home/AlumniLegacy";
 import { SupportCause } from "@/components/home/SupportCause";
 import { FeatureRow } from "@/components/site/blocks";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { getHeroSlides } from "@/lib/content";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const heroSlides = await getHeroSlides("home");
   return (
     <>
-      <Hero />
+      <HeroSlider slides={heroSlides} />
 
       <WhoWeAre />
 

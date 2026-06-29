@@ -9,15 +9,17 @@
    ============================================================ */
 
 :root {
-  /* --- neutrals: warm limestone paper → biochar ink --- */
-  --bg: #f6f2ea;
+  /* --- neutrals: white paper + pale-mint sections → cool ink ---
+     Matches the live foscod.org palette: white base, mint section
+     tints, deep-teal footer. (Was warm limestone "Murram & Nile".) */
+  --bg: #ffffff;
   --surface: #ffffff;
-  --surface-2: #fbf7ef;
-  --ink: #221c15;
-  --ink-soft: #3d352a;
-  --muted: #6e6557;
-  --border: #e6ddce;
-  --border-strong: #d8ccb8;
+  --surface-2: #eaf5ee;   /* pale mint — alternating section tint */
+  --ink: #16241f;
+  --ink-soft: #36453e;
+  --muted: #5e6d66;
+  --border: #dde9e2;
+  --border-strong: #c5d7cd;
 
   /* --- accent ramp: deep teal (brand primary #10474c) --- */
   --accent-50: #e6eeef;
@@ -44,6 +46,10 @@
   --gold-700: #9c6c12;  /* gold as text on light */
   --forest-500: #2f5d3a; /* environment, quiet tertiary */
   --forest-700: #1f4128;
+
+  /* --- newsletter / sign-up CTA: bright green (matches live footer button) --- */
+  --green-cta: #43a047;
+  --green-cta-hover: #388e3c;
 
   /* --- semantic --- */
   --success: #2f5d3a;

@@ -296,3 +296,285 @@ export function CTABand({
     </section>
   );
 }
+
+/** CardGrid — a 3-up grid of media/story cards with an optional trailing
+ *  "Read more" button. Powers the wireframe's repeated card sections
+ *  (Impact Stories, Impact Videos, Community Experiences, alumni legacy). */
+export type GridCard = {
+  title: string;
+  excerpt?: string;
+  kicker?: string;
+  href?: string;
+  tone?: "earth" | "water" | "forest";
+  tag?: string;
+  /** show a PhotoSlot thumbnail (default true) */
+  media?: boolean;
+  /** mark as a video card → adds a play affordance over the thumbnail */
+  video?: boolean;
+};
+
+export function CardGrid({
+  eyebrow,
+  title,
+  intro,
+  items,
+  more,
+  surface = false,
+  align = "left",
+}: {
+  eyebrow: string;
+  title: string;
+  intro?: string;
+  items: GridCard[];
+  more?: { href: string; label: string };
+  surface?: boolean;
+  align?: "left" | "center";
+}) {
+  const tones = ["forest", "water", "earth"] as const;
+  return (
+    <section className={`py-14 md:py-20 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
+      <div className="container-page">
+        <div className={align === "center" ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
+          <Eyebrow>{eyebrow}</Eyebrow>
+          <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">{title}</h2>
+          {intro && (
+            <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">{intro}</p>
+          )}
+        </div>
+
+        <ul className="mt-10 grid gap-6 md:grid-cols-3">
+          {items.map((c, i) => {
+            const Card = (
+              <div className="flex h-full flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] transition-all duration-200 group-hover:-translate-y-0.5 group-hover:border-[var(--border-strong)] group-hover:shadow-[var(--shadow-md)]">
+                {c.media !== false && (
+                  <div className="relative">
+                    <PhotoSlot
+                      tone={c.tone ?? tones[i % 3]}
+                      ratio="4/3"
+                      tag={c.tag}
+                      caption={c.title}
+                    />
+                    {c.video && (
+                      <span
+                        className="absolute inset-0 z-20 flex items-center justify-center"
+                        aria-hidden
+                      >
+                        <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 text-[var(--accent-700)] shadow-[var(--shadow-md)] transition-transform group-hover:scale-105">
+                          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M6 4l10 6-10 6V4z" />
+                          </svg>
+                        </span>
+                      </span>
+                    )}
+                  </div>
+                )}
+                <div className="flex flex-1 flex-col p-6">
+                  {c.kicker && (
+                    <p className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
+                      {c.kicker}
+                    </p>
+                  )}
+                  <h3 className="mt-2 text-lg leading-snug">{c.title}</h3>
+                  {c.excerpt && (
+                    <p className="mt-2 flex-1 text-[0.92rem] leading-relaxed text-[var(--muted)]">
+                      {c.excerpt}
+                    </p>
+                  )}
+                  {c.href && (
+                    <span className="mt-4 inline-flex items-center gap-1.5 text-[0.9rem] font-medium text-[var(--accent-700)]">
+                      Read more
+                      <span className="transition-transform group-hover:translate-x-0.5" aria-hidden>→</span>
+                    </span>
+                  )}
+                </div>
+              </div>
+            );
+            return (
+              <li key={c.title + i} className="group h-full">
+                {c.href ? (
+                  <a href={c.href} className="block h-full focus-visible:outline-none">
+                    {Card}
+                  </a>
+                ) : (
+                  Card
+                )}
+              </li>
+            );
+          })}
+        </ul>
+
+        {more && (
+          <div className={`mt-10 ${align === "center" ? "text-center" : ""}`}>
+            <Button href={more.href} variant="secondary" size="md">
+              {more.label}
+            </Button>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+/** QuoteGrid — 3-up testimonial/quote cards (the wireframe's "Alumni Experiences"). */
+export function QuoteGrid({
+  eyebrow,
+  title,
+  intro,
+  items,
+  more,
+  surface = false,
+}: {
+  eyebrow: string;
+  title: string;
+  intro?: string;
+  items: { quote: string; name: string; program?: string; cohort?: string }[];
+  more?: { href: string; label: string };
+  surface?: boolean;
+}) {
+  return (
+    <section className={`py-14 md:py-20 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
+      <div className="container-page">
+        <div className="max-w-2xl">
+          <Eyebrow>{eyebrow}</Eyebrow>
+          <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">{title}</h2>
+          {intro && (
+            <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">{intro}</p>
+          )}
+        </div>
+        <ul className="mt-10 grid gap-6 md:grid-cols-3">
+          {items.map((t, i) => (
+            <li
+              key={t.name + i}
+              className="flex flex-col rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-7 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)]"
+            >
+              <span className="font-[family-name:var(--font-display)] text-4xl leading-none text-[var(--accent-300)]" aria-hidden>
+                &ldquo;
+              </span>
+              <blockquote className="mt-2 flex-1 text-[1.02rem] leading-relaxed text-[var(--ink-soft)]">
+                {t.quote}
+              </blockquote>
+              <figcaption className="mt-5 border-t border-[var(--border)] pt-4">
+                <span className="block font-medium text-[var(--ink)]">{t.name}</span>
+                {(t.program || t.cohort) && (
+                  <span className="block font-[family-name:var(--font-mono)] text-[0.72rem] uppercase tracking-[0.12em] text-[var(--muted)]">
+                    {[t.program, t.cohort].filter(Boolean).join(" · ")}
+                  </span>
+                )}
+              </figcaption>
+            </li>
+          ))}
+        </ul>
+        {more && (
+          <div className="mt-10">
+            <Button href={more.href} variant="secondary" size="md">
+              {more.label}
+            </Button>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+/** TeamPreview — the About wireframe's "Our team": two cards (Staff + Board). */
+export function TeamPreview({
+  eyebrow = "Our team",
+  title,
+  intro,
+  cards,
+}: {
+  eyebrow?: string;
+  title: string;
+  intro?: string;
+  cards: { label: string; body: string; href: string; cta: string; tone?: "earth" | "water" | "forest" }[];
+}) {
+  return (
+    <section className="py-16 md:py-20">
+      <div className="container-page">
+        <div className="max-w-2xl">
+          <Eyebrow>{eyebrow}</Eyebrow>
+          <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">{title}</h2>
+          {intro && (
+            <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">{intro}</p>
+          )}
+        </div>
+        <div className="mt-10 grid gap-6 md:grid-cols-2">
+          {cards.map((c) => (
+            <div
+              key={c.label}
+              className="flex flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]"
+            >
+              <PhotoSlot tone={c.tone ?? "forest"} ratio="16/9" caption={c.label} />
+              <div className="flex flex-1 flex-col p-7">
+                <h3 className="text-xl">{c.label}</h3>
+                <p className="mt-2 flex-1 text-[0.95rem] leading-relaxed text-[var(--muted)]">{c.body}</p>
+                <div className="mt-5">
+                  <Button href={c.href} variant="secondary" size="md">{c.cta}</Button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/** LocationBlock — the Contact wireframe's "Our Location": map + details card. */
+export function LocationBlock({
+  embedSrc,
+  address,
+  email,
+  phone,
+  hours,
+}: {
+  embedSrc: string;
+  address: string;
+  email: string;
+  phone: string;
+  hours?: string;
+}) {
+  return (
+    <section className="bg-[var(--surface-2)] py-16 md:py-20">
+      <div className="container-page">
+        <Eyebrow>Our location</Eyebrow>
+        <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">Find us in Jinja</h2>
+        <div className="mt-8 grid gap-6 overflow-hidden md:grid-cols-[1.5fr_1fr]">
+          <div className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
+            <iframe
+              src={embedSrc}
+              title="Map of FOSCOD offices in Jinja, Uganda"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="h-full min-h-[300px] w-full border-0"
+              allowFullScreen
+            />
+          </div>
+          <div className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-7">
+            <h3 className="text-xl">Location details</h3>
+            <dl className="mt-5 space-y-4 text-[0.95rem]">
+              <div>
+                <dt className="font-[family-name:var(--font-mono)] text-[0.65rem] uppercase tracking-[0.14em] text-[var(--muted)]">Address</dt>
+                <dd className="mt-1 text-[var(--ink-soft)]">{address}</dd>
+              </div>
+              <div>
+                <dt className="font-[family-name:var(--font-mono)] text-[0.65rem] uppercase tracking-[0.14em] text-[var(--muted)]">Email</dt>
+                <dd className="mt-1"><a href={`mailto:${email}`} className="text-[var(--accent-700)] hover:underline">{email}</a></dd>
+              </div>
+              <div>
+                <dt className="font-[family-name:var(--font-mono)] text-[0.65rem] uppercase tracking-[0.14em] text-[var(--muted)]">Phone</dt>
+                <dd className="mt-1"><a href={`tel:${phone.replace(/\s/g, "")}`} className="text-[var(--accent-700)] hover:underline">{phone}</a></dd>
+              </div>
+              {hours && (
+                <div>
+                  <dt className="font-[family-name:var(--font-mono)] text-[0.65rem] uppercase tracking-[0.14em] text-[var(--muted)]">Hours</dt>
+                  <dd className="mt-1 text-[var(--ink-soft)]">{hours}</dd>
+                </div>
+              )}
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

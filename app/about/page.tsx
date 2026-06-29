@@ -1,6 +1,7 @@
-import { PageHero } from "@/components/site/PageHero";
-import { SplitSection, Prose, FeatureGrid, FeatureRow, HowWeWork, CTABand } from "@/components/site/blocks";
+import { HeroSlider } from "@/components/site/HeroSlider";
+import { SplitSection, Prose, FeatureGrid, FeatureRow, HowWeWork, TeamPreview, CTABand } from "@/components/site/blocks";
 import { pageMeta } from "@/lib/seo";
+import { getHeroSlides } from "@/lib/content";
 
 export const metadata = pageMeta(
   "About FOSCOD",
@@ -8,44 +9,78 @@ export const metadata = pageMeta(
 );
 
 const values = [
-  { title: "Community-driven solutions", body: "Communities set the priorities; we build alongside them, never for them." },
-  { title: "Equity & inclusion", body: "Youth, women, people with disabilities, and marginalized households participate fully." },
-  { title: "Sustainability & innovation", body: "Environmental stewardship and clean energy sit at the center of our model." },
-  { title: "Transparency", body: "Clear governance, honest reporting, and accountability to partners and donors." },
   { title: "Holistic development", body: "Health, livelihoods, environment, and learning advance together, not in silos." },
-  { title: "Collaboration", body: "Local organizations, universities, and global participants co-create what lasts." },
+  { title: "Equity & inclusion", body: "Equal access for youth, women, people with disabilities, and marginalized households." },
+  { title: "Community-driven solutions", body: "Locally led and culturally relevant — communities set the priorities." },
+  { title: "Sustainability & innovation", body: "Long-term impact, with renewable energy and stewardship at the centre." },
+  { title: "Collaboration & partnership", body: "Knowledge shared between communities, universities, and partners." },
+  { title: "Transparency & accountability", body: "Honest reporting and ethical management of every resource." },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const heroSlides = await getHeroSlides("about");
   return (
     <>
-      <PageHero
-        eyebrow="Who we are"
-        title="A Ugandan NGO with local roots and global partnerships"
-        intro="FOSCOD works with rural and underserved communities to design sustainable, ethical, and locally owned development solutions — combining community-led practice with global knowledge exchange."
-      />
+      <HeroSlider slides={heroSlides} />
 
-      <SplitSection eyebrow="Mission" title="Why we exist">
+      {/* Our story */}
+      <SplitSection eyebrow="Our story" title="Where we started, where we're headed">
         <Prose>
           <p>
-            We combine community-led practice with global knowledge exchange so
-            communities, students, researchers, and partners can co-create
-            solutions that last.
+            FOSCOD began with a simple conviction: lasting change in rural Uganda
+            has to be led by the communities living it. From our home in Jinja,
+            we&rsquo;ve grown into a registered indigenous NGO working across
+            districts on clean energy, water, the environment, and livelihoods.
           </p>
+          <p>
+            We&rsquo;ve also become a bridge — connecting local innovation with
+            students, researchers, and partners worldwide. Today our work runs on
+            two pillars: <strong>Community Empowerment &amp; Development</strong>{" "}
+            and <strong>Global Learning &amp; Exchange</strong>.
+          </p>
+        </Prose>
+      </SplitSection>
+
+      {/* Our team */}
+      <TeamPreview
+        title="The people behind the work"
+        intro="Behind every project is a team of Ugandan practitioners, a committed board, and the host families and community leaders who make the work possible."
+        cards={[
+          {
+            label: "Staff",
+            body: "A small, dedicated field and program team based in Jinja, running our work day to day.",
+            href: "/team",
+            cta: "Meet the team",
+            tone: "water",
+          },
+          {
+            label: "Board of Directors",
+            body: "Experienced leaders guiding our governance, ethics, and long-term strategy.",
+            href: "/team",
+            cta: "Meet the board",
+            tone: "forest",
+          },
+        ]}
+      />
+
+      {/* Our mission + vision */}
+      <SplitSection eyebrow="Our mission" title="Why we exist" surface>
+        <Prose>
           <p>
             <strong>Mission.</strong> Empower rural communities through innovative
             environmental solutions, ethical sustainable development, and global
             knowledge exchange.
           </p>
           <p>
-            <strong>Vision.</strong> Rural communities leading environmental
-            sustainability and clean energy adoption through strong local and
-            global partnerships.
+            <strong>Vision.</strong> A world where rural communities lead in
+            environmental sustainability and clean energy, supported by strong
+            local and global partnerships.
           </p>
         </Prose>
       </SplitSection>
 
-      <section className="bg-[var(--surface-2)] py-16 md:py-20">
+      {/* What we value */}
+      <section className="py-16 md:py-20">
         <div className="container-page">
           <h2 className="max-w-xl text-[clamp(1.7rem,3vw,2.3rem)]">What we value</h2>
           <div className="mt-10">
@@ -54,42 +89,27 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Our approach */}
       <FeatureRow
         eyebrow="Our approach"
         title="Community-led, asset-based, locally owned"
         tone="forest"
         imageCaption="Community planning session — add photo via CMS"
-        body="We start by listening. Through community assessment and asset-based co-design, communities set the priorities and lead delivery — we bring global knowledge, supervision, and partnerships that make solutions last."
+        body="We start by listening. Through community assessment and asset-based co-design, communities set the priorities and lead delivery — we bring the global knowledge, supervision, and partnerships that make solutions last."
         cta={{ href: "/programs/community-empowerment-development", label: "See our model" }}
       />
 
+      {/* How we work */}
       <HowWeWork
         title="How we work"
         steps={[
-          "Conduct community situation analysis",
+          "Conduct a community situation analysis",
           "Build partnerships with local leaders",
           "Co-design solutions with the community",
           "Implement with local supervision",
           "Monitor, report, and hand over ownership",
         ]}
       />
-
-      <SplitSection eyebrow="2025–2030" title="Our strategic direction">
-        <Prose>
-          <p>
-            Transform communities into centers of excellence for environmental
-            stewardship and renewable energy. We are deepening our two pillars —
-            Community Empowerment and Development (CEDP) and Global Learning and
-            Exchange (GLE) — and strengthening governance, reporting, and
-            measurable impact.
-          </p>
-          <p>
-            As a registered Ugandan indigenous NGO, we hold ourselves to
-            transparency and accountability in everything from project design to
-            financial reporting.
-          </p>
-        </Prose>
-      </SplitSection>
 
       <CTABand
         title="Work with FOSCOD"

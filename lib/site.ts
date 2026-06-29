@@ -12,9 +12,9 @@ export const site = {
     "FOSCOD empowers rural and underserved communities in Uganda through community-led development, clean energy, environmental sustainability, and hands-on global learning programs.",
   url: "https://www.foscod.org",
   contact: {
-    location: "Jinja / Njeru, Uganda",
+    location: "Jinja, Uganda",
     email: "info@foscod.org",
-    phone: "+256 700 000 000",
+    phone: "+256 753 449 450",
   },
   social: {
     facebook: "https://facebook.com/foscod",
@@ -27,11 +27,14 @@ export const site = {
 export type NavChild = { label: string; href: string };
 export type NavItem = { label: string; href: string; children?: NavChild[] };
 
+// Mirrors the live foscod.org top menu exactly:
+// Home · About us · Programs · Impact · Blog · Get Involved · Alumni Network
 export const primaryNav: NavItem[] = [
-  { label: "About", href: "/about" },
+  { label: "Home", href: "/" },
+  { label: "About us", href: "/about" },
   {
     label: "Programs",
-    href: "/programs/global-learning-exchange",
+    href: "/programs",
     children: [
       { label: "Global Learning & Exchange", href: "/programs/global-learning-exchange" },
       { label: "Internships", href: "/internships" },
@@ -41,30 +44,21 @@ export const primaryNav: NavItem[] = [
       { label: "Program Fees", href: "/programs/program-fees" },
     ],
   },
-  {
-    label: "Projects & Impact",
-    href: "/projects",
-    children: [
-      { label: "Project Library", href: "/projects" },
-      { label: "WASH & Public Health", href: "/projects/wash" },
-      { label: "Renewable Energy", href: "/projects/renewable-energy" },
-      { label: "Biochar Uganda", href: "/projects/biochar-uganda" },
-      { label: "Sustainable Livelihoods", href: "/projects/sustainable-livelihood-green-enterprises" },
-      { label: "Impact Dashboard", href: "/impact" },
-      { label: "Stories", href: "/stories" },
-    ],
-  },
+  { label: "Impact", href: "/impact" },
+  { label: "Blog", href: "/stories" },
   {
     label: "Get Involved",
     href: "/apply",
     children: [
       { label: "Apply", href: "/apply" },
+      { label: "Internships", href: "/internships" },
+      { label: "Volunteer", href: "/volunteer" },
       { label: "Partner with FOSCOD", href: "/partners" },
       { label: "Donate", href: "/donate" },
+      { label: "Contact", href: "/contact" },
     ],
   },
-  { label: "Alumni", href: "/alumni" },
-  { label: "Contact", href: "/contact" },
+  { label: "Alumni Network", href: "/alumni" },
 ];
 
 export const footerNav: { heading: string; links: NavChild[] }[] = [

@@ -18,16 +18,17 @@ export function Hero() {
         <div>
           <Eyebrow>Registered Ugandan NGO · Jinja</Eyebrow>
           <h1 className="mt-6 text-[clamp(2.6rem,6vw,3.85rem)] font-medium leading-[1.04]">
-            Bridge{" "}
+            Bridging{" "}
             <span className="text-[var(--accent-700)]">global learning</span>{" "}
             with{" "}
-            <span className="text-[var(--clay-700)]">local innovation</span>.
+            <span className="text-[var(--forest-700)]">local innovation</span>.
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-[var(--ink-soft)]">
-            FOSCOD empowers rural and underserved communities in Uganda through
-            community-led development — clean energy, environmental
-            sustainability, WASH, and livelihoods — alongside hands-on global
-            learning programs for students, researchers, and partners.
+            For over a decade, FOSCOD has worked side by side with rural
+            communities in Uganda — on clean energy, water and sanitation, the
+            environment, and livelihoods. We pair that local knowledge with
+            hands-on learning programs for students, researchers, and partners
+            from around the world.
           </p>
           <div className="mt-9 flex flex-wrap items-center gap-3">
             <Button href="/apply" variant="primary" size="lg">
@@ -37,7 +38,7 @@ export function Hero() {
               Partner with FOSCOD
             </Button>
             <Button href="/projects" variant="ghost" size="lg">
-              Explore projects →
+              Explore our work →
             </Button>
           </div>
         </div>
