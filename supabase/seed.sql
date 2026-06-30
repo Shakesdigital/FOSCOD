@@ -141,7 +141,28 @@ insert into public.hero_slides (page_slug, eyebrow, title, intro, cta_label, cta
     'Grow verified impact', '/donate', null, null, 'water', 2, true),
   ('contact', 'Contact', 'Get in touch with FOSCOD',
     'Questions about programs, partnerships, donations, or community projects? Tell us a little about you and we''ll reply soon.',
-    'Apply now', '/apply', 'Partner with us', '/partners', 'forest', 1, true)
+    'Apply now', '/apply', 'Partner with us', '/partners', 'forest', 1, true),
+  ('contact', 'We''re in Jinja', 'Let''s build something lasting, together',
+    'Reach our team by email or phone, or stop by the office — we''d love to hear what you''re working on.',
+    'Explore partnership', '/partners', null, null, 'water', 2, true),
+  ('stories', 'Blog · stories from the field', 'Stories from the communities we serve',
+    'Project updates, impact reports, alumni reflections, and host-family stories — straight from FOSCOD''s work across Uganda.',
+    'Apply to a program', '/apply', null, null, 'earth', 1, true),
+  ('stories', 'From the field', 'Real people, real change',
+    'Read how community-led projects in clean energy, water, and livelihoods are taking shape — and the people behind them.',
+    'See our impact', '/impact', null, null, 'forest', 2, true),
+  ('apply', 'Get involved', 'Apply to join FOSCOD',
+    'Start your internship, volunteer, or global service journey in Uganda. Choose the pathway that fits your goals, timeline, and field interests.',
+    'Start your application', '#application-forms', 'View fees', '/programs/program-fees', 'water', 1, true),
+  ('apply', 'Structured & supported', 'Field experience that means something',
+    'Supervised placements, host families, and a clear application path — for students, professionals, and university groups.',
+    'Find your program', '/programs/finder', null, null, 'earth', 2, true),
+  ('global-learning-exchange', 'Global Learning & Exchange', 'Global Service Learning in Uganda',
+    'Internships, volunteering, and global service trips that pair real community projects with structured, supervised field learning.',
+    'Apply now', '/apply', 'Find your program', '/programs/finder', 'water', 1, true),
+  ('global-learning-exchange', 'Learn by doing', 'Contribute to genuine community priorities',
+    'Work alongside FOSCOD, host families, and local leaders on clean energy, WASH, livelihoods, health, and research.',
+    'View fees', '/programs/program-fees', null, null, 'forest', 2, true)
 on conflict (page_slug, order_column) do update set
   eyebrow = excluded.eyebrow, title = excluded.title, intro = excluded.intro,
   cta_label = excluded.cta_label, cta_href = excluded.cta_href,
@@ -182,6 +203,24 @@ insert into public.stories (slug, title, category, excerpt, status, video_url, p
 on conflict (slug) do update set
   title = excluded.title, category = excluded.category, excerpt = excluded.excerpt,
   status = excluded.status, video_url = excluded.video_url;
+
+-- ---------- program_dates (Apply + Global Learning intake table) ----------
+insert into public.program_dates (country, companies, confirmed, visible, order_column) values
+  ('USA', 'Apple Inc, Microsoft', true, true, 1),
+  ('Sweden', 'IKEA Furnitures, Spotify', false, true, 2),
+  ('Finland', 'Nokia Communications', true, true, 3)
+on conflict do nothing;
+
+-- ---------- blog stories (editorial — shown in the Blog feed) ----------
+insert into public.stories (slug, title, category, excerpt, status, published_at) values
+  ('water-is-life-lubani', 'Water is Life: a protected spring in Lubani', 'Project Updates',
+    'How a single protected spring is changing daily life for an entire village.', 'published', now()),
+  ('kalagala-greening-project', 'Greening Kalagala, one tree at a time', 'Project Updates',
+    'Agroforestry and tree-planting that restore soil while growing local income.', 'published', now()),
+  ('rice-university-menstrual-health', 'A university partnership on menstrual health', 'Alumni Reflections',
+    'A Rice University cohort on co-designing a real menstrual-health project with full local supervision.', 'published', now())
+on conflict (slug) do update set
+  title = excluded.title, category = excluded.category, excerpt = excluded.excerpt, status = excluded.status;
 
 -- ---------- testimonials / alumni reviews (illustrative; role-based attribution) ----------
 insert into public.testimonials (name, cohort, program, quote, permission, status, order_column) values

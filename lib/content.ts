@@ -202,6 +202,41 @@ const stories: Story[] = [
     date: "2025",
     href: "/stories/internship-debrief-2025",
   },
+  {
+    slug: "water-is-life-lubani",
+    title: "Water is Life: a protected spring in Lubani",
+    category: "Project Updates",
+    excerpt:
+      "How a single protected spring is changing daily life for an entire village.",
+    date: "2025",
+    href: "/stories/water-is-life-lubani",
+  },
+  {
+    slug: "kalagala-greening-project",
+    title: "Greening Kalagala, one tree at a time",
+    category: "Project Updates",
+    excerpt:
+      "Agroforestry and tree-planting that restore soil while growing local income.",
+    date: "2025",
+    href: "/stories/kalagala-greening-project",
+  },
+  {
+    slug: "rice-university-menstrual-health",
+    title: "A university partnership on menstrual health",
+    category: "Alumni Reflections",
+    excerpt:
+      "A Rice University cohort on co-designing a real menstrual-health project with full local supervision.",
+    date: "2024",
+    href: "/stories/rice-university-menstrual-health",
+  },
+];
+
+// Categories used to power specific page sections — kept out of the blog feed.
+const SYSTEM_STORY_CATEGORIES = [
+  "Impact Video",
+  "Volunteer Opportunity",
+  "GLE Stream",
+  "Program Highlight",
 ];
 
 export async function getPathways(): Promise<Pathway[]> {
@@ -307,7 +342,113 @@ export async function getPartners(): Promise<Partner[]> {
 }
 
 export async function getLatestStories(): Promise<Story[]> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    const { data } = (await supabase
+      ?.from("stories")
+      .select("slug,title,category,excerpt,published_at")
+      .eq("status", "published")
+      .not("category", "in", `(${SYSTEM_STORY_CATEGORIES.map((c) => `"${c}"`).join(",")})`)
+      .order("published_at", { ascending: false })
+      .limit(12)) ?? { data: null };
+    if (data && data.length) {
+      return data.map((s) => ({
+        slug: s.slug,
+        title: s.title,
+        category: s.category ?? "News",
+        excerpt: s.excerpt ?? "",
+        date: s.published_at ? new Date(s.published_at).getFullYear().toString() : "",
+        href: `/stories/${s.slug}`,
+      }));
+    }
+  }
   return stories;
+}
+
+export async function getStory(slug: string): Promise<(Story & { body?: string }) | null> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    const { data } = (await supabase
+      ?.from("stories")
+      .select("slug,title,category,excerpt,body,published_at")
+      .eq("slug", slug)
+      .eq("status", "published")
+      .maybeSingle()) ?? { data: null };
+    if (data) {
+      return {
+        slug: data.slug,
+        title: data.title,
+        category: data.category ?? "News",
+        excerpt: data.excerpt ?? "",
+        date: data.published_at ? new Date(data.published_at).getFullYear().toString() : "",
+        href: `/stories/${data.slug}`,
+        body: data.body ?? undefined,
+      };
+    }
+  }
+  return (await getLatestStories()).find((s) => s.slug === slug) ?? stories.find((s) => s.slug === slug) ?? null;
+}
+
+/* ---------- program dates (Apply + Global Learning) ---------- */
+export type ProgramDate = { country: string; companies: string; confirmed: boolean };
+
+const programDatesFallback: ProgramDate[] = [
+  { country: "USA", companies: "Apple Inc, Microsoft", confirmed: true },
+  { country: "Sweden", companies: "IKEA Furnitures, Spotify", confirmed: false },
+  { country: "Finland", companies: "Nokia Communications", confirmed: true },
+];
+
+export async function getProgramDates(): Promise<ProgramDate[]> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    const { data } = (await supabase
+      ?.from("program_dates")
+      .select("country,companies,confirmed")
+      .eq("visible", true)
+      .order("order_column", { ascending: true })) ?? { data: null };
+    if (data && data.length) {
+      return data.map((d) => ({
+        country: d.country,
+        companies: d.companies ?? "",
+        confirmed: Boolean(d.confirmed),
+      }));
+    }
+  }
+  return programDatesFallback;
+}
+
+/* ---------- GLE streams, volunteer opportunities, program highlights ---------- */
+const gleStreamsFallback: ImpactCard[] = [
+  { title: "Volunteer", excerpt: "Give your time and skills to community-led projects, with full local support.", href: "/volunteer" },
+  { title: "Internship", excerpt: "Supervised, credit-friendly field experience in your area of study or career.", href: "/internships" },
+  { title: "Global Service Trip", excerpt: "Faculty-led group programs and service trips with risk management built in.", href: "/programs/finder" },
+];
+
+const volunteerOpportunitiesFallback: ImpactCard[] = [
+  { title: "WASH & public health", excerpt: "Protected springs, rainwater harvesting, and hygiene education.", href: "/projects/wash" },
+  { title: "Renewable energy", excerpt: "Solar enterprises, home systems, and efficient cookstoves.", href: "/projects/renewable-energy" },
+  { title: "Sustainable livelihoods", excerpt: "Agroforestry, savings groups, and climate-smart enterprise.", href: "/projects/sustainable-livelihood-green-enterprises" },
+  { title: "Health & wellbeing", excerpt: "Community health outreach, menstrual health, and education.", href: "/focus/health-wellbeing" },
+  { title: "Social inclusion", excerpt: "Programs centring youth, women, and people with disabilities.", href: "/focus/social-inclusion-empowerment" },
+  { title: "Research & data", excerpt: "Baseline surveys, monitoring, and ethical research partnerships.", href: "/programs/finder" },
+];
+
+const programHighlightsFallback: ImpactCard[] = [
+  { title: "Hands-on field learning", excerpt: "Work directly with FOSCOD and local partners on real, field-based projects.", media: false },
+  { title: "Community development skills", excerpt: "Learn assessment, project design, implementation, and ethical leadership.", media: false },
+  { title: "Cross-cultural immersion", excerpt: "A host-family experience that builds a global perspective and lasting bonds.", media: false },
+];
+
+export async function getGleStreams(): Promise<ImpactCard[]> {
+  return getStoryCards("GLE Stream", gleStreamsFallback);
+}
+
+export async function getVolunteerOpportunities(): Promise<ImpactCard[]> {
+  return getStoryCards("Volunteer Opportunity", volunteerOpportunitiesFallback);
+}
+
+export async function getProgramHighlights(): Promise<ImpactCard[]> {
+  return getStoryCards("Program Highlight", programHighlightsFallback);
 }
 
 /* ============================================================
@@ -328,6 +469,7 @@ export type ImpactCard = {
   excerpt: string;
   href?: string;
   video?: boolean;
+  media?: boolean;
 };
 
 const team: TeamMember[] = [
@@ -503,6 +645,63 @@ const heroSlides: Record<string, HeroSlide[]> = {
       intro: "Questions about programs, partnerships, donations, or community projects? Tell us a little about you and we'll reply soon.",
       cta: { href: "/apply", label: "Apply now" },
       cta2: { href: "/partners", label: "Partner with us" },
+      tone: "forest",
+    },
+    {
+      eyebrow: "We're in Jinja",
+      title: "Let's build something lasting, together",
+      intro: "Reach our team by email or phone, or stop by the office — we'd love to hear what you're working on.",
+      cta: { href: "/partners", label: "Explore partnership" },
+      tone: "water",
+    },
+  ],
+  stories: [
+    {
+      eyebrow: "Blog · stories from the field",
+      title: "Stories from the communities we serve",
+      intro: "Project updates, impact reports, alumni reflections, and host-family stories — straight from FOSCOD's work across Uganda.",
+      cta: { href: "/apply", label: "Apply to a program" },
+      tone: "earth",
+    },
+    {
+      eyebrow: "From the field",
+      title: "Real people, real change",
+      intro: "Read how community-led projects in clean energy, water, and livelihoods are taking shape — and the people behind them.",
+      cta: { href: "/impact", label: "See our impact" },
+      tone: "forest",
+    },
+  ],
+  apply: [
+    {
+      eyebrow: "Get involved",
+      title: "Apply to join FOSCOD",
+      intro: "Start your internship, volunteer, or global service journey in Uganda. Choose the pathway that fits your goals, timeline, and field interests.",
+      cta: { href: "#application-forms", label: "Start your application" },
+      cta2: { href: "/programs/program-fees", label: "View fees" },
+      tone: "water",
+    },
+    {
+      eyebrow: "Structured & supported",
+      title: "Field experience that means something",
+      intro: "Supervised placements, host families, and a clear application path — for students, professionals, and university groups.",
+      cta: { href: "/programs/finder", label: "Find your program" },
+      tone: "earth",
+    },
+  ],
+  "global-learning-exchange": [
+    {
+      eyebrow: "Global Learning & Exchange",
+      title: "Global Service Learning in Uganda",
+      intro: "Internships, volunteering, and global service trips that pair real community projects with structured, supervised field learning.",
+      cta: { href: "/apply", label: "Apply now" },
+      cta2: { href: "/programs/finder", label: "Find your program" },
+      tone: "water",
+    },
+    {
+      eyebrow: "Learn by doing",
+      title: "Contribute to genuine community priorities",
+      intro: "Work alongside FOSCOD, host families, and local leaders on clean energy, WASH, livelihoods, health, and research.",
+      cta: { href: "/programs/program-fees", label: "View fees" },
       tone: "forest",
     },
   ],

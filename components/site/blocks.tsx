@@ -351,6 +351,70 @@ export function ProgramsSection({
   );
 }
 
+/** ProgramDatesTable — the Apply/Global-Learning intake table
+ *  (country · partner companies · confirmed checkbox). CMS-driven. */
+export function ProgramDatesTable({
+  eyebrow = "Program dates",
+  title = "Upcoming intakes",
+  intro,
+  rows,
+  surface = false,
+}: {
+  eyebrow?: string;
+  title?: string;
+  intro?: string;
+  rows: { country: string; companies: string; confirmed: boolean }[];
+  surface?: boolean;
+}) {
+  return (
+    <section className={`py-14 md:py-20 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
+      <div className="container-page">
+        <div className="max-w-2xl">
+          <Eyebrow>{eyebrow}</Eyebrow>
+          <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">{title}</h2>
+          {intro && <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">{intro}</p>}
+        </div>
+        <div className="mt-8 overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)]">
+          <table className="w-full text-left text-sm">
+            <thead className="bg-[var(--accent-600)] text-white">
+              <tr>
+                <th className="w-12 px-5 py-3 font-medium" aria-label="Confirmed"></th>
+                <th className="px-5 py-3 font-medium">Country</th>
+                <th className="px-5 py-3 font-medium">Companies</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[var(--border)]">
+              {rows.map((r) => (
+                <tr key={r.country} className="bg-[var(--surface)]">
+                  <td className="px-5 py-3 text-center">
+                    <span
+                      role="img"
+                      aria-label={r.confirmed ? "Confirmed" : "Not yet confirmed"}
+                      className={`inline-flex h-4 w-4 items-center justify-center rounded-[3px] border ${
+                        r.confirmed
+                          ? "border-[var(--accent-600)] bg-[var(--accent-600)] text-white"
+                          : "border-[var(--border-strong)] bg-[var(--bg)]"
+                      }`}
+                    >
+                      {r.confirmed ? (
+                        <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden>
+                          <path d="M1.5 5l2.5 2.5L8.5 2" stroke="currentColor" strokeWidth="1.6" fill="none" />
+                        </svg>
+                      ) : null}
+                    </span>
+                  </td>
+                  <td className="px-5 py-3 font-medium text-[var(--ink)]">{r.country}</td>
+                  <td className="px-5 py-3 text-[var(--muted)]">{r.companies}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /** CardGrid — a 3-up grid of media/story cards with an optional trailing
  *  "Read more" button. Powers the wireframe's repeated card sections
  *  (Impact Stories, Impact Videos, Community Experiences, alumni legacy). */
