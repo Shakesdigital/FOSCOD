@@ -68,10 +68,7 @@ export const footerNav: { heading: string; links: NavChild[] }[] = [
     heading: "Programs",
     links: [
       { label: "Global Learning & Exchange", href: "/programs/global-learning-exchange" },
-      { label: "Internships", href: "/internships" },
-      { label: "Volunteer", href: "/volunteer" },
-      { label: "Program Finder", href: "/programs/finder" },
-      { label: "Program Fees", href: "/programs/program-fees" },
+      { label: "Community Mobilization & Empowerment", href: "/programs/community-empowerment-development" },
     ],
   },
   {
