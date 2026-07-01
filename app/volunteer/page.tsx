@@ -103,6 +103,7 @@ export default async function VolunteerPage() {
         title="Where you can make a difference"
         intro="Contribute across the themes communities have prioritised."
         items={opportunities.map((o) => ({ title: o.title, excerpt: o.excerpt, href: o.href }))}
+        more={{ href: "/volunteer/opportunities", label: "Browse all opportunities" }}
         surface
       />
 

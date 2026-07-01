@@ -38,7 +38,9 @@ export const primaryNav: NavItem[] = [
     children: [
       { label: "Global Learning & Exchange", href: "/programs/global-learning-exchange" },
       { label: "Internships", href: "/internships" },
+      { label: "Internship Opportunities", href: "/internships/opportunities" },
       { label: "Volunteer", href: "/volunteer" },
+      { label: "Volunteer Opportunities", href: "/volunteer/opportunities" },
       { label: "Community Empowerment (CEDP)", href: "/programs/community-empowerment-development" },
       { label: "Program Finder", href: "/programs/finder" },
       { label: "Program Fees", href: "/programs/program-fees" },

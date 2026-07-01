@@ -754,8 +754,44 @@ const heroSlides: Record<string, HeroSlide[]> = {
       eyebrow: "Hands-on & supervised",
       title: "Turn theory into real contribution",
       intro: "Individual placements, group engage internships, and university cohorts — all matched to your goals and supervised on the ground.",
-      cta: { href: "/programs/finder", label: "Find your program" },
+      cta: { href: "/internships/opportunities", label: "Browse opportunities" },
       tone: "earth",
+    },
+  ],
+  "internship-group": [
+    {
+      eyebrow: "Group internship program",
+      title: "Bring your cohort to the field",
+      intro: "University cohorts and professional groups working a shared community project — with academic alignment, supervision, and safety handled.",
+      cta: { href: "/apply", label: "Apply today" },
+      tone: "water",
+    },
+  ],
+  "internship-individual": [
+    {
+      eyebrow: "Individual internship program",
+      title: "A placement matched to your goals",
+      intro: "One-to-one internships matched to your field, timeline, and career goals, with local supervision and a host-family experience.",
+      cta: { href: "/apply", label: "Apply today" },
+      tone: "forest",
+    },
+  ],
+  "internships-opportunities": [
+    {
+      eyebrow: "Internship opportunities",
+      title: "FOSCOD internship opportunities",
+      intro: "Browse live internship projects across WASH, health, nutrition, energy, agroforestry, research, ICT, communications, and more — and find the one that fits you.",
+      cta: { href: "/apply", label: "Apply now" },
+      tone: "water",
+    },
+  ],
+  "volunteer-opportunities": [
+    {
+      eyebrow: "Volunteer opportunities",
+      title: "FOSCOD volunteer opportunities",
+      intro: "Find a volunteer project where your time and skills make a real difference — across health, empowerment, education, and the environment.",
+      cta: { href: "/apply", label: "Apply now" },
+      tone: "forest",
     },
   ],
 };

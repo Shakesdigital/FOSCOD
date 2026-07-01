@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { site } from "@/lib/site";
 import { projectDetails } from "@/lib/projects";
+import { allOpportunitySlugs } from "@/lib/opportunities";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = process.env.NEXT_PUBLIC_SITE_URL ?? site.url;
@@ -12,9 +13,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/programs/global-learning-exchange",
     "/programs/community-empowerment-development",
     "/internships",
+    "/internships/group",
+    "/internships/individual",
+    "/internships/opportunities",
     "/volunteer",
     "/volunteer/group",
     "/volunteer/individual",
+    "/volunteer/opportunities",
     "/programs/finder",
     "/programs/program-fees",
     "/programs/refund-policy",
@@ -29,6 +34,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/alumni",
     "/contact",
     ...projectDetails.map((p) => `/projects/${p.slug}`),
+    ...allOpportunitySlugs().map((slug) => `/opportunities/${slug}`),
   ];
   return routes.map((path) => ({
     url: `${base}${path}`,

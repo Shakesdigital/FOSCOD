@@ -11,8 +11,8 @@ export const metadata = pageMeta(
 );
 
 const types = [
-  { title: "Individual Internship", excerpt: "A one-to-one placement matched to your goals, field, and timeline.", href: "/apply", tone: "water" as const },
-  { title: "Group Engage Internship", excerpt: "University cohorts and professional groups on a shared community project.", href: "/apply", tone: "forest" as const },
+  { title: "Individual Internship", excerpt: "A one-to-one placement matched to your goals, field, and timeline.", href: "/internships/individual", tone: "water" as const },
+  { title: "Group Engage Internship", excerpt: "University cohorts and professional groups on a shared community project.", href: "/internships/group", tone: "forest" as const },
   { title: "University Cohort Program", excerpt: "Faculty-led cohorts with academic alignment and risk management.", href: "/apply", tone: "earth" as const },
 ];
 
@@ -105,6 +105,7 @@ export default async function InternshipsPage() {
         title="Where you can make a difference"
         intro="Contribute across the themes communities have prioritised."
         items={opportunities.map((o) => ({ title: o.title, excerpt: o.excerpt, href: o.href }))}
+        more={{ href: "/internships/opportunities", label: "Browse all opportunities" }}
         surface
       />
 
