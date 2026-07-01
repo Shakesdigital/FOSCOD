@@ -1,7 +1,9 @@
-import { PageHero } from "@/components/site/PageHero";
-import { SplitSection, Prose, FeatureGrid, Steps, CheckList, FAQ, CTABand } from "@/components/site/blocks";
+import { HeroSlider } from "@/components/site/HeroSlider";
+import { CardGrid, FeatureGrid, FeatureRow, QuoteGrid, ProgramDatesTable, ApplyBand } from "@/components/site/blocks";
 import { Button } from "@/components/ui/Button";
+import { Eyebrow } from "@/components/ui/Eyebrow";
 import { pageMeta } from "@/lib/seo";
+import { getHeroSlides, getVolunteerOpportunities, getProgramDates, getAlumniExperiences } from "@/lib/content";
 
 export const metadata = pageMeta(
   "Sustainable Development Internships in Uganda",
@@ -9,97 +11,131 @@ export const metadata = pageMeta(
 );
 
 const types = [
-  { title: "Individual Internship", body: "One-to-one placement matched to your goals and field." },
-  { title: "Group Engage Internship", body: "Small teams working a shared community project." },
-  { title: "University Cohort Program", body: "Faculty-led cohorts with academic alignment." },
+  { title: "Individual Internship", excerpt: "A one-to-one placement matched to your goals, field, and timeline.", href: "/apply", tone: "water" as const },
+  { title: "Group Engage Internship", excerpt: "University cohorts and professional groups on a shared community project.", href: "/apply", tone: "forest" as const },
+  { title: "University Cohort Program", excerpt: "Faculty-led cohorts with academic alignment and risk management.", href: "/apply", tone: "earth" as const },
 ];
 
-const sectors = [
-  { title: "WASH & public health", body: "Water, sanitation, hygiene, and community health." },
-  { title: "Agroforestry & livelihoods", body: "Climate-smart agriculture and green enterprise." },
-  { title: "Community economic empowerment", body: "VSLAs, microenterprise, and savings groups." },
-  { title: "Research & baseline surveys", body: "Community-based participatory research." },
-  { title: "Monitoring, data & ICT4D", body: "M&E systems and data for development." },
-  { title: "Communications & storytelling", body: "Field documentation and narrative." },
-  { title: "Policy & advocacy", body: "Local and national development advocacy." },
-  { title: "Resource mobilization", body: "Fundraising and proposal development." },
-  { title: "Climate & community impact", body: "Carbon, MRV, and flagship project support." },
+const reasons = [
+  { title: "Real-world impact", body: "Contribute to genuine, community-driven projects under local supervision." },
+  { title: "Personalised guidance", body: "Supervision and support from FOSCOD staff and community partners throughout." },
+  { title: "Community assessment & design", body: "Learn needs assessment, project design, and implementation on the ground." },
+  { title: "Cross-cultural immersion", body: "Live with a host family and build a genuine global perspective." },
+  { title: "Professional growth", body: "Project management, leadership, M&E, and communication skills that transfer." },
+  { title: "A mid-term retreat", body: "Reflection, cultural exposure, and expert-led learning workshops." },
 ];
 
-const journey = [
-  { title: "Apply", body: "Submit your application and field interests." },
-  { title: "Pre-departure support", body: "Guidance on logistics, health, and safety." },
-  { title: "Arrival & orientation", body: "Local orientation and host introduction." },
-  { title: "Project design", body: "Scope your work with local supervisors." },
-  { title: "Implementation", body: "Deliver alongside the community." },
-  { title: "Reporting & certificate", body: "Final report, certificate, and alumni network." },
-];
+export default async function InternshipsPage() {
+  const [heroSlides, opportunities, dates, alumni] = await Promise.all([
+    getHeroSlides("internships"),
+    getVolunteerOpportunities(),
+    getProgramDates(),
+    getAlumniExperiences(),
+  ]);
 
-const faqs = [
-  { q: "Who can apply?", a: "Students, recent graduates, young professionals, faculty-led groups, and researchers." },
-  { q: "How long are placements?", a: "Common durations are 4, 8, 10, and 12 weeks, with custom options for groups." },
-  { q: "Is supervision provided?", a: "Yes — every intern works under local supervision with 24/7 in-country support." },
-];
-
-export default function InternshipsPage() {
   return (
     <>
-      <PageHero
-        eyebrow="Internships"
-        title="Sustainable development internships in Uganda"
-        intro="Build real-world skills through supervised community projects, research, monitoring, communications, public health, clean energy, and enterprise development."
-      >
-        <Button href="/apply" variant="primary" size="lg">Apply for an internship</Button>
-        <Button href="/programs/program-fees" variant="secondary" size="lg">View fees</Button>
-      </PageHero>
+      <HeroSlider slides={heroSlides} />
 
-      <SplitSection eyebrow="Internship types" title="Three ways to intern">
-        <div className="space-y-8">
-          <FeatureGrid items={types} columns={3} />
-          <Prose>
-            <p>
-              Every internship is matched to your goals, timeline, and field
-              interests, then supervised by FOSCOD staff and community partners.
-            </p>
-          </Prose>
-        </div>
-      </SplitSection>
-
-      <section className="bg-[var(--surface-2)] py-16 md:py-20">
-        <div className="container-page">
-          <h2 className="max-w-xl text-[clamp(1.7rem,3vw,2.3rem)]">Internship sectors</h2>
-          <div className="mt-10"><FeatureGrid items={sectors} columns={3} /></div>
+      {/* about — white */}
+      <section className="py-12 md:py-16">
+        <div className="container-page mx-auto max-w-2xl text-center">
+          <Eyebrow>About our internship program</Eyebrow>
+          <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">Hands-on, immersive experience in sustainable development</h2>
+          <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
+            Using an asset-based approach, interns collaborate with local
+            communities and partner organisations to address real development
+            needs — gaining professional skills and cultural understanding across
+            public health, education, agriculture, clean energy, and women's
+            empowerment.
+          </p>
         </div>
       </section>
 
-      <section className="container-page py-16 md:py-20">
-        <h2 className="max-w-xl text-[clamp(1.7rem,3vw,2.3rem)]">Your program journey</h2>
-        <div className="mt-10"><Steps steps={journey} /></div>
-      </section>
+      {/* types — mint */}
+      <CardGrid
+        eyebrow="Types of internship"
+        title="Three ways to intern"
+        intro="Every internship is matched to your goals and supervised by FOSCOD staff and community partners."
+        items={types.map((t) => ({ title: t.title, excerpt: t.excerpt, href: t.href, tone: t.tone }))}
+        surface
+      />
 
-      <section className="container-page grid gap-12 pb-8 md:grid-cols-2">
-        <div>
-          <h2 className="text-[clamp(1.5rem,2.5vw,2rem)]">Learning outcomes</h2>
-          <div className="mt-6">
-            <CheckList tone="water" items={[
-              "Community assessment", "Project design", "Monitoring & evaluation",
-              "Stakeholder engagement", "Ethical practice", "Cross-cultural skills",
-            ]} />
+      {/* who can intern — white */}
+      <section className="py-14 md:py-20">
+        <div className="container-page mx-auto max-w-2xl text-center">
+          <Eyebrow>Who can intern</Eyebrow>
+          <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">Built for students, graduates, and early-career professionals</h2>
+          <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
+            University students seeking academic credit or practical experience,
+            recent graduates applying what they've learned, early-career
+            professionals in sustainable development, and anyone passionate about
+            global health, education, agriculture, or women's empowerment.
+          </p>
+          <div className="mt-7">
+            <Button href="/apply" variant="secondary" size="md">Read more</Button>
           </div>
         </div>
-        <div>
-          <h2 className="text-[clamp(1.5rem,2.5vw,2rem)]">Common questions</h2>
-          <div className="mt-6"><FAQ items={faqs} /></div>
+      </section>
+
+      {/* why intern — mint */}
+      <section className="bg-[var(--surface-2)] py-14 md:py-20">
+        <div className="container-page">
+          <div className="mx-auto max-w-2xl text-center">
+            <Eyebrow>Why intern with FOSCOD</Eyebrow>
+            <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">A program built around real impact</h2>
+          </div>
+          <div className="mt-10"><FeatureGrid items={reasons} columns={3} /></div>
         </div>
       </section>
 
-      <CTABand
-        title="Apply for an internship"
-        body="Start your application or request an academic partnership call for your university."
-        actions={[
-          { href: "/apply", label: "Apply now" },
-          { href: "/contact", label: "Request a partnership call", variant: "secondary" },
-        ]}
+      {/* internship alumni impact — white */}
+      <FeatureRow
+        eyebrow="Internship alumni impact"
+        title="Skills that translate into careers"
+        tone="water"
+        imageCaption="Internship alumni — add photo via CMS"
+        body="Interns build real, practical skills that carry over — many move into full-time roles within months of returning, and FOSCOD alumni now work across leading organisations worldwide."
+        cta={{ href: "/impact", label: "Read more" }}
+      />
+
+      {/* internship opportunities — mint */}
+      <CardGrid
+        eyebrow="Internship opportunities"
+        title="Where you can make a difference"
+        intro="Contribute across the themes communities have prioritised."
+        items={opportunities.map((o) => ({ title: o.title, excerpt: o.excerpt, href: o.href }))}
+        surface
+      />
+
+      {/* program fees — white */}
+      <section className="py-14 md:py-20">
+        <div className="container-page mx-auto max-w-2xl text-center">
+          <Eyebrow>Program fees</Eyebrow>
+          <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">Transparent, all-inclusive fees</h2>
+          <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
+            Your fee covers placement, supervision, accommodation or a host family,
+            orientation, a mid-term retreat, and 24/7 local support.
+          </p>
+          <div className="mt-7">
+            <Button href="/programs/program-fees" variant="secondary" size="md">Program fees page</Button>
+          </div>
+        </div>
+      </section>
+
+      {/* program dates — mint */}
+      <ProgramDatesTable eyebrow="Program dates" title="Upcoming intakes & partners" rows={dates} surface />
+
+      {/* apply today — green band */}
+      <ApplyBand label="Apply Today" href="/apply" />
+
+      {/* internship alumni testimonials — mint */}
+      <QuoteGrid
+        eyebrow="Internship alumni testimonials"
+        title="From people who've been there"
+        items={alumni}
+        more={{ href: "/alumni", label: "Read more" }}
+        surface
       />
     </>
   );

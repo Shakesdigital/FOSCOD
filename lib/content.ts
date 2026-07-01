@@ -705,6 +705,59 @@ const heroSlides: Record<string, HeroSlide[]> = {
       tone: "forest",
     },
   ],
+  volunteer: [
+    {
+      eyebrow: "Volunteer",
+      title: "Volunteer in Uganda with FOSCOD",
+      intro: "Work with communities — not just in communities — through structured volunteer programs that support local priorities and lasting impact.",
+      cta: { href: "/apply", label: "Apply to volunteer" },
+      cta2: { href: "/programs/program-fees", label: "View fees" },
+      tone: "forest",
+    },
+    {
+      eyebrow: "Individual or group",
+      title: "Give your time where it lasts",
+      intro: "Join as an individual or bring a group — every placement is supervised, supported, and tied to a real community priority.",
+      cta: { href: "/volunteer/group", label: "Group volunteering" },
+      cta2: { href: "/volunteer/individual", label: "Individual volunteering" },
+      tone: "water",
+    },
+  ],
+  "volunteer-group": [
+    {
+      eyebrow: "Group volunteer program",
+      title: "Bring your team to the field",
+      intro: "University cohorts, faculty-led groups, and professional teams working a shared community project — with logistics and risk management handled.",
+      cta: { href: "/apply", label: "Apply today" },
+      tone: "water",
+    },
+  ],
+  "volunteer-individual": [
+    {
+      eyebrow: "Individual volunteer program",
+      title: "A placement matched to you",
+      intro: "One-to-one placements matched to your skills and the community's needs, with local supervision and 24/7 support.",
+      cta: { href: "/apply", label: "Apply today" },
+      tone: "forest",
+    },
+  ],
+  internships: [
+    {
+      eyebrow: "Internships",
+      title: "Sustainable development internships in Uganda",
+      intro: "Build real-world skills through supervised community projects across public health, clean energy, livelihoods, research, communications, and enterprise.",
+      cta: { href: "/apply", label: "Apply for an internship" },
+      cta2: { href: "/programs/program-fees", label: "View fees" },
+      tone: "water",
+    },
+    {
+      eyebrow: "Hands-on & supervised",
+      title: "Turn theory into real contribution",
+      intro: "Individual placements, group engage internships, and university cohorts — all matched to your goals and supervised on the ground.",
+      cta: { href: "/programs/finder", label: "Find your program" },
+      tone: "earth",
+    },
+  ],
 };
 
 export async function getHeroSlides(pageSlug: string): Promise<HeroSlide[]> {

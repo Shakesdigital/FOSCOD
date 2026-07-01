@@ -1,7 +1,9 @@
-import { PageHero } from "@/components/site/PageHero";
-import { SplitSection, Prose, FeatureGrid, Steps, CheckList, CTABand } from "@/components/site/blocks";
+import { HeroSlider } from "@/components/site/HeroSlider";
+import { ProgramsSection, FeatureGrid, FeatureRow, CardGrid, QuoteGrid, ProgramDatesTable, ApplyBand } from "@/components/site/blocks";
 import { Button } from "@/components/ui/Button";
+import { Eyebrow } from "@/components/ui/Eyebrow";
 import { pageMeta } from "@/lib/seo";
+import { getHeroSlides, getVolunteerOpportunities, getProgramDates, getAlumniExperiences } from "@/lib/content";
 
 export const metadata = pageMeta(
   "Volunteer in Uganda with FOSCOD",
@@ -9,84 +11,129 @@ export const metadata = pageMeta(
 );
 
 const types = [
-  { title: "Individual Volunteer", body: "A placement matched to your skills and the community's needs." },
-  { title: "Group Volunteer", body: "Teams and faculty-led groups working a shared project." },
+  { slug: "group", title: "Group volunteer", summary: "University cohorts, faculty-led groups, and professional teams working a shared community project — with logistics and risk management handled.", href: "/volunteer/group", tone: "water" as const },
+  { slug: "individual", title: "Individual volunteer", summary: "A placement matched to your skills and the community's needs, with local supervision and 24/7 in-country support.", href: "/volunteer/individual", tone: "forest" as const },
 ];
 
-const sectors = [
-  { title: "Microfinance", body: "VSLA and savings group support." },
-  { title: "Women empowerment", body: "Training, leadership, and enterprise." },
-  { title: "Community development", body: "Local priorities and infrastructure." },
-  { title: "Human rights", body: "Advocacy and inclusion." },
-  { title: "Youth development", body: "Skills, mentorship, and opportunity." },
-  { title: "Environment", body: "Tree planting, energy, and restoration." },
-  { title: "Health", body: "WASH promotion and community health." },
-  { title: "ICT for development", body: "Data, communications, and tools." },
+const reasons = [
+  { title: "Hands-on learning", body: "Work directly with FOSCOD and local partners on real, field-based projects." },
+  { title: "Lasting community impact", body: "Every placement is tied to a genuine community priority — not manufactured tasks." },
+  { title: "Local supervision", body: "You're supported by FOSCOD staff and community leaders throughout." },
+  { title: "Cross-cultural immersion", body: "A host-family experience that builds a global perspective and lasting bonds." },
+  { title: "Professional growth", body: "Build assessment, project design, leadership, and communication skills." },
+  { title: "A retreat & excursion", body: "Time to reflect and experience Uganda's culture and natural beauty." },
 ];
 
-const journey = [
-  { title: "Pre-arrival preparation", body: "Logistics, health, and safety guidance." },
-  { title: "Orientation", body: "Local orientation and host introduction." },
-  { title: "Project design", body: "Scope your work with local supervisors." },
-  { title: "Implementation", body: "Deliver alongside the community." },
-  { title: "Reflection & retreat", body: "Reflection, excursion, and learning." },
-  { title: "Final report", body: "Document outcomes and join the alumni network." },
-];
+export default async function VolunteerPage() {
+  const [heroSlides, opportunities, dates, alumni] = await Promise.all([
+    getHeroSlides("volunteer"),
+    getVolunteerOpportunities(),
+    getProgramDates(),
+    getAlumniExperiences(),
+  ]);
 
-export default function VolunteerPage() {
   return (
     <>
-      <PageHero
-        eyebrow="Volunteer"
-        title="Volunteer in Uganda with FOSCOD"
-        intro="Work with communities — not just in communities — through structured volunteer programs that support local priorities and lasting impact."
-      >
-        <Button href="/apply" variant="primary" size="lg">Apply to volunteer</Button>
-        <Button href="/programs/program-fees" variant="secondary" size="lg">View program fees</Button>
-      </PageHero>
+      <HeroSlider slides={heroSlides} />
 
-      <SplitSection eyebrow="Program types" title="Volunteer individually or as a group">
-        <div className="space-y-8">
-          <FeatureGrid items={types} columns={2} />
-          <Prose>
-            <p>
-              Volunteers contribute to community activities, training support, WASH
-              promotion, school and community projects, livelihood support,
-              documentation, and environmental action — always under local
-              supervision.
-            </p>
-          </Prose>
+      {/* about — white */}
+      <section className="py-12 md:py-16">
+        <div className="container-page mx-auto max-w-2xl text-center">
+          <Eyebrow>About our volunteer program</Eyebrow>
+          <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">Work with communities, not just in them</h2>
+          <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
+            FOSCOD volunteers support community-led priorities — training, WASH
+            promotion, school and community projects, livelihoods, documentation,
+            and environmental action — always under local supervision.
+          </p>
         </div>
-      </SplitSection>
+      </section>
 
-      <section className="bg-[var(--surface-2)] py-16 md:py-20">
+      {/* types — mint */}
+      <ProgramsSection
+        eyebrow="Types of volunteer program"
+        title="Volunteer individually or as a group"
+        intro="Choose the format that fits you — both are supervised, supported, and rooted in real community work."
+        items={types}
+        ctaLabel="More Details"
+        surface
+      />
+
+      {/* who can volunteer — white */}
+      <section className="py-14 md:py-20">
+        <div className="container-page mx-auto max-w-2xl text-center">
+          <Eyebrow>Who can volunteer</Eyebrow>
+          <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">If you're ready to contribute, there's a place for you</h2>
+          <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
+            Students, recent graduates, young professionals, faculty-led groups,
+            and anyone passionate about sustainable development are welcome — no
+            single background required, just commitment and respect for the
+            communities you'll work with.
+          </p>
+          <div className="mt-7">
+            <Button href="/apply" variant="secondary" size="md">Read more</Button>
+          </div>
+        </div>
+      </section>
+
+      {/* why volunteer — mint */}
+      <section className="bg-[var(--surface-2)] py-14 md:py-20">
         <div className="container-page">
-          <h2 className="max-w-xl text-[clamp(1.7rem,3vw,2.3rem)]">Volunteer sectors</h2>
-          <div className="mt-10"><FeatureGrid items={sectors} columns={4} /></div>
+          <div className="mx-auto max-w-2xl text-center">
+            <Eyebrow>Why volunteer with FOSCOD</Eyebrow>
+            <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">A program built around real impact</h2>
+          </div>
+          <div className="mt-10"><FeatureGrid items={reasons} columns={3} /></div>
         </div>
       </section>
 
-      <section className="container-page py-16 md:py-20">
-        <h2 className="max-w-xl text-[clamp(1.7rem,3vw,2.3rem)]">The volunteer package</h2>
-        <div className="mt-10"><Steps steps={journey} /></div>
-      </section>
+      {/* volunteer alumni impact — white */}
+      <FeatureRow
+        eyebrow="Volunteer alumni impact"
+        title="Volunteers leave more than a report behind"
+        tone="forest"
+        imageCaption="Volunteer alumni in the field — add photo via CMS"
+        body="Our volunteers leave behind working projects, new skills in the community, and friendships that outlast any placement — and they carry the experience into their own lives and careers."
+        cta={{ href: "/impact", label: "Read more" }}
+      />
 
-      <section className="container-page pb-8">
-        <h2 className="text-[clamp(1.5rem,2.5vw,2rem)]">Benefits</h2>
-        <div className="mt-6">
-          <CheckList items={[
-            "Structured program", "Lasting community impact", "Hands-on learning",
-            "Cross-cultural exchange", "Professional growth", "Retreat & excursion",
-          ]} />
+      {/* volunteer opportunities — mint */}
+      <CardGrid
+        eyebrow="Volunteer opportunities"
+        title="Where you can make a difference"
+        intro="Contribute across the themes communities have prioritised."
+        items={opportunities.map((o) => ({ title: o.title, excerpt: o.excerpt, href: o.href }))}
+        surface
+      />
+
+      {/* program fees — white */}
+      <section className="py-14 md:py-20">
+        <div className="container-page mx-auto max-w-2xl text-center">
+          <Eyebrow>Program fees</Eyebrow>
+          <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">Clear, all-inclusive fees</h2>
+          <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
+            Your fee covers placement, supervision, accommodation or a host family,
+            orientation, a retreat, and 24/7 local support — with a clear breakdown.
+          </p>
+          <div className="mt-7">
+            <Button href="/programs/program-fees" variant="secondary" size="md">Program fees page</Button>
+          </div>
         </div>
       </section>
 
-      <CTABand
-        title="Apply to volunteer"
-        actions={[
-          { href: "/apply", label: "Apply now" },
-          { href: "/contact", label: "Talk to the team", variant: "secondary" },
-        ]}
+      {/* program dates — mint */}
+      <ProgramDatesTable eyebrow="Program dates" title="Upcoming intakes & partners" rows={dates} surface />
+
+      {/* apply today — green band */}
+      <ApplyBand label="Apply Today" href="/apply" />
+
+      {/* volunteer alumni testimonials — mint */}
+      <QuoteGrid
+        eyebrow="Volunteer alumni testimonials"
+        title="From people who've been there"
+        items={alumni}
+        more={{ href: "/alumni", label: "Read more" }}
+        surface
       />
     </>
   );

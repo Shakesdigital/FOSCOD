@@ -13,6 +13,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/programs/community-empowerment-development",
     "/internships",
     "/volunteer",
+    "/volunteer/group",
+    "/volunteer/individual",
     "/programs/finder",
     "/programs/program-fees",
     "/programs/refund-policy",

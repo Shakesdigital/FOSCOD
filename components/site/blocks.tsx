@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
@@ -307,12 +308,14 @@ export function ProgramsSection({
   intro,
   items,
   surface = false,
+  ctaLabel = "Learn more",
 }: {
   eyebrow: string;
   title: string;
   intro?: string;
   items: { slug: string; title: string; summary: string; href: string; tone: "earth" | "water" | "forest"; pillar?: string }[];
   surface?: boolean;
+  ctaLabel?: string;
 }) {
   return (
     <section className={`py-14 md:py-20 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
@@ -340,12 +343,34 @@ export function ProgramsSection({
                 <h3 className="mt-2 text-[clamp(1.3rem,2.2vw,1.7rem)]">{p.title}</h3>
                 <p className="mt-3 flex-1 leading-relaxed text-[var(--ink-soft)]">{p.summary}</p>
                 <div className="mt-6">
-                  <Button href={p.href} variant="secondary" size="md">Learn more</Button>
+                  <Button href={p.href} variant="secondary" size="md">{ctaLabel}</Button>
                 </div>
               </div>
             </div>
           ))}
         </div>
+      </div>
+    </section>
+  );
+}
+
+/** ApplyBand — the wireframe's full-width green "Apply Today" call to action. */
+export function ApplyBand({
+  label = "Apply Today",
+  href = "/apply",
+}: {
+  label?: string;
+  href?: string;
+}) {
+  return (
+    <section className="py-12 md:py-16">
+      <div className="container-page">
+        <Link
+          href={href}
+          className="flex items-center justify-center rounded-[var(--radius-lg)] bg-[var(--green-cta)] px-8 py-5 text-center text-lg font-semibold text-white transition-colors hover:bg-[var(--green-cta-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--green-cta)]"
+        >
+          {label}
+        </Link>
       </div>
     </section>
   );
