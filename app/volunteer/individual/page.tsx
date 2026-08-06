@@ -6,7 +6,7 @@ import { getHeroSlides } from "@/lib/content";
 
 export const metadata = pageMeta(
   "Individual Volunteer Program",
-  "A one-to-one volunteer placement matched to your skills and the community's needs, with local supervision and 24/7 support."
+  "A supervised volunteer role matched to your skills, preparation, and a current community priority."
 );
 
 export default async function IndividualVolunteerPage() {
@@ -22,8 +22,8 @@ export default async function IndividualVolunteerPage() {
           <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">A placement matched to you</h2>
           <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
             Individual volunteering matches your skills and interests to a real
-            community need — a personalised placement with local supervision, a
-            host-family experience, and 24/7 in-country support.
+            current community priority — with clear boundaries, local supervision,
+            and support arrangements confirmed for the intake.
           </p>
         </div>
       </section>
@@ -45,10 +45,10 @@ export default async function IndividualVolunteerPage() {
         cta={{ href: "/impact", label: "More Details" }}
       />
       <FeatureRow
-        title="Immersion with a host family"
+        title="Accommodation and cultural learning"
         tone="earth"
         imageCaption="Host family — add photo via CMS"
-        body="Live with a host family for genuine cultural immersion — one of the most valued parts of the FOSCOD experience for our volunteers."
+        body="The current brief confirms the approved accommodation arrangement, cultural preparation, conduct expectations, and what each participant is responsible for."
         cta={{ href: "/programs/program-fees", label: "More Details" }}
       />
 

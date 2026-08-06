@@ -21,8 +21,8 @@ export default async function GroupInternshipPage() {
           <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">Bring your cohort to the field</h2>
           <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
             Group internships are built for university cohorts and professional
-            teams working one shared community project — with academic alignment,
-            supervision, logistics, and safety handled.
+            teams working on one shared community priority. Academic alignment,
+            supervision, logistics, risk ownership, and support are agreed during co-design.
           </p>
         </div>
       </section>
@@ -40,14 +40,14 @@ export default async function GroupInternshipPage() {
         surface
         tone="forest"
         imageCaption="Team at work — add photo via CMS"
-        body="Your group works together on a real community project, building assessment, design, and delivery skills alongside the people they serve."
+        body="Your group contributes to a community-defined project under local guidance, with learning outputs and expected community value agreed during design."
         cta={{ href: "/impact", label: "More Details" }}
       />
       <FeatureRow
-        title="Logistics and safety handled"
+        title="Responsibilities and support agreed"
         tone="earth"
         imageCaption="Orientation & support — add photo via CMS"
-        body="Accommodation, orientation, risk management, and 24/7 in-country support are arranged for the whole cohort, so faculty can focus on learning."
+        body="The group brief assigns accommodation, orientation, transport, accessibility, insurance, safeguarding, emergency, and risk-management responsibilities between FOSCOD, the institution, and participants."
         cta={{ href: "/programs/program-fees", label: "More Details" }}
       />
 

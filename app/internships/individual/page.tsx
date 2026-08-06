@@ -6,7 +6,7 @@ import { getHeroSlides } from "@/lib/content";
 
 export const metadata = pageMeta(
   "Individual Internship Program",
-  "A one-to-one internship placement matched to your field, timeline, and career goals, with local supervision and a host-family experience."
+  "A supervised internship role matched to your field, timeline, preparation, and a current community priority."
 );
 
 export default async function IndividualInternshipPage() {
@@ -21,8 +21,8 @@ export default async function IndividualInternshipPage() {
           <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">A placement matched to your goals</h2>
           <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
             Individual internships match your field, timeline, and career goals to a
-            real community need — a personalised placement with local supervision, a
-            host-family experience, and 24/7 in-country support.
+            current community priority — with role boundaries, local supervision,
+            and support arrangements confirmed in the intake brief.
           </p>
         </div>
       </section>
@@ -40,14 +40,14 @@ export default async function IndividualInternshipPage() {
         surface
         tone="water"
         imageCaption="Supervisor & intern — add photo via CMS"
-        body="You're supported by FOSCOD staff and community partners throughout — with orientation, mentorship, a mid-term retreat, and round-the-clock support."
+        body="The current role brief confirms your supervisor, orientation, check-ins, emergency contact, and the support FOSCOD can provide for that intake."
         cta={{ href: "/impact", label: "More Details" }}
       />
       <FeatureRow
-        title="Immersion with a host family"
+        title="Accommodation and cultural learning"
         tone="earth"
         imageCaption="Host family — add photo via CMS"
-        body="Live with a host family for genuine cultural immersion — one of the most valued parts of the FOSCOD internship experience."
+        body="FOSCOD confirms the approved accommodation arrangement, cultural preparation, conduct expectations, and practical responsibilities before you accept a place."
         cta={{ href: "/programs/program-fees", label: "More Details" }}
       />
 

@@ -23,7 +23,8 @@ export default async function GroupVolunteerPage() {
           <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
             Group volunteering is designed for university cohorts, faculty-led
             groups, and professional teams who want to work one shared community
-            project together — with logistics, supervision, and safety handled.
+            project together, with logistics, supervision, risk ownership, and support
+            agreed during co-design.
           </p>
         </div>
       </section>
@@ -36,19 +37,19 @@ export default async function GroupVolunteerPage() {
         cta={{ href: "/apply", label: "More Details" }}
       />
       <FeatureRow
-        title="A shared project, shared impact"
+        title="A shared project, shared responsibility"
         reverse
         surface
         tone="forest"
         imageCaption="Team at work — add photo via CMS"
-        body="Your team works together under local supervision, contributing to a real project the community leads — and leaving something that lasts."
+        body="Your team contributes under local supervision to a project the community leads, then documents outputs, unfinished work, and feedback for continuity."
         cta={{ href: "/impact", label: "More Details" }}
       />
       <FeatureRow
-        title="Logistics and safety handled"
+        title="Responsibilities and support agreed"
         tone="earth"
         imageCaption="Orientation & support — add photo via CMS"
-        body="Accommodation, orientation, risk management, and 24/7 in-country support are arranged for the whole group, so you can focus on the work."
+        body="The group brief assigns accommodation, orientation, transport, accessibility, insurance, safeguarding, emergency, and risk-management responsibilities between FOSCOD, the sending organization, and participants."
         cta={{ href: "/programs/program-fees", label: "More Details" }}
       />
 

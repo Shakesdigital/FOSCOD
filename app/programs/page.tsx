@@ -1,7 +1,9 @@
 import { HeroSlider } from "@/components/site/HeroSlider";
-import { ProgramsSection, FeatureRow, CTABand } from "@/components/site/blocks";
+import { ProgramsSection, FeatureRow, CTABand, FeatureGrid } from "@/components/site/blocks";
+import { Eyebrow } from "@/components/ui/Eyebrow";
 import { pageMeta } from "@/lib/seo";
 import { getHeroSlides, getPrograms } from "@/lib/content";
+import { audiencePaths } from "@/lib/landing-content";
 
 export const metadata = pageMeta(
   "Our Programs",
@@ -25,6 +27,21 @@ export default async function ProgramsPage() {
         intro="Every FOSCOD program is rooted in the same belief: communities lead, and we build alongside them. Come to learn, or invest in the work."
         items={programs}
       />
+
+      <section className="bg-[var(--surface-2)] py-14 md:py-20">
+        <div className="container-page">
+          <div className="mx-auto max-w-2xl text-center">
+            <Eyebrow>Choose by audience</Eyebrow>
+            <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">Not sure which program page to open?</h2>
+            <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
+              Start with your role. FOSCOD will then help match your goals to a current community priority and an appropriate level of support.
+            </p>
+          </div>
+          <div className="mt-10">
+            <FeatureGrid columns={4} items={audiencePaths.map((path) => ({ ...path, kicker: "Start here" }))} />
+          </div>
+        </div>
+      </section>
 
       {/* Theory of Change visual */}
       <FeatureRow
@@ -67,10 +84,12 @@ export default async function ProgramsPage() {
       />
 
       <CTABand
-        title="Find the right program for you"
+        title="Find a responsible fit"
+        body="The program finder helps individuals compare routes. Institutions and funders can begin with a discovery conversation."
         actions={[
           { href: "/programs/finder", label: "Open the program finder" },
-          { href: "/programs/program-fees", label: "View fees", variant: "secondary" },
+          { href: "/partners", label: "Discuss a partnership", variant: "secondary" },
+          { href: "/programs/program-fees", label: "Review fees", variant: "ghost" },
         ]}
       />
     </>

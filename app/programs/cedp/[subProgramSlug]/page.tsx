@@ -4,6 +4,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
 import { pageMeta } from "@/lib/seo";
 import { getSubPrograms, getActivitiesBySubProgram, getImpactStats, getImpactStories, getFeaturedProjects } from "@/lib/content";
+import { subProgramContext } from "@/lib/landing-content";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params }: { params: Promise<{ subProgramSlug: string }> }) {
@@ -89,6 +90,7 @@ export default async function SubProgramPage({ params }: { params: Promise<{ sub
   const cta = subProgramCTAs[subProgramSlug] || { label: "Support this program", href: "/donate" };
   const goal = strategicGoals[subProgram.strategic_goal] || `Strategic Goal ${subProgram.strategic_goal}`;
   const targets = target2030[subProgramSlug] || ["Target by 2030 — being finalized"];
+  const context = subProgramContext[subProgramSlug];
 
   return (
     <>
@@ -113,6 +115,48 @@ export default async function SubProgramPage({ params }: { params: Promise<{ sub
           </p>
         </Prose>
       </SplitSection>
+
+      {context && (
+        <section className="bg-[var(--surface-2)] py-16 md:py-24">
+          <div className="container-page">
+            <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
+              <div>
+                <Eyebrow>Why this matters</Eyebrow>
+                <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">The wider challenge behind the work</h2>
+                <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">{context.why}</p>
+                <p className="mt-5 text-sm leading-relaxed text-[var(--muted)]">
+                  External context: <a className="text-[var(--accent-700)] underline" href={context.sourceUrl} target="_blank" rel="noreferrer">{context.sourceLabel}</a>. This source explains the wider challenge; it is not evidence of FOSCOD's results.
+                </p>
+              </div>
+              <div>
+                <Eyebrow>What meaningful progress looks like</Eyebrow>
+                <div className="mt-5">
+                  <FeatureGrid columns={3} items={context.success.map((body, index) => ({ title: `Progress marker ${index + 1}`, body }))} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {context && (
+        <section className="py-16 md:py-20">
+          <div className="container-page grid gap-6 md:grid-cols-2">
+            <div className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-8">
+              <Eyebrow>Who can add value</Eyebrow>
+              <h2 className="mt-4 text-2xl">Partner fit</h2>
+              <p className="mt-3 leading-relaxed text-[var(--ink-soft)]">{context.partnerFit}</p>
+              <a href="/partners" className="mt-5 inline-flex text-sm font-medium text-[var(--accent-700)] hover:underline">Discuss a partnership →</a>
+            </div>
+            <div className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-8">
+              <Eyebrow>Responsible evidence</Eyebrow>
+              <h2 className="mt-4 text-2xl">What FOSCOD will not overclaim</h2>
+              <p className="mt-3 leading-relaxed text-[var(--ink-soft)]">{context.evidenceNote}</p>
+              <a href="/impact" className="mt-5 inline-flex text-sm font-medium text-[var(--accent-700)] hover:underline">See verified impact →</a>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* 2030 TARGETS */}
       <section className="bg-[var(--surface-2)] py-16 md:py-24">

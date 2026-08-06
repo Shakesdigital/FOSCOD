@@ -158,7 +158,7 @@ export function FeatureGrid({
   items,
   columns = 3,
 }: {
-  items: { title: string; body: string; kicker?: string }[];
+  items: { title: string; body: string; kicker?: string; href?: string; cta?: string }[];
   columns?: 2 | 3 | 4;
 }) {
   const cols = {
@@ -182,6 +182,11 @@ export function FeatureGrid({
           <p className="mt-2 text-[0.92rem] leading-relaxed text-[var(--muted)]">
             {it.body}
           </p>
+          {it.href && (
+            <Button href={it.href} variant="ghost" size="sm" className="mt-4">
+              {it.cta ?? "Learn more"}
+            </Button>
+          )}
         </li>
       ))}
     </ul>

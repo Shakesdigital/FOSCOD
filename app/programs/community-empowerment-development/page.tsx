@@ -11,12 +11,12 @@ export const metadata = pageMeta(
 );
 
 const focus = [
-  { title: "Green Skills & Renewable Energy", body: "Technical training, enterprise incubation, and certification pathways in solar, wind, biogas, and energy efficiency." },
-  { title: "Clean Cooking & Health", body: "Improved cookstove distribution, indoor air pollution monitoring, and women-led stove enterprises with carbon credit registration." },
-  { title: "Water, Sanitation & Hygiene (WASH)", body: "Solar-powered boreholes, spring protection, rainwater harvesting, CLTS triggering, and WASH committee governance." },
-  { title: "Green Livelihoods & Economic Empowerment", body: "Agroforestry, VSLA savings groups, climate-smart agriculture, cooperative formation, and green enterprise incubation." },
-  { title: "Inclusive Leadership", body: "Women's renewable energy enterprises, youth climate ambassadors, leadership bootcamps, and school-based climate education." },
-  { title: "Ecosystem Restoration & Carbon Offsets", body: "Community conservation groups, native reforestation, Gold Standard/Verra carbon projects, and MRV training." },
+  { title: "Green Skills & Renewable Energy", body: "Connect practical energy learning with safe use, maintenance, enterprise pathways, and inclusion—not equipment alone." },
+  { title: "Clean Cooking & Health", body: "Combine appropriate technology with affordability, user choice, correct use, after-sales support, and responsible health evidence." },
+  { title: "Water, Sanitation & Hygiene", body: "Link water infrastructure with quality, hygiene, governance, accessibility, maintenance, and reliable service." },
+  { title: "Green Livelihoods", body: "Bring skills, savings, production risk, environmental stewardship, market access, and follow-through into one livelihood pathway." },
+  { title: "Inclusive Leadership", body: "Move beyond attendance toward voice, decision-making roles, safe participation, and access to opportunity." },
+  { title: "Ecosystem Restoration", body: "Plan for the right sites and species, community roles, survival monitoring, ecosystem function, and transparent benefits." },
 ];
 
 const approach = [
@@ -66,6 +66,35 @@ export default async function CedpPage() {
           </p>
         </Prose>
       </SplitSection>
+
+      <section className="bg-[var(--surface-2)] py-16 md:py-24">
+        <div className="container-page">
+          <div className="mx-auto max-w-3xl text-center">
+            <Eyebrow>Why the themes connect</Eyebrow>
+            <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">Lasting change rarely fits into one sector</h2>
+            <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
+              Energy affects health and enterprise. Water affects time, dignity, and livelihoods. Inclusion affects whose priorities shape every decision. CEDP keeps those connections visible while each sub-program has its own outcomes and evidence.
+            </p>
+          </div>
+          <div className="mt-10"><FeatureGrid items={focus} columns={3} /></div>
+          <p className="mx-auto mt-8 max-w-3xl text-sm leading-relaxed text-[var(--muted)]">
+            Wider context is not presented as FOSCOD impact. Uganda's <a className="text-[var(--accent-700)] underline" href="https://www.iea.org/reports/uganda-energy-transition-plan/executive-summary" target="_blank" rel="noreferrer">Energy Transition Plan</a>, <a className="text-[var(--accent-700)] underline" href="https://www.unicef.org/uganda/what-we-do/wash" target="_blank" rel="noreferrer">UNICEF WASH guidance</a>, and <a className="text-[var(--accent-700)] underline" href="https://unfccc.int/documents/613828" target="_blank" rel="noreferrer">Uganda's updated climate commitment</a> help explain why integrated, locally owned action matters.
+          </p>
+        </div>
+      </section>
+
+      <section className="py-16 md:py-24">
+        <div className="container-page">
+          <div className="max-w-2xl">
+            <Eyebrow>From priority to ownership</Eyebrow>
+            <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">How a community-led project should move</h2>
+            <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
+              The sequence keeps local knowledge, delivery roles, evidence, and long-term responsibility in the same conversation.
+            </p>
+          </div>
+          <div className="mt-10"><Steps steps={approach} /></div>
+        </div>
+      </section>
 
       {/* Geography — Kalagala Communities */}
       <section className="bg-[var(--surface-2)] py-16 md:py-24">

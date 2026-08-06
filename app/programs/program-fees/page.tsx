@@ -9,9 +9,9 @@ export const metadata = pageMeta(
 );
 
 const included = [
-  "Pre-departure support", "Airport pickup", "Accommodation",
-  "Orientation", "Placement", "Local supervision",
-  "24/7 in-country support", "Cultural activities", "Certificate",
+  "Role or program design", "Named local supervision", "Required orientation",
+  "Accommodation arrangement, when included", "Local transport or airport transfer, when included",
+  "Emergency contact and support arrangements", "Debrief and completion record, when included",
 ];
 
 const excluded = [
@@ -21,9 +21,9 @@ const excluded = [
 ];
 
 const faqs = [
-  { q: "When is the deposit due?", a: "A deposit secures your place after acceptance; the balance follows a clear payment schedule shared on acceptance." },
+  { q: "When is a deposit due?", a: "If a deposit is required for your approved program, the current quote and acceptance documents will state the amount, due date, balance schedule, and applicable cancellation terms." },
   { q: "What is the refund policy?", a: "See our refund and cancellation policy for full terms and timelines." },
-  { q: "Are there group rates?", a: "Yes — university cohorts and faculty-led groups have tailored pricing. Request a group call." },
+  { q: "How is group pricing prepared?", a: "University cohorts and faculty-led groups receive a tailored quote based on group size, duration, accommodation, supervision, transport, activities, and responsibilities. Request a group conversation." },
 ];
 
 export default function FeesPage() {
@@ -41,11 +41,11 @@ export default function FeesPage() {
 
       <section className="container-page grid gap-12 pb-8 md:grid-cols-2">
         <div>
-          <h2 className="text-[clamp(1.5rem,2.5vw,2rem)]">What's included</h2>
+          <h2 className="text-[clamp(1.5rem,2.5vw,2rem)]">Typical items to confirm in your quote</h2>
           <div className="mt-6"><CheckList items={included} /></div>
         </div>
         <div>
-          <h2 className="text-[clamp(1.5rem,2.5vw,2rem)]">What's not included</h2>
+          <h2 className="text-[clamp(1.5rem,2.5vw,2rem)]">Usually arranged separately</h2>
           <div className="mt-6"><CheckList items={excluded} tone="muted" /></div>
         </div>
       </section>
