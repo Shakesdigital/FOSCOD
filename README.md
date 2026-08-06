@@ -1,64 +1,66 @@
-# FOSCOD — website + Supabase CMS
+# FOSCOD website and Supabase CMS
 
-A rebuild of [foscod.org](https://www.foscod.org) as a modern **Next.js 15** site backed by a **Supabase** CMS (Postgres + Auth + Storage + RLS). Built from the *FOSCOD Website Rebuild Content Pack*.
+A Next.js 15 website and editorial CMS for the Foundation for Sustainable Community-Based Development (FOSCOD). Public copy and seed content are grounded in the 2026 Online Audit Report, the 2026-2030 Strategic Plan, and the approved website fact sheet in `CONTENT.md`.
 
-Design system **"Murram & Nile"**: warm limestone paper, biochar near-black ink, and a tri-accent rooted in the work — murram red (action), Nile teal (water/WASH), solar-maize gold (energy), with a quiet forest green. Type: **Fraunces** (display) + **Public Sans** (body) + **IBM Plex Mono** (eyebrows & impact data). Everything is token-driven, and branding tokens are overridable from the CMS.
+The design system, “Murram & Nile,” uses warm limestone, biochar, murram red, Nile teal, solar-maize gold, and forest green. Typography uses Fraunces, Public Sans, and IBM Plex Mono.
 
 ## Run locally
 
 ```bash
 npm install
-npm run dev          # http://localhost:3000
+npm run dev
 ```
 
-The site renders with built-in default content **before** Supabase is connected, so you can preview the design immediately. The admin panel shows a "connect Supabase" notice until env is set.
+The public site has conservative source-grounded fallbacks, so it can be reviewed before Supabase is connected. Unverified stories, testimonials, opportunities, dates, and outcome figures are not published as fallback content.
 
 ## Connect Supabase
 
-1. Create a project at [supabase.com](https://supabase.com).
-2. Copy `.env.local.example` → `.env.local` and fill in:
+1. Create a Supabase project.
+2. Copy `.env.local.example` to `.env.local` and set:
    - `NEXT_PUBLIC_SUPABASE_URL`
    - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-   - `SUPABASE_SERVICE_ROLE_KEY` (server-only; never expose)
+   - `SUPABASE_SERVICE_ROLE_KEY` (server-only)
    - `NEXT_PUBLIC_SITE_URL`
-3. Apply the schema (SQL editor or CLI), in order:
-   - `supabase/migrations/0001_foundation.sql`
-   - `supabase/migrations/0002_content.sql`
-   - `supabase/seed.sql` (settings, redirects, starter content)
-4. Restart `npm run dev`. The public pages now read from the database, and the admin panel unlocks.
+3. Apply every SQL file in `supabase/migrations` in numeric order (`0001` through `0011`).
+4. Run `supabase/seed.sql` once the migrations finish.
+5. Restart the development server.
 
-### Create the first admin
+### Create the first administrator
 
-1. In the Supabase dashboard → Authentication → add a user (email + password).
-2. In Table editor → `profiles`, set that user's `role` to `super_admin`.
+1. Add a user in Supabase Authentication.
+2. In `profiles`, set that user’s role to `super_admin`.
 3. Sign in at `/admin/login`.
+
+## Editorial workflow
+
+- `/admin/content` manages pages, reusable modules, programs, sub-programs, activities, projects, impact stories, statistics, team, partners, testimonials, resources, FAQs, heroes, opportunities, and module ordering.
+- `/admin/media` uploads approved field images to the `foscod-media` bucket. Alt text is mandatory.
+- `/admin/submissions` receives public form submissions.
+- `/admin/settings` manages safe public settings and branding values.
+- Keep records in `draft` until names, permissions, dates, images, statistics, and partner claims are verified.
+- Impact statistics marked `verified` require an as-of date and source note.
+- Testimonials require confirmed permission; quoted impact stories require confirmed or anonymized consent.
 
 ## Architecture
 
-| Area | Where |
+| Area | Location |
 | --- | --- |
-| Design tokens | `app/globals.css` (`:root` vars + Tailwind `@theme`) |
-| Public pages | `app/` (home, about, programs, projects, impact, stories, get-involved, contact) |
-| Shared UI | `components/ui`, `components/site/blocks.tsx` |
-| Admin CMS | `app/admin/` (login + guarded `(dashboard)` group) |
-| Content layer | `lib/content.ts`, `lib/projects.ts` (Supabase → built-in fallback) |
-| Settings → tokens | `lib/settings.ts` injects branding overrides into `:root` |
-| Supabase clients | `lib/supabase/{client,server,admin}.ts` |
-| Auth + pathname | `middleware.ts` |
-| Schema + RLS | `supabase/migrations/` |
-| Redirects (legacy URLs) | `next.config.mjs` + `redirects` table |
-| SEO | per-page metadata, `app/sitemap.ts`, `app/robots.ts` |
+| Approved content source | `CONTENT.md` |
+| Public pages | `app/` |
+| Shared interface | `components/ui`, `components/site` |
+| Admin CMS | `app/admin/` |
+| CMS collection definitions | `lib/cms-collections.ts` |
+| Content layer | `lib/content.ts`, `lib/projects.ts`, `lib/opportunities.ts` |
+| Supabase clients | `lib/supabase/` |
+| Schema and RLS | `supabase/migrations/` |
+| Starter content | `supabase/seed.sql` |
+| SEO | route metadata, `app/sitemap.ts`, `app/robots.ts` |
 
-### Security model
+## Security and accessibility
 
-- Row Level Security on every table. Public reads are limited to `published` / `visible` rows and safe settings groups; all writes require a staff role (`super_admin`/`admin`/`editor`) enforced in the database via `is_staff()` / `is_admin()`.
-- The admin route guard (`app/admin/(dashboard)/layout.tsx`) is defense-in-depth, **not** the security boundary — RLS is.
-- Secrets (email/provider keys) belong in env vars / Edge Function secrets, never the editable `settings` table.
+- Row Level Security protects every CMS table. Public reads are restricted to published or visible records, while staff writes require an approved role.
+- The admin route guard is defense-in-depth; RLS remains the data security boundary.
+- Secrets belong in environment variables or Supabase secrets, never in editable settings.
+- Image-bearing CMS records enforce alt text, and the media library will not accept an upload without it.
 
-## What's complete vs. next
-
-**Complete:** design system; all primary public pages (so nothing in the nav 404s); homepage with pathways, featured projects, impact, testimonials, partners, stories; interactive program finder + fee selector; all public forms wired to `form_submissions`; full Supabase schema + RLS + seed; legacy redirect map; sitemap/robots; auth + guarded admin shell with dashboard, projects list, submissions viewer, and a branding-aware settings editor.
-
-**Next (schema already supports it):** rich create/edit forms for every entity (programs, projects, stories, team, partners, testimonials, FAQs, pages, impact metrics); media library + Storage upload/picker; replace photo placeholders with real FOSCOD field photography; payment gateway on Donate; email notifications on submissions (Edge Function); per-entity SEO editing UI.
-
-> Photos: the site uses designed placeholders (`components/ui/PhotoSlot.tsx`) wherever real FOSCOD field photography belongs. Swap these for media-library images as they're uploaded.
+Payment processing and outbound email still require the organization’s chosen providers and credentials before activation.

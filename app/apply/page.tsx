@@ -124,7 +124,7 @@ export default async function ApplyPage() {
               fields={applicationFields}
               submitLabel="Submit application"
               successTitle="Application received"
-              successBody="Our admissions team replies within two working days with next steps."
+              successBody="The FOSCOD team will review your application and contact you with next steps."
             />
           </div>
         </div>

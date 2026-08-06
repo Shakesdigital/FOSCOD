@@ -391,6 +391,7 @@ export function ProgramDatesTable({
   rows: { country: string; companies: string; confirmed: boolean }[];
   surface?: boolean;
 }) {
+  if (!rows.length) return null;
   return (
     <section className={`py-14 md:py-20 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
       <div className="container-page">
@@ -473,6 +474,7 @@ export function CardGrid({
   surface?: boolean;
   align?: "left" | "center";
 }) {
+  if (!items.length) return null;
   const tones = ["forest", "water", "earth"] as const;
   return (
     <section className={`py-14 md:py-20 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
@@ -574,6 +576,7 @@ export function QuoteGrid({
   more?: { href: string; label: string };
   surface?: boolean;
 }) {
+  if (!items.length) return null;
   return (
     <section className={`py-14 md:py-20 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
       <div className="container-page">

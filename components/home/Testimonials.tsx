@@ -7,7 +7,7 @@ export function Testimonials({ items }: { items: Testimonial[] }) {
       <SectionHeader
         eyebrow="From our alumni"
         title="The people who came to learn"
-        intro="Reviews from past interns, volunteers, and university cohorts. Replace these placeholders with verified alumni quotes in the CMS."
+        intro="Permissioned reflections from past interns, volunteers, and university cohorts."
       />
 
       <div className="mt-12 grid gap-6 md:grid-cols-3">

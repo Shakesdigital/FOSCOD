@@ -18,10 +18,10 @@ export default async function AdminDashboard() {
   ]);
 
   const cards = [
-    { label: "Projects", value: projects, href: "/admin/projects" },
-    { label: "Stories", value: stories, href: "/admin/projects" },
+    { label: "Projects", value: projects, href: "/admin/content/projects" },
+    { label: "Stories", value: stories, href: "/admin/content/impact-stories" },
     { label: "Submissions", value: submissions, href: "/admin/submissions" },
-    { label: "Partners", value: partners, href: "/admin/settings" },
+    { label: "Partners", value: partners, href: "/admin/content/partners" },
   ];
 
   return (
@@ -46,7 +46,7 @@ export default async function AdminDashboard() {
       </div>
 
       <div className="mt-10 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-2)] p-6">
-        <h2 className="text-lg">Next steps</h2>
+        <h2 className="text-lg">Publishing checklist</h2>
         <ul className="mt-3 list-inside list-disc space-y-1 text-[0.95rem] text-[var(--ink-soft)]">
           <li>Add real impact metrics and switch their status to <strong>verified</strong>.</li>
           <li>Upload field photography to the media library and attach to projects/stories.</li>

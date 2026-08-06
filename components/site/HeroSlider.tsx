@@ -107,7 +107,7 @@ export function HeroSlider({
                     {slide.intro}
                   </p>
                 )}
-                {(slide.cta || slide.cta2) && (
+                {(slide.cta || slide.cta2 || slide.cta3) && (
                   <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
                     {slide.cta && (
                       <Button href={slide.cta.href} variant="primary" size="lg" tabIndex={active ? 0 : -1}>
@@ -121,6 +121,15 @@ export function HeroSlider({
                         className="inline-flex items-center justify-center gap-2 rounded-[var(--radius-full)] border border-white/70 px-7 py-3.5 text-base font-medium text-white transition-colors hover:bg-white hover:text-[var(--ink)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                       >
                         {slide.cta2.label}
+                      </a>
+                    )}
+                    {slide.cta3 && (
+                      <a
+                        href={slide.cta3.href}
+                        tabIndex={active ? 0 : -1}
+                        className="inline-flex items-center justify-center gap-2 rounded-[var(--radius-full)] border border-white/70 px-7 py-3.5 text-base font-medium text-white transition-colors hover:bg-white hover:text-[var(--ink)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                      >
+                        {slide.cta3.label}
                       </a>
                     )}
                   </div>

@@ -18,8 +18,8 @@ export function FinalCta() {
         </h2>
         <p className="mx-auto mt-4 max-w-xl leading-relaxed text-[var(--ink-soft)]">
           Apply for an internship or volunteer placement, request a group
-          program, or fund a community-led project. Our team replies within two
-          working days.
+          program, or support a community-led project. The FOSCOD team will review
+          your inquiry and respond using the details you provide.
         </p>
         <div className="mt-9 flex flex-wrap justify-center gap-3">
           <Button href="/apply" variant="primary" size="lg">

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
+import { Button } from "@/components/ui/Button";
 
 export function PageHero({
   eyebrow,
@@ -11,6 +12,9 @@ export function PageHero({
   bannerTone = "water",
   bannerCaption = "Field photo — replace via the CMS media library",
   bannerTag,
+  imageUrl,
+  cta,
+  ctas,
 }: {
   eyebrow: string;
   title: string;
@@ -20,6 +24,9 @@ export function PageHero({
   bannerTone?: "earth" | "water" | "forest";
   bannerCaption?: string;
   bannerTag?: string;
+  imageUrl?: string;
+  cta?: { href: string; label: string };
+  ctas?: ReactNode;
 }) {
   return (
     <section className="relative overflow-hidden border-b border-[var(--border)]">
@@ -39,7 +46,13 @@ export function PageHero({
             {intro}
           </p>
         )}
-        {children && <div className="mt-8 flex flex-wrap gap-3">{children}</div>}
+        {(children || cta || ctas) && (
+          <div className="mt-8 flex flex-wrap gap-3">
+            {children}
+            {cta ? <Button href={cta.href}>{cta.label}</Button> : null}
+            {ctas}
+          </div>
+        )}
         {banner && (
           <div className="mt-12">
             <PhotoSlot
@@ -47,6 +60,8 @@ export function PageHero({
               ratio="3/1"
               tag={bannerTag}
               caption={bannerCaption}
+              imageUrl={imageUrl}
+              alt={bannerCaption}
               className="shadow-[var(--shadow-md)]"
             />
           </div>

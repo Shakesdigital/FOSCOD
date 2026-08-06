@@ -9,11 +9,18 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [openGroup, setOpenGroup] = useState<string | null>(null);
 
+  // Persistent CTA buttons per spec: "Partner With Us", "Apply / Volunteer", "Support Our Work"
+  const persistentCTAs = [
+    { href: "/partners", label: "Partner With Us", variant: "secondary" as const },
+    { href: "/apply", label: "Apply / Volunteer", variant: "primary" as const },
+    { href: "/donate", label: "Support Our Work", variant: "outline" as const },
+  ];
+
   return (
-    <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-[color-mix(in_srgb,var(--bg)_88%,transparent)] backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-[color-mix(in_srgb,var(--bg)_92%,transparent)] backdrop-blur-md">
       <div className="container-page flex h-16 items-center justify-between gap-6 md:h-20">
         {/* Wordmark — swap for logo asset via CMS branding settings */}
-        <Link href="/" className="flex items-baseline gap-2" aria-label="FOSCOD home">
+        <Link href="/" className="flex items-baseline gap-2 shrink-0" aria-label="FOSCOD home">
           <span className="font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight text-[var(--ink)]">
             FOSCOD
           </span>
@@ -23,7 +30,7 @@ export function Header() {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">
+        <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary navigation">
           {primaryNav.map((item) => (
             <div
               key={item.label}
@@ -45,7 +52,7 @@ export function Header() {
                 )}
               </Link>
               {item.children && openGroup === item.label && (
-                <div className="absolute left-0 top-full w-64 pt-2">
+                <div className="absolute left-0 top-full w-64 pt-2 z-50">
                   <ul className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] py-2 shadow-[var(--shadow-md)]">
                     {item.children.map((child) => (
                       <li key={child.href}>
@@ -64,20 +71,20 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="hidden items-center gap-3 lg:flex">
-          <Button href="/donate" variant="secondary" size="md">
-            Donate
-          </Button>
-          <Button href="/apply" variant="primary" size="md">
-            Apply
-          </Button>
+        {/* Persistent CTAs - Desktop */}
+        <div className="hidden items-center gap-2 lg:flex">
+          {persistentCTAs.map((cta) => (
+            <Button key={cta.href} href={cta.href} variant={cta.variant} size="sm">
+              {cta.label}
+            </Button>
+          ))}
         </div>
 
         {/* Mobile toggle */}
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="inline-flex h-11 w-11 items-center justify-center rounded-[var(--radius-md)] border border-[var(--border)] text-[var(--ink)] lg:hidden"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-[var(--radius-md)] border border-[var(--border)] text-[var(--ink)] lg:hidden shrink-0"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
         >
@@ -97,7 +104,7 @@ export function Header() {
       {/* Mobile drawer */}
       {open && (
         <div className="border-t border-[var(--border)] bg-[var(--bg)] lg:hidden">
-          <nav className="container-page flex flex-col gap-1 py-4" aria-label="Mobile">
+          <nav className="container-page flex flex-col gap-1 py-4" aria-label="Mobile navigation">
             {primaryNav.map((item) => (
               <div key={item.label} className="py-1">
                 <Link
@@ -124,13 +131,12 @@ export function Header() {
                 )}
               </div>
             ))}
-            <div className="mt-3 flex gap-3">
-              <Button href="/donate" variant="secondary" size="md">
-                Donate
-              </Button>
-              <Button href="/apply" variant="primary" size="md">
-                Apply
-              </Button>
+            <div className="mt-3 flex flex-col gap-2 border-t border-[var(--border)] pt-4">
+              {persistentCTAs.map((cta) => (
+                <Button key={cta.href} href={cta.href} variant={cta.variant} size="md" className="w-full justify-center">
+                  {cta.label}
+                </Button>
+              ))}
             </div>
             <p className="mt-4 font-[family-name:var(--font-mono)] text-xs text-[var(--muted)]">
               {site.contact.location}

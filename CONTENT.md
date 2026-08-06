@@ -1,185 +1,200 @@
-# FOSCOD — Website Content (editorial source of truth)
+# FOSCOD website content source of truth
 
-Rewritten in a **professional yet friendly** voice for FOSCOD's audiences, grounded in the
-live foscod.org content. This file is the canonical copy; page components and `supabase/seed.sql`
-mirror it. Edit here first, then reflect changes in the CMS/seed.
+This file governs public website copy and CMS seed content. The 2026 Online Presence Audit, the 2026-2030 Strategic Plan, and the approved organization fact sheet are the evidence base. When a figure, name, quote, date, partner, or result is not verified here, keep the CMS record in draft and label the missing field clearly. Never substitute a plausible claim.
 
-> **Organization:** Foundation for Sustainable Community Based Development (FOSCOD)
-> **Type:** Registered Ugandan indigenous NGO · **Based in:** Jinja, Uganda
-> **Contact:** info@foscod.org · +256 753 449 450
+## Organization facts
 
----
+- Legal name: Foundation for Sustainable Community-Based Development (FOSCOD)
+- Registration: INDR143472008NB, Uganda National Bureau for NGOs
+- Founded: 2007
+- Independent Ugandan NGO since: 2018
+- Current FOSCOD identity adopted: 2024
+- Office: Kasigwa Road, Plot 2, Njeru Municipality, Buikwe District, Uganda
+- Mailing: P.O. Box 1722, Jinja, Uganda
+- Phone: +256 772 989971
+- Email: info@foscod.org and foscoduganda@gmail.com
+- Website: www.foscod.org
+- Board Chair: Mr. Kayemba Patrick
+- Executive Director: Mrs. Amanyire Margaret Nassozi
+- Governance: six-member Board of Directors and a multidisciplinary Advisory Board
+- Secretariat: 10-12 core staff, with planned growth to 20-25 by 2030
+
+Do not use a former acronym or legacy organization name on public pages. Historical copy should describe the 2007 founding as an international development partnership, the 2018 transition to Ugandan autonomy, and the 2024 adoption of the current FOSCOD identity.
+
+## Mission, vision, and values
+
+Mission: To empower underserved communities to drive environmental innovation and adopt clean energy through ethical, sustainable development and global knowledge exchange.
+
+Vision: A world where local communities champion environmental stewardship and clean energy adoption, strengthened by global partnerships.
+
+Core values:
+
+1. Integrated & Holistic Development
+2. Equity & Inclusion
+3. Community Ownership & Leadership
+4. Sustainability & Innovation
+5. Collaboration & Shared Learning
+6. Transparency & Accountability
+7. Empowerment Through Learning
 
 ## Brand voice
 
-- **Warm, credible, plain-spoken.** Sound like a Ugandan organisation that does real field work — not a brochure.
-- **Community-led, not done-for.** Communities set priorities; FOSCOD and its partners build alongside them.
-- **Concrete over abstract.** Name the place, the project, the outcome. Avoid hype and AI filler ("unlock", "leverage", "in today's world").
-- **Honest about evidence.** Publish verified numbers only; show "being updated" rather than zeros.
-- **Audience-aware**, by section:
-  - *Students / researchers / universities* → Global Learning & Exchange (GLE)
-  - *Donors / partners / funders* → Community Empowerment & Development (CEDP)
-  - *Local communities* → dignity, ownership, lasting benefit
-  - *Alumni* → belonging, legacy, mentorship
+- Warm, credible, specific, and plain-spoken.
+- Describe communities as leaders and partners, not passive recipients.
+- Lead with the community need, explain FOSCOD's approach, then show dated evidence and a specific next step.
+- Separate verified results from 2030 targets visually and verbally.
+- Use consented names and quotations only. Keep unverified testimonials and stories in draft.
+- Avoid hype, vague impact language, and unsupported superlatives.
 
----
+## Program architecture
 
-## HOME
+FOSCOD has two public flagship programs supported by an organizational-development pillar.
 
-**Hero**
-- Eyebrow: `Registered Ugandan NGO · Jinja`
-- H1: **Bridging global learning with local innovation**
-- Sub: For over a decade, FOSCOD has worked side by side with rural communities in Uganda — on clean energy, water and sanitation, the environment, and livelihoods. We pair that local knowledge with hands-on learning programs for students, researchers, and partners from around the world.
-- CTAs: `Apply for a program` · `Partner with FOSCOD` · `Explore our work →`
+### Community Empowerment & Development Program (CEDP)
 
-**Who we are**
-- Eyebrow: `Who we are`
-- H2: **A Ugandan NGO, rooted in the communities we serve**
-- Body: FOSCOD is a registered Ugandan indigenous NGO advancing sustainable, community-led development in rural and underserved areas. We believe the people closest to a problem are closest to its solution — so we listen first, build alongside communities, and bring the global knowledge and partnerships that help good ideas last.
-- CTA: `Learn more`
+CEDP is anchored in Kalagala Parish/Ward, Njeru Municipality, Buikwe District. It serves five communities: Kalagala, Kyambogo, Naluvule, Wabusanke, and Byabuku. The area is peri-urban, borders Mabira Forest, and faces overlapping rural and municipal service-delivery gaps.
 
-**Our programs** (intro + two rows)
-- Eyebrow: `Our programs` · H2: **Two ways to work with FOSCOD**
-- Intro: Whether you come to learn or to invest, the work stays community-led and locally owned.
-- Row 1 — **Join a global learning program** (GLE): Internships, volunteering, group placements, and research give students, professionals, and universities structured, supervised field experience in clean energy, WASH, livelihoods, health, and more — with real support on the ground. → `Learn more`
-- Row 2 — **Support community-led development** (CEDP): Fund and partner on locally owned solutions in renewable energy, environment, water, livelihoods, and inclusion — designed and delivered by the communities that lead them. → `Learn more`
+CEDP has six sub-programs:
 
-**Featured project** (the "Heading" row in the wireframe)
-- Eyebrow: `Featured project` · H2: **Biochar Uganda: regenerating land and livelihoods**
-- Body: In Kalagala Parish, invasive water hyacinth is turned into biochar — improving soil, enabling cleaner cooking, and removing carbon, while creating income for women and youth. → `Learn more`
+1. Green Skills & Renewable Energy Education
+2. Clean Cooking & Health
+3. Water, Sanitation & Hygiene (WASH)
+4. Green Livelihoods & Economic Empowerment
+5. Inclusive Leadership - Women, Youth & Climate Leadership
+6. Ecosystem Restoration & Carbon Offsets
 
-**Alumni's legacy**
-- Eyebrow: `Alumni & community` · H2: **Showcasing our alumni's legacy in community transformation**
-- Body: Our past interns, volunteers, and university cohorts leave more than a report behind. They leave working projects, new skills in the community, and friendships that outlast any placement. → `Learn more`
+### Global Learning Exchange (GLE)
 
-**Driving sustainable change**
-- Eyebrow: `Driving sustainable change` · H2: **Driving sustainable change in Uganda**
-- Body: Every clean-energy enterprise, protected spring, and savings group is backed by people who believe rural communities should lead their own development. Your support turns local priorities into projects that last.
-- Banner CTA: `Support our cause`
+GLE operates nationwide across Uganda. It connects international interns, volunteers, universities, and community-based participatory researchers with grassroots priorities through structured, ethical placements and cross-cultural learning.
 
-**Newsletter** (footer): *Stay close to the work.* Get field stories, program dates, and impact updates a few times a year — no spam.
+### Organizational Development
 
----
+This pillar supports governance, partnerships, financial sustainability, monitoring, evaluation and learning, transparency, and institutional resilience. It appears publicly through About, governance, partnership, and resource content rather than as a third public program.
 
-## ABOUT US
+## Verified track record
 
-**Hero**
-- Eyebrow: `Who we are` · H1: **A Ugandan NGO with local roots and global partnerships**
-- Intro: FOSCOD works with rural and underserved communities to design sustainable, ethical, and locally owned development — combining community-led practice with global knowledge exchange.
+Use an as-of date of 31 December 2024 unless a newer verified MEL record is supplied.
 
-**Our story**
-- H2: **Our story**
-- Body: FOSCOD began with a simple conviction: lasting change in rural Uganda has to be led by the communities living it. From our home in Jinja, we've grown into a registered indigenous NGO working across districts on clean energy, water, the environment, and livelihoods — and into a bridge that connects local innovation with students, researchers, and partners worldwide. Today our work runs on two pillars: Community Empowerment & Development, and Global Learning & Exchange.
-- CTA: `Learn more`
+- 93 virtual interns engaged in community-driven projects, 2019-2024
+- 27 in-person interns and volunteers supported in field projects, 2019-2024
+- 50 e-community-based projects implemented in Busoga and Mukono, 2019-2024
+- 16 community development projects successfully completed, 2019-2024
+- 20 grassroots organizations trained in ethical community development, 2019-2024
+- 86% of completed projects continue to benefit communities independently
+- 35 community projects implemented across agriculture, environment, health and sanitation, education, renewable energy, social inclusion, and economic empowerment, 2022-2024
+- 42 development practitioners trained: 27 in-person interns, 11 virtual interns, and 4 volunteers
+- Partnerships with 10 community organizations and four international institutions
+- Memorandum of Understanding with Buikwe Local Government
 
-**Our team**
-- H2: **Our team**
-- Intro: Behind every project is a team of Ugandan practitioners, a committed board, and the host families and community leaders who make the work possible.
-- Card 1 — **Staff**: A small, dedicated field and program team based in Jinja. → `Meet the team`
-- Card 2 — **Board of Directors**: Experienced leaders guiding our governance, ethics, and strategy. → `Meet the board`
+Named partners that may appear publicly:
 
-**Our mission** (+ vision)
-- H2: **Why we exist**
-- Mission: Empower rural communities through innovative environmental solutions, ethical sustainable development, and global knowledge exchange.
-- Vision: A world where rural communities lead in environmental sustainability and clean energy, supported by strong local and global partnerships.
+- Northwestern University, via KAYA Responsible Travel
+- Fort Lewis College
+- AIESEC, in-kind support
+- Together for a New Africa Organizations, in-kind support
+- Women Raising for Africa, in-kind support
+- Buikwe Local Government
 
-**What we value** (7 values from the live site)
-1. **Holistic development** — health, livelihoods, environment, and learning advance together, not in silos.
-2. **Equity & inclusion** — equal access for youth, women, people with disabilities, and marginalized households.
-3. **Community-driven solutions** — locally led, culturally relevant; communities set the priorities.
-4. **Sustainability & innovation** — long-term impact, with renewable energy and stewardship at the centre.
-5. **Collaboration & partnership** — cross-sector knowledge shared between communities, universities, and partners.
-6. **Transparency & accountability** — honest reporting and ethical management of every resource.
-7. **Empowerment through education** — knowledge as the catalyst for lasting change.
+Do not name the remaining partner organizations until FOSCOD supplies an approved list.
 
-**Our approach**
-- H2: **Community-led, asset-based, locally owned**
-- Body: We start by listening. Through community assessment and asset-based co-design, communities set the priorities and lead delivery — we bring the global knowledge, supervision, and partnerships that make solutions last.
+## Named projects
 
-**How we work** (process)
-1. Conduct a community situation analysis
-2. Build partnerships with local leaders
-3. Co-design solutions with the community
-4. Implement with local supervision
-5. Monitor, report, and hand over ownership
+- Greening Kalagala
+- Water Spring Protection in Naluvule Community
+- Coffee Farming Mobilization
+- Solar-Powered Water System, Naluvule Village
+- Carbon Credit Project: clean cookstoves and reforestation, aligned with Gold Standard and Verra REDD+ methodologies
 
-**Strategic direction 2025–2030**: Transform communities into centres of excellence for environmental stewardship and renewable energy — deepening both pillars and strengthening governance, reporting, and measurable impact.
+Each project page must distinguish verified project identity from outcomes that are still awaiting dated MEL evidence.
 
----
+## 2030 targets
 
-## PROGRAMS
+Always label these as targets by 2030, never as achievements.
 
-**Hero**
-- Eyebrow: `Our programs` · H1: **Two pillars, one mission**
-- Intro: FOSCOD advances community-led development and connects global learners to real field work — so local innovation and global knowledge strengthen each other.
+- Train 2,500+ people in renewable energy technologies
+- Transition 5,000 households to clean energy solutions
+- Support 100 green enterprises and register 10 cooperatives
+- Build 25+ institutional partnerships across 15 countries
+- Achieve 50% women's participation across all initiatives
+- Implement biodiversity conservation and carbon-offset work across 15 local ecosystems
+- Establish five community-based training and incubation centers
+- Facilitate 150 GLE community development projects
+- Conduct 75 community-based participatory research initiatives
+- Translate 60% of research findings into policy or action
 
-**About our programs**
-- Intro: Every FOSCOD program is rooted in the same belief: communities lead, and we build alongside them. Choose the path that fits you — come to learn, or invest in the work.
+The five-year 2026-2030 budget is UGX 16.26625 billion, approximately USD 4.34 million in the Strategic Plan. Public summary copy may round this to UGX 16.2 billion and USD 4.34 million.
 
-**Global Service Learning** (GLE)
-- Body: Internships, volunteering, group programs, and research placements give students, professionals, and universities structured, supervised field experience in Uganda — across clean energy, WASH, livelihoods, health, and the environment. You'll work on real projects with real local supervision, and a host-family experience that turns a placement into a relationship.
-- CTA: `Learn more`
+## Primary audiences and action paths
 
-**Community Mobilization & Empowerment** (CEDP)
-- Body: Locally owned solutions across clean energy, environment, water, livelihoods, health, and inclusion — designed and delivered with the communities that lead them. This is where partners and donors invest in change that communities sustain long after a project ends.
-- CTA: `Learn more`
+- Communities: understand local priorities, activities, governance, and how to contact FOSCOD.
+- Donors and funders: see verified evidence, named projects, transparency resources, and project-specific support options.
+- Universities and researchers: understand GLE, ethical placement practice, CBPR, and institutional partnership pathways.
+- Interns and volunteers: understand the application process and see only verified, currently open opportunities.
+- Government and policy stakeholders: see alignment, evidence, learning products, and partnership routes.
 
-**Closing CTA**: `Open the program finder` · `View fees`
+Every homepage visitor should see exactly three action paths: Partner, Apply, and Support.
 
----
+## Page messaging
 
-## IMPACT
+### Home
 
-**Hero**
-- Eyebrow: `Field report · impact` · H1: **Impact we can stand behind**
-- Intro: We publish verified numbers only. Where figures are still being confirmed in the field, we show them as drafts — we never display zeros.
+Eyebrow: Registered Ugandan NGO - Buikwe District
 
-**Heading + metric strip**: Communities served · Projects implemented · Alumni worldwide · Active partners (drafts until verified).
+H1: Communities leading environmental innovation and clean energy adoption
 
-**Impact Stories** (3 cards + Read more) — real change on the ground:
-- *Clean energy that powers a livelihood* — a solar-powered salon in Naluvule.
-- *Water, dignity, and resilience* — protected springs and hygiene across Busoga.
-- *Regenerating land with biochar* — Kalagala Parish.
+Intro: FOSCOD empowers underserved communities through ethical, sustainable development and global knowledge exchange.
 
-**Alumni Experiences** (3 cards + Read more) — in their words:
-- "I learned more about ethical development in eight weeks than in a year of coursework."
-- "The placement was structured, safe, and genuinely useful to the community."
-- "Our university group worked on a real menstrual-health project with full local supervision."
+Proof strip: use four or five verified metrics from the Impact Stats collection, each with an as-of date and source note.
 
-**Impact Videos** (3 cards + Read more) — short films from the field (host families, project handovers, cohort debriefs).
+Program introduction: Two integrated programs, one mission. CEDP concentrates interconnected solutions in Kalagala Parish; GLE connects global knowledge with community-defined priorities across Uganda.
 
-**Community Experiences** (3 cards + Read more) — from the people we work with:
-- Host families on opening their homes.
-- A savings group on what changed.
-- A local leader on co-designing a project.
+Newsletter promise: One monthly story, one verified result, one lesson learned, and one open opportunity.
 
-**Closing CTA**: `Donate` · `Read field stories`
+### About Us
 
----
+H1: A Ugandan organization rooted in community leadership
 
-## CONTACT
+Story: Founded in 2007 through an international development partnership, the organization became an independent Ugandan NGO in 2018. It expanded its integrated community work through CEDP in 2022 and adopted the current FOSCOD identity in 2024.
 
-**Hero**
-- Eyebrow: `Contact` · H1: **Get in touch with FOSCOD**
-- Intro: Questions about programs, partnerships, donations, or community projects? We'd be glad to help — tell us a little about you and we'll reply soon.
+Governance: A six-member Board of Directors, chaired by Mr. Kayemba Patrick, provides oversight. Executive Director Mrs. Amanyire Margaret Nassozi leads a multidisciplinary secretariat supported by an Advisory Board.
 
-**Send us a message** (Application / Inquiry form): Name · Email · Reason for contact (Apply / Partner / Donate / Media · Research / Alumni / Other) · Message → `Send message`
+Transparency: show registration details, the Buikwe Local Government MoU, and CMS-managed links to annual reports and MEL summaries.
 
-**Our location**
-- Map: FOSCOD offices, Jinja, Uganda (embedded map).
-- Location details: Jinja, Uganda · info@foscod.org · +256 753 449 450 · Mon–Fri, 9:00–5:00 EAT.
+### Programs
 
----
+H1: Two integrated programs, one mission
 
-## Marketing content-card suggestions (from SalesMarketingAgent)
+Explain the connection as Inputs -> Activities -> Outputs -> Outcomes -> Impact. Use the Strategic Plan's logic, redrawn in the FOSCOD design system.
 
-Queued ideas to convert visitors — for the blog, social, and email once accounts connect:
+### CEDP
 
-1. **GLE landing CTA** — "Find your program in 60 seconds" linking the Program Finder; target university partnership coordinators.
-2. **Donor proof page** — a single "Where your money goes" page with the 10% overhead story + Biochar/WASH outcomes.
-3. **Alumni-led blog series** — first-person field debriefs (strongest social proof for prospective interns).
-4. **Host-family spotlight reel** — short video UGC; doubles as Impact Video content.
-5. **Quarterly newsletter** — program dates + one verified impact number + one story; drives applications and repeat donors.
-6. **Partner one-pager** — downloadable PDF for universities/NGOs (clear offer, supervision model, safeguarding).
+H1: Integrated community development anchored in Kalagala Parish
 
-*Status: drafts/ideas — not published. Approval required before any live posting or sending.*
+Explain Kalagala's peri-urban service-delivery gap, proximity to Mabira Forest, five communities, six sub-programs, community ownership, and the 50% women's participation target. Link every activity to its CMS detail page.
+
+### GLE
+
+H1: Global learning shaped by community priorities
+
+Describe internships, volunteer placements, university partnerships, community-based development projects, and CBPR. Use the verified 2019-2024 learner and project figures. Do not show unconfirmed program dates, fees, employers, or opportunities.
+
+### Impact
+
+H1: Evidence communities and partners can trust
+
+Keep verified results and 2030 targets in separate sections. Every number needs an as-of date, definition, and source note. Stories require a consented voice or respectful anonymization, a linked project or program, and a verified outcome.
+
+### Contact
+
+H1: Get in touch with FOSCOD
+
+Route inquiries by partnership, internship or volunteering, media, and general. Contact details must come from the shared settings record so the page and footer cannot diverge.
+
+## Publishing safeguards
+
+- No zero counters.
+- No unverified names, quotations, results, program dates, fees, or partner logos.
+- No live story without consent status and evidence fields.
+- No image without meaningful alt text.
+- No page without one H1, a unique meta title, and a unique meta description.
+- No live publishing or external posting without explicit approval.

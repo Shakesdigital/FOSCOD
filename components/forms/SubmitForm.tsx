@@ -16,7 +16,7 @@ export function SubmitForm({
   fields,
   submitLabel = "Submit",
   successTitle = "Thank you — we've received your message.",
-  successBody = "Our team replies within two working days.",
+  successBody = "The FOSCOD team will review your message and respond using the details you provided.",
 }: {
   formType: string;
   fields: Field[];
@@ -41,7 +41,7 @@ export function SubmitForm({
       const data = await res.json();
       if (data.ok) {
         setState("done");
-        setMessage(data.demo ? "Note: the database isn't connected yet, so this wasn't saved." : "");
+        setMessage("");
       } else {
         setState("error");
         setMessage(data.error ?? "Something went wrong.");

@@ -93,7 +93,7 @@ export default async function VolunteerPage() {
         title="Volunteers leave more than a report behind"
         tone="forest"
         imageCaption="Volunteer alumni in the field — add photo via CMS"
-        body="Our volunteers leave behind working projects, new skills in the community, and friendships that outlast any placement — and they carry the experience into their own lives and careers."
+        body="FOSCOD's 2019–2024 track record includes 16 completed community development projects, with 86% continuing to benefit communities independently. Volunteer roles are designed around that standard of local ownership."
         cta={{ href: "/impact", label: "Read more" }}
       />
 
@@ -129,13 +129,15 @@ export default async function VolunteerPage() {
       <ApplyBand label="Apply Today" href="/apply" />
 
       {/* volunteer alumni testimonials — mint */}
-      <QuoteGrid
-        eyebrow="Volunteer alumni testimonials"
-        title="From people who've been there"
-        items={alumni}
-        more={{ href: "/alumni", label: "Read more" }}
-        surface
-      />
+      {alumni.length > 0 ? (
+        <QuoteGrid
+          eyebrow="Volunteer alumni testimonials"
+          title="From people who've been there"
+          items={alumni}
+          more={{ href: "/alumni", label: "Read more" }}
+          surface
+        />
+      ) : null}
     </>
   );
 }

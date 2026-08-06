@@ -10,12 +10,16 @@ export function PhotoSlot({
   tone = "earth",
   className = "",
   ratio = "4/5",
+  imageUrl,
+  alt,
 }: {
   caption: string;
   tag?: string;
   tone?: "earth" | "water" | "forest";
   className?: string;
   ratio?: string;
+  imageUrl?: string;
+  alt?: string;
 }) {
   const tones: Record<string, string> = {
     earth:
@@ -31,10 +35,19 @@ export function PhotoSlot({
       className={`group relative isolate overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] ${className}`}
       style={{ aspectRatio: ratio }}
     >
-      <div
-        className={`absolute inset-0 bg-gradient-to-br ${tones[tone]}`}
-        aria-hidden
-      />
+      {imageUrl ? (
+        <img
+          src={imageUrl}
+          alt={alt ?? caption}
+          className="absolute inset-0 h-full w-full object-cover"
+          loading="lazy"
+        />
+      ) : (
+        <div
+          className={`absolute inset-0 bg-gradient-to-br ${tones[tone]}`}
+          aria-hidden
+        />
+      )}
       {/* subtle grain/texture via layered radial highlights */}
       <div
         className="absolute inset-0 opacity-30 mix-blend-soft-light"

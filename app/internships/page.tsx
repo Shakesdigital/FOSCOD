@@ -95,7 +95,7 @@ export default async function InternshipsPage() {
         title="Skills that translate into careers"
         tone="water"
         imageCaption="Internship alumni — add photo via CMS"
-        body="Interns build real, practical skills that carry over — many move into full-time roles within months of returning, and FOSCOD alumni now work across leading organisations worldwide."
+        body="From 2019–2024, FOSCOD trained 42 development practitioners: 27 in-person interns, 11 virtual interns, and 4 volunteers. Placements combine supervised practice with community-defined priorities."
         cta={{ href: "/impact", label: "Read more" }}
       />
 
@@ -131,13 +131,15 @@ export default async function InternshipsPage() {
       <ApplyBand label="Apply Today" href="/apply" />
 
       {/* internship alumni testimonials — mint */}
-      <QuoteGrid
-        eyebrow="Internship alumni testimonials"
-        title="From people who've been there"
-        items={alumni}
-        more={{ href: "/alumni", label: "Read more" }}
-        surface
-      />
+      {alumni.length > 0 ? (
+        <QuoteGrid
+          eyebrow="Internship alumni testimonials"
+          title="From people who've been there"
+          items={alumni}
+          more={{ href: "/alumni", label: "Read more" }}
+          surface
+        />
+      ) : null}
     </>
   );
 }

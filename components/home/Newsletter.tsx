@@ -3,7 +3,8 @@
 import { useState } from "react";
 
 /** Compact, single-row newsletter subscribe strip for the footer.
- *  Heading on the left; name + email + Sign Up inline on one row. */
+ *  Heading on the left; name + email + Sign Up inline on one row.
+ *  Uses the 1-1-1-1 value proposition per FOSCOD audit specs. */
 export function Newsletter() {
   const [state, setState] = useState<"idle" | "loading" | "done" | "error">("idle");
   const [note, setNote] = useState("");
@@ -22,7 +23,7 @@ export function Newsletter() {
       const data = await res.json();
       if (data.ok) {
         setState("done");
-        setNote(data.demo ? "Database not connected yet — this wasn't saved." : "");
+        setNote("");
       } else {
         setState("error");
         setNote(data.error ?? "Something went wrong.");
@@ -41,9 +42,10 @@ export function Newsletter() {
       <div className="container-page">
         <div className="flex flex-col items-center gap-5 md:flex-row md:justify-between">
           <div className="text-center md:text-left">
-            <h2 className="text-xl font-semibold text-white">Subscribe to our newsletter</h2>
-            <p className="mt-1 text-[0.9rem] text-white/70">
-              Field stories and program updates — a few times a year, no noise.
+            <h2 className="text-xl font-semibold text-white">Stay close to the work</h2>
+            <p className="mt-1 text-[0.9rem] text-white/70 max-w-md">
+              <strong>1-1-1-1:</strong> One monthly story, one verified result, one lesson learned,
+              one open opportunity (volunteer, intern, or partner). No spam, just substance.
             </p>
           </div>
 

@@ -30,6 +30,13 @@ export async function POST(request: Request) {
   if (typeof payload !== "object" || Array.isArray(payload)) {
     return NextResponse.json({ ok: false, error: "Invalid payload." }, { status: 400 });
   }
+  if (JSON.stringify(payload).length > 50_000) {
+    return NextResponse.json({ ok: false, error: "Submission is too large." }, { status: 413 });
+  }
+  const email = typeof payload.email === "string" ? payload.email.trim() : "";
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return NextResponse.json({ ok: false, error: "A valid email address is required." }, { status: 400 });
+  }
   if ((payload as Record<string, unknown>)["company_website"]) {
     // Honeypot filled → silently accept (likely a bot).
     return NextResponse.json({ ok: true, stored: false });
@@ -37,7 +44,7 @@ export async function POST(request: Request) {
 
   if (!isSupabaseConfigured()) {
     // No DB yet — accept so the UX is demonstrable; nothing is persisted.
-    return NextResponse.json({ ok: true, stored: false, demo: true });
+    return NextResponse.json({ ok: false, error: "Submissions are temporarily unavailable. Please email info@foscod.org." }, { status: 503 });
   }
 
   const supabase = await createClient();
@@ -48,6 +55,5 @@ export async function POST(request: Request) {
   if (error) {
     return NextResponse.json({ ok: false, error: "Could not save your submission." }, { status: 500 });
   }
-  // TODO: trigger admin email notification via Supabase Edge Function / provider.
   return NextResponse.json({ ok: true, stored: true });
 }

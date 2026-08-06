@@ -11,13 +11,13 @@ export const metadata = pageMeta(
 const priorities = [
   { title: "WASH", body: "Clean water, sanitation, and hygiene.", kicker: "Fund a project" },
   { title: "Renewable energy", body: "Solar enterprises and clean cooking.", kicker: "Fund a project" },
-  { title: "Biochar Uganda", body: "Climate, soil, and carbon removal.", kicker: "Fund a project" },
+  { title: "Carbon Credit Project", body: "Clean cookstoves and reforestation aligned with recognized carbon standards.", kicker: "Fund a project" },
   { title: "Sustainable livelihoods", body: "Green enterprise and savings groups.", kicker: "Fund a project" },
-  { title: "School & youth health", body: "Nutrition and preventive health.", kicker: "Fund a project" },
+  { title: "Inclusive leadership", body: "Women, youth, and climate leadership.", kicker: "Fund a project" },
 ];
 
 const faqs = [
-  { q: "How are funds used?", a: "Donations go directly to community-prioritized projects, with transparent reporting on outcomes." },
+  { q: "How are funds used?", a: "FOSCOD directs approved support toward community-prioritized work and records project reporting through its governance and monitoring processes." },
   { q: "Can I fund a specific project?", a: "Yes — choose a priority area, or talk to us about directing your gift." },
   { q: "Is FOSCOD accountable?", a: "As a registered Ugandan NGO, we maintain clear governance, reporting, and accountability." },
 ];
@@ -25,7 +25,7 @@ const faqs = [
 const fields: Field[] = [
   { name: "name", label: "Your name", required: true },
   { name: "email", label: "Email", type: "email", required: true },
-  { name: "interest", label: "Project you'd like to support", type: "select", options: ["WASH", "Renewable energy", "Biochar Uganda", "Sustainable livelihoods", "School & youth health", "Where most needed"] },
+  { name: "interest", label: "Project you'd like to support", type: "select", options: ["WASH", "Renewable energy", "Carbon Credit Project", "Sustainable livelihoods", "Inclusive leadership", "Where most needed"] },
   { name: "message", label: "Message (optional)", type: "textarea" },
 ];
 
