@@ -1,21 +1,19 @@
-import { PageHero } from "@/components/site/PageHero";
+import { HeroSlider } from "@/components/site/HeroSlider";
 import { CTABand } from "@/components/site/blocks";
 import { ProgramFinder } from "@/components/programs/ProgramFinder";
 import { pageMeta } from "@/lib/seo";
+import { getHeroSlides } from "@/lib/content";
 
 export const metadata = pageMeta(
   "Find the Right FOSCOD Program",
   "Compare FOSCOD internship, volunteer, group, and research programs by type, sector, and duration."
 );
 
-export default function FinderPage() {
+export default async function FinderPage() {
+  const heroSlides = await getHeroSlides("finder");
   return (
     <>
-      <PageHero
-        eyebrow="Program finder"
-        title="Find the right FOSCOD program"
-        intro="Filter by program type and duration to compare opportunities, then apply to the one that fits your goals and timeline."
-      />
+      <HeroSlider slides={heroSlides} />
       <section className="container-page py-12 md:py-16">
         <ProgramFinder />
       </section>

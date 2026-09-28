@@ -1,7 +1,8 @@
-import { PageHero } from "@/components/site/PageHero";
+import { HeroSlider } from "@/components/site/HeroSlider";
 import { CheckList, FAQ, CTABand } from "@/components/site/blocks";
 import { FeeSelector } from "@/components/programs/FeeSelector";
 import { pageMeta } from "@/lib/seo";
+import { getHeroSlides } from "@/lib/content";
 
 export const metadata = pageMeta(
   "Program Fees and Costs",
@@ -26,14 +27,11 @@ const faqs = [
   { q: "How is group pricing prepared?", a: "University cohorts and faculty-led groups receive a tailored quote based on group size, duration, accommodation, supervision, transport, activities, and responsibilities. Request a group conversation." },
 ];
 
-export default function FeesPage() {
+export default async function FeesPage() {
+  const heroSlides = await getHeroSlides("program-fees");
   return (
     <>
-      <PageHero
-        eyebrow="Program fees"
-        title="Transparent pricing, clear inclusions"
-        intro="Transparent pricing for FOSCOD internship and volunteer programs, with clear inclusions and exclusions. Select a duration to see the fee structure."
-      />
+      <HeroSlider slides={heroSlides} />
 
       <section className="container-page py-12 md:py-16">
         <FeeSelector />

@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
+import { HeroSlider } from "@/components/site/HeroSlider";
+import { type HeroSlide } from "@/lib/content";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
 import { getOpportunity, allOpportunitySlugs } from "@/lib/opportunities";
 
@@ -55,28 +57,17 @@ export default async function OpportunityDetailPage({
   const whyHeading = isVolunteer ? "Why choose this volunteer program?" : "Why choose this internship?";
   const galleryCount = o.gallery.length || 6;
 
+  const heroSlides: HeroSlide[] = [{
+    eyebrow: o.category,
+    title: o.title,
+    intro: o.excerpt,
+    cta: { href: "/apply", label: "Apply Now" },
+    tone: "water",
+  }];
+
   return (
     <>
-      {/* teal hero band */}
-      <section className="bg-[var(--accent-600)] text-white">
-        <div className="container-page py-14 text-center md:py-16">
-          <p className="font-[family-name:var(--font-mono)] text-[0.7rem] uppercase tracking-[0.16em] text-white/70">
-            {o.category}
-          </p>
-          <h1 className="mx-auto mt-3 max-w-3xl text-[clamp(1.7rem,3.6vw,2.6rem)] font-medium leading-[1.1] [text-wrap:balance]">
-            {o.title}
-          </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-[1.02rem] leading-relaxed text-white/85">{o.excerpt}</p>
-          <div className="mt-7">
-            <Link
-              href="/apply"
-              className="inline-flex items-center justify-center rounded-[var(--radius-full)] bg-white/15 px-7 py-3 font-medium text-white ring-1 ring-inset ring-white/40 transition-colors hover:bg-white hover:text-[var(--accent-700)]"
-            >
-              Apply Now
-            </Link>
-          </div>
-        </div>
-      </section>
+      <HeroSlider slides={heroSlides} />
 
       {/* content + sidebar */}
       <section className="py-14 md:py-20">

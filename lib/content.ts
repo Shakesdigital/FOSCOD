@@ -802,6 +802,100 @@ const heroSlides: Record<string, HeroSlide[]> = {
       tone: "forest",
     },
   ],
+  donate: [
+    {
+      eyebrow: "Get involved",
+      title: "Back community-led action in Buikwe District",
+      intro: "Start a giving conversation around a named project or priority. FOSCOD will confirm the current need, use of funds, transfer method, and reporting arrangement before you contribute.",
+      cta: { href: "#giving-inquiry", label: "Start a giving inquiry" },
+      cta2: { href: "/impact", label: "Review verified impact" },
+      cta3: { href: "/about#registration", label: "Check our identity" },
+      tone: "earth",
+    },
+  ],
+  team: [
+    {
+      eyebrow: "Governance & people",
+      title: "Meet the people behind FOSCOD",
+      intro: "Board, staff, advisors, and the field coordinators who make community-led work possible. Add real bios and photos in the CMS.",
+      tone: "water",
+    },
+  ],
+  partners: [
+    {
+      eyebrow: "Partner with FOSCOD",
+      title: "Build locally led development with a Ugandan organization rooted in Buikwe",
+      intro: "Work with FOSCOD and community partners to co-design practical action in clean energy, WASH, green livelihoods, inclusive leadership, restoration, or global learning — with roles and evidence agreed from the start.",
+      cta: { href: "/partners#partnership-inquiry", label: "Start a partnership inquiry" },
+      cta2: { href: "/impact", label: "Review verified impact" },
+      cta3: { href: "/about#registration", label: "See registration details" },
+      tone: "forest",
+    },
+  ],
+  projects: [
+    {
+      eyebrow: "Project library",
+      title: "Community-led projects across Uganda",
+      intro: "Explore work spanning WASH, renewable energy, livelihoods, health, education, environment, research, and social inclusion. Filter and detail views are wired to the CMS.",
+      tone: "earth",
+    },
+  ],
+  alumni: [
+    {
+      eyebrow: "Alumni",
+      title: "FOSCOD alumni network",
+      intro: "Stay connected, mentor new participants, share your story, and keep contributing to community-led development.",
+      tone: "water",
+    },
+  ],
+  "health-wellbeing": [
+    {
+      eyebrow: "Focus area",
+      title: "Health and wellbeing",
+      intro: "Strengthening community health through nutrition, safe water, sanitation, youth wellbeing, and preventive education.",
+      tone: "water",
+    },
+  ],
+  "social-inclusion-empowerment": [
+    {
+      eyebrow: "Focus area",
+      title: "Social inclusion and empowerment",
+      intro: "Supporting youth, women, people with disabilities, and vulnerable households to participate fully in community development.",
+      tone: "forest",
+    },
+  ],
+  "community-empowerment-development": [
+    {
+      eyebrow: "Community Empowerment & Development Program",
+      title: "Community-led development at the center",
+      intro: "CEDP supports underserved communities in Kalagala Parish, Njeru Municipality, Buikwe District — a peri-urban area bordering Mabira Forest, in a 'development limbo' between rural and urban service delivery.",
+      tone: "earth",
+    },
+  ],
+  "program-fees": [
+    {
+      eyebrow: "Program fees",
+      title: "Transparent pricing, clear inclusions",
+      intro: "Transparent pricing for FOSCOD internship and volunteer programs, with clear inclusions and exclusions. Select a duration to see the fee structure.",
+      tone: "forest",
+    },
+  ],
+  "refund-policy": [
+    {
+      eyebrow: "Participant information",
+      title: "Payment, refund & cancellation terms",
+      intro: "FOSCOD provides the terms that apply to your specific placement in writing before you make a payment.",
+      tone: "water",
+    },
+  ],
+  finder: [
+    {
+      eyebrow: "Program finder",
+      title: "Find the right FOSCOD program",
+      intro: "Filter by program type and duration to compare opportunities, then apply to the one that fits your goals and timeline.",
+      tone: "forest",
+    },
+  ],
 };
 
 export async function getHeroSlides(pageSlug: string): Promise<HeroSlide[]> {

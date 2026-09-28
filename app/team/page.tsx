@@ -1,7 +1,8 @@
-import { PageHero } from "@/components/site/PageHero";
+import { HeroSlider } from "@/components/site/HeroSlider";
 import { CTABand } from "@/components/site/blocks";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
 import { pageMeta } from "@/lib/seo";
+import { getHeroSlides } from "@/lib/content";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
 
 export const metadata = pageMeta(
@@ -42,13 +43,10 @@ async function getTeam(): Promise<Member[]> {
 
 export default async function TeamPage() {
   const team = await getTeam();
+  const heroSlides = await getHeroSlides("team");
   return (
     <>
-      <PageHero
-        eyebrow="Governance & people"
-        title="Meet the people behind FOSCOD"
-        intro="Board, staff, advisors, and the field coordinators who make community-led work possible. Add real bios and photos in the CMS."
-      />
+      <HeroSlider slides={heroSlides} />
 
       {categories.map((cat) => {
         const members = team.filter((m) => m.category === cat.key);

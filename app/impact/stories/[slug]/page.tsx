@@ -1,4 +1,5 @@
-import { PageHero } from "@/components/site/PageHero";
+import { HeroSlider } from "@/components/site/HeroSlider";
+import { type HeroSlide } from "@/lib/content";
 import { SplitSection, Prose, CTABand } from "@/components/site/blocks";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
@@ -32,15 +33,18 @@ export default async function ImpactStoryPage({ params }: { params: Promise<{ sl
     ? new Date(story.published_at).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })
     : "";
 
+  const heroSlides: HeroSlide[] = [{
+    eyebrow: "Impact Story",
+    title: story.title,
+    intro: story.quote ? `&ldquo;${story.quote}&rdquo;` : story.narrative?.slice(0, 200) || "A community voice from FOSCOD's work in Uganda.",
+    tone: "forest",
+    imageUrl: story.hero_image_url,
+  }];
+
   return (
     <>
       {/* HERO */}
-      <PageHero
-        eyebrow="Impact Story"
-        title={story.title}
-        intro={story.quote ? `&ldquo;${story.quote}&rdquo;` : story.narrative?.slice(0, 200) || "A community voice from FOSCOD's work in Uganda."}
-        imageUrl={story.hero_image_url}
-      />
+      <HeroSlider slides={heroSlides} />
 
       {/* COMMUNITY VOICE + NARRATIVE */}
       <section className="py-16 md:py-24">

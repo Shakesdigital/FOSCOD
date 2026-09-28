@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { PageHero } from "@/components/site/PageHero";
+import { HeroSlider } from "@/components/site/HeroSlider";
+import { type HeroSlide } from "@/lib/content";
 import { SplitSection, Prose, CTABand, FeatureGrid } from "@/components/site/blocks";
 import { Button } from "@/components/ui/Button";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
@@ -35,20 +36,21 @@ export default async function ProjectDetailPage({
   const p = getProjectDetail(slug);
   if (!p) notFound();
 
+  const heroSlides: HeroSlide[] = [{
+    eyebrow: p.theme,
+    title: p.title,
+    intro: p.subhead,
+    tone: p.tone,
+    imageUrl: p.heroImage,
+    cta: p.ctas[0] ? { href: p.ctas[0].href, label: p.ctas[0].label } : undefined,
+    cta2: p.ctas[1] ? { href: p.ctas[1].href, label: p.ctas[1].label } : undefined,
+    cta3: p.ctas[2] ? { href: p.ctas[2].href, label: p.ctas[2].label } : undefined,
+  }];
+
   return (
     <>
       {/* HERO */}
-      <PageHero
-        eyebrow={p.theme}
-        title={p.title}
-        intro={p.subhead}
-        imageUrl={p.heroImage}
-        ctas={p.ctas.map((c) => (
-          <Button key={c.href} href={c.href} variant={c.variant ?? "primary"} size="lg">
-            {c.label}
-          </Button>
-        ))}
-      />
+      <HeroSlider slides={heroSlides} />
 
       {/* THE CHALLENGE */}
       <SplitSection eyebrow="The challenge" title="What we're responding to">

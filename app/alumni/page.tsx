@@ -1,7 +1,8 @@
-import { PageHero } from "@/components/site/PageHero";
+import { HeroSlider } from "@/components/site/HeroSlider";
 import { FeatureGrid } from "@/components/site/blocks";
 import { SubmitForm, type Field } from "@/components/forms/SubmitForm";
 import { pageMeta } from "@/lib/seo";
+import { getHeroSlides } from "@/lib/content";
 
 export const metadata = pageMeta(
   "FOSCOD Alumni Network",
@@ -24,14 +25,11 @@ const fields: Field[] = [
   { name: "review", label: "Your review or message", type: "textarea", required: true },
 ];
 
-export default function AlumniPage() {
+export default async function AlumniPage() {
+  const heroSlides = await getHeroSlides("alumni");
   return (
     <>
-      <PageHero
-        eyebrow="Alumni"
-        title="FOSCOD alumni network"
-        intro="Stay connected, mentor new participants, share your story, and keep contributing to community-led development."
-      />
+      <HeroSlider slides={heroSlides} />
 
       <section className="container-page py-12 md:py-16">
         <h2 className="max-w-xl text-[clamp(1.7rem,3vw,2.3rem)]">Ways to stay involved</h2>

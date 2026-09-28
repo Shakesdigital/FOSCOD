@@ -1,7 +1,8 @@
-import { PageHero } from "@/components/site/PageHero";
+import { HeroSlider } from "@/components/site/HeroSlider";
 import { SplitSection, Prose, FeatureGrid, Steps, CTABand, CardGrid } from "@/components/site/blocks";
 import { pageMeta } from "@/lib/seo";
 import { getImpactStats, getSubPrograms, getFeaturedProjects } from "@/lib/content";
+import { getHeroSlides } from "@/lib/content";
 import { cedpSubPrograms } from "@/lib/site";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 
@@ -36,10 +37,11 @@ const kalagalaCommunities = [
 ];
 
 export default async function CedpPage() {
-  const [cedpImpactStats, subPrograms, featuredProjects] = await Promise.all([
+  const [cedpImpactStats, subPrograms, featuredProjects, heroSlides] = await Promise.all([
     getImpactStats("CEDP"),
     getSubPrograms(),
     getFeaturedProjects(),
+    getHeroSlides("community-empowerment-development"),
   ]);
 
   // Filter for CEDP projects
@@ -49,11 +51,7 @@ export default async function CedpPage() {
 
   return (
     <>
-      <PageHero
-        eyebrow="Community Empowerment & Development Program"
-        title="Community-led development at the center"
-        intro="CEDP supports underserved communities in Kalagala Parish, Njeru Municipality, Buikwe District — a peri-urban area bordering Mabira Forest, in a 'development limbo' between rural and urban service delivery."
-      />
+      <HeroSlider slides={heroSlides} />
 
       {/* Why Kalagala + Program Description */}
       <SplitSection eyebrow="The model" title="An integrated development approach anchored in place">

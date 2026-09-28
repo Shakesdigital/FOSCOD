@@ -1,8 +1,9 @@
-import { PageHero } from "@/components/site/PageHero";
+import { HeroSlider } from "@/components/site/HeroSlider";
 import { FeatureGrid, FAQ, Steps, CTABand } from "@/components/site/blocks";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { SubmitForm, type Field } from "@/components/forms/SubmitForm";
 import { pageMeta } from "@/lib/seo";
+import { getHeroSlides } from "@/lib/content";
 
 export const metadata = pageMeta(
   "Donate to Community-Led Development in Uganda",
@@ -41,14 +42,11 @@ const fields: Field[] = [
   { name: "message", label: "Message (optional)", type: "textarea" },
 ];
 
-export default function DonatePage() {
+export default async function DonatePage() {
+  const heroSlides = await getHeroSlides("donate");
   return (
     <>
-      <PageHero
-        eyebrow="Get involved"
-        title="Back community-led action in Buikwe District"
-        intro="Start a giving conversation around a named project or priority. FOSCOD will confirm the current need, use of funds, transfer method, and reporting arrangement before you contribute."
-      />
+      <HeroSlider slides={heroSlides} />
 
       <section className="container-page py-12 md:py-16">
         <Eyebrow>Choose what to support</Eyebrow>

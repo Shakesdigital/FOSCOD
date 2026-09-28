@@ -1,6 +1,7 @@
-import { PageHero } from "@/components/site/PageHero";
+import { HeroSlider } from "@/components/site/HeroSlider";
 import { FeatureGrid, Steps, CTABand } from "@/components/site/blocks";
 import { pageMeta } from "@/lib/seo";
+import { getHeroSlides } from "@/lib/content";
 
 export const metadata = pageMeta(
   "Social Inclusion and Empowerment",
@@ -21,14 +22,11 @@ const how = [
   { title: "Monitoring", body: "Track inclusion outcomes honestly." },
 ];
 
-export default function SocialInclusionPage() {
+export default async function SocialInclusionPage() {
+  const heroSlides = await getHeroSlides("social-inclusion-empowerment");
   return (
     <>
-      <PageHero
-        eyebrow="Focus area"
-        title="Social inclusion and empowerment"
-        intro="Supporting youth, women, people with disabilities, and vulnerable households to participate fully in community development."
-      />
+      <HeroSlider slides={heroSlides} />
       <section className="container-page py-16 md:py-20">
         <FeatureGrid items={groups} columns={4} />
       </section>

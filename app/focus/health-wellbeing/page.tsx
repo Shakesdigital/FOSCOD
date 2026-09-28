@@ -1,6 +1,7 @@
-import { PageHero } from "@/components/site/PageHero";
+import { HeroSlider } from "@/components/site/HeroSlider";
 import { FeatureGrid, CTABand } from "@/components/site/blocks";
 import { pageMeta } from "@/lib/seo";
+import { getHeroSlides } from "@/lib/content";
 
 export const metadata = pageMeta(
   "Health and Wellbeing",
@@ -15,14 +16,11 @@ const areas = [
   { title: "School & youth health", body: "Healthy schools and young people." },
 ];
 
-export default function HealthPage() {
+export default async function HealthPage() {
+  const heroSlides = await getHeroSlides("health-wellbeing");
   return (
     <>
-      <PageHero
-        eyebrow="Focus area"
-        title="Health and wellbeing"
-        intro="Strengthening community health through nutrition, safe water, sanitation, youth wellbeing, and preventive education."
-      />
+      <HeroSlider slides={heroSlides} />
       <section className="container-page py-16 md:py-20">
         <FeatureGrid items={areas} columns={3} />
       </section>

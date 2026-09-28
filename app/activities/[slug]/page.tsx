@@ -1,4 +1,5 @@
-import { PageHero } from "@/components/site/PageHero";
+import { HeroSlider } from "@/components/site/HeroSlider";
+import { type HeroSlide } from "@/lib/content";
 import { SplitSection, Prose, CTABand } from "@/components/site/blocks";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
@@ -53,15 +54,18 @@ export default async function ActivityPage({ params }: { params: Promise<{ slug:
 
   const statusInfo = statusLabels[activity.status] || { label: activity.status, color: "var(--muted)" };
 
+  const heroSlides: HeroSlide[] = [{
+    eyebrow: parentSubProgram ? `${parentSubProgram.name} — Activity` : "Activity",
+    title: activity.title,
+    intro: activity.summary || activity.description?.slice(0, 200) || "Community-driven activity under FOSCOD's CEDP program.",
+    tone: parentSubProgram ? (parentSubProgram.strategic_goal <= 2 ? "forest" : parentSubProgram.strategic_goal <= 4 ? "water" : "earth") : "forest",
+    imageUrl: activity.hero_image_url,
+  }];
+
   return (
     <>
       {/* HERO */}
-      <PageHero
-        eyebrow={parentSubProgram ? `${parentSubProgram.name} — Activity` : "Activity"}
-        title={activity.title}
-        intro={activity.summary || activity.description?.slice(0, 200) || "Community-driven activity under FOSCOD's CEDP program."}
-        imageUrl={activity.hero_image_url}
-      />
+      <HeroSlider slides={heroSlides} />
 
       {/* WHAT THIS ACTIVITY INVOLVES + WHO IT REACHES */}
       <section className="py-16 md:py-24">

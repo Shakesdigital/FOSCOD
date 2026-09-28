@@ -1,8 +1,9 @@
-import { PageHero } from "@/components/site/PageHero";
+import { HeroSlider } from "@/components/site/HeroSlider";
 import { CTABand, FAQ, FeatureGrid, Steps } from "@/components/site/blocks";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { SubmitForm, type Field } from "@/components/forms/SubmitForm";
 import { pageMeta } from "@/lib/seo";
+import { getHeroSlides } from "@/lib/content";
 import { site } from "@/lib/site";
 
 export const metadata = pageMeta(
@@ -44,14 +45,11 @@ const fields: Field[] = [
   { name: "message", label: "Tell us about your goals", type: "textarea", required: true },
 ];
 
-export default function PartnersPage() {
+export default async function PartnersPage() {
+  const heroSlides = await getHeroSlides("partners");
   return (
     <>
-      <PageHero
-        eyebrow="Partner with FOSCOD"
-        title="Build locally led development with a Ugandan organization rooted in Buikwe"
-        intro="Work with FOSCOD and community partners to co-design practical action in clean energy, WASH, green livelihoods, inclusive leadership, restoration, or global learning—with roles and evidence agreed from the start."
-      />
+      <HeroSlider slides={heroSlides} />
 
       <section id="partnership-inquiry" className="container-page scroll-mt-28 py-12 md:py-16">
         <Eyebrow>Choose your partnership path</Eyebrow>

@@ -1,4 +1,5 @@
-import { PageHero } from "@/components/site/PageHero";
+import { HeroSlider } from "@/components/site/HeroSlider";
+import { HeroSlide } from "@/lib/content";
 import { SplitSection, Prose, CardGrid, CTABand, FeatureGrid } from "@/components/site/blocks";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
@@ -95,13 +96,16 @@ export default async function SubProgramPage({ params }: { params: Promise<{ sub
   return (
     <>
       {/* HERO SECTION */}
-      <PageHero
-        eyebrow={`CEDP — Strategic Goal ${subProgram.strategic_goal}`}
-        title={subProgram.name}
-        intro={subProgram.description || `Community-driven solutions in ${subProgram.name.toLowerCase()} for Kalagala Parish and beyond.`}
-        imageUrl={subProgram.hero_image_url}
-        cta={cta}
-      />
+      <HeroSlider slides={[
+        {
+          eyebrow: `CEDP — Strategic Goal ${subProgram.strategic_goal}`,
+          title: subProgram.name,
+          intro: subProgram.description || `Community-driven solutions in ${subProgram.name.toLowerCase()} for Kalagala Parish and beyond.`,
+          tone: "forest",
+          imageUrl: subProgram.hero_image_url,
+          cta: cta,
+        },
+      ]} />
 
       {/* PROGRAM DESCRIPTION */}
       <SplitSection eyebrow="What we do" title={subProgram.name}>

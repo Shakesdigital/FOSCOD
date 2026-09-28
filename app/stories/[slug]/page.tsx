@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
+import { HeroSlider } from "@/components/site/HeroSlider";
+import { type HeroSlide } from "@/lib/content";
 import { Prose, CTABand } from "@/components/site/blocks";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
@@ -32,26 +34,18 @@ export default async function StoryPage({
 
   const related = all.filter((x) => x.slug !== slug).slice(0, 4);
 
+  const heroSlides: HeroSlide[] = [{
+    eyebrow: s.category,
+    title: s.title,
+    intro: s.excerpt,
+    tone: "water",
+    imageUrl: undefined,
+    cta: { href: "/apply", label: "Apply now" },
+  }];
+
   return (
     <>
-      {/* featured-image hero */}
-      <section className="relative isolate overflow-hidden border-b border-[var(--border)]">
-        <div className="absolute inset-0 -z-20 bg-gradient-to-br from-[#123f3a] via-[#1c6e66] to-[#5fa39a]" aria-hidden />
-        <div className="absolute inset-0 -z-10" style={{ background: "linear-gradient(180deg, rgba(13,32,30,.45), rgba(13,32,30,.62))" }} aria-hidden />
-        <div className="container-page py-16 text-center md:py-24">
-          <span className="font-[family-name:var(--font-mono)] text-[0.7rem] uppercase tracking-[0.18em] text-white/85">
-            {s.category}
-          </span>
-          <h1 className="mx-auto mt-4 max-w-3xl text-[clamp(2rem,4.5vw,3.2rem)] font-medium leading-[1.08] text-white [text-wrap:balance]">
-            {s.title}
-          </h1>
-          {s.date && (
-            <p className="mt-4 font-[family-name:var(--font-mono)] text-[0.72rem] uppercase tracking-[0.12em] text-white/70">
-              {s.date}
-            </p>
-          )}
-        </div>
-      </section>
+      <HeroSlider slides={heroSlides} />
 
       {/* article body + sidebar */}
       <section className="py-14 md:py-20">

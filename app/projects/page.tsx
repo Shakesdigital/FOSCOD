@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { PageHero } from "@/components/site/PageHero";
+import { HeroSlider } from "@/components/site/HeroSlider";
 import { CTABand } from "@/components/site/blocks";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
 import { pageMeta } from "@/lib/seo";
+import { getHeroSlides } from "@/lib/content";
 import { projectDetails } from "@/lib/projects";
 
 export const metadata = pageMeta(
@@ -16,14 +17,11 @@ const categories = [
   "Food Security & Nutrition", "Education & Skills", "Research & Monitoring",
 ];
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
+  const heroSlides = await getHeroSlides("projects");
   return (
     <>
-      <PageHero
-        eyebrow="Project library"
-        title="Community-led projects across Uganda"
-        intro="Explore work spanning WASH, renewable energy, livelihoods, health, education, environment, research, and social inclusion. Filter and detail views are wired to the CMS."
-      />
+      <HeroSlider slides={heroSlides} />
 
       <section className="container-page py-12 md:py-16">
         <div className="flex flex-wrap gap-2">
