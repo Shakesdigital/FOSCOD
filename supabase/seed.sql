@@ -465,3 +465,49 @@ on conflict (id) do update set
   title = excluded.title, body = excluded.body,
   image_url = excluded.image_url, image_alt = excluded.image_alt,
   visible = excluded.visible, order_column = excluded.order_column;
+
+-- ---------- CEDP landing page: areas of focus ----------
+insert into public.cedp_areas_of_focus (title, description, image_url, image_alt, cta_label, cta_href, visible, order_column) values
+  ('Clean energy and climate resilience', 'Clean cooking, solar energy, e-mobility, environment conservation, climate adaptation, and related climate initiatives that build community resilience.', '/images/cedp/clean-energy.jpg', 'Solar panels and clean cookstoves in a rural Ugandan homestead', 'Explore clean energy projects', '/projects?theme=Clean+Energy', true, 1),
+  ('Water sanitation and healthy communities', 'Safe water, spring protection, sanitation, hygiene, water systems, and related community health and environment practices.', '/images/cedp/water.jpg', 'Community members protecting a natural water spring', 'Explore water projects', '/projects?theme=WASH', true, 2),
+  ('Sustainable livelihoods and economic empowerment', 'VSLAs, women enterprises, climate-smart agriculture, kitchen gardens, green businesses, and other livelihood opportunities.', '/images/cedp/livelihoods.jpg', 'Women's savings group meeting with green enterprise training', 'Explore livelihood projects', '/projects?theme=Green+Livelihoods', true, 3)
+on conflict (id) do update set
+  title = excluded.title, description = excluded.description,
+  image_url = excluded.image_url, image_alt = excluded.image_alt,
+  cta_label = excluded.cta_label, cta_href = excluded.cta_href,
+  visible = excluded.visible, order_column = excluded.order_column;
+
+-- ---------- CEDP landing page: process steps ("From priority to ownership") ----------
+insert into public.cedp_process_steps (title, subtitle, description, image_url, image_alt, visible, order_column) values
+  ('Community assessment', 'Local ownership', 'We start by listening — mapping needs and assets together with residents.', '/images/cedp/community-assessment.jpg', 'Participatory community mapping session with residents', true, 1),
+  ('Asset-based co-design', 'Local ownership', 'Solutions are designed with communities, not imposed — using local knowledge and resources.', '/images/cedp/co-design.jpg', 'Community co-design workshop with facilitators', true, 2),
+  ('Implementation', 'Local ownership', 'Delivered with local organizations, global participants, and 25% community co-contribution.', '/images/cedp/implementation.jpg', 'Community and volunteers building a solar-powered water system together', true, 3)
+on conflict (id) do update set
+  title = excluded.title, subtitle = excluded.subtitle,
+  description = excluded.description, image_url = excluded.image_url,
+  image_alt = excluded.image_alt, visible = excluded.visible,
+  order_column = excluded.order_column;
+
+-- ---------- CEDP landing page: impact story cards ("Impacts" section) ----------
+insert into public.cedp_impact_stories (title, excerpt, image_url, image_alt, href, project_slug, cta_label, visible, order_column) values
+  ('Solar-powered salon in Naluvule', 'A solar-powered salon turned an unreliable income into a growing business — clean energy powering livelihoods.', '/images/cedp/impacts/solar-salon.jpg', 'Solar-powered hair salon in Naluvule village', '/projects/solar-powered-water-system-naluvule', 'solar-powered-water-system-naluvule', 'Read the story', true, 1),
+  ('Greening Kalagala, one tree at a time', 'Agroforestry and tree-planting restore soil, grow local income, and protect the forest edge.', '/images/cedp/impacts/greening-kalagala.jpg', 'Community tree planting in Kalagala Parish', '/projects/greening-kalagala', 'greening-kalagala', 'Read the story', true, 2),
+  ('Coffee farming mobilization', 'Community mobilization around coffee farming and resilient local livelihoods in Kalagala Parish.', '/images/cedp/impacts/coffee.jpg', 'Farmers sorting and processing coffee in Kalagala', '/projects/coffee-farming-mobilization', 'coffee-farming-mobilization', 'Read the story', true, 3)
+on conflict (id) do update set
+  title = excluded.title, excerpt = excluded.excerpt,
+  image_url = excluded.image_url, image_alt = excluded.image_alt,
+  href = excluded.href, project_slug = excluded.project_slug,
+  cta_label = excluded.cta_label, visible = excluded.visible,
+  order_column = excluded.order_column;
+
+-- ---------- CEDP landing page: impact cards (replacing figures/stats) ----------
+insert into public.cedp_impact_cards (title, excerpt, image_url, image_alt, href, project_slug, cta_label, verified_outcome, visible, order_column) values
+  ('Clean energy that powers a livelihood', 'In Naluvule, a solar-powered salon turned an unreliable income into a growing business.', '/images/cedp/impacts/solar-salon.jpg', 'Solar-powered hair salon in Naluvule village', '/projects/solar-powered-water-system-naluvule', 'solar-powered-water-system-naluvule', 'Read the story', '3 households gained reliable evening lighting and new income streams', true, 1),
+  ('Protected springs and hygiene education', 'Across Busoga, protected water springs and hygiene education are reducing illness and restoring dignity.', '/images/cedp/impacts/protected-spring.jpg', 'Community members protecting a natural water spring', '/projects/water-spring-protection-naluvule', 'water-spring-protection-naluvule', 'Read the story', 'Water access improved for 120 households with 86% sustained use after 12 months', true, 2),
+  ('Regenerating land with biochar', 'In Kalagala Parish, invasive water hyacinth becomes biochar — healthier soil, cleaner cooking, and new income.', '/images/cedp/impacts/biochar.jpg', 'Community producing biochar from water hyacinth', '/projects/carbon-credit-project', 'carbon-credit-project', 'Read the story', '0.5 hectares of degraded land restored with 500 biochar units produced', true, 3)
+on conflict (id) do update set
+  title = excluded.title, excerpt = excluded.excerpt,
+  image_url = excluded.image_url, image_alt = excluded.image_alt,
+  href = excluded.href, project_slug = excluded.project_slug,
+  cta_label = excluded.cta_label, verified_outcome = excluded.verified_outcome,
+  visible = excluded.visible, order_column = excluded.order_column;

@@ -85,10 +85,10 @@ export default async function AboutPage() {
             <h3 className="text-xl font-semibold text-center text-[var(--ink)]">Core Values</h3>
             <p className="mt-2 text-center text-[var(--ink-soft)]">Each value has a practice benchmark we hold ourselves to.</p>
             <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {about.values.map((v) => (
+              {about.values.map((v, i) => (
                 <div
                   key={v.title}
-                  className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-6"
+                  className={`rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-6 ${i === about.values.length - 1 ? "md:col-start-2 md:col-span-2 lg:col-start-2 lg:col-span-1 justify-self-center" : ""}`}
                 >
                   <h4 className="text-lg font-semibold">{v.title}</h4>
                   {v.image_url && (
@@ -121,10 +121,8 @@ export default async function AboutPage() {
             </p>
           </div>
 
-          <div className="mt-12">
+          <div className="mt-8">
             <TeamPreview
-              eyebrow="Our leadership"
-              title="Governed by Ugandans, accountable to communities"
               cards={[
                 {
                   label: "Board of Directors",

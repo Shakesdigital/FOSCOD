@@ -480,6 +480,8 @@ export type GridCard = {
   href?: string;
   tone?: "earth" | "water" | "forest";
   tag?: string;
+  imageUrl?: string;
+  imageAlt?: string;
   /** show a PhotoSlot thumbnail (default true) */
   media?: boolean;
   /** mark as a video card → adds a play affordance over the thumbnail */
@@ -527,6 +529,8 @@ export function CardGrid({
                       ratio="4/3"
                       tag={c.tag}
                       caption={c.title}
+                      imageUrl={c.imageUrl}
+                      alt={c.imageAlt}
                     />
                     {c.video && (
                       <span
@@ -660,7 +664,7 @@ export function TeamPreview({
   surface = false,
 }: {
   eyebrow?: string;
-  title: string;
+  title?: string;
   intro?: string;
   cards: { label: string; body: string; href: string; cta: string; tone?: "earth" | "water" | "forest" }[];
   surface?: boolean;
@@ -668,13 +672,15 @@ export function TeamPreview({
   return (
     <section className={`py-16 md:py-20 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
       <div className="container-page">
-        <div className="max-w-2xl">
-          <Eyebrow>{eyebrow}</Eyebrow>
-          <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">{title}</h2>
-          {intro && (
-            <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">{intro}</p>
-          )}
-        </div>
+        {title && (
+          <div className="max-w-2xl">
+            <Eyebrow>{eyebrow}</Eyebrow>
+            <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">{title}</h2>
+            {intro && (
+              <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">{intro}</p>
+            )}
+          </div>
+        )}
         <div className="mt-10 grid gap-6 md:grid-cols-2">
           {cards.map((c) => (
             <div

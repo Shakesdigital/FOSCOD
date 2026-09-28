@@ -1625,3 +1625,241 @@ export async function getResponsibleEngagement(): Promise<ResponsibleEngagementD
   }
   return responsibleEngagementFallback;
 }
+
+/* ---------- CEDP landing page content ---------- */
+
+export type CedpAreaOfFocus = {
+  id?: string;
+  title: string;
+  description: string;
+  imageUrl?: string;
+  imageAlt?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+};
+
+export type CedpProcessStep = {
+  id?: string;
+  title: string;
+  subtitle?: string;
+  description?: string;
+  imageUrl?: string;
+  imageAlt?: string;
+};
+
+export type CedpImpactStoryCard = {
+  id?: string;
+  title: string;
+  excerpt?: string;
+  imageUrl?: string;
+  imageAlt?: string;
+  href?: string;
+  projectSlug?: string;
+  ctaLabel?: string;
+};
+
+export type CedpImpactCard = {
+  id?: string;
+  title: string;
+  excerpt?: string;
+  imageUrl?: string;
+  imageAlt?: string;
+  href?: string;
+  projectSlug?: string;
+  ctaLabel?: string;
+  verifiedOutcome?: string;
+};
+
+const cedpAreasOfFocusFallback: CedpAreaOfFocus[] = [
+  {
+    title: "Clean energy and climate resilience",
+    description:
+      "Clean cooking, solar energy, e-mobility, environment conservation, climate adaptation, and related climate initiatives that build community resilience.",
+    ctaLabel: "Explore clean energy projects",
+    ctaHref: "/projects?theme=Clean+Energy",
+  },
+  {
+    title: "Water sanitation and healthy communities",
+    description:
+      "Safe water, spring protection, sanitation, hygiene, water systems, and related community health and environment practices.",
+    ctaLabel: "Explore water projects",
+    ctaHref: "/projects?theme=WASH",
+  },
+  {
+    title: "Sustainable livelihoods and economic empowerment",
+    description:
+      "VSLAs, women enterprises, climate-smart agriculture, kitchen gardens, green businesses, and other livelihood opportunities.",
+    ctaLabel: "Explore livelihood projects",
+    ctaHref: "/projects?theme=Green+Livelihoods",
+  },
+];
+
+const cedpProcessStepsFallback: CedpProcessStep[] = [
+  {
+    title: "Community assessment",
+    subtitle: "Local ownership",
+    description: "We start by listening — mapping needs and assets together with residents.",
+  },
+  {
+    title: "Asset-based co-design",
+    subtitle: "Local ownership",
+    description: "Solutions are designed with communities, not imposed — using local knowledge and resources.",
+  },
+  {
+    title: "Implementation",
+    subtitle: "Local ownership",
+    description: "Delivered with local organizations, global participants, and 25% community co-contribution.",
+  },
+];
+
+const cedpImpactStoryCardsFallback: CedpImpactStoryCard[] = [
+  {
+    title: "Solar-powered salon in Naluvule",
+    excerpt:
+      "A solar-powered salon turned an unreliable income into a growing business — clean energy powering livelihoods.",
+    href: "/projects/solar-powered-water-system-naluvule",
+    projectSlug: "solar-powered-water-system-naluvule",
+    ctaLabel: "Read the story",
+  },
+  {
+    title: "Greening Kalagala, one tree at a time",
+    excerpt:
+      "Agroforestry and tree-planting restore soil, grow local income, and protect the forest edge.",
+    href: "/projects/greening-kalagala",
+    projectSlug: "greening-kalagala",
+    ctaLabel: "Read the story",
+  },
+  {
+    title: "Coffee farming mobilization",
+    excerpt:
+      "Community mobilization around coffee farming and resilient local livelihoods in Kalagala Parish.",
+    href: "/projects/coffee-farming-mobilization",
+    projectSlug: "coffee-farming-mobilization",
+    ctaLabel: "Read the story",
+  },
+];
+
+const cedpImpactCardsFallback: CedpImpactCard[] = [
+  {
+    title: "Clean energy that powers a livelihood",
+    excerpt: "In Naluvule, a solar-powered salon turned an unreliable income into a growing business.",
+    href: "/projects/solar-powered-water-system-naluvule",
+    projectSlug: "solar-powered-water-system-naluvule",
+    ctaLabel: "Read the story",
+    verifiedOutcome: "3 households gained reliable evening lighting and new income streams",
+  },
+  {
+    title: "Protected springs and hygiene education",
+    excerpt: "Across Busoga, protected water springs and hygiene education are reducing illness and restoring dignity.",
+    href: "/projects/water-spring-protection-naluvule",
+    projectSlug: "water-spring-protection-naluvule",
+    ctaLabel: "Read the story",
+    verifiedOutcome: "Water access improved for 120 households with 86% sustained use after 12 months",
+  },
+  {
+    title: "Regenerating land with biochar",
+    excerpt: "In Kalagala Parish, invasive water hyacinth becomes biochar — healthier soil, cleaner cooking, and new income.",
+    href: "/projects/carbon-credit-project",
+    projectSlug: "carbon-credit-project",
+    ctaLabel: "Read the story",
+    verifiedOutcome: "0.5 hectares of degraded land restored with 500 biochar units produced",
+  },
+];
+
+export async function getCedpAreasOfFocus(): Promise<CedpAreaOfFocus[]> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    if (!supabase) return cedpAreasOfFocusFallback;
+    const { data } = (await supabase
+      ?.from("cedp_areas_of_focus")
+      .select("title,description,image_url,image_alt,cta_label,cta_href")
+      .eq("visible", true)
+      .order("order_column", { ascending: true })) ?? { data: null };
+    if (data && data.length) {
+      return data.map((c) => ({
+        title: c.title,
+        description: c.description ?? "",
+        imageUrl: c.image_url ?? undefined,
+        imageAlt: c.image_alt ?? undefined,
+        ctaLabel: c.cta_label ?? undefined,
+        ctaHref: c.cta_href ?? undefined,
+      }));
+    }
+  }
+  return cedpAreasOfFocusFallback;
+}
+
+export async function getCedpProcessSteps(): Promise<CedpProcessStep[]> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    if (!supabase) return cedpProcessStepsFallback;
+    const { data } = (await supabase
+      ?.from("cedp_process_steps")
+      .select("title,subtitle,description,image_url,image_alt")
+      .eq("visible", true)
+      .order("order_column", { ascending: true })) ?? { data: null };
+    if (data && data.length) {
+      return data.map((c) => ({
+        title: c.title,
+        subtitle: c.subtitle ?? undefined,
+        description: c.description ?? undefined,
+        imageUrl: c.image_url ?? undefined,
+        imageAlt: c.image_alt ?? undefined,
+      }));
+    }
+  }
+  return cedpProcessStepsFallback;
+}
+
+export async function getCedpImpactStoryCards(): Promise<CedpImpactStoryCard[]> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    if (!supabase) return cedpImpactStoryCardsFallback;
+    const { data } = (await supabase
+      ?.from("cedp_impact_stories")
+      .select("title,excerpt,image_url,image_alt,href,project_slug,cta_label")
+      .eq("visible", true)
+      .order("order_column", { ascending: true })) ?? { data: null };
+    if (data && data.length) {
+      return data.map((c) => ({
+        title: c.title,
+        excerpt: c.excerpt ?? undefined,
+        imageUrl: c.image_url ?? undefined,
+        imageAlt: c.image_alt ?? undefined,
+        href: c.href ?? undefined,
+        projectSlug: c.project_slug ?? undefined,
+        ctaLabel: c.cta_label ?? undefined,
+      }));
+    }
+  }
+  return cedpImpactStoryCardsFallback;
+}
+
+export async function getCedpImpactCards(): Promise<CedpImpactCard[]> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    if (!supabase) return cedpImpactCardsFallback;
+    const { data } = (await supabase
+      ?.from("cedp_impact_cards")
+      .select("title,excerpt,image_url,image_alt,href,project_slug,cta_label,verified_outcome")
+      .eq("visible", true)
+      .order("order_column", { ascending: true })) ?? { data: null };
+    if (data && data.length) {
+      return data.map((c) => ({
+        title: c.title,
+        excerpt: c.excerpt ?? undefined,
+        imageUrl: c.image_url ?? undefined,
+        imageAlt: c.image_alt ?? undefined,
+        href: c.href ?? undefined,
+        projectSlug: c.project_slug ?? undefined,
+        ctaLabel: c.cta_label ?? undefined,
+        verifiedOutcome: c.verified_outcome ?? undefined,
+      }));
+    }
+  }
+  return cedpImpactCardsFallback;
+}
+
+export async function getCedpHeroSlides(): Promise<HeroSlide[]> {
+  return getHeroSlides("community-empowerment-development");
+}
