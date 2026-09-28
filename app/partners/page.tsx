@@ -125,7 +125,7 @@ export default async function PartnersPage() {
         actions={[
           { href: "#partnership-inquiry", label: "Start a partnership inquiry" },
           { href: "/impact", label: "Review verified impact", variant: "secondary" },
-          { href: "/about#registration", label: "See registration details", variant: "ghost" },
+          { href: "/about", label: "See our identity", variant: "ghost" },
         ]}
       />
     </>

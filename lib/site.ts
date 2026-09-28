@@ -83,9 +83,8 @@ export const footerNav: { heading: string; links: NavChild[] }[] = [
     heading: "Organization",
     links: [
       { label: "About Us", href: "/about" },
-      { label: "Our Team", href: "/about#team" },
-      { label: "Partners", href: "/about#partners" },
-      { label: "Registration & Transparency", href: "/about#registration" },
+      { label: "Our Team", href: "/team" },
+      { label: "Partners", href: "/team" },
       { label: "Contact Us", href: "/contact" },
     ],
   },

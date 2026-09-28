@@ -100,7 +100,7 @@ export default async function DonatePage() {
         actions={[
           { href: "#giving-inquiry", label: "Start a giving inquiry" },
           { href: "/impact", label: "Review verified impact", variant: "secondary" },
-          { href: "/about#registration", label: "Check our identity", variant: "ghost" },
+          { href: "/about", label: "Check our identity", variant: "ghost" },
         ]}
       />
     </>

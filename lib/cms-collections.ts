@@ -335,6 +335,16 @@ export const cmsCollections: CmsCollection[] = [
       { name: "order_column", label: "Display order", type: "number" },
     ],
   },
+  {
+    key: "about-content", table: "about_content", label: "About page content", singular: "about content", titleField: "key",
+    description: "Mission, vision, values, and leadership descriptions for the About Us page. Each row is one section (key: mission, vision, values, leadership).",
+    fields: [
+      { name: "key", label: "Content key", required: true, type: "text", help: "E.g. mission, vision, values, leadership." },
+      { name: "config", label: "Content config (JSON)", type: "json", required: true, help: "Structured JSON. Mission/vision: {title, image_url, image_alt, description}. Values: [{title, image_url, image_alt, body, benchmark}]. Leadership: {board: {description, href, cta}, team: {description, href, cta}}." },
+      yesNo("visible", "Visible"),
+      ...seoFields,
+    ],
+  },
 ];
 
 export const cmsCollectionMap = Object.fromEntries(cmsCollections.map((collection) => [collection.key, collection])) as Record<string, CmsCollection>;

@@ -246,6 +246,40 @@ insert into public.team_members (name, role, category, short_bio, visible, order
   ('Mr. Kayemba Patrick', 'Chairman, Board of Directors', 'board', 'Provides governance leadership as Chair of FOSCOD''s six-member Board of Directors.', true, 1)
 on conflict do nothing;
 
+-- ---------- about_content (mission, vision, values, leadership) ----------
+delete from public.about_content;
+insert into public.about_content (key, config, visible) values
+  ('mission', '{
+    "title": "Mission",
+    "description": "To empower underserved communities to drive environmental innovation and adopt clean energy through ethical, sustainable development and global knowledge exchange."
+  }', true),
+  ('vision', '{
+    "title": "Vision",
+    "description": "A world where local communities champion environmental stewardship and clean energy adoption, strengthened by global partnerships."
+  }', true),
+  ('values', '[
+    {"title": "Integrated & Holistic Development", "body": "Health, livelihoods, environment, and learning advance together — not in silos.", "benchmark": "Programs connect education, health, economic empowerment, and environmental sustainability."},
+    {"title": "Equity & Inclusion", "body": "Equal access for youth, women, people with disabilities, and marginalized households.", "benchmark": "50% women''s participation target across all initiatives."},
+    {"title": "Community Ownership & Leadership", "body": "Locally led, culturally relevant; communities set the priorities.", "benchmark": "Communities define priorities and lead culturally appropriate, environmentally sound solutions."},
+    {"title": "Sustainability & Innovation", "body": "Long-term impact, with renewable energy and stewardship at the centre.", "benchmark": "Programs invest in long-term, adaptive solutions rooted in local realities."},
+    {"title": "Collaboration & Shared Learning", "body": "Cross-sector knowledge shared between communities, universities, and partners.", "benchmark": "Knowledge and solutions are co-created with communities, government, academia, and partners."},
+    {"title": "Transparency & Accountability", "body": "Honest reporting and ethical management of every resource.", "benchmark": "Resources, performance, and impact are managed and communicated responsibly."},
+    {"title": "Empowerment Through Learning", "body": "Knowledge as the catalyst for lasting change.", "benchmark": "2,500+ people trained in renewable energy technologies by 2030."}
+  ]', true),
+  ('leadership', '{
+    "board": {
+      "description": "A six-member Board of Directors provides strategic oversight, approves organizational strategy, and ensures accountability to the communities we serve.",
+      "href": "/team#board",
+      "cta": "View the board"
+    },
+    "team": {
+      "description": "Our core staff team in Jinja designs, implements, and monitors programs across clean energy, WASH, livelihoods, health, and the environment.",
+      "href": "/team#staff",
+      "cta": "Meet the team"
+    }
+  }', true)
+on conflict (key) do update set config = excluded.config, visible = excluded.visible;
+
 -- ---------- impact-section stories (Impact page card grids) ----------
 -- Segmented by category: Impact Story | Impact Video | Community Experience.
 insert into public.stories (slug, title, category, excerpt, status, video_url, published_at) values

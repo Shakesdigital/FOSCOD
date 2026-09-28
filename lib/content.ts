@@ -63,6 +63,24 @@ export type Testimonial = {
 
 export type Partner = { name: string; type: string; logo_url?: string; logo_alt?: string; website?: string };
 
+export type AboutValue = {
+  title: string;
+  image_url?: string;
+  image_alt?: string;
+  body: string;
+  benchmark: string;
+};
+
+export type AboutContent = {
+  mission: { title: string; image_url?: string; image_alt?: string; description: string };
+  vision: { title: string; image_url?: string; image_alt?: string; description: string };
+  values: AboutValue[];
+  leadership: {
+    board: { description: string; href: string; cta: string };
+    team: { description: string; href: string; cta: string };
+  };
+};
+
 export type ImpactStat = {
   metric_name: string;
   current_value: string;
@@ -809,7 +827,7 @@ const heroSlides: Record<string, HeroSlide[]> = {
       intro: "Start a giving conversation around a named project or priority. FOSCOD will confirm the current need, use of funds, transfer method, and reporting arrangement before you contribute.",
       cta: { href: "#giving-inquiry", label: "Start a giving inquiry" },
       cta2: { href: "/impact", label: "Review verified impact" },
-      cta3: { href: "/about#registration", label: "Check our identity" },
+      cta3: { href: "/about", label: "Check our identity" },
       tone: "earth",
     },
   ],
@@ -828,7 +846,7 @@ const heroSlides: Record<string, HeroSlide[]> = {
       intro: "Work with FOSCOD and community partners to co-design practical action in clean energy, WASH, green livelihoods, inclusive leadership, restoration, or global learning — with roles and evidence agreed from the start.",
       cta: { href: "/partners#partnership-inquiry", label: "Start a partnership inquiry" },
       cta2: { href: "/impact", label: "Review verified impact" },
-      cta3: { href: "/about#registration", label: "See registration details" },
+      cta3: { href: "/about", label: "See our identity" },
       tone: "forest",
     },
   ],
@@ -1062,6 +1080,132 @@ export async function getPartners(): Promise<Partner[]> {
     }
   }
   return partnersFallback;
+}
+
+/* ---------- about page content (mission, vision, values, leadership) ---------- */
+
+const aboutContentFallback: AboutContent = {
+  mission: {
+    title: "Mission",
+    image_url: undefined,
+    image_alt: undefined,
+    description:
+      "To empower underserved communities to drive environmental innovation and adopt clean energy through ethical, sustainable development and global knowledge exchange.",
+  },
+  vision: {
+    title: "Vision",
+    image_url: undefined,
+    image_alt: undefined,
+    description:
+      "A world where local communities champion environmental stewardship and clean energy adoption, strengthened by global partnerships.",
+  },
+  values: [
+    {
+      title: "Integrated & Holistic Development",
+      body: "Health, livelihoods, environment, and learning advance together — not in silos.",
+      benchmark: "Programs connect education, health, economic empowerment, and environmental sustainability.",
+    },
+    {
+      title: "Equity & Inclusion",
+      body: "Equal access for youth, women, people with disabilities, and marginalized households.",
+      benchmark: "50% women's participation target across all initiatives.",
+    },
+    {
+      title: "Community Ownership & Leadership",
+      body: "Locally led, culturally relevant; communities set the priorities.",
+      benchmark: "Communities define priorities and lead culturally appropriate, environmentally sound solutions.",
+    },
+    {
+      title: "Sustainability & Innovation",
+      body: "Long-term impact, with renewable energy and stewardship at the centre.",
+      benchmark: "Programs invest in long-term, adaptive solutions rooted in local realities.",
+    },
+    {
+      title: "Collaboration & Shared Learning",
+      body: "Cross-sector knowledge shared between communities, universities, and partners.",
+      benchmark: "Knowledge and solutions are co-created with communities, government, academia, and partners.",
+    },
+    {
+      title: "Transparency & Accountability",
+      body: "Honest reporting and ethical management of every resource.",
+      benchmark: "Resources, performance, and impact are managed and communicated responsibly.",
+    },
+    {
+      title: "Empowerment Through Learning",
+      body: "Knowledge as the catalyst for lasting change.",
+      benchmark: "2,500+ people trained in renewable energy technologies by 2030.",
+    },
+  ],
+  leadership: {
+    board: {
+      description:
+        "A six-member Board of Directors provides strategic oversight, approves organizational strategy, and ensures accountability to the communities we serve.",
+      href: "/team#board",
+      cta: "View the board",
+    },
+    team: {
+      description:
+        "Our core staff team in Jinja designs, implements, and monitors programs across clean energy, WASH, livelihoods, health, and the environment.",
+      href: "/team#staff",
+      cta: "Meet the team",
+    },
+  },
+};
+
+export async function getAboutContent(): Promise<AboutContent> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    const { data } = (await supabase
+      ?.from("about_content")
+      .select("key,config")
+      .eq("visible", true)) ?? { data: null };
+    if (data && data.length) {
+      const byKey = Object.fromEntries(data.map((row: { key: string; config: Record<string, unknown> }) => [row.key, row.config]));
+      const result: AboutContent = {
+        mission: byKey.mission
+          ? {
+              title: (byKey.mission as { title?: string }).title ?? "Mission",
+              image_url: (byKey.mission as { image_url?: string }).image_url,
+              image_alt: (byKey.mission as { image_alt?: string }).image_alt,
+              description: (byKey.mission as { description?: string }).description ?? aboutContentFallback.mission.description,
+            }
+          : aboutContentFallback.mission,
+        vision: byKey.vision
+          ? {
+              title: (byKey.vision as { title?: string }).title ?? "Vision",
+              image_url: (byKey.vision as { image_url?: string }).image_url,
+              image_alt: (byKey.vision as { image_alt?: string }).image_alt,
+              description: (byKey.vision as { description?: string }).description ?? aboutContentFallback.vision.description,
+            }
+          : aboutContentFallback.vision,
+        values: byKey.values
+          ? (byKey.values as unknown as AboutContent["values"]).map((v) => ({
+              title: v.title,
+              image_url: v.image_url,
+              image_alt: v.image_alt,
+              body: v.body,
+              benchmark: v.benchmark,
+            }))
+          : aboutContentFallback.values,
+        leadership: byKey.leadership
+          ? {
+              board: {
+                description: (byKey.leadership as { board?: { description?: string; href?: string; cta?: string } }).board?.description ?? aboutContentFallback.leadership.board.description,
+                href: (byKey.leadership as { board?: { description?: string; href?: string; cta?: string } }).board?.href ?? aboutContentFallback.leadership.board.href,
+                cta: (byKey.leadership as { board?: { description?: string; href?: string; cta?: string } }).board?.cta ?? aboutContentFallback.leadership.board.cta,
+              },
+              team: {
+                description: (byKey.leadership as { team?: { description?: string; href?: string; cta?: string } }).team?.description ?? aboutContentFallback.leadership.team.description,
+                href: (byKey.leadership as { team?: { description?: string; href?: string; cta?: string } }).team?.href ?? aboutContentFallback.leadership.team.href,
+                cta: (byKey.leadership as { team?: { description?: string; href?: string; cta?: string } }).team?.cta ?? aboutContentFallback.leadership.team.cta,
+              },
+            }
+          : aboutContentFallback.leadership,
+      };
+      return result;
+    }
+  }
+  return aboutContentFallback;
 }
 
 /* ---------- sub_programs (CEDP) ---------- */
