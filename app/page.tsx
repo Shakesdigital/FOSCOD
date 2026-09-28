@@ -3,6 +3,7 @@ import { TalkingAboutUs } from "@/components/home/TalkingAboutUs";
 import { HowYouCanGetInvolved } from "@/components/home/HowYouCanGetInvolved";
 import { FeaturedImpactStory } from "@/components/home/FeaturedImpactStory";
 import { PartnerLogos } from "@/components/home/PartnerLogos";
+import { Newsletter } from "@/components/home/Newsletter";
 import { CTABand, FeatureGrid, ProgramsSection, Steps } from "@/components/site/blocks";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { getHeroSlides, getPrograms, getFeaturedImpactStory, getPartners, getTalkingAboutUs, getInvolvementCards, getAudiencePaths, getResponsibleEngagement } from "@/lib/content";
@@ -33,11 +34,10 @@ export default async function HomePage() {
         title="Two ways to work with FOSCOD"
         intro="Whether you come to learn or to invest, the work stays community-led and locally owned."
         items={programs}
-        surface
       />
 
       {/* Find your way into the work — audience pathway cards */}
-      <section className="py-14 md:py-20 bg-[var(--bg)]">
+      <section className="py-14 md:py-20 bg-[var(--surface-2)]">
         <div className="container-page">
           <div className="mx-auto max-w-3xl text-center">
             <Eyebrow>Find your way into the work</Eyebrow>
@@ -60,14 +60,27 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* What responsible collaboration means here */}
-      <section className="py-14 md:py-20 bg-[var(--surface-2)]">
+      {/* What responsible collaboration means here — intro */}
+      <section className="py-14 md:py-20 bg-[var(--bg)]">
         <div className="container-page">
           <div className="mx-auto max-w-2xl text-center">
             <Eyebrow>What responsible collaboration means here</Eyebrow>
             <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">Local direction before outside participation</h2>
             <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
               A useful partnership begins with the problem as communities understand it, then matches the right people, resources, safeguards, and evidence to the work.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Responsible collaboration — steps cards */}
+      <section className="py-14 md:py-20 bg-[var(--surface-2)]">
+        <div className="container-page">
+          <div className="mx-auto max-w-2xl text-center">
+            <Eyebrow>Responsible collaboration in practice</Eyebrow>
+            <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">How we put it into practice</h2>
+            <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
+              Each principle is built into how we design, staff, and report on every engagement.
             </p>
           </div>
           <div className="mt-10"><Steps steps={responsibleEngagementData} /></div>
@@ -83,14 +96,13 @@ export default async function HomePage() {
         eyebrow="How you can get involved"
         title="Your pathway into the work"
         intro="Volunteer, intern, partner on a project, or support through a verified giving conversation — each pathway is supervised, community-linked, and transparent."
-        surface
       />
 
       {/* Partner logos strip */}
       <PartnerLogos partners={partners} />
 
       {/* Closing CTA with prominent border */}
-      <div className="border-t border-[var(--border-strong)]">
+      <section className="bg-[var(--surface-2)] border-t border-[var(--border-strong)]">
         <CTABand
           title="What would you like to do with FOSCOD?"
           body="Explore a program first, or tell us your goals and we will help identify the most useful next conversation."
@@ -100,7 +112,16 @@ export default async function HomePage() {
             { href: "/apply", label: "Check your fit", variant: "ghost" },
           ]}
         />
-      </div>
+      </section>
+
+      {/* Newsletter — placed after the CTABand */}
+      <section className="bg-[var(--bg)] py-10">
+        <div className="container-page flex justify-center">
+          <div className="border border-[var(--border)] rounded-[var(--radius-lg)]">
+            <Newsletter />
+          </div>
+        </div>
+      </section>
 
     </>
   );
