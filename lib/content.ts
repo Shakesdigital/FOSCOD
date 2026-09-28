@@ -61,7 +61,7 @@ export type Testimonial = {
   program: string;
 };
 
-export type Partner = { name: string; type: string; logo_url?: string; website?: string };
+export type Partner = { name: string; type: string; logo_url?: string; logo_alt?: string; website?: string };
 
 export type ImpactStat = {
   metric_name: string;
@@ -1256,4 +1256,102 @@ export async function getActivitiesBySubProgram(subProgramSlug: string): Promise
       start_date: undefined,
       end_date: undefined,
     }));
+}
+
+/* ---------- homepage: talking-about-us (CMS-backed) ---------- */
+export type TalkingAboutUsData = {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  ctaLabel: string;
+  ctaHref: string;
+};
+
+const talkingAboutUsFallback: TalkingAboutUsData = {
+  eyebrow: "Who we are",
+  title: "FOSCOD in context",
+  intro: "FOSCOD is a registered Ugandan NGO working alongside communities in Buikwe District and beyond. We bridge locally led development with ethical global learning and exchange — on clean energy, water, livelihoods, health, and the environment.",
+  ctaLabel: "Read our story",
+  ctaHref: "/about",
+};
+
+export async function getTalkingAboutUs(): Promise<TalkingAboutUsData> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    if (!supabase) return talkingAboutUsFallback;
+    const { data } = (await supabase
+      ?.from("home_talking_about_us")
+      .select("eyebrow,title,intro,cta_label,cta_href")
+      .eq("visible", true)
+      .maybeSingle()) ?? { data: null };
+    if (data) {
+      return {
+        eyebrow: data.eyebrow ?? "Who we are",
+        title: data.title ?? talkingAboutUsFallback.title,
+        intro: data.intro ?? talkingAboutUsFallback.intro,
+        ctaLabel: data.cta_label ?? "Read our story",
+        ctaHref: data.cta_href ?? "/about",
+      };
+    }
+  }
+  return talkingAboutUsFallback;
+}
+
+/* ---------- homepage: how-you-can-get-involved cards (CMS-backed) ---------- */
+export type InvolvementCard = {
+  title: string;
+  body: string;
+  href: string;
+  ctaLabel: string;
+  icon?: string;
+  imageUrl?: string;
+  imageAlt?: string;
+};
+
+const involvementCardsFallback: InvolvementCard[] = [
+  {
+    title: "Volunteer intern",
+    body: "Join a supervised placement matched to your skills and a community-defined priority — with local support, host families, and structured learning outcomes.",
+    href: "/apply",
+    ctaLabel: "Explore internships",
+    icon: "🌱",
+  },
+  {
+    title: "Partner with us",
+    body: "Co-design research, funding, or delivery partnerships around real community priorities — with roles, safeguards, and evidence agreed from the start.",
+    href: "/partners",
+    ctaLabel: "Partner with FOSCOD",
+    icon: "🤝",
+  },
+  {
+    title: "Donate to our project",
+    body: "Support a named project or priority with verified need, approved transfer routes, and transparent reporting — starting with a giving inquiry.",
+    href: "/donate",
+    ctaLabel: "Start a giving inquiry",
+    icon: "💚",
+  },
+];
+
+export async function getInvolvementCards(): Promise<InvolvementCard[]> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    if (!supabase) return involvementCardsFallback;
+    const { data } = (await supabase
+      ?.from("home_involvement_cards")
+      .select("title,body,href,cta_label,icon,image_url,image_alt")
+      .eq("visible", true)
+      .order("order_column", { ascending: true })) ?? { data: null };
+    if (data && data.length) {
+      return data.map((c) => ({
+        title: c.title,
+        body: c.body,
+        href: c.href,
+        ctaLabel: c.cta_label ?? "Learn more",
+        icon: c.icon ?? undefined,
+        imageUrl: c.image_url ?? undefined,
+        imageAlt: c.image_alt ?? undefined,
+      }));
+    }
+  }
+  return involvementCardsFallback;
 }

@@ -390,3 +390,21 @@ on conflict do nothing;
 
 -- Structural examples are removed until consented testimonials are supplied.
 delete from public.testimonials;
+
+-- ---------- homepage: talking-about-us ----------
+insert into public.home_talking_about_us (eyebrow, title, intro, cta_label, cta_href, visible) values
+  ('Who we are', 'FOSCOD in context',
+    'FOSCOD is a registered Ugandan NGO working alongside communities in Buikwe District and beyond. We bridge locally led development with ethical global learning and exchange — on clean energy, water, livelihoods, health, and the environment.',
+    'Read our story', '/about', true)
+on conflict (id) do update set
+  eyebrow = excluded.eyebrow, title = excluded.title, intro = excluded.intro,
+  cta_label = excluded.cta_label, cta_href = excluded.cta_href, visible = excluded.visible;
+
+-- ---------- homepage: how-you-can-get-involved cards ----------
+insert into public.home_involvement_cards (title, body, href, cta_label, icon, visible, order_column) values
+  ('Volunteer intern', 'Join a supervised placement matched to your skills and a community-defined priority — with local support, host families, and structured learning outcomes.', '/apply', 'Explore internships', '🌱', true, 1),
+  ('Partner with us', 'Co-design research, funding, or delivery partnerships around real community priorities — with roles, safeguards, and evidence agreed from the start.', '/partners', 'Partner with FOSCOD', '🤝', true, 2),
+  ('Donate to our project', 'Support a named project or priority with verified need, approved transfer routes, and transparent reporting — starting with a giving inquiry.', '/donate', 'Start a giving inquiry', '💚', true, 3)
+on conflict (id) do update set
+  title = excluded.title, body = excluded.body, href = excluded.href,
+  cta_label = excluded.cta_label, icon = excluded.icon, visible = excluded.visible, order_column = excluded.order_column;

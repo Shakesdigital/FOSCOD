@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 
-/** Compact, single-row newsletter subscribe strip for the footer.
- *  Heading on the left; name + email + Sign Up inline on one row.
- *  Uses the 1-1-1-1 value proposition per FOSCOD audit specs. */
+/** Compact vertical newsletter subscribe form for the footer.
+ *  Simplified: name + email + Sign Up only, vertical layout with bordered inputs. */
 export function Newsletter() {
   const [state, setState] = useState<"idle" | "loading" | "done" | "error">("idle");
   const [note, setNote] = useState("");
@@ -34,44 +33,53 @@ export function Newsletter() {
     }
   }
 
-  const input =
-    "min-w-0 flex-1 rounded-[var(--radius-md)] bg-white px-3.5 py-2 text-[0.88rem] text-[var(--ink)] placeholder:text-[var(--muted)] outline-none ring-1 ring-inset ring-white/0 focus:ring-2 focus:ring-[var(--green-cta)] md:flex-none md:w-40";
-
   return (
     <section className="py-10">
       <div className="container-page">
-        <div className="flex flex-col items-center gap-5 md:flex-row md:justify-between">
-          <div className="text-center md:text-left">
-            <h2 className="text-xl font-semibold text-white">Stay close to the work</h2>
-            <p className="mt-1 text-[0.9rem] text-white/70 max-w-md">
-              <strong>1-1-1-1:</strong> One monthly story, one verified result, one lesson learned,
-              one open opportunity (volunteer, intern, or partner). No spam, just substance.
-            </p>
-          </div>
+        <h2 className="text-xl font-semibold text-white">Sign up to our newsletters</h2>
 
-          {state === "done" ? (
-            <p className="rounded-[var(--radius-md)] border border-white/20 bg-white/10 px-5 py-2.5 text-sm font-medium text-white">
-              You&rsquo;re subscribed ✓{note ? <span className="ml-2 text-[0.72rem] font-normal text-white/70">{note}</span> : null}
-            </p>
-          ) : (
-            <div className="w-full md:w-auto">
-              <form onSubmit={onSubmit} className="flex items-center gap-2">
-                {/* honeypot */}
-                <input type="text" name="company_website" tabIndex={-1} autoComplete="off" aria-hidden className="absolute left-[-9999px]" />
-                <input name="name" aria-label="Your name" placeholder="Name" className={input} />
-                <input name="email" type="email" required aria-label="Email address" placeholder="Email" className={`${input} md:w-52`} />
-                <button
-                  type="submit"
-                  disabled={state === "loading"}
-                  className="shrink-0 rounded-[var(--radius-md)] bg-[var(--green-cta)] px-5 py-2 text-[0.88rem] font-semibold text-white transition-colors hover:bg-[var(--green-cta-hover)] disabled:opacity-60"
-                >
-                  {state === "loading" ? "Signing up…" : "Sign Up"}
-                </button>
-              </form>
-              {state === "error" && <p className="mt-2 text-[0.78rem] text-white/85">{note}</p>}
+        {state === "done" ? (
+          <p className="mt-6 rounded-[var(--radius-md)] border border-white/20 bg-white/10 px-5 py-2.5 text-sm font-medium text-white">
+            You&rsquo;re subscribed ✓
+          </p>
+        ) : (
+          <form onSubmit={onSubmit} className="mt-6 space-y-4 max-w-sm">
+            {/* honeypot */}
+            <input type="text" name="company_website" tabIndex={-1} autoComplete="off" aria-hidden className="absolute left-[-9999px]" />
+            <div>
+              <label htmlFor="newsletter-name" className="sr-only">Your name</label>
+              <input
+                id="newsletter-name"
+                name="name"
+                aria-label="Your name"
+                placeholder="Name"
+                className="w-full rounded-[var(--radius-md)] border border-white/30 bg-transparent px-3.5 py-2.5 text-[0.88rem] text-white placeholder:text-white/60 outline-none focus:border-white/60 focus:ring-1 focus:ring-white/30"
+              />
             </div>
-          )}
-        </div>
+            <div>
+              <label htmlFor="newsletter-email" className="sr-only">Email address</label>
+              <input
+                id="newsletter-email"
+                name="email"
+                type="email"
+                required
+                aria-label="Email address"
+                placeholder="Email"
+                className="w-full rounded-[var(--radius-md)] border border-white/30 bg-transparent px-3.5 py-2.5 text-[0.88rem] text-white placeholder:text-white/60 outline-none focus:border-white/60 focus:ring-1 focus:ring-white/30"
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={state === "loading"}
+              className="w-full rounded-[var(--radius-md)] bg-[var(--green-cta)] px-5 py-2.5 text-[0.88rem] font-semibold text-white transition-colors hover:bg-[var(--green-cta-hover)] disabled:opacity-60"
+            >
+              {state === "loading" ? "Signing up…" : "Sign Up"}
+            </button>
+            {state === "error" && (
+              <p className="text-[0.78rem] text-white/85">{note}</p>
+            )}
+          </form>
+        )}
       </div>
     </section>
   );

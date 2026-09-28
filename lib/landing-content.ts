@@ -130,7 +130,7 @@ export const subProgramContext: Record<string, SubProgramContext> = {
     ],
     partnerFit: "A strong fit for restoration science, forestry, biodiversity, remote sensing, community tenure, carbon standards, MRV, and long-term finance partners.",
     evidenceNote: "The Carbon Credit Project is planned. FOSCOD will not describe projected credits, removals, or co-benefits as achieved before validation and verification under the relevant standard.",
-    sourceLabel: "Uganda's Updated Nationally Determined Contribution — UNFCCC",
+    sourceLabel: "Uganda's Updated Nationally Determined Contribution — UNFCC",
     sourceUrl: "https://unfccc.int/documents/613828",
   },
 };

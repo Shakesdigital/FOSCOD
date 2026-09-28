@@ -3,18 +3,12 @@
 import Link from "next/link";
 import { useState } from "react";
 import { primaryNav, site } from "@/lib/site";
-import { Button } from "@/components/ui/Button";
+
 
 export function Header() {
   const [open, setOpen] = useState(false);
   const [openGroup, setOpenGroup] = useState<string | null>(null);
 
-  // Persistent CTA buttons per spec: "Partner With Us", "Apply / Volunteer", "Support Our Work"
-  const persistentCTAs = [
-    { href: "/partners", label: "Partner With Us", variant: "secondary" as const },
-    { href: "/apply", label: "Apply / Volunteer", variant: "primary" as const },
-    { href: "/donate", label: "Support Our Work", variant: "outline" as const },
-  ];
 
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-[color-mix(in_srgb,var(--bg)_92%,transparent)] backdrop-blur-md">
@@ -71,14 +65,7 @@ export function Header() {
           ))}
         </nav>
 
-        {/* Persistent CTAs - Desktop */}
-        <div className="hidden items-center gap-2 lg:flex">
-          {persistentCTAs.map((cta) => (
-            <Button key={cta.href} href={cta.href} variant={cta.variant} size="sm">
-              {cta.label}
-            </Button>
-          ))}
-        </div>
+
 
         {/* Mobile toggle */}
         <button
@@ -131,13 +118,8 @@ export function Header() {
                 )}
               </div>
             ))}
-            <div className="mt-3 flex flex-col gap-2 border-t border-[var(--border)] pt-4">
-              {persistentCTAs.map((cta) => (
-                <Button key={cta.href} href={cta.href} variant={cta.variant} size="md" className="w-full justify-center">
-                  {cta.label}
-                </Button>
-              ))}
-            </div>
+
+
             <p className="mt-4 font-[family-name:var(--font-mono)] text-xs text-[var(--muted)]">
               {site.contact.location}
             </p>

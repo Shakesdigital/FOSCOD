@@ -265,6 +265,41 @@ export const cmsCollections: CmsCollection[] = [
       { name: "height", label: "Height", type: "number" },
     ],
   },
+  {
+    key: "home-talking-about-us",
+    table: "home_talking_about_us",
+    label: "Homepage: Talking About Us",
+    singular: "talking-about-us",
+    description: "The brief editorial section that appears after the hero on the homepage.",
+    titleField: "title",
+    fields: [
+      { name: "eyebrow", label: "Eyebrow" },
+      { name: "title", label: "Headline", required: true },
+      { name: "intro", label: "Introduction", type: "textarea", required: true },
+      { name: "cta_label", label: "CTA label", required: true },
+      { name: "cta_href", label: "CTA link", type: "url", required: true },
+      yesNo("visible", "Visible"),
+    ],
+  },
+  {
+    key: "home-involvement-cards",
+    table: "home_involvement_cards",
+    label: "Homepage: How You Can Get Involved",
+    singular: "involvement card",
+    description: "The three pathway cards (Volunteer intern, Partner with us, Donate to our project) on the homepage.",
+    titleField: "title",
+    fields: [
+      { name: "title", label: "Card title", required: true },
+      { name: "body", label: "Description", type: "textarea", required: true },
+      { name: "href", label: "Link URL", type: "url", required: true },
+      { name: "cta_label", label: "CTA label", required: true },
+      { name: "icon", label: "Icon (emoji)" },
+      { name: "image_url", label: "Featured image URL", type: "url" },
+      { name: "image_alt", label: "Image alt text" },
+      yesNo("visible", "Visible"),
+      { name: "order_column", label: "Display order", type: "number" },
+    ],
+  },
 ];
 
 export const cmsCollectionMap = Object.fromEntries(cmsCollections.map((collection) => [collection.key, collection])) as Record<string, CmsCollection>;
