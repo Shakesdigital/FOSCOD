@@ -2,8 +2,7 @@ import { HeroSlider } from "@/components/site/HeroSlider";
 import { ProgramsSection, FeatureRow, CTABand, FeatureGrid } from "@/components/site/blocks";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { pageMeta } from "@/lib/seo";
-import { getHeroSlides, getPrograms } from "@/lib/content";
-import { audiencePaths } from "@/lib/landing-content";
+import { getHeroSlides, getPrograms, getAudiencePaths } from "@/lib/content";
 
 export const metadata = pageMeta(
   "Our Programs",
@@ -11,9 +10,10 @@ export const metadata = pageMeta(
 );
 
 export default async function ProgramsPage() {
-  const [heroSlides, programs] = await Promise.all([
+  const [heroSlides, programs, audiencePathsData] = await Promise.all([
     getHeroSlides("programs"),
     getPrograms(),
+    getAudiencePaths(),
   ]);
 
   return (
@@ -38,7 +38,7 @@ export default async function ProgramsPage() {
             </p>
           </div>
           <div className="mt-10">
-            <FeatureGrid columns={4} items={audiencePaths.map((path) => ({ ...path, kicker: "Start here" }))} />
+            <FeatureGrid columns={4} items={audiencePathsData.map((path) => ({ ...path, kicker: path.kicker ?? "Start here", imageUrl: path.imageUrl, imageAlt: path.imageAlt }))} />
           </div>
         </div>
       </section>

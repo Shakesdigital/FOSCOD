@@ -1355,3 +1355,129 @@ export async function getInvolvementCards(): Promise<InvolvementCard[]> {
   }
   return involvementCardsFallback;
 }
+
+/* ---------- homepage: audience-paths cards (CMS-backed) ---------- */
+export type AudiencePathData = {
+  title: string;
+  body: string;
+  href: string;
+  cta: string;
+  kicker?: string;
+  imageUrl?: string;
+  imageAlt?: string;
+};
+
+const audiencePathsFallback: AudiencePathData[] = [
+  {
+    title: "Students & early-career professionals",
+    body: "Build practical experience through a supervised internship or volunteer placement connected to a community-defined priority.",
+    href: "/internships",
+    cta: "Explore internships",
+    imageUrl: "/images/audience/students.jpg",
+    imageAlt: "Interns in the field",
+  },
+  {
+    title: "Universities & research teams",
+    body: "Co-design field learning, faculty-led programs, or community-based research around academic outcomes and local value.",
+    href: "/partners",
+    cta: "Discuss an academic partnership",
+    imageUrl: "/images/audience/universities.jpg",
+    imageAlt: "University partnership in action",
+  },
+  {
+    title: "Funders & technical partners",
+    body: "Support a defined program or project with agreed outcomes, evidence requirements, roles, and reporting milestones.",
+    href: "/partners",
+    cta: "Explore partnership options",
+    imageUrl: "/images/audience/funders.jpg",
+    imageAlt: "Partnership planning session",
+  },
+  {
+    title: "Community & public-sector partners",
+    body: "Bring local priorities, implementation knowledge, coordination, and accountability into a shared program design.",
+    href: "/contact",
+    cta: "Start a local conversation",
+    imageUrl: "/images/audience/community.jpg",
+    imageAlt: "Community co-design meeting",
+  },
+];
+
+export async function getAudiencePaths(): Promise<AudiencePathData[]> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    if (!supabase) return audiencePathsFallback;
+    const { data } = (await supabase
+      ?.from("home_audience_paths")
+      .select("title,body,href,cta,kicker,image_url,image_alt")
+      .eq("visible", true)
+      .order("order_column", { ascending: true })) ?? { data: null };
+    if (data && data.length) {
+      return data.map((c) => ({
+        title: c.title,
+        body: c.body,
+        href: c.href,
+        cta: c.cta ?? "Learn more",
+        kicker: c.kicker ?? undefined,
+        imageUrl: c.image_url ?? undefined,
+        imageAlt: c.image_alt ?? undefined,
+      }));
+    }
+  }
+  return audiencePathsFallback;
+}
+
+/* ---------- homepage: responsible-engagement steps (CMS-backed) ---------- */
+export type ResponsibleEngagementData = {
+  title: string;
+  body: string;
+  imageUrl?: string;
+  imageAlt?: string;
+};
+
+const responsibleEngagementFallback: ResponsibleEngagementData[] = [
+  {
+    title: "Community direction",
+    body: "Priorities are identified with communities and local partners before participant or funder activity is designed.",
+    imageUrl: "/images/responsible/community-direction.jpg",
+    imageAlt: "Community priority-setting workshop",
+  },
+  {
+    title: "Right role, right support",
+    body: "People are matched to work that fits their skills, preparation, safeguarding requirements, and the supervision available.",
+    imageUrl: "/images/responsible/roles.jpg",
+    imageAlt: "Matching volunteers with local roles",
+  },
+  {
+    title: "Useful work and shared learning",
+    body: "Each engagement should produce value for the community as well as learning for the participant or institution.",
+    imageUrl: "/images/responsible/shared-learning.jpg",
+    imageAlt: "Community and participant sharing insights",
+  },
+  {
+    title: "Evidence with consent",
+    body: "FOSCOD separates verified results from future targets and publishes personal stories only when consent is recorded.",
+    imageUrl: "/images/responsible/evidence.jpg",
+    imageAlt: "Reviewing impact data with consent forms",
+  },
+];
+
+export async function getResponsibleEngagement(): Promise<ResponsibleEngagementData[]> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    if (!supabase) return responsibleEngagementFallback;
+    const { data } = (await supabase
+      ?.from("home_responsible_engagement")
+      .select("title,body,image_url,image_alt")
+      .eq("visible", true)
+      .order("order_column", { ascending: true })) ?? { data: null };
+    if (data && data.length) {
+      return data.map((c) => ({
+        title: c.title,
+        body: c.body ?? "",
+        imageUrl: c.image_url ?? undefined,
+        imageAlt: c.image_alt ?? undefined,
+      }));
+    }
+  }
+  return responsibleEngagementFallback;
+}

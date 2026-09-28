@@ -35,51 +35,55 @@ export function Newsletter() {
 
   return (
     <section className="py-10">
-      <div className="container-page">
-        <h2 className="text-xl font-semibold text-white">Sign up to our newsletters</h2>
+      <div className="container-page flex justify-center">
+        <div className="mx-auto max-w-md text-center">
+          <h2 className="text-xl font-semibold text-white">Sign up to our newsletters</h2>
 
-        {state === "done" ? (
-          <p className="mt-6 rounded-[var(--radius-md)] border border-white/20 bg-white/10 px-5 py-2.5 text-sm font-medium text-white">
-            You&rsquo;re subscribed ✓
-          </p>
-        ) : (
-          <form onSubmit={onSubmit} className="mt-6 space-y-4 max-w-sm">
-            {/* honeypot */}
-            <input type="text" name="company_website" tabIndex={-1} autoComplete="off" aria-hidden className="absolute left-[-9999px]" />
-            <div>
-              <label htmlFor="newsletter-name" className="sr-only">Your name</label>
-              <input
-                id="newsletter-name"
-                name="name"
-                aria-label="Your name"
-                placeholder="Name"
-                className="w-full rounded-[var(--radius-md)] border border-white/30 bg-transparent px-3.5 py-2.5 text-[0.88rem] text-white placeholder:text-white/60 outline-none focus:border-white/60 focus:ring-1 focus:ring-white/30"
-              />
-            </div>
-            <div>
-              <label htmlFor="newsletter-email" className="sr-only">Email address</label>
-              <input
-                id="newsletter-email"
-                name="email"
-                type="email"
-                required
-                aria-label="Email address"
-                placeholder="Email"
-                className="w-full rounded-[var(--radius-md)] border border-white/30 bg-transparent px-3.5 py-2.5 text-[0.88rem] text-white placeholder:text-white/60 outline-none focus:border-white/60 focus:ring-1 focus:ring-white/30"
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={state === "loading"}
-              className="w-full rounded-[var(--radius-md)] bg-[var(--green-cta)] px-5 py-2.5 text-[0.88rem] font-semibold text-white transition-colors hover:bg-[var(--green-cta-hover)] disabled:opacity-60"
-            >
-              {state === "loading" ? "Signing up…" : "Sign Up"}
-            </button>
-            {state === "error" && (
-              <p className="text-[0.78rem] text-white/85">{note}</p>
-            )}
-          </form>
-        )}
+          {state === "done" ? (
+            <p className="mt-6 rounded-[var(--radius-md)] border border-white/20 bg-white/10 px-5 py-2.5 text-sm font-medium text-white">
+              You&rsquo;re subscribed ✓
+            </p>
+          ) : (
+            <form onSubmit={onSubmit} className="mt-6 space-y-4">
+              {/* honeypot */}
+              <input type="text" name="company_website" tabIndex={-1} autoComplete="off" aria-hidden className="absolute left-[-9999px]" />
+              <div className="border border-white/30 bg-transparent rounded-[var(--radius-md)]">
+                <label htmlFor="newsletter-name" className="sr-only">Your name</label>
+                <input
+                  id="newsletter-name"
+                  name="name"
+                  aria-label="Your name"
+                  placeholder="Name"
+                  className="w-full border-0 bg-transparent px-3.5 py-2.5 text-[0.88rem] text-white placeholder:text-white/60 outline-none"
+                />
+              </div>
+              <div className="border border-white/30 bg-transparent rounded-[var(--radius-md)]">
+                <label htmlFor="newsletter-email" className="sr-only">Email address</label>
+                <input
+                  id="newsletter-email"
+                  name="email"
+                  type="email"
+                  required
+                  aria-label="Email address"
+                  placeholder="Email"
+                  className="w-full border-0 bg-transparent px-3.5 py-2.5 text-[0.88rem] text-white placeholder:text-white/60 outline-none"
+                />
+              </div>
+              <div className="border border-white/30 bg-transparent rounded-[var(--radius-md)]">
+                <button
+                  type="submit"
+                  disabled={state === "loading"}
+                  className="w-full rounded-[var(--radius-md)] bg-[var(--green-cta)] px-5 py-2.5 text-[0.88rem] font-semibold text-white transition-colors hover:bg-[var(--green-cta-hover)] disabled:opacity-60"
+                >
+                  {state === "loading" ? "Signing up…" : "Sign Up"}
+                </button>
+              </div>
+              {state === "error" && (
+                <p className="text-[0.78rem] text-white/85">{note}</p>
+              )}
+            </form>
+          )}
+        </div>
       </div>
     </section>
   );

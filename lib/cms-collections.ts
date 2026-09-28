@@ -300,6 +300,41 @@ export const cmsCollections: CmsCollection[] = [
       { name: "order_column", label: "Display order", type: "number" },
     ],
   },
+  {
+    key: "home-audience-paths",
+    table: "home_audience_paths",
+    label: "Homepage: Find Your Way Into the Work",
+    singular: "audience path",
+    description: "The four pathway cards under 'Find your way into the work' with optional feature images.",
+    titleField: "title",
+    fields: [
+      { name: "title", label: "Card title", required: true },
+      { name: "body", label: "Description", type: "textarea", required: true },
+      { name: "href", label: "Link URL", type: "url", required: true },
+      { name: "cta", label: "CTA label", required: true },
+      { name: "kicker", label: "Kicker label" },
+      { name: "image_url", label: "Feature image URL", type: "url" },
+      { name: "image_alt", label: "Image alt text" },
+      yesNo("visible", "Visible"),
+      { name: "order_column", label: "Display order", type: "number" },
+    ],
+  },
+  {
+    key: "home-responsible-engagement",
+    table: "home_responsible_engagement",
+    label: "Homepage: Responsible Collaboration",
+    singular: "engagement principle",
+    description: "The four numbered steps under 'What responsible collaboration means here' with optional feature images.",
+    titleField: "title",
+    fields: [
+      { name: "title", label: "Step title", required: true },
+      { name: "body", label: "Description", type: "textarea" },
+      { name: "image_url", label: "Feature image URL", type: "url" },
+      { name: "image_alt", label: "Image alt text" },
+      yesNo("visible", "Visible"),
+      { name: "order_column", label: "Display order", type: "number" },
+    ],
+  },
 ];
 
 export const cmsCollectionMap = Object.fromEntries(cmsCollections.map((collection) => [collection.key, collection])) as Record<string, CmsCollection>;

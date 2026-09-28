@@ -5,17 +5,18 @@ import { FeaturedImpactStory } from "@/components/home/FeaturedImpactStory";
 import { PartnerLogos } from "@/components/home/PartnerLogos";
 import { CTABand, FeatureGrid, ProgramsSection, Steps } from "@/components/site/blocks";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import { getHeroSlides, getPrograms, getFeaturedImpactStory, getPartners, getTalkingAboutUs, getInvolvementCards } from "@/lib/content";
-import { audiencePaths, responsibleEngagement } from "@/lib/landing-content";
+import { getHeroSlides, getPrograms, getFeaturedImpactStory, getPartners, getTalkingAboutUs, getInvolvementCards, getAudiencePaths, getResponsibleEngagement } from "@/lib/content";
 
 export default async function HomePage() {
-  const [heroSlides, programs, featuredStory, partners, talkingAboutUsData, involvementCards] = await Promise.all([
+  const [heroSlides, programs, featuredStory, partners, talkingAboutUsData, involvementCards, audiencePathsData, responsibleEngagementData] = await Promise.all([
     getHeroSlides("home"),
     getPrograms(),
     getFeaturedImpactStory(),
     getPartners(),
     getTalkingAboutUs(),
     getInvolvementCards(),
+    getAudiencePaths(),
+    getResponsibleEngagement(),
   ]);
 
   return (
@@ -36,7 +37,7 @@ export default async function HomePage() {
       />
 
       {/* Find your way into the work — audience pathway cards */}
-      <section className="py-14 md:py-20">
+      <section className="py-14 md:py-20 bg-[var(--bg)]">
         <div className="container-page">
           <div className="mx-auto max-w-3xl text-center">
             <Eyebrow>Find your way into the work</Eyebrow>
@@ -48,23 +49,28 @@ export default async function HomePage() {
           <div className="mt-10">
             <FeatureGrid
               columns={4}
-              items={audiencePaths.map((path) => ({ ...path, kicker: "Your pathway" }))}
+              items={audiencePathsData.map((path) => ({
+                ...path,
+                kicker: path.kicker ?? "Your pathway",
+                imageUrl: path.imageUrl,
+                imageAlt: path.imageAlt,
+              }))}
             />
           </div>
         </div>
       </section>
 
       {/* What responsible collaboration means here */}
-      <section className="py-14 md:py-20">
+      <section className="py-14 md:py-20 bg-[var(--surface-2)]">
         <div className="container-page">
-          <div className="max-w-2xl">
+          <div className="mx-auto max-w-2xl text-center">
             <Eyebrow>What responsible collaboration means here</Eyebrow>
             <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">Local direction before outside participation</h2>
             <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
               A useful partnership begins with the problem as communities understand it, then matches the right people, resources, safeguards, and evidence to the work.
             </p>
           </div>
-          <div className="mt-10"><Steps steps={responsibleEngagement} /></div>
+          <div className="mt-10"><Steps steps={responsibleEngagementData} /></div>
         </div>
       </section>
 

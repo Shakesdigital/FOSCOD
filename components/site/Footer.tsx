@@ -5,7 +5,11 @@ import { Newsletter } from "@/components/home/Newsletter";
 export function Footer() {
   return (
     <footer className="mt-24 bg-[var(--accent-600)] text-white">
-      <Newsletter />
+      <div className="container-page flex justify-center py-10">
+        <div className="border border-white/30 rounded-[var(--radius-lg)]">
+          <Newsletter />
+        </div>
+      </div>
 
       {/* thick white divider separating the newsletter from the menu columns */}
       <div className="container-page">

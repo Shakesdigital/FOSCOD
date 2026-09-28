@@ -408,3 +408,26 @@ insert into public.home_involvement_cards (title, body, href, cta_label, icon, v
 on conflict (id) do update set
   title = excluded.title, body = excluded.body, href = excluded.href,
   cta_label = excluded.cta_label, icon = excluded.icon, visible = excluded.visible, order_column = excluded.order_column;
+
+-- ---------- homepage: audience-paths cards ("Find your way into the work") ----------
+insert into public.home_audience_paths (title, body, href, cta, kicker, image_url, image_alt, visible, order_column) values
+  ('Students & early-career professionals', 'Build practical experience through a supervised internship or volunteer placement connected to a community-defined priority.', '/internships', 'Explore internships', 'Your pathway', '/images/audience/students.jpg', 'Interns in the field', true, 1),
+  ('Universities & research teams', 'Co-design field learning, faculty-led programs, or community-based research around academic outcomes and local value.', '/partners', 'Discuss an academic partnership', 'Your pathway', '/images/audience/universities.jpg', 'University partnership in action', true, 2),
+  ('Funders & technical partners', 'Support a defined program or project with agreed outcomes, evidence requirements, roles, and reporting milestones.', '/partners', 'Explore partnership options', 'Your pathway', '/images/audience/funders.jpg', 'Partnership planning session', true, 3),
+  ('Community & public-sector partners', 'Bring local priorities, implementation knowledge, coordination, and accountability into a shared program design.', '/contact', 'Start a local conversation', 'Your pathway', '/images/audience/community.jpg', 'Community co-design meeting', true, 4)
+on conflict (id) do update set
+  title = excluded.title, body = excluded.body, href = excluded.href,
+  cta = excluded.cta, kicker = excluded.kicker,
+  image_url = excluded.image_url, image_alt = excluded.image_alt,
+  visible = excluded.visible, order_column = excluded.order_column;
+
+-- ---------- homepage: responsible-engagement steps ("What responsible collaboration means here") ----------
+insert into public.home_responsible_engagement (title, body, image_url, image_alt, visible, order_column) values
+  ('Community direction', 'Priorities are identified with communities and local partners before participant or funder activity is designed.', '/images/responsible/community-direction.jpg', 'Community priority-setting workshop', true, 1),
+  ('Right role, right support', 'People are matched to work that fits their skills, preparation, safeguarding requirements, and the supervision available.', '/images/responsible/roles.jpg', 'Matching volunteers with local roles', true, 2),
+  ('Useful work and shared learning', 'Each engagement should produce value for the community as well as learning for the participant or institution.', '/images/responsible/shared-learning.jpg', 'Community and participant sharing insights', true, 3),
+  ('Evidence with consent', 'FOSCOD separates verified results from future targets and publishes personal stories only when consent is recorded.', '/images/responsible/evidence.jpg', 'Reviewing impact data with consent forms', true, 4)
+on conflict (id) do update set
+  title = excluded.title, body = excluded.body,
+  image_url = excluded.image_url, image_alt = excluded.image_alt,
+  visible = excluded.visible, order_column = excluded.order_column;

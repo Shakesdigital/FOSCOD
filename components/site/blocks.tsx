@@ -158,7 +158,7 @@ export function FeatureGrid({
   items,
   columns = 3,
 }: {
-  items: { title: string; body: string; kicker?: string; href?: string; cta?: string }[];
+  items: { title: string; body: string; kicker?: string; href?: string; cta?: string; imageUrl?: string; imageAlt?: string }[];
   columns?: 2 | 3 | 4;
 }) {
   const cols = {
@@ -171,22 +171,29 @@ export function FeatureGrid({
       {items.map((it) => (
         <li
           key={it.title}
-          className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-6"
+          className="flex flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]"
         >
-          {it.kicker && (
-            <p className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
-              {it.kicker}
+          {it.imageUrl ? (
+            <div className="border-b border-[var(--border)]">
+              <img src={it.imageUrl} alt={it.imageAlt || it.title} className="h-32 w-full object-cover" loading="lazy" width={320} height={128} />
+            </div>
+          ) : null}
+          <div className="p-6">
+            {it.kicker && (
+              <p className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
+                {it.kicker}
+              </p>
+            )}
+            <h3 className="mt-2 text-lg leading-snug">{it.title}</h3>
+            <p className="mt-2 text-[0.92rem] leading-relaxed text-[var(--muted)]">
+              {it.body}
             </p>
-          )}
-          <h3 className="mt-2 text-lg leading-snug">{it.title}</h3>
-          <p className="mt-2 text-[0.92rem] leading-relaxed text-[var(--muted)]">
-            {it.body}
-          </p>
-          {it.href && (
-            <Button href={it.href} variant="ghost" size="sm" className="mt-4">
-              {it.cta ?? "Learn more"}
-            </Button>
-          )}
+            {it.href && (
+              <Button href={it.href} variant="ghost" size="sm" className="mt-4">
+                {it.cta ?? "Learn more"}
+              </Button>
+            )}
+          </div>
         </li>
       ))}
     </ul>
@@ -221,26 +228,43 @@ export function CheckList({
   );
 }
 
-/** Numbered steps — only used where order genuinely matters (a process). */
-export function Steps({ steps }: { steps: { title: string; body?: string }[] }) {
+/** Numbered steps — a 3-up card grid. The last item is centered to sit alone
+ *  when the grid has an odd count, visually balancing the row. */
+export function Steps({ steps }: { steps: { title: string; body?: string; imageUrl?: string; imageAlt?: string }[] }) {
   return (
     <ol className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {steps.map((s, i) => (
-        <li
-          key={s.title}
-          className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-6"
-        >
-          <span className="font-[family-name:var(--font-mono)] text-sm text-[var(--accent-700)]">
-            {String(i + 1).padStart(2, "0")}
-          </span>
-          <h3 className="mt-2 text-lg leading-snug">{s.title}</h3>
-          {s.body && (
-            <p className="mt-2 text-[0.92rem] leading-relaxed text-[var(--muted)]">
-              {s.body}
-            </p>
-          )}
-        </li>
-      ))}
+      {steps.map((s, i) => {
+        const isLast = i === steps.length - 1;
+        return (
+          <li
+            key={s.title}
+            className={`flex items-start gap-4 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-6 ${isLast && steps.length % 2 === 1 ? "sm:col-span-2 sm:justify-center lg:col-span-1" : ""}`}
+          >
+            {s.imageUrl ? (
+              <div className="shrink-0 overflow-hidden rounded-[var(--radius-md)] border border-[var(--border)] h-20 w-20">
+                <img src={s.imageUrl} alt={s.imageAlt || s.title} className="h-full w-full object-cover" width={80} height={80} loading="lazy" />
+              </div>
+            ) : (
+              <span className="font-[family-name:var(--font-mono)] text-sm text-[var(--accent-700)]">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+            )}
+            <div className="flex-1">
+              {s.imageUrl ? (
+                <span className="font-[family-name:var(--font-mono)] text-sm text-[var(--accent-700)]">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+              ) : null}
+              <h3 className={`mt-${s.imageUrl ? "-1" : "2"} text-lg leading-snug font-medium text-[var(--ink)]`}>{s.title}</h3>
+              {s.body && (
+                <p className="mt-2 text-[0.92rem] leading-relaxed text-[var(--muted)]">
+                  {s.body}
+                </p>
+              )}
+            </div>
+          </li>
+        );
+      })}
     </ol>
   );
 }
