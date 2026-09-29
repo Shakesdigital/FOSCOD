@@ -20,6 +20,87 @@ export type ProjectDetail = {
   ctas: { href: string; label: string; variant?: "primary" | "secondary" | "ghost" }[];
 };
 
+/* ---------- project detail page: activities & impact cards ---------- */
+
+export type ProjectActivity = {
+  title: string;
+  description: string;
+  imageUrl?: string;
+  imageAlt?: string;
+  href?: string;
+};
+
+export type ProjectImpactCard = {
+  title: string;
+  excerpt?: string;
+  imageUrl?: string;
+  imageAlt?: string;
+  verifiedOutcome?: string;
+  href?: string;
+  ctaLabel?: string;
+};
+
+export const projectActivities: Record<string, ProjectActivity[]> = {
+  "solar-powered-water-system-naluvule": [
+    {
+      title: "Community needs assessment",
+      description:
+        "FOSCOD and the Naluvule community conducted a joint field survey mapping water access points, daily water-collection patterns, and existing energy sources. The assessment established a 25% community co-contribution agreement and identified the solar-borehole site at the village edge as the priority location.",
+      imageAlt: "Community members mapping water points during needs assessment",
+    },
+    {
+      title: "Solar system design & procurement",
+      description:
+        "Engineers from FOSCOD and a technical partner designed a 3 kW solar array to power a 7.5 HP submersible pump capable of delivering 40,000 litres per day. The system includes a 5,000 L overhead tank, a gravity-feed manifold, and kiosk connections to six distribution points across the village. All equipment was locally sourced where possible.",
+      imageAlt: "Solar panel array and pump schematic",
+    },
+    {
+      title: "Installation & community training",
+      description:
+        "Over eight weeks, local technicians and village volunteers installed the solar array, drilled the borehole, and constructed the tank foundation. A three-day train-the-trainer workshop certified twelve community members in basic solar maintenance, pump servicing, and financial record-keeping for the water user committee.",
+      imageAlt: "Community technicians installing solar panels",
+    },
+    {
+      title: "System commissioning & handover",
+      description:
+        "The solar-powered water system was officially handed over to the Naluvule Water User Committee in a village ceremony attended by local government officials, the FOSCOD team, and community elders. A maintenance register, spare-parts fund, and quarterly inspection schedule were established to guarantee long-term sustainability.",
+      imageAlt: "Handover ceremony with community and FOSCOD representatives",
+    },
+  ],
+};
+
+export const projectImpacts: Record<string, ProjectImpactCard[]> = {
+  "solar-powered-water-system-naluvule": [
+    {
+      title: "Solar-powered hair salon",
+      excerpt:
+        "A solar-powered hair salon turned an unreliable income into a growing business — clean energy powering livelihoods.",
+      verifiedOutcome: "3 households gained reliable evening lighting and new income streams",
+      href: "/impact/stories/solar-powered-salon-naluvule",
+      ctaLabel: "Read the impact story",
+      imageAlt: "Salon owner working under solar-powered lighting",
+    },
+    {
+      title: "Reliable water access for 240 people",
+      excerpt:
+        "The community solar borehole delivers treated water daily with 95% uptime in its first year — eliminating the need for long water-collection trips.",
+      verifiedOutcome: "240 people access treated water daily with 95% system uptime",
+      href: "/impact/stories/naluvule-water-access",
+      ctaLabel: "Read the impact story",
+      imageAlt: "Children filling jerrycans at the solar-powered water kiosk",
+    },
+    {
+      title: "Youth technical skills program",
+      excerpt:
+        "Twelve community members were certified in solar PV installation and pump maintenance, creating a local technical workforce.",
+      verifiedOutcome: "12 technicians trained; 8 employed within 6 months",
+      href: "/impact/stories/naluvule-youth-tech",
+      ctaLabel: "Read the impact story",
+      imageAlt: "Graduating youth technicians in solar training workshop",
+    },
+  ],
+};
+
 export const projectDetails: ProjectDetail[] = [
   {
     slug: "greening-kalagala",

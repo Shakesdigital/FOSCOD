@@ -1,11 +1,16 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { HeroSlider } from "@/components/site/HeroSlider";
-import { type HeroSlide } from "@/lib/content";
-import { SplitSection, Prose, CTABand, FeatureGrid } from "@/components/site/blocks";
+import { type HeroSlide, getProjectActivities, getProjectImpactCards } from "@/lib/content";
+import { SplitSection, Prose, CTABand } from "@/components/site/blocks";
+import { ActivityList } from "@/components/site/ActivityList";
+import { ImpactCarouselLoop } from "@/components/site/ImpactCarouselLoop";
+import { HowYouCanGetInvolved } from "@/components/home/HowYouCanGetInvolved";
 import { Button } from "@/components/ui/Button";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { getInvolvementCards } from "@/lib/content";
 import { projectDetails, getProjectDetail } from "@/lib/projects";
 
 export function generateStaticParams() {
@@ -36,6 +41,15 @@ export default async function ProjectDetailPage({
   const p = getProjectDetail(slug);
   if (!p) notFound();
 
+  // Fetch CMS-driven activities and impact cards for this project
+  const [projectActivities, projectImpactCards] = await Promise.all([
+    getProjectActivities(slug),
+    getProjectImpactCards(slug),
+  ]);
+
+  // Get involved cards (shared homepage pathway cards)
+  const involvementCards = await getInvolvementCards();
+
   const heroSlides: HeroSlide[] = [{
     eyebrow: p.theme,
     title: p.title,
@@ -47,17 +61,55 @@ export default async function ProjectDetailPage({
     cta3: p.ctas[2] ? { href: p.ctas[2].href, label: p.ctas[2].label } : undefined,
   }];
 
+  /* ------------------------------------------------------------------ */
+  /* Section backgrounds alternate: white → mint → white → mint → etc.  */
+  /*   white  = no inline bg  (defaults to --bg)                         */
+  /*   mint   = bg-[var(--surface-2)]  (#eaf5ee)                         */
+  /* ------------------------------------------------------------------ */
+
   return (
     <>
-      {/* HERO */}
+      {/* 1. Hero (kept as-is) */}
       <HeroSlider slides={heroSlides} />
 
-      {/* THE CHALLENGE */}
+      {/* 2. The Challenge (kept as-is — title + description from challenge field) */}
       <SplitSection eyebrow="The challenge" title="What we're responding to">
         <Prose>
           <p>{p.challenge}</p>
         </Prose>
       </SplitSection>
+
+      {/* 3. Activities (new — alternating image + full description) */}
+      {projectActivities.length > 0 && (
+        <ActivityList
+          items={projectActivities}
+          eyebrow="Activities"
+          title="What happened in this project"
+          intro="Each activity below is a step in the community-led journey — designed, implemented, and sustained with the people who lead them."
+          tone={p.tone}
+        />
+      )}
+
+      {/* 4. Project Impact (new — looping carousel with CTA buttons) */}
+      {projectImpactCards.length > 0 && (
+        <ImpactCarouselLoop
+          items={projectImpactCards}
+          eyebrow="Project impact"
+          title="Verified outcomes from this project"
+          intro="Evidence-backed results from the work — each reflecting the priorities communities set for themselves."
+          surface
+        />
+      )}
+
+      {/* 5. Get Involved (reuses the same approach as other pages) */}
+      {involvementCards.length > 0 && (
+        <HowYouCanGetInvolved
+          cards={involvementCards}
+          eyebrow="How you can get involved"
+          title="Your pathway into this work"
+          intro="Support, partner, or join as a volunteer or intern — every contribution is tied to a community-defined priority with clear evidence."
+        />
+      )}
 
       {/* IMAGE GALLERY */}
       {(p.gallery && p.gallery.length > 0) && (
@@ -162,14 +214,22 @@ export default async function ProjectDetailPage({
               <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">Structured results we can stand behind</h2>
             </div>
             <div className="mt-10">
-              <FeatureGrid
-                items={p.outcomes.map((o) => ({
-                  title: o.metric,
-                  body: `${o.value} ${o.unit || ""}${o.note ? ` — ${o.note}` : ""}`,
-                  kicker: o.status === "verified" ? "✓ Verified" : "◷ Being updated",
-                }))}
-                columns={3}
-              />
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {p.outcomes.map((o, i) => (
+                  <div key={o.metric + i} className="flex flex-col rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-6">
+                    {o.status === "verified" ? (
+                      <span className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--forest-700)]">✓ Verified</span>
+                    ) : (
+                      <span className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--gold-700)]">◷ Being updated</span>
+                    )}
+                    <p className="mt-2 font-[family-name:var(--font-display)] text-3xl font-semibold text-[var(--ink)]">
+                      {o.value} {o.unit || ""}
+                    </p>
+                    <p className="mt-1 text-[0.92rem] text-[var(--muted)]">{o.metric}</p>
+                    {o.note && <p className="mt-2 text-sm text-[var(--muted)]">{o.note}</p>}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -225,7 +285,7 @@ export default async function ProjectDetailPage({
 
       {/* RELATED ACTIVITIES & SUB-PROGRAM */}
       {(p.relatedActivities && p.relatedActivities.length > 0) && (
-        <section className="py-16 md:py-20">
+        <section className="py-16 md:py-24">
           <div className="container-page">
             <div className="mx-auto max-w-2xl text-center">
               <Eyebrow>Related activities</Eyebrow>
@@ -237,7 +297,7 @@ export default async function ProjectDetailPage({
                   key={a.slug}
                   className="group flex flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)]"
                 >
-                  <PhotoSlot tone={["forest", "water", "earth"][i % 3] as "forest" | "water" | "earth"} ratio="16/9" tag={a.title} caption={a.title} />
+                  <PhotoSlot tone={(["forest", "water", "earth"] as const)[i % 3]} ratio="16/9" tag={a.title} caption={a.title} />
                   <div className="flex flex-1 flex-col p-5">
                     <p className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
                       {a.status.charAt(0).toUpperCase() + a.status.slice(1)}
@@ -263,9 +323,9 @@ export default async function ProjectDetailPage({
       <section className="py-12">
         <div className="container-page">
           <nav className="flex items-center gap-2 text-sm text-[var(--muted)]" aria-label="Breadcrumb">
-            <a href="/" className="hover:text-[var(--ink)]">Home</a>
+            <Link href="/" className="hover:text-[var(--ink)]">Home</Link>
             <span aria-hidden>/</span>
-            <a href="/projects" className="hover:text-[var(--ink)]">Projects</a>
+            <Link href="/projects" className="hover:text-[var(--ink)]">Projects</Link>
             <span aria-hidden>/</span>
             <span className="text-[var(--ink)]" aria-current="page">{p.title}</span>
           </nav>

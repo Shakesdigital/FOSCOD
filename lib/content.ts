@@ -139,6 +139,26 @@ export type Activity = {
   end_date?: string;
 };
 
+/* ---------- project detail page content (activities + impact cards) ---------- */
+
+export type ProjectActivity = {
+  title: string;
+  description: string;
+  imageUrl?: string;
+  imageAlt?: string;
+  href?: string;
+};
+
+export type ProjectImpactCard = {
+  title: string;
+  excerpt?: string;
+  imageUrl?: string;
+  imageAlt?: string;
+  verifiedOutcome?: string;
+  href?: string;
+  ctaLabel?: string;
+};
+
 export type Story = {
   slug: string;
   title: string;
@@ -2269,4 +2289,57 @@ export async function getCedpAreaImpacts(areaSlug: string): Promise<CedpAreaImpa
     }
   }
   return cedpAreaImpactsFallback[areaSlug] ?? [];
+}
+
+/* ============================================================
+   Project detail page content (activities + impact cards)
+   Supabase-first with fallback defaults imported from lib/projects.
+   ============================================================ */
+
+export async function getProjectActivities(slug: string): Promise<ProjectActivity[]> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    const { data } = (await supabase
+      ?.from("project_activities")
+      .select("title,description,image_url,image_alt,order_column")
+      .eq("project_slug", slug)
+      .eq("visible", true)
+      .order("order_column", { ascending: true })) ?? { data: null };
+    if (data && data.length) {
+      return (data as any[]).map((a) => ({
+        title: a.title,
+        description: a.description ?? "",
+        imageUrl: a.image_url ?? undefined,
+        imageAlt: a.image_alt ?? undefined,
+        href: undefined,
+      }));
+    }
+  }
+  const { projectActivities } = await import("@/lib/projects");
+  return projectActivities[slug] ?? [];
+}
+
+export async function getProjectImpactCards(slug: string): Promise<ProjectImpactCard[]> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    const { data } = (await supabase
+      ?.from("project_impacts")
+      .select("title,excerpt,image_url,image_alt,verified_outcome,story_slug,cta_label,order_column")
+      .eq("project_slug", slug)
+      .eq("visible", true)
+      .order("order_column", { ascending: true })) ?? { data: null };
+    if (data && data.length) {
+      return (data as any[]).map((c) => ({
+        title: c.title,
+        excerpt: c.excerpt ?? undefined,
+        imageUrl: c.image_url ?? undefined,
+        imageAlt: c.image_alt ?? undefined,
+        verifiedOutcome: c.verified_outcome ?? undefined,
+        href: c.story_slug ? `/impact/stories/${c.story_slug}` : undefined,
+        ctaLabel: c.cta_label ?? "Read the impact story",
+      }));
+    }
+  }
+  const { projectImpacts } = await import("@/lib/projects");
+  return projectImpacts[slug] ?? [];
 }

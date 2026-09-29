@@ -695,3 +695,45 @@ on conflict (area_id, title) do update set
   story = excluded.story, href = excluded.href, cta_label = excluded.cta_label,
   verified_outcome = excluded.verified_outcome, order_column = excluded.order_column, visible = excluded.visible;
 
+-- ---------- project_activities (individual project detail page) ----------
+delete from public.project_activities;
+insert into public.project_activities (project_slug, title, description, image_alt, order_column, visible) values
+  ('solar-powered-water-system-naluvule', 'Community needs assessment',
+   'FOSCOD and the Naluvule community conducted a joint field survey mapping water access points, daily water-collection patterns, and existing energy sources. The assessment established a 25% community co-contribution agreement and identified the solar-borehole site at the village edge as the priority location.',
+   'Community mapping water points during needs assessment', 1, true),
+  ('solar-powered-water-system-naluvule', 'Solar system design & procurement',
+   'Engineers from FOSCOD and a technical partner designed a 3 kW solar array to power a 7.5 HP submersible pump capable of delivering 40,000 litres per day. The system includes a 5,000 L overhead tank, a gravity-feed manifold, and kiosk connections to six distribution points across the village. All equipment was locally sourced where possible.',
+   'Solar panel array and pump schematic', 2, true),
+  ('solar-powered-water-system-naluvule', 'Installation & community training',
+   'Over eight weeks, local technicians and village volunteers installed the solar array, drilled the borehole, and constructed the tank foundation. A three-day train-the-trainer workshop certified twelve community members in basic solar maintenance, pump servicing, and financial record-keeping for the water user committee.',
+   'Community technicians installing solar panels', 3, true),
+  ('solar-powered-water-system-naluvule', 'System commissioning & handover',
+   'The solar-powered water system was officially handed over to the Naluvule Water User Committee in a village ceremony attended by local government officials, the FOSCOD team, and community elders. A maintenance register, spare-parts fund, and quarterly inspection schedule were established to guarantee long-term sustainability.',
+   'Handover ceremony with community and FOSCOD representatives', 4, true)
+on conflict (project_slug, title) do update set
+  description = excluded.description, image_url = excluded.image_url, image_alt = excluded.image_alt,
+  order_column = excluded.order_column, visible = excluded.visible;
+
+-- ---------- project_impacts (individual project detail page carousel) ----------
+delete from public.project_impacts;
+insert into public.project_impacts (project_slug, title, excerpt, image_alt, verified_outcome, story_slug, cta_label, order_column, visible) values
+  ('solar-powered-water-system-naluvule', 'Solar-powered salon in Naluvule',
+   'A solar-powered hair salon turned an unreliable income into a growing business — clean energy powering livelihoods.',
+   'Salon owner working under solar-powered lighting',
+   '3 households gained reliable evening lighting and new income streams',
+   'solar-powered-salon-naluvule', 'Read the impact story', 1, true),
+  ('solar-powered-water-system-naluvule', 'Reliable water access for 240 people',
+   'The community solar borehole delivers treated water daily with 95% uptime in its first year — eliminating the need for long water-collection trips.',
+   'Children filling jerrycans at the solar-powered water kiosk',
+   '240 people access treated water daily with 95% system uptime',
+   'naluvule-water-access', 'Read the impact story', 2, true),
+  ('solar-powered-water-system-naluvule', 'Youth technical skills program',
+   'Twelve community members were certified in solar PV installation and pump maintenance, creating a local technical workforce.',
+   'Graduating youth technicians in solar training workshop',
+   '12 technicians trained; 8 employed within 6 months',
+   'naluvule-youth-tech', 'Read the impact story', 3, true)
+on conflict (project_slug, title) do update set
+  excerpt = excluded.excerpt, image_url = excluded.image_url, image_alt = excluded.image_alt,
+  verified_outcome = excluded.verified_outcome, story_slug = excluded.story_slug,
+  cta_label = excluded.cta_label, order_column = excluded.order_column, visible = excluded.visible;
+
