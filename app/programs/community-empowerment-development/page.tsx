@@ -1,5 +1,5 @@
 import { HeroSlider } from "@/components/site/HeroSlider";
-import { SplitSection, Prose, CardGrid, CTABand } from "@/components/site/blocks";
+import { SplitSection, Prose, Steps, CardGrid, CTABand } from "@/components/site/blocks";
 import { Section, SectionHeader } from "@/components/site/Section";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
@@ -7,11 +7,18 @@ import { Button } from "@/components/ui/Button";
 import { pageMeta } from "@/lib/seo";
 import {
   getCedpAreasOfFocus,
-  getCedpProcessSteps,
   getCedpImpactStoryCards,
   getCedpImpactCards,
   getCedpHeroSlides,
 } from "@/lib/content";
+
+const approach = [
+  { title: "Community assessment", body: "We start by listening — mapping needs and assets together with residents." },
+  { title: "Asset-based co-design", body: "Solutions are designed with communities, not imposed — using local knowledge and resources." },
+  { title: "Implementation", body: "Delivered with local organizations, global participants, and 25% community co-contribution." },
+  { title: "Monitoring & reporting", body: "Honest measurement and transparent reporting against verified indicators." },
+  { title: "Local ownership", body: "Communities own and sustain what's built — 86% of completed projects continue independently." },
+];
 
 export const metadata = pageMeta(
   "Community Empowerment & Development Program (CEDP)",
@@ -27,11 +34,10 @@ const kalagalaCommunities = [
 ];
 
 export default async function CedpPage() {
-  const [heroSlides, areasOfFocus, processSteps, impactStoryCards, impactCards] =
+  const [heroSlides, areasOfFocus, impactStoryCards, impactCards] =
     await Promise.all([
       getCedpHeroSlides(),
       getCedpAreasOfFocus(),
-      getCedpProcessSteps(),
       getCedpImpactStoryCards(),
       getCedpImpactCards(),
     ]);
@@ -96,42 +102,18 @@ export default async function CedpPage() {
       </Section>
 
       {/* 4. From priority to ownership — white */}
-      <Section>
-        <SectionHeader
-          eyebrow="From priority to ownership"
-          title="How a community-led project should move"
-          intro="The sequence keeps local knowledge, delivery roles, evidence, and long-term responsibility in the same conversation."
-          align="center"
-        />
-        <div className="mt-12 grid gap-8 md:grid-cols-3">
-          {processSteps.map((step) => (
-            <div
-              key={step.title}
-              className="flex flex-col rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-6"
-            >
-              <PhotoSlot
-                tone="water"
-                ratio="16/9"
-                caption={step.imageAlt || step.title}
-                imageUrl={step.imageUrl}
-                alt={step.imageAlt}
-                className="mb-4"
-              />
-              {step.subtitle && (
-                <p className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
-                  {step.subtitle}
-                </p>
-              )}
-              <h3 className="mt-2 text-xl leading-snug">{step.title}</h3>
-              {step.description && (
-                <p className="mt-3 text-[0.92rem] leading-relaxed text-[var(--muted)]">
-                  {step.description}
-                </p>
-              )}
-            </div>
-          ))}
+      <section className="py-16 md:py-24">
+        <div className="container-page">
+          <div className="mx-auto max-w-2xl text-center">
+            <Eyebrow>From priority to ownership</Eyebrow>
+            <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">How a community-led project should move</h2>
+            <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
+              The sequence keeps local knowledge, delivery roles, evidence, and long-term responsibility in the same conversation.
+            </p>
+          </div>
+          <div className="mt-10"><Steps steps={approach} /></div>
         </div>
-      </Section>
+      </section>
 
       {/* 5. Geography — mint (kept as-is) */}
       <section className="bg-[var(--surface-2)] py-16 md:py-24">
