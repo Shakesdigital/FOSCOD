@@ -106,22 +106,24 @@ export function ProjectCarousel({
               >
                 {group.map((p, i) => (
                   <li key={p.slug} className="group h-full">
-                    <a href={p.href} className="block h-full focus-visible:outline-none">
-                      <div className="flex h-full flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] transition-all duration-200 group-hover:-translate-y-0.5 group-hover:border-[var(--border-strong)] group-hover:shadow-[var(--shadow-md)]">
-                        <PhotoSlot tone={tones[(gi * 3 + i) % 3]} ratio="4/3" tag={p.theme} caption={p.title} />
-                        <div className="flex flex-1 flex-col p-6">
-                          <p className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.12em] text-[var(--muted)]">
-                            {p.location}
-                          </p>
-                          <h3 className="mt-1.5 text-lg leading-snug">{p.title}</h3>
-                          <p className="mt-2 flex-1 text-[0.92rem] leading-relaxed text-[var(--muted)]">{p.summary}</p>
-                          <span className="mt-4 inline-flex items-center gap-1.5 text-[0.9rem] font-medium text-[var(--accent-700)]">
-                            Learn more
-                            <span className="transition-transform group-hover:translate-x-0.5" aria-hidden>→</span>
-                          </span>
-                        </div>
+                    <div className="flex h-full flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] transition-all duration-200 group-hover:-translate-y-0.5 group-hover:border-[var(--border-strong)] group-hover:shadow-[var(--shadow-md)]">
+                      <PhotoSlot tone={tones[(gi * 3 + i) % 3]} ratio="4/3" tag={p.theme} caption={p.title} />
+                      <div className="flex flex-1 flex-col p-6">
+                        <p className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.12em] text-[var(--muted)]">
+                          {p.location}
+                        </p>
+                        <h3 className="mt-1.5 text-lg leading-snug">{p.title}</h3>
+                        <p className="mt-2 flex-1 text-[0.92rem] leading-relaxed text-[var(--muted)]">{p.summary}</p>
+                        <Button
+                          href={p.href}
+                          variant="secondary"
+                          size="sm"
+                          className="mt-4 self-start"
+                        >
+                          Learn more
+                        </Button>
                       </div>
-                    </a>
+                    </div>
                   </li>
                 ))}
               </ul>

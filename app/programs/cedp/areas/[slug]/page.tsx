@@ -1,7 +1,8 @@
 import { HeroSlider } from "@/components/site/HeroSlider";
-import { CardGrid, CTABand, Prose, SplitSection } from "@/components/site/blocks";
+import { CardGrid, Prose, SplitSection } from "@/components/site/blocks";
 import { HowYouCanGetInvolved } from "@/components/home/HowYouCanGetInvolved";
 import { Section, SectionHeader } from "@/components/site/Section";
+import { Button } from "@/components/ui/Button";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
 import { pageMeta } from "@/lib/seo";
 import {
@@ -103,33 +104,33 @@ export default async function CedpAreaPage({ params }: { params: Promise<{ slug:
         {areaProjects.length > 0 ? (
           <ul className="mt-10 grid gap-6 md:grid-cols-3">
             {areaProjects.map((p, i) => (
-              <li key={p.slug} className="group h-full">
-                <a href={p.href} className="block h-full focus-visible:outline-none">
-                  <div className="flex h-full flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] transition-[transform,box-shadow,border-color] duration-200 group-hover:-translate-y-0.5 group-hover:border-[var(--border-strong)] group-hover:shadow-[var(--shadow-md)]">
-                    <PhotoSlot
-                      tone={(["forest", "water", "earth"] as const)[i % 3]}
-                      ratio="16/10"
-                      tag={p.theme}
-                      caption={p.title}
-                      className="rounded-none border-0 border-b border-[var(--border)]"
-                    />
-                    <div className="flex flex-1 flex-col p-6">
-                      <p className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
-                        {p.theme}
-                      </p>
-                      <h3 className="mt-2 text-xl leading-snug">{p.title}</h3>
-                      <p className="mt-2 flex-1 text-[0.9rem] leading-relaxed text-[var(--muted)]">
-                        {p.summary}
-                      </p>
-                      <span className="mt-4 inline-flex items-center gap-1.5 text-[0.9rem] font-medium text-[var(--accent-700)]">
-                        {p.customCtaLabel || "Read more about the project"}
-                        <span className="transition-transform group-hover:translate-x-0.5" aria-hidden>
-                          →
-                        </span>
-                      </span>
-                    </div>
+              <li key={p.slug} className="group">
+                <div className="flex h-full flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] transition-[transform,box-shadow,border-color] duration-200 group-hover:-translate-y-0.5 group-hover:border-[var(--border-strong)] group-hover:shadow-[var(--shadow-md)]">
+                  <PhotoSlot
+                    tone={(["forest", "water", "earth"] as const)[i % 3]}
+                    ratio="16/10"
+                    tag={p.theme}
+                    caption={p.title}
+                    className="rounded-none border-0 border-b border-[var(--border)]"
+                  />
+                  <div className="flex flex-1 flex-col p-6">
+                    <p className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
+                      {p.theme}
+                    </p>
+                    <h3 className="mt-2 text-xl leading-snug">{p.title}</h3>
+                    <p className="mt-2 flex-1 text-[0.9rem] leading-relaxed text-[var(--muted)]">
+                      {p.summary}
+                    </p>
+                    <Button
+                      href={p.href}
+                      variant="secondary"
+                      size="sm"
+                      className="mt-4"
+                    >
+                      {p.customCtaLabel || "Read more about the project"}
+                    </Button>
                   </div>
-                </a>
+                </div>
               </li>
             ))}
           </ul>
@@ -160,22 +161,6 @@ export default async function CedpAreaPage({ params }: { params: Promise<{ slug:
           intro="Join, partner, or support — every contribution is tied to a community-defined priority with clear evidence."
         />
       )}
-
-      {/* 6. Closing CTA — mint */}
-      <Section surface>
-        <CTABand
-          title="Support community-led development"
-          body="Partner on a flagship project, fund priority work, or join as an intern or volunteer."
-          actions={[
-            {
-              href: area.heroCta1?.href || "/partners",
-              label: area.heroCta1?.label || "Partner with us",
-            },
-            { href: "/donate", label: "Donate to a project", variant: "secondary" },
-            { href: "/projects", label: "Explore projects", variant: "ghost" },
-          ]}
-        />
-      </Section>
     </>
   );
 }

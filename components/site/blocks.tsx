@@ -559,23 +559,21 @@ export function CardGrid({
                     </p>
                   )}
                   {c.href && (
-                    <span className="mt-4 inline-flex items-center gap-1.5 text-[0.9rem] font-medium text-[var(--accent-700)]">
+                    <Button
+                      href={c.href}
+                      variant="secondary"
+                      size="sm"
+                      className="mt-4"
+                    >
                       Read more
-                      <span className="transition-transform group-hover:translate-x-0.5" aria-hidden>→</span>
-                    </span>
+                    </Button>
                   )}
                 </div>
               </div>
             );
             return (
               <li key={c.title + i} className="group h-full">
-                {c.href ? (
-                  <a href={c.href} className="block h-full focus-visible:outline-none">
-                    {Card}
-                  </a>
-                ) : (
-                  Card
-                )}
+                {Card}
               </li>
             );
           })}

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Section } from "@/components/site/Section";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { Button } from "@/components/ui/Button";
 import type { Pathway } from "@/lib/content";
 
 export function Pathways({ pathways }: { pathways: Pathway[] }) {
@@ -23,9 +24,8 @@ export function Pathways({ pathways }: { pathways: Pathway[] }) {
         {pathways.map((p) => {
           const accentVar = p.tone === "accent" ? "var(--clay-600)" : "var(--accent-600)";
           return (
-            <Link
+            <div
               key={p.key}
-              href={p.href}
               className="group relative flex flex-col overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-8 transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)] md:p-10"
             >
               <span
@@ -40,16 +40,15 @@ export function Pathways({ pathways }: { pathways: Pathway[] }) {
               <p className="mt-4 flex-1 leading-relaxed text-[var(--ink-soft)]">
                 {p.body}
               </p>
-              <span
-                className="mt-7 inline-flex items-center gap-2 text-[0.95rem] font-medium transition-colors"
-                style={{ color: accentVar }}
+              <Button
+                href={p.href}
+                variant="secondary"
+                size="sm"
+                className="mt-4 self-start"
               >
                 {p.cta}
-                <span className="transition-transform duration-200 group-hover:translate-x-1">
-                  →
-                </span>
-              </span>
-            </Link>
+              </Button>
+            </div>
           );
         })}
       </div>

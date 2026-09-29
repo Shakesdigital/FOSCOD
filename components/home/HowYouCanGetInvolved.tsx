@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
 import { Button } from "@/components/ui/Button";
@@ -33,9 +32,8 @@ export function HowYouCanGetInvolved({
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {cards.map((card, i) => (
-            <Link
+            <div
               key={card.title}
-              href={card.href}
               className="group flex h-full flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:border-[var(--border-strong)] hover:shadow-[var(--shadow-md)]"
             >
               {card.imageUrl ? (
@@ -56,12 +54,16 @@ export function HowYouCanGetInvolved({
                 <p className="mt-2 flex-1 text-[0.92rem] leading-relaxed text-[var(--muted)]">
                   {card.body}
                 </p>
-                <span className="mt-4 inline-flex items-center gap-1.5 text-[0.9rem] font-medium text-[var(--accent-700)]">
+                <Button
+                  href={card.href}
+                  variant="secondary"
+                  size="sm"
+                  className="mt-4 self-start"
+                >
                   {card.ctaLabel}
-                  <span className="transition-transform group-hover:translate-x-0.5" aria-hidden>→</span>
-                </span>
+                </Button>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       </div>
