@@ -1,0 +1,192 @@
+import { HeroSlider } from "@/components/site/HeroSlider";
+import { CardGrid, CTABand } from "@/components/site/blocks";
+import { HowYouCanGetInvolved } from "@/components/home/HowYouCanGetInvolved";
+import { SectionHeader } from "@/components/site/Section";
+import { VideoPlayer } from "@/components/site/VideoPlayer";
+import { TestimonialGrid } from "@/components/site/TestimonialCard";
+import { pageMeta } from "@/lib/seo";
+import { getGeneralImpactPage } from "@/lib/content";
+import type { HeroSlide } from "@/lib/content";
+import type { GridCard } from "@/components/site/blocks";
+import { notFound } from "next/navigation";
+
+export const revalidate = 60;
+
+export async function generateMetadata() {
+  const page = await getGeneralImpactPage("cedp");
+  if (!page) return { title: "General impact not found" };
+  return pageMeta(
+    page.metaTitle || page.title,
+    page.metaDescription ||
+      `${page.title} — verified impact stories from FOSCOD's ${page.program} work in Uganda.`
+  );
+}
+
+export default async function GeneralImpactPage() {
+  const page = await getGeneralImpactPage("cedp");
+  if (!page) notFound();
+
+  /* ------------------------------------------------------------------ */
+  /* Section backgrounds alternate: white → mint → white → mint → etc.  */
+  /*   white  = no inline bg  (defaults to --bg)                         */
+  /*   mint   = bg-[var(--surface-2)]  (#eaf5ee)                         */
+  /* ------------------------------------------------------------------ */
+
+  // Build hero slides from the page's hero fields
+  const heroSlides: HeroSlide[] = [
+    {
+      eyebrow: page.eyebrow,
+      title: page.title,
+      intro: page.descriptionBody,
+      tone: page.tone,
+      imageUrl: page.heroImageUrl,
+      cta: page.heroCta1,
+      cta2: page.heroCta2,
+      cta3: page.heroCta3,
+    },
+  ];
+
+  // Map CD story cards to CardGrid shape
+  const cdCardItems: GridCard[] = (page.cdStoryCards || []).map((c) => ({
+    title: c.title,
+    excerpt: c.excerpt || c.verifiedOutcome,
+    href: c.href,
+    tone: page.tone,
+    imageUrl: c.imageUrl,
+    imageAlt: c.imageAlt || c.title,
+    kicker: c.verifiedOutcome,
+  }));
+
+  // Map GLE story cards to CardGrid shape
+  const gleCardItems: GridCard[] = (page.gleStoryCards || []).map((c) => ({
+    title: c.title,
+    excerpt: c.excerpt || c.verifiedOutcome,
+    href: c.href,
+    tone: page.tone,
+    imageUrl: c.imageUrl,
+    imageAlt: c.imageAlt || c.title,
+    kicker: c.verifiedOutcome,
+  }));
+
+  return (
+    <>
+      {/* 1. Hero — like all other landing pages */}
+      <HeroSlider slides={heroSlides} />
+
+      {/* 2. Heading & brief description (always renders) */}
+      {(page.descriptionTitle || page.descriptionBody) && (
+        <section className="bg-[var(--surface-2)] py-16 md:py-24">
+          <div className="container-page">
+            {page.descriptionTitle && (
+              <h2 className="text-[clamp(1.7rem,3vw,2.3rem)] font-medium">{page.descriptionTitle}</h2>
+            )}
+            {page.descriptionBody && (
+              <p className="mt-4 max-w-3xl leading-relaxed text-[var(--ink-soft)]">{page.descriptionBody}</p>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* 3. Featured community empowerment / development impact stories (CD section) */}
+      {cdCardItems.length > 0 && (
+        <CardGrid
+          eyebrow={page.cdStoriesEyebrow || "Community stories"}
+          title={page.cdStoriesTitle || "Featured impact stories"}
+          intro={page.cdStoriesIntro}
+          items={cdCardItems}
+          more={{ href: "/impact/stories", label: "See all stories" }}
+        />
+      )}
+
+      {/* 4. Global learning & empowerment stories (GLE section — same card format as CD) */}
+      {gleCardItems.length > 0 && (
+        <CardGrid
+          eyebrow={page.gleStoriesEyebrow || "Global learning stories"}
+          title={page.gleStoriesTitle || "Featured global learning stories"}
+          intro={page.gleStoriesIntro}
+          items={gleCardItems}
+          more={{ href: "/impact/stories", label: "See all stories" }}
+          surface
+        />
+      )}
+
+      {/* 5. Explore more stories — two-column layout (left: testimonials, right: videos) */}
+      {(page.exploreTestimonials?.length || page.exploreVideos?.length) ? (
+        <section className="py-16 md:py-24">
+          <div className="container-page">
+            <SectionHeader
+              eyebrow={page.exploreEyebrow || "More voices and videos"}
+              title={page.exploreTitle || "Community voices & field films"}
+              intro={page.exploreIntro}
+              align="center"
+            />
+
+            <div className="mt-12 grid gap-12 lg:grid-cols-[0.55fr_0.45fr]">
+              {/* Left column: testimonials */}
+              {page.exploreTestimonials && page.exploreTestimonials.length > 0 && (
+                <TestimonialGrid
+                  eyebrow={page.exploreEyebrow || undefined}
+                  title={page.exploreTitle || undefined}
+                  intro={page.exploreIntro || undefined}
+                  items={page.exploreTestimonials}
+                  cta={page.exploreTestimonialsCta}
+                  surface={false}
+                />
+              )}
+
+              {/* Right column: videos */}
+              {page.exploreVideos && page.exploreVideos.length > 0 && (
+                <div>
+                  <div className="space-y-8">
+                    {page.exploreVideos.map((video, i) => (
+                      <VideoPlayer
+                        key={i}
+                        videoUrl={video.videoUrl}
+                        thumbnailUrl={video.thumbnailUrl}
+                        thumbnailAlt={video.thumbnailAlt || video.title || "Video thumbnail"}
+                        title={video.title}
+                        caption={video.title}
+                      />
+                    ))}
+                  </div>
+                  {page.exploreVideosCta && (
+                    <div className="mt-8">
+                      <a
+                        href={page.exploreVideosCta.href}
+                        className="inline-flex items-center gap-1.5 text-[0.9rem] font-medium text-[var(--accent-700)] transition-colors hover:underline"
+                      >
+                        {page.exploreVideosCta.label} →
+                      </a>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {/* 6. Get involved section at the very bottom (same as all other landing pages) */}
+      {page.getInvolvedCards && page.getInvolvedCards.length > 0 && (
+        <HowYouCanGetInvolved
+          cards={page.getInvolvedCards}
+          eyebrow={page.getInvolvedEyebrow || "How you can get involved"}
+          title={page.getInvolvedTitle || "Your pathway into the work"}
+          intro={page.getInvolvedIntro}
+          surface
+        />
+      )}
+
+      {/* Closing CTA band — always present at the bottom */}
+      <CTABand
+        title="Explore more verified impact"
+        body="Stories, statistics, and community voices from FOSCOD's work across Uganda — all consent-approved and evidence-backed."
+        actions={[
+          { href: "/impact", label: "See all impact" },
+          { href: "/impact/stories", label: "Read impact stories", variant: "secondary" },
+          { href: "/donate", label: "Support the work", variant: "ghost" },
+        ]}
+      />
+    </>
+  );
+}

@@ -90,11 +90,13 @@ on conflict (slug) do update set
   status = excluded.status, featured = excluded.featured, excerpt = excluded.excerpt;
 
 -- Set challenge images for projects
-insert into public.projects (slug, challenge_image_url, challenge_image_alt) values
-  ('solar-powered-water-system-naluvule', '/images/naluvule/challenge-site.jpg', 'Solar-powered water system site in Naluvule')
-on conflict (slug) do update set
-  challenge_image_url = excluded.challenge_image_url,
-  challenge_image_alt = excluded.challenge_image_alt;
+-- UPDATE (not INSERT) avoids NOT NULL violations on title: the project row
+-- is already inserted above (lines 77-90), so we only need to set the
+-- challenge image columns on an existing row.
+update public.projects
+  set challenge_image_url = '/images/naluvule/challenge-site.jpg',
+      challenge_image_alt = 'Solar-powered water system site in Naluvule'
+  where slug = 'solar-powered-water-system-naluvule';
 
 -- ---------- impact_metrics (verified and dated) ----------
 delete from public.impact_metrics;

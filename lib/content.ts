@@ -2343,3 +2343,430 @@ export async function getProjectImpactCards(slug: string): Promise<ProjectImpact
   const { projectImpacts } = await import("@/lib/projects");
   return projectImpacts[slug] ?? [];
 }
+
+/* ============================================================
+   Impact story full-detail pages
+   Supabase-first with fallbacks so the pages render fully
+   before the database is wired.
+   ============================================================ */
+
+export type StoryBlock = {
+  type: "paragraph" | "heading" | "quote" | "image";
+  content?: string;       // text for paragraph/heading/quote
+  imageUrl?: string;      // url for image blocks
+  imageAlt?: string;      // alt for image blocks
+  caption?: string;       // optional caption for image blocks
+  attribution?: string;   // optional attribution for quote blocks
+  alignment?: "left" | "center" | "right";
+};
+
+export type StatItem = {
+  label: string;
+  value: string;
+  unit?: string;
+  note?: string;
+};
+
+export type StoryTestimonial = {
+  quote: string;
+  name: string;
+  role?: string;
+  program?: string;
+  photoUrl?: string;
+  photoAlt?: string;
+  tone?: "earth" | "water" | "forest";
+};
+
+export type ImpactStoryDetail = {
+  slug: string;
+  title: string;
+  eyebrow?: string;
+  heroImageUrl?: string;
+  heroImageAlt?: string;
+  heroIntro?: string;
+  tone: "earth" | "water" | "forest";
+  heroCta?: { href: string; label: string };
+  storyBody: StoryBlock[];
+  statsEyebrow?: string;
+  statsTitle?: string;
+  statsIntro?: string;
+  statsItems: StatItem[];
+  videoEyebrow?: string;
+  videoTitle?: string;
+  videoDescription?: string;
+  videoUrl?: string;
+  videoThumbnailUrl?: string;
+  videoThumbnailAlt?: string;
+  testimonialsEyebrow?: string;
+  testimonialsTitle?: string;
+  testimonialsIntro?: string;
+  testimonials: StoryTestimonial[];
+  metaTitle?: string;
+  metaDescription?: string;
+  metaImageUrl?: string;
+};
+
+const impactStoryDetailFallback: ImpactStoryDetail = {
+  slug: "solar-powered-salon-naluvule",
+  title: "Solar-Powered Salon in Naluvule",
+  eyebrow: "Community story",
+  heroImageUrl: "/images/impact/stories/salon-hero.jpg",
+  heroImageAlt: "Solar-powered hair salon at dusk in Naluvule village",
+  heroIntro: "A solar-powered salon turned an unreliable income into a growing business — and a new model for community clean-energy ownership.",
+  tone: "water",
+  heroCta: { href: "/donate?program=wash", label: "Support clean energy for livelihoods" },
+  storyBody: [
+    { type: "paragraph", content: "In the village of Naluvule, evening light used to mean kerosene lamps and a day's work done. Sarah Namubiru, who runs a small hair salon from her home, could only serve a few clients before dark — and those evenings were costly, smoky, and dim." },
+    { type: "image", imageUrl: "/images/impact/stories/salon-interior.jpg", imageAlt: "Interior of the solar-powered salon with LED lighting", caption: "LED lighting transformed the salon's evening capacity." },
+    { type: "paragraph", content: "When FOSCOD partnered with the community to install a shared solar microgrid, Sarah was among the first to connect. The system — funded through a community co-contribution of labour and materials — gave her reliable, clean electricity from sunrise to well past sunset." },
+    { type: "heading", content: "A new kind of reliability" },
+    { type: "paragraph", content: "Within three months, Sarah hired two apprentices and added evening classes on hair treatments. The extra income let her invest in a small refrigerator for her products, and she began charging a small fee for phone-charging — a service that became essential during power-outage days across the parish." },
+    { type: "paragraph", content: "But the salon's success is part of something broader. The microgrid now serves 32 households and three small businesses. Each member contributes to a maintenance fund, and a local technician — trained through FOSCOD's Green Skills program — handles routine repairs." },
+    { type: "quote", content: "Before solar, I was losing money after 6 p.m. Now I can serve clients until 8 — and the quality of my work is so much better in good light.", attribution: "Sarah Namubiru, salon owner" },
+    { type: "image", imageUrl: "/images/impact/stories/salon-owner.jpg", imageAlt: "Sarah Namubiru at her solar-powered salon", caption: "Sarah Namubiru at her solar-powered salon" },
+    { type: "paragraph", content: "The project demonstrates how community-owned energy infrastructure can ripple outward — creating not just cleaner air and lower fuel costs, but real economic opportunity that the community controls itself." },
+  ],
+  statsEyebrow: "Verified outcomes",
+  statsTitle: "Measurable impact after 12 months",
+  statsIntro: "These figures were verified through community-managed monitoring and FOSCOD's annual evidence review.",
+  statsItems: [
+    { label: "Households with reliable solar power", value: "32", note: "95% uptime in first year" },
+    { label: "New income-generating enterprises", value: "3", note: "salon, phone-charging, small fridge rental" },
+    { label: "Apprentices trained", value: "2", note: "hired by the salon owner" },
+    { label: "Kerosene reduction", value: "85%", note: "households report not buying fuel for lighting" },
+  ],
+  videoEyebrow: "Impact film",
+  videoTitle: "A salon that thrives after dark",
+  videoDescription: "A short film on how community-owned solar power transformed three businesses in Naluvule — and the technician who keeps the lights on.",
+  videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+  videoThumbnailUrl: "/images/impact/stories/salon-video-thumb.jpg",
+  videoThumbnailAlt: "Video thumbnail of Sarah at her solar salon",
+  testimonialsEyebrow: "Voices from the community",
+  testimonialsTitle: "What the community says",
+  testimonialsIntro: "Permissioned reflections from neighbours, apprentices, and the technician who maintains the microgrid.",
+  testimonials: [
+    { quote: "Sarah's salon now stays open until 9 p.m. The apprentices are earning, and we can all charge our phones without fear of a blackout.", name: "Grace K., neighbourhood leader", role: "Community member", tone: "earth" },
+    { quote: "Being trained as a solar technician meant I could install my own system — and now I service panels for 15 households. It's real work, not charity.", name: "James Ochieng", role: "Solar technician graduate", tone: "water" },
+    { quote: "Clean energy isn't just about the environment. It's about dignity — about a business owner who can plan her day around reliable power.", name: "Dr. Aisha Mwanje", role: "FOSCOD programmes lead", tone: "forest" },
+  ],
+  metaTitle: "Solar-powered salon in Naluvule — Full impact story",
+  metaDescription: "How a community-owned solar microgrid transformed a hair salon's evening capacity, trained new technicians, and created lasting economic opportunity.",
+};
+
+const impactStoryDetailsFallback: Record<string, ImpactStoryDetail> = {
+  "solar-powered-salon-naluvule": impactStoryDetailFallback,
+  "water-is-life-lubani": {
+    ...impactStoryDetailFallback,
+    slug: "water-is-life-lubani",
+    title: "Water is Life: a protected spring in Lubani",
+    eyebrow: "Water & health",
+    heroIntro: "In Lubani, protecting a natural spring meant safer water, fewer clinic visits, and time returned to children's school days.",
+    tone: "water",
+    heroCta: { href: "/donate?program=wash", label: "Support spring protection" },
+    storyBody: [
+      { type: "paragraph", content: "Before the spring protection project in Lubani, residents — especially women and children — walked long distances to collect water that often made them sick. The spring was open to cattle and runoff, and waterborne illness was common." },
+      { type: "image", imageUrl: "/images/impact/stories/lubani-spring-before.jpg", imageAlt: "Unprotected spring before community intervention", caption: "The spring before protection work began." },
+      { type: "paragraph", content: "Through FOSCOD's WASH program, the community fenced the spring, built a collection chamber, and established a water user committee. Within six months, water-quality tests showed a 90% reduction in E. coli." },
+      { type: "heading", content: "Time returned to learning" },
+      { type: "paragraph", content: "Children no longer miss school to fetch water. The nearest improved source is now a five-minute walk, compared to the hour-long round trip to the unprotected spring." },
+    ],
+    statsItems: [
+      { label: "Households with clean water access", value: "120", note: "within 500m of protected spring" },
+      { label: "Reduction in waterborne illness", value: "60%", note: "clinic records, 6-month follow-up" },
+      { label: "Children's school attendance", value: "+12%", note: "measured in local primary school" },
+      { label: "Water user committee members trained", value: "12", note: "maintenance and testing" },
+    ],
+    testimonials: [
+      { quote: "My daughter used to miss two days of school every week because she was collecting water. Now she walks there and back in 10 minutes.", name: "Mariam N.", role: "Parent", tone: "water" },
+      { quote: "The committee makes sure the spring stays protected. We all contribute, and everyone benefits.", name: "Samuel K.", role: "Water committee chair", tone: "earth" },
+    ],
+  },
+};
+
+export async function getImpactStoryDetail(slug: string): Promise<ImpactStoryDetail | null> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    if (!supabase) return impactStoryDetailsFallback[slug] ?? null;
+    const { data } = (await supabase
+      ?.from("impact_story_details")
+      .select("slug,title,eyebrow,hero_image_url,hero_image_alt,hero_intro,tone,hero_cta_label,hero_cta_href,story_body,stats_eyebrow,stats_title,stats_intro,stats_items,video_eyebrow,video_title,video_description,video_url,video_thumbnail_url,video_thumbnail_alt,testimonials_eyebrow,testimonials_title,testimonials_intro,testimonials,meta_title,meta_description,meta_image_url,status")
+      .eq("slug", slug)
+      .eq("status", "published")
+      .maybeSingle()) ?? { data: null };
+    if (data) {
+      return {
+        slug: data.slug,
+        title: data.title,
+        eyebrow: data.eyebrow ?? undefined,
+        heroImageUrl: data.hero_image_url ?? undefined,
+        heroImageAlt: data.hero_image_alt ?? undefined,
+        heroIntro: data.hero_intro ?? undefined,
+        tone: (data.tone as ImpactStoryDetail["tone"]) ?? "forest",
+        heroCta: data.hero_cta_label && data.hero_cta_href ? { href: data.hero_cta_href, label: data.hero_cta_label } : undefined,
+        storyBody: (data.story_body as StoryBlock[]) ?? [],
+        statsEyebrow: data.stats_eyebrow ?? undefined,
+        statsTitle: data.stats_title ?? undefined,
+        statsIntro: data.stats_intro ?? undefined,
+        statsItems: (data.stats_items as StatItem[]) ?? [],
+        videoEyebrow: data.video_eyebrow ?? undefined,
+        videoTitle: data.video_title ?? undefined,
+        videoDescription: data.video_description ?? undefined,
+        videoUrl: data.video_url ?? undefined,
+        videoThumbnailUrl: data.video_thumbnail_url ?? undefined,
+        videoThumbnailAlt: data.video_thumbnail_alt ?? undefined,
+        testimonialsEyebrow: data.testimonials_eyebrow ?? undefined,
+        testimonialsTitle: data.testimonials_title ?? undefined,
+        testimonialsIntro: data.testimonials_intro ?? undefined,
+        testimonials: (data.testimonials as StoryTestimonial[]) ?? [],
+        metaTitle: data.meta_title ?? undefined,
+        metaDescription: data.meta_description ?? undefined,
+        metaImageUrl: data.meta_image_url ?? undefined,
+      };
+    }
+  }
+  return impactStoryDetailsFallback[slug] ?? null;
+}
+
+export async function getAllImpactStoryDetailSlugs(): Promise<string[]> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    if (!supabase) return Object.keys(impactStoryDetailsFallback);
+    const { data } = (await supabase
+      ?.from("impact_story_details")
+      .select("slug")
+      .eq("status", "published")) ?? { data: null };
+    if (data && data.length) return data.map((r) => r.slug);
+  }
+  return Object.keys(impactStoryDetailsFallback);
+}
+
+/* ============================================================
+   General impact landing page content
+   ============================================================ */
+
+export type GeneralImpactStoryCard = {
+  title: string;
+  excerpt?: string;
+  imageUrl?: string;
+  imageAlt?: string;
+  href?: string;
+  ctaLabel?: string;
+  verifiedOutcome?: string;
+};
+
+export type GeneralImpactVideo = {
+  title?: string;
+  videoUrl?: string;
+  thumbnailUrl?: string;
+  thumbnailAlt?: string;
+  description?: string;
+};
+
+export type GeneralImpactPage = {
+  slug: string;
+  program: "CEDP" | "GLE";
+  title: string;
+  eyebrow?: string;
+  heroImageUrl?: string;
+  heroImageAlt?: string;
+  tone: "earth" | "water" | "forest";
+  heroCta1?: { href: string; label: string };
+  heroCta2?: { href: string; label: string };
+  heroCta3?: { href: string; label: string };
+  descriptionTitle?: string;
+  descriptionBody?: string;
+  cdStoriesEyebrow?: string;
+  cdStoriesTitle?: string;
+  cdStoriesIntro?: string;
+  cdStoryCards?: GeneralImpactStoryCard[];
+  gleStoriesEyebrow?: string;
+  gleStoriesTitle?: string;
+  gleStoriesIntro?: string;
+  gleStoryCards?: GeneralImpactStoryCard[];
+  exploreEyebrow?: string;
+  exploreTitle?: string;
+  exploreIntro?: string;
+  exploreTestimonials?: StoryTestimonial[];
+  exploreTestimonialsCta?: { href: string; label: string };
+  exploreVideos?: GeneralImpactVideo[];
+  exploreVideosCta?: { href: string; label: string };
+  getInvolvedEyebrow?: string;
+  getInvolvedTitle?: string;
+  getInvolvedIntro?: string;
+  getInvolvedCards?: GetInvolvedCard[];
+  visible: boolean;
+  metaTitle?: string;
+  metaDescription?: string;
+  metaImageUrl?: string;
+};
+
+const generalImpactPagesFallback: Record<string, GeneralImpactPage> = {
+  cedp: {
+    slug: "cedp",
+    program: "CEDP",
+    title: "Community Empowerment & Development Impact",
+    eyebrow: "Community Empowerment & Development Program",
+    tone: "forest",
+    heroCta1: { href: "/donate", label: "Support our work" },
+    heroCta2: { href: "/impact", label: "See all impact" },
+    heroCta3: { href: "/partners", label: "Partner with us" },
+    descriptionTitle: "Community-led impact, verified and shared",
+    descriptionBody: "CEDP works across Kalagala Parish and beyond, building locally owned solutions in clean energy, water, livelihoods, health, and environmental restoration. These pages gather the stories, statistics, and community voices behind the change.",
+    cdStoriesEyebrow: "CEDP impact stories",
+    cdStoriesTitle: "Featured community empowerment stories",
+    cdStoriesIntro: "Stories of change from across the six CEDP sub-programs — each rooted in a community priority and backed by evidence.",
+    cdStoryCards: [
+      {
+        title: "Solar-powered salon in Naluvule",
+        excerpt: "A solar-powered hair salon turned an unreliable income into a growing business — and trained the next generation of local technicians.",
+        href: "/impact/stories/solar-powered-salon-naluvule/full",
+        ctaLabel: "Read the full story",
+        verifiedOutcome: "32 households powered, 3 new enterprises, 2 apprentices employed",
+      },
+      {
+        title: "Protected springs and hygiene education",
+        excerpt: "Across Busoga, protected water springs and hygiene education are reducing illness and restoring dignity.",
+        href: "/impact/stories/water-is-life-lubani/full",
+        ctaLabel: "Read the full story",
+        verifiedOutcome: "120 households with clean water; 60% reduction in waterborne illness",
+      },
+      {
+        title: "Regenerating land with biochar",
+        excerpt: "In Kalagala Parish, invasive water hyacinth becomes biochar — healthier soil, cleaner cooking, and new income.",
+        href: "/projects/carbon-credit-project",
+        ctaLabel: "Read the story",
+        verifiedOutcome: "0.5 hectares restored, 500 biochar units produced",
+      },
+    ],
+    gleStoriesEyebrow: "Global learning stories",
+    gleStoriesTitle: "Featured global learning stories",
+    gleStoriesIntro: "Stories from our global learning participants — students, volunteers, and faculty — whose field experiences produced real community value.",
+    gleStoryCards: [
+      {
+        title: "A semester in renewable energy",
+        excerpt: "An internship with FOSCOD's Green Skills team led to a solar installation in a remote health clinic — and a new graduate ready for the clean-energy workforce.",
+        href: "/stories/solar-powered-salon-naluvule",
+        ctaLabel: "Read the story",
+        verifiedOutcome: "1 health clinic powered, 1 intern placed with a green-energy firm",
+      },
+      {
+        title: "Youth Climate Ambassador cohort",
+        excerpt: "Twenty youth completed the annual ambassador program, designing and implementing climate actions in their home communities.",
+        href: "/stories",
+        ctaLabel: "Read the story",
+        verifiedOutcome: "20 ambassadors trained, 8 community-led climate actions launched",
+      },
+      {
+        title: "Research that returns value",
+        excerpt: "A university research team partnered with FOSCOD to map water-quality trends — with findings shared back to community committees.",
+        href: "/stories",
+        ctaLabel: "Read the story",
+        verifiedOutcome: "3 community presentations delivered, 1 policy brief co-authored",
+      },
+    ],
+    exploreEyebrow: "More voices and videos",
+    exploreTitle: "Community voices & field films",
+    exploreIntro: "Permissioned reflections from the people behind the work, and short films from communities in action.",
+    exploreTestimonials: [
+      { quote: "Before solar, I was losing money after 6 p.m. Now I can serve clients until 9 — and the quality of my work is so much better in good light.", name: "Sarah Namubiru", role: "Salon owner, Naluvule", tone: "water" },
+      { quote: "My daughter used to miss two days of school every week fetching water. Now she walks there and back in 10 minutes.", name: "Mariam N.", role: "Parent, Lubani", tone: "earth" },
+      { quote: "Clean energy isn't just about the environment. It's about dignity — about a business owner who can plan her day around reliable power.", name: "Dr. Aisha Mwanje", role: "FOSCOD programmes lead", tone: "forest" },
+      { quote: "The committee makes sure the spring stays protected. We all contribute, and everyone benefits.", name: "Samuel K.", role: "Water committee chair", tone: "water" },
+    ],
+    exploreTestimonialsCta: { href: "/impact", label: "Discover more stories" },
+    exploreVideos: [
+      {
+        title: "A salon that thrives after dark",
+        description: "A short film on how community-owned solar power transformed three businesses in Naluvule.",
+        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        thumbnailUrl: "/images/impact/stories/salon-video-thumb.jpg",
+        thumbnailAlt: "Video thumbnail of solar salon",
+      },
+      {
+        title: "What handover looks like",
+        description: "What it means when a community takes full ownership of its infrastructure, in their own words.",
+        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        thumbnailUrl: "/images/impact/stories/handover-video-thumb.jpg",
+        thumbnailAlt: "Community handover ceremony",
+      },
+    ],
+    exploreVideosCta: { href: "/impact", label: "Watch more videos" },
+    getInvolvedEyebrow: "How you can get involved",
+    getInvolvedTitle: "Your pathway into the work",
+    getInvolvedIntro: "Join, partner, or support — every contribution is tied to a community-defined priority with clear evidence and consent.",
+    getInvolvedCards: [
+      { title: "Volunteer intern", body: "Join a supervised placement matched to your skills and a community-defined priority.", href: "/apply", ctaLabel: "Explore internships", icon: "🌱" },
+      { title: "Partner with us", body: "Co-design clean-energy, WASH, livelihoods, or research partnerships around real community priorities.", href: "/partners", ctaLabel: "Partner with FOSCOD", icon: "🤝" },
+      { title: "Donate to a cause", body: "Fund a named project or priority with transparent, community-led reporting.", href: "/donate", ctaLabel: "Start a giving inquiry", icon: "💚" },
+    ],
+    visible: true,
+    metaTitle: "Community Empowerment & Development — Verified Impact",
+    metaDescription: "Explore verified impact from FOSCOD's Community Empowerment & Development Program — stories, statistics, videos, and community voices from Kalagala Parish and beyond.",
+  },
+};
+
+export async function getGeneralImpactPage(slug: string): Promise<GeneralImpactPage | null> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    if (!supabase) return generalImpactPagesFallback[slug] ?? null;
+    const { data } = (await supabase
+      ?.from("general_impact_pages")
+      .select("slug,program,title,eyebrow,hero_image_url,hero_image_alt,tone,hero_cta_1_label,hero_cta_1_href,hero_cta_2_label,hero_cta_2_href,hero_cta_3_label,hero_cta_3_href,description_title,description_body,cd_stories_eyebrow,cd_stories_title,cd_stories_intro,cd_story_cards,gle_stories_eyebrow,gle_stories_title,gle_stories_intro,gle_story_cards,explore_eyebrow,explore_title,explore_intro,explore_testimonials,explore_testimonials_cta_label,explore_testimonials_cta_href,explore_videos,explore_videos_cta_label,explore_videos_cta_href,get_involved_eyebrow,get_involved_title,get_involved_intro,get_involved_cards,visible,meta_title,meta_description,meta_image_url")
+      .eq("slug", slug)
+      .eq("visible", true)
+      .maybeSingle()) ?? { data: null };
+    if (data) {
+      return {
+        slug: data.slug,
+        program: data.program as "CEDP" | "GLE",
+        title: data.title,
+        eyebrow: data.eyebrow ?? undefined,
+        heroImageUrl: data.hero_image_url ?? undefined,
+        heroImageAlt: data.hero_image_alt ?? undefined,
+        tone: (data.tone as GeneralImpactPage["tone"]) ?? "forest",
+        heroCta1: data.hero_cta_1_label && data.hero_cta_1_href ? { href: data.hero_cta_1_href, label: data.hero_cta_1_label } : undefined,
+        heroCta2: data.hero_cta_2_label && data.hero_cta_2_href ? { href: data.hero_cta_2_href, label: data.hero_cta_2_label } : undefined,
+        heroCta3: data.hero_cta_3_label && data.hero_cta_3_href ? { href: data.hero_cta_3_href, label: data.hero_cta_3_label } : undefined,
+        descriptionTitle: data.description_title ?? undefined,
+        descriptionBody: data.description_body ?? undefined,
+        cdStoriesEyebrow: data.cd_stories_eyebrow ?? undefined,
+        cdStoriesTitle: data.cd_stories_title ?? undefined,
+        cdStoriesIntro: data.cd_stories_intro ?? undefined,
+        cdStoryCards: (data.cd_story_cards as GeneralImpactStoryCard[]) ?? [],
+        gleStoriesEyebrow: data.gle_stories_eyebrow ?? undefined,
+        gleStoriesTitle: data.gle_stories_title ?? undefined,
+        gleStoriesIntro: data.gle_stories_intro ?? undefined,
+        gleStoryCards: (data.gle_story_cards as GeneralImpactStoryCard[]) ?? [],
+        exploreEyebrow: data.explore_eyebrow ?? undefined,
+        exploreTitle: data.explore_title ?? undefined,
+        exploreIntro: data.explore_intro ?? undefined,
+        exploreTestimonials: (data.explore_testimonials as StoryTestimonial[]) ?? [],
+        exploreTestimonialsCta: data.explore_testimonials_cta_label && data.explore_testimonials_cta_href ? { href: data.explore_testimonials_cta_href, label: data.explore_testimonials_cta_label } : undefined,
+        exploreVideos: (data.explore_videos as GeneralImpactVideo[]) ?? [],
+        exploreVideosCta: data.explore_videos_cta_label && data.explore_videos_cta_href ? { href: data.explore_videos_cta_href, label: data.explore_videos_cta_label } : undefined,
+        getInvolvedEyebrow: data.get_involved_eyebrow ?? undefined,
+        getInvolvedTitle: data.get_involved_title ?? undefined,
+        getInvolvedIntro: data.get_involved_intro ?? undefined,
+        getInvolvedCards: (data.get_involved_cards as GetInvolvedCard[]) ?? [],
+        visible: Boolean(data.visible),
+        metaTitle: data.meta_title ?? undefined,
+        metaDescription: data.meta_description ?? undefined,
+        metaImageUrl: data.meta_image_url ?? undefined,
+      };
+    }
+  }
+  return generalImpactPagesFallback[slug] ?? null;
+}
+
+export async function getAllGeneralImpactSlugs(): Promise<string[]> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    if (!supabase) return Object.keys(generalImpactPagesFallback);
+    const { data } = (await supabase
+      ?.from("general_impact_pages")
+      .select("slug")
+      .eq("visible", true)) ?? { data: null };
+    if (data && data.length) return data.map((r) => r.slug);
+  }
+  return Object.keys(generalImpactPagesFallback);
+}
