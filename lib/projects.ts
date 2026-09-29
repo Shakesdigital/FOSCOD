@@ -6,6 +6,7 @@ export type ProjectDetail = {
   tone: "earth" | "water" | "forest";
   subhead: string;
   challenge: string;
+  challengeImage?: string;
   approach: string[];
   highlights: string[];
   funding: string;
@@ -173,6 +174,7 @@ export const projectDetails: ProjectDetail[] = [
     tone: "water",
     subhead: "A solar-powered water initiative linking renewable energy with community water access.",
     challenge: "Naluvule needs reliable water infrastructure that can operate sustainably while reducing dependence on costly or unreliable energy sources.",
+    challengeImage: "/images/naluvule/challenge-site.jpg",
     approach: [
       "Combine solar energy with community water infrastructure",
       "Train local committees in operation, maintenance, and governance",

@@ -131,6 +131,8 @@ export const cmsCollections: CmsCollection[] = [
       { name: "community", label: "Community", type: "select", options: ["kalagala","kyambogo","naluvule","wabusanke","byabuku","nationwide"].map((value) => ({ label: value, value })) },
       { name: "excerpt", label: "Short summary", type: "textarea" },
       { name: "challenge", label: "The challenge", type: "textarea" },
+      { name: "challenge_image_url", label: "Challenge image URL", type: "url" },
+      { name: "challenge_image_alt", label: "Challenge image alt text" },
       { name: "solution", label: "Our approach", type: "textarea" },
       { name: "activities", label: "Activity list", type: "json" }, { name: "partners", label: "Partners involved", type: "json" },
       { name: "timeline", label: "Timeline", type: "json" }, { name: "outcomes_structured", label: "Verified outcomes", type: "json" },

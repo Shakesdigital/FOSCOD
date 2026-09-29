@@ -5,12 +5,10 @@ import { HeroSlider } from "@/components/site/HeroSlider";
 import { type HeroSlide, getProjectActivities, getProjectImpactCards } from "@/lib/content";
 import { SplitSection, Prose, CTABand } from "@/components/site/blocks";
 import { ActivityList } from "@/components/site/ActivityList";
-import { ImpactCarouselLoop } from "@/components/site/ImpactCarouselLoop";
-import { HowYouCanGetInvolved } from "@/components/home/HowYouCanGetInvolved";
+import { ImpactGrid } from "@/components/site/ImpactGrid";
 import { Button } from "@/components/ui/Button";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import { getInvolvementCards } from "@/lib/content";
 import { projectDetails, getProjectDetail } from "@/lib/projects";
 
 export function generateStaticParams() {
@@ -47,9 +45,6 @@ export default async function ProjectDetailPage({
     getProjectImpactCards(slug),
   ]);
 
-  // Get involved cards (shared homepage pathway cards)
-  const involvementCards = await getInvolvementCards();
-
   const heroSlides: HeroSlide[] = [{
     eyebrow: p.theme,
     title: p.title,
@@ -58,13 +53,13 @@ export default async function ProjectDetailPage({
     imageUrl: p.heroImage,
     cta: p.ctas[0] ? { href: p.ctas[0].href, label: p.ctas[0].label } : undefined,
     cta2: p.ctas[1] ? { href: p.ctas[1].href, label: p.ctas[1].label } : undefined,
-    cta3: p.ctas[2] ? { href: p.ctas[2].href, label: p.ctas[2].label } : undefined,
+    cta3: p.ctas[2] ? { href: p.ctas[1].href, label: p.ctas[2].label } : undefined,
   }];
 
   /* ------------------------------------------------------------------ */
   /* Section backgrounds alternate: white → mint → white → mint → etc.  */
-  /*   white  = no inline bg  (defaults to --bg)                         */
-  /*   mint   = bg-[var(--surface-2)]  (#eaf5ee)                         */
+  /*   white  = no inline bg  (defaults to --bg)                       */
+  /*   mint   = bg-[var(--surface-2)]  (#eaf5ee)                       */
   /* ------------------------------------------------------------------ */
 
   return (
@@ -72,14 +67,35 @@ export default async function ProjectDetailPage({
       {/* 1. Hero (kept as-is) */}
       <HeroSlider slides={heroSlides} />
 
-      {/* 2. The Challenge (kept as-is — title + description from challenge field) */}
-      <SplitSection eyebrow="The challenge" title="What we're responding to">
-        <Prose>
-          <p>{p.challenge}</p>
-        </Prose>
-      </SplitSection>
+      {/* 2. The Challenge (image left, text right, centered eyebrow, mint bg) */}
+      <section className="bg-[var(--surface-2)] py-16 md:py-24">
+        <div className="container-page">
+          <div className="mx-auto max-w-3xl text-center">
+            <Eyebrow>The challenge</Eyebrow>
+            <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">What we're responding to</h2>
+          </div>
 
-      {/* 3. Activities (new — alternating image + full description) */}
+          <div className="mt-14 grid items-center gap-10 md:grid-cols-2">
+            <div>
+              <PhotoSlot
+                tone={p.tone}
+                ratio="16/9"
+                imageUrl={p.challengeImage}
+                alt={p.challengeImage ? undefined : "The challenge"}
+                caption={p.title}
+                className="shadow-[var(--shadow-lg)]"
+              />
+            </div>
+            <div>
+              <Prose>
+                <p>{p.challenge}</p>
+              </Prose>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Activities (alternating image + full description, white bg) */}
       {projectActivities.length > 0 && (
         <ActivityList
           items={projectActivities}
@@ -90,24 +106,14 @@ export default async function ProjectDetailPage({
         />
       )}
 
-      {/* 4. Project Impact (new — looping carousel with CTA buttons) */}
+      {/* 4. Project Impact (3-card horizontal grid, mint bg) */}
       {projectImpactCards.length > 0 && (
-        <ImpactCarouselLoop
+        <ImpactGrid
           items={projectImpactCards}
           eyebrow="Project impact"
           title="Verified outcomes from this project"
           intro="Evidence-backed results from the work — each reflecting the priorities communities set for themselves."
           surface
-        />
-      )}
-
-      {/* 5. Get Involved (reuses the same approach as other pages) */}
-      {involvementCards.length > 0 && (
-        <HowYouCanGetInvolved
-          cards={involvementCards}
-          eyebrow="How you can get involved"
-          title="Your pathway into this work"
-          intro="Support, partner, or join as a volunteer or intern — every contribution is tied to a community-defined priority with clear evidence."
         />
       )}
 
@@ -166,48 +172,9 @@ export default async function ProjectDetailPage({
         </section>
       )}
 
-      {/* OUR APPROACH */}
-      <section className="py-16 md:py-20">
-        <div className="container-page grid gap-10 md:grid-cols-2">
-          <div>
-            <h2 className="text-[clamp(1.5rem,2.5vw,2rem)]">Our approach</h2>
-            <ol className="mt-6 space-y-3">
-              {p.approach.map((a, i) => (
-                <li key={a} className="flex gap-3 text-[0.98rem] text-[var(--ink-soft)]">
-                  <span className="font-[family-name:var(--font-mono)] text-sm text-[var(--accent-700)]">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  {a}
-                </li>
-              ))}
-            </ol>
-          </div>
-          <div>
-            <h2 className="text-[clamp(1.5rem,2.5vw,2rem)]">Highlights</h2>
-            <div className="mt-6 grid gap-3 sm:grid-cols-2">
-              {p.highlights.map((h) => (
-                <div key={h} className="flex items-center gap-2.5 text-[0.95rem] text-[var(--ink-soft)]">
-                  <span className="mt-1 shrink-0 text-[var(--accent-600)]" aria-hidden>✓</span>
-                  {h}
-                </div>
-              ))}
-            </div>
-            {p.budget && (
-              <p className="mt-8 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-5 text-[0.95rem] text-[var(--ink-soft)]">
-                <span className="font-[family-name:var(--font-mono)] text-[0.65rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
-                  Budget
-                </span>
-                <br />
-                {p.budget}
-              </p>
-            )}
-          </div>
-        </div>
-      </section>
-
       {/* VERIFIED OUTCOMES */}
       {(p.outcomes && p.outcomes.length > 0) && (
-        <section className="bg-[var(--surface-2)] py-16 md:py-20">
+        <section className="py-16 md:py-20">
           <div className="container-page">
             <div className="mx-auto max-w-2xl text-center">
               <Eyebrow>Verified outcomes</Eyebrow>
@@ -237,9 +204,9 @@ export default async function ProjectDetailPage({
 
       {/* COMMUNITY VOICE */}
       {p.communityVoice && (
-        <section className="py-16 md:py-20">
+        <section className="bg-[var(--surface-2)] py-16 md:py-20">
           <div className="container-page">
-            <div className="rounded-[var(--radius-xl)] border border-[var(--accent-200)] bg-[var(--accent-50)] p-8 md:p-12">
+            <div className="mx-auto max-w-2xl">
               <blockquote className="text-center text-xl md:text-2xl leading-relaxed text-[var(--ink-soft)]">
                 &ldquo;{p.communityVoice.quote}&rdquo;
               </blockquote>
@@ -257,7 +224,7 @@ export default async function ProjectDetailPage({
 
       {/* DOWNLOADABLE PROJECT BRIEF */}
       {p.projectBriefUrl && (
-        <section className="bg-[var(--surface-2)] py-12 md:py-16">
+        <section className="py-12 md:py-16">
           <div className="container-page">
             <a
               href={p.projectBriefUrl}
@@ -285,7 +252,7 @@ export default async function ProjectDetailPage({
 
       {/* RELATED ACTIVITIES & SUB-PROGRAM */}
       {(p.relatedActivities && p.relatedActivities.length > 0) && (
-        <section className="py-16 md:py-24">
+        <section className="bg-[var(--surface-2)] py-16 md:py-24">
           <div className="container-page">
             <div className="mx-auto max-w-2xl text-center">
               <Eyebrow>Related activities</Eyebrow>

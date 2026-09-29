@@ -89,6 +89,13 @@ on conflict (slug) do update set
   title = excluded.title, theme = excluded.theme, location = excluded.location,
   status = excluded.status, featured = excluded.featured, excerpt = excluded.excerpt;
 
+-- Set challenge images for projects
+insert into public.projects (slug, challenge_image_url, challenge_image_alt) values
+  ('solar-powered-water-system-naluvule', '/images/naluvule/challenge-site.jpg', 'Solar-powered water system site in Naluvule')
+on conflict (slug) do update set
+  challenge_image_url = excluded.challenge_image_url,
+  challenge_image_alt = excluded.challenge_image_alt;
+
 -- ---------- impact_metrics (verified and dated) ----------
 delete from public.impact_metrics;
 insert into public.impact_metrics (label, value, note, status, visible, order_column) values
@@ -522,7 +529,7 @@ insert into public.cedp_areas (slug, title, subtitle, description, hero_image_ur
    'Support clean energy', '/donate?program=green-skills',
    'Explore projects', '/projects?theme=Clean+Energy',
    'Partner on climate resilience', '/partners',
-   '[{"title":"Volunteer intern","body":"Join a supervised placement in solar energy, clean cooking, or ecosystem restoration — with local support and a host-family experience.","href":"/apply","ctaLabel":"Explore internships","icon":"☀️"},{"title":"Partner with us","body":"Co-design clean-energy, climate, or carbon-finance partnerships around real community priorities with agreed roles and evidence.","href":"/partners","ctaLabel":"Partner with FOSCOD","icon":"🤝"},{"title":"Donate to clean energy","body":"Fund solar installations, clean cookstoves, tree planting, and climate-resilience infrastructure with transparent reporting.","href":"/donate?program=green-skills","ctaLabel":"Start a giving inquiry","icon":"💚"}']',
+   '[{"title":"Volunteer intern","body":"Join a supervised placement in solar energy, clean cooking, or ecosystem restoration — with local support and a host-family experience.","href":"/apply","ctaLabel":"Explore internships","icon":"☀️"},{"title":"Partner with us","body":"Co-design clean-energy, climate, or carbon-finance partnerships around real community priorities with agreed roles and evidence.","href":"/partners","ctaLabel":"Partner with FOSCOD","icon":"🤝"},{"title":"Donate to clean energy","body":"Fund solar installations, clean cookstoves, tree planting, and climate-resilience infrastructure with transparent reporting.","href":"/donate?program=green-skills","ctaLabel":"Start a giving inquiry","icon":"💚}"]',
    1, true,
    'Clean Energy & Climate Resilience | CEDP — FOSCOD',
    'Solar energy, clean cooking, ecosystem restoration, and climate adaptation in Kalagala Parish. Community-led, evidence-verified development.'),
@@ -535,7 +542,7 @@ insert into public.cedp_areas (slug, title, subtitle, description, hero_image_ur
    'Support WASH work', '/donate?program=wash',
    'Explore water projects', '/projects?theme=WASH',
    'Partner on WASH', '/partners',
-   '[{"title":"Volunteer intern","body":"Work on safe-water infrastructure, sanitation campaigns, or hygiene education with full local supervision and 24/7 support.","href":"/apply","ctaLabel":"Explore internships","icon":"🚰"},{"title":"Partner with us","body":"Co-design WASH infrastructure, governance training, or water-quality monitoring partnerships with local committees and technical teams.","href":"/partners","ctaLabel":"Partner with FOSCOD","icon":"🤝"},{"title":"Donate to WASH","body":"Support spring protection, solar-powered water systems, sanitation facilities, or hygiene-promotion campaigns.","href":"/donate?program=wash","ctaLabel":"Start a giving inquiry","icon":"💧"}']',
+   '[{"title":"Volunteer intern","body":"Work on safe-water infrastructure, sanitation campaigns, or hygiene education with full local supervision and 24/7 support.","href":"/apply","ctaLabel":"Explore internships","icon":"🚰"},{"title":"Partner with us","body":"Co-design WASH infrastructure, governance training, or water-quality monitoring partnerships with local committees and technical teams.","href":"/partners","ctaLabel":"Partner with FOSCOD","icon":"🤝"},{"title":"Donate to WASH","body":"Support spring protection, solar-powered water systems, sanitation facilities, or hygiene-promotion campaigns.","href":"/donate?program=wash","ctaLabel":"Start a giving inquiry","icon":"💧}"]',
    2, true,
    'Water, Sanitation & Health Communities | CEDP — FOSCOD',
    'Safe water, spring protection, sanitation, and hygiene in Kalagala Parish. Community-owned water infrastructure and health programs.'),
@@ -548,7 +555,7 @@ insert into public.cedp_areas (slug, title, subtitle, description, hero_image_ur
    'Support green livelihoods', '/donate?program=livelihoods',
    'Explore livelihood projects', '/projects?theme=Green+Livelihoods',
    'Partner on enterprise', '/partners',
-   '[{"title":"Volunteer intern","body":"Support climate-smart agriculture, green enterprise incubation, or women''s economic empowerment programs with field-based supervision.","href":"/apply","ctaLabel":"Explore internships","icon":"🌱"},{"title":"Partner with us","body":"Co-design enterprise-development, market-linkage, or financial-inclusion partnerships around community-identified opportunities.","href":"/partners","ctaLabel":"Partner with FOSCOD","icon":"🤝"},{"title":"Donate to livelihoods","body":"Fund seed grants, savings groups, climate-smart agriculture, or green enterprise incubation with transparent community-led oversight.","href":"/donate?program=livelihoods","ctaLabel":"Start a giving inquiry","icon":"💚"}']',
+   '[{"title":"Volunteer intern","body":"Support climate-smart agriculture, green enterprise incubation, or women''s economic empowerment programs with field-based supervision.","href":"/apply","ctaLabel":"Explore internships","icon":"🌱"},{"title":"Partner with us","body":"Co-design enterprise-development, market-linkage, or financial-inclusion partnerships around community-identified opportunities.","href":"/partners","ctaLabel":"Partner with FOSCOD","icon":"🤝"},{"title":"Donate to livelihoods","body":"Fund seed grants, savings groups, climate-smart agriculture, or green enterprise incubation with transparent community-led oversight.","href":"/donate?program=livelihoods","ctaLabel":"Start a giving inquiry","icon":"💚}"]',
    3, true,
    'Sustainable Livelihoods & Economic Empowerment | CEDP — FOSCOD',
    'Savings groups, women-led enterprises, climate-smart agriculture, and green business incubation in Kalagala Parish.')
