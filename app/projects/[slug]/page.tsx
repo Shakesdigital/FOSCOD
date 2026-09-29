@@ -233,9 +233,8 @@ export default async function ProjectDetailPage({
             </div>
             <div className="mt-10 grid gap-6 md:grid-cols-3">
               {p.relatedActivities.map((a, i) => (
-                <a
+                <div
                   key={a.slug}
-                  href={`/activities/${a.slug}`}
                   className="group flex flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)]"
                 >
                   <PhotoSlot tone={["forest", "water", "earth"][i % 3] as "forest" | "water" | "earth"} ratio="16/9" tag={a.title} caption={a.title} />
@@ -244,11 +243,16 @@ export default async function ProjectDetailPage({
                       {a.status.charAt(0).toUpperCase() + a.status.slice(1)}
                     </p>
                     <h3 className="mt-2 text-lg leading-snug">{a.title}</h3>
-                    <span className="mt-4 inline-flex items-center gap-1.5 text-[0.9rem] font-medium text-[var(--accent-700)]">
-                      View activity →
-                    </span>
+                    <Button
+                      href={`/activities/${a.slug}`}
+                      variant="secondary"
+                      size="sm"
+                      className="mt-4 self-start"
+                    >
+                      View activity
+                    </Button>
                   </div>
-                </a>
+                </div>
               ))}
             </div>
           </div>
