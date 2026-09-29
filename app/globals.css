@@ -96,6 +96,7 @@
   --shadow-lg: 0 18px 48px rgba(34, 28, 21, 0.14);
 
   --measure: 68ch;
+  --measure-wide: 80ch;
   --container: 1200px;
 }
 

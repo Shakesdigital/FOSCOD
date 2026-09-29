@@ -14,8 +14,8 @@ export type StoryBlock = {
 /** RichStory — renders a Visual Editor-style story body.
  *  The story_body JSON field is an ordered array of typed blocks
  *  (paragraph, heading, quote, image) that allows editors to place
- *  images anywhere within the narrative, just like a blog.
- *  All content is CMS-managed via the impact_story_details collection. */
+ *  images anywhere within the narrative — including left/right/center
+ *  float alignment for blog-style layouts. */
 export function RichStory({
   blocks,
   tone = "forest",
@@ -31,7 +31,7 @@ export function RichStory({
     );
   }
 
-  const alignClass = (a?: string) => {
+  const textAlignClass = (a?: string) => {
     switch (a) {
       case "center": return "text-center";
       case "right": return "text-right";
@@ -39,19 +39,36 @@ export function RichStory({
     }
   };
 
+  const imageAlignClass = (a?: string) => {
+    switch (a) {
+      case "right":
+        return "ml-auto";
+      case "center":
+        return "mx-auto";
+      default:
+        return "mr-auto";
+    }
+  };
+
+  const imageMaxWidth = (a?: string) => {
+    // Full width on mobile; constrained width when floated left/right
+    if (a === "center") return "w-full";
+    return "w-full md:max-w-[60%]";
+  };
+
   return (
-    <div className="space-y-8">
+    <div className="mx-auto max-w-[var(--measure-wide)] space-y-8">
       {blocks.map((block, i) => {
         switch (block.type) {
           case "heading":
             return (
-              <h3 key={i} className={`text-2xl font-semibold text-[var(--ink)] ${alignClass(block.alignment)}`}>
+              <h3 key={i} className={`text-2xl font-semibold text-[var(--ink)] ${textAlignClass(block.alignment)}`}>
                 {block.content}
               </h3>
             );
           case "quote":
             return (
-              <blockquote key={i} className={`border-l-4 border-[var(--accent-600)] pl-6 italic text-[var(--ink-soft)] ${alignClass(block.alignment)}`}>
+              <blockquote key={i} className={`border-l-4 border-[var(--accent-600)] pl-6 italic text-[var(--ink-soft)] ${textAlignClass(block.alignment)}`}>
                 &ldquo;{block.content}&rdquo;
                 {block.attribution && (
                   <cite className="mt-2 block font-[family-name:var(--font-mono)] text-xs uppercase tracking-[0.12em] text-[var(--muted)] not-italic">
@@ -62,7 +79,7 @@ export function RichStory({
             );
           case "image":
             return (
-              <figure key={i} className={`mx-auto max-w-3xl ${alignClass(block.alignment)}`}>
+              <figure key={i} className={`${imageAlignClass(block.alignment)} ${imageMaxWidth(block.alignment)}`}>
                 <PhotoSlot
                   tone={tone}
                   ratio="16/9"
@@ -81,7 +98,7 @@ export function RichStory({
           default:
             // paragraph
             return (
-              <p key={i} className={`leading-relaxed text-[var(--ink-soft)] text-lg ${alignClass(block.alignment)}`}>
+              <p key={i} className={`leading-relaxed text-[var(--ink-soft)] text-lg ${textAlignClass(block.alignment)}`}>
                 {block.content}
               </p>
             );

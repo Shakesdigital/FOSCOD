@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 /** StatCard — a single statistics card for the impact story detail page.
- *  Displays a value, label, and optional unit/note. */
+ *  Displays a large value, label, and optional unit/note. */
 export function StatCard({
   value,
   label,
@@ -14,7 +14,7 @@ export function StatCard({
   unit?: string;
 }) {
   return (
-    <div className="flex flex-col rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-6 text-center">
+    <div className="flex flex-col rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-7 text-center">
       <dd className="font-[family-name:var(--font-display)] text-[clamp(2.2rem,4vw,3rem)] leading-none text-[var(--ink)]">
         {value}
         {unit && <span className="ml-1 text-[0.6em] text-[var(--muted)] align-super">{unit}</span>}
@@ -29,7 +29,8 @@ export function StatCard({
   );
 }
 
-/** StatGrid — renders a responsive grid of StatCard components from CMS data. */
+/** StatGrid — renders a responsive grid of StatCard components from CMS data.
+ *  Cards are separated with gap spacing, no background wrapper. */
 export function StatGrid({
   items,
   count = 4,
@@ -47,10 +48,10 @@ export function StatGrid({
   }[cols] ?? "lg:grid-cols-4";
 
   return (
-    <dl className={`grid gap-px overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--border)] sm:grid-cols-2 ${colClass}`}>
+    <div className={`grid gap-6 sm:grid-cols-2 ${colClass}`}>
       {items.map((item) => (
         <StatCard key={item.label} value={item.value} label={item.label} unit={item.unit} note={item.note} />
       ))}
-    </dl>
+    </div>
   );
 }

@@ -5,7 +5,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
 import { StatGrid } from "@/components/site/StatGrid";
 import { VideoPlayer } from "@/components/site/VideoPlayer";
-import { TestimonialGrid } from "@/components/site/TestimonialCard";
+import { TestimonialCarousel } from "@/components/site/TestimonialCard";
 import { RichStory } from "@/components/site/RichStory";
 import { pageMeta } from "@/lib/seo";
 import { getImpactStoryDetail, getAllImpactStoryDetailSlugs, getImpactStories } from "@/lib/content";
@@ -60,12 +60,12 @@ export default async function ImpactStoryFullPage({ params }: { params: Promise<
       {/* 1. HERO */}
       <HeroSlider slides={heroSlides} />
 
-      <article className="pb-16 md:pb-24">
-        {/* 2. Title & Full Story (Visual Editor content) */}
-        <section className="py-16 md:py-24">
+      <article className="pb-12 md:pb-16">
+        {/* 2. Title & Full Story (Visual Editor content) — wider measure */}
+        <section className="py-14 md:py-20">
           <div className="container-page">
             {/* Story header — title and community voice */}
-            <div className="mx-auto max-w-[var(--measure)]">
+            <div className="mx-auto max-w-[var(--measure-wide)] text-center">
               <Eyebrow>{detail.eyebrow || "Community impact story"}</Eyebrow>
               <h1 className="mt-4 text-[clamp(2rem,5vw,3.2rem)] font-medium leading-[1.06] text-[var(--ink)]">
                 {detail.title}
@@ -78,22 +78,24 @@ export default async function ImpactStoryFullPage({ params }: { params: Promise<
             </div>
 
             {/* Full story body — Visual Editor blocks rendered via RichStory */}
-            <div className="mx-auto mt-12 max-w-[var(--measure)]">
+            <div className="mt-12">
               <RichStory blocks={detail.storyBody} tone={detail.tone} />
             </div>
           </div>
         </section>
 
-        {/* 3. Statistics of the impact (separate from the full story) */}
+        {/* 3. Statistics — centered, no background wrapper, cards separated */}
         {detail.statsItems && detail.statsItems.length > 0 && (
-          <section className="bg-[var(--surface-2)] py-16 md:py-24">
+          <section className="py-14 md:py-20">
             <div className="container-page">
-              <SectionHeader
-                eyebrow={detail.statsEyebrow || "Verified outcomes"}
-                title={detail.statsTitle || "Measurable impact"}
-                intro={detail.statsIntro || "Statistics backed by evidence and community-verified monitoring."}
-                align="center"
-              />
+              <div className="mx-auto max-w-2xl text-center">
+                <SectionHeader
+                  eyebrow={detail.statsEyebrow || "Verified outcomes"}
+                  title={detail.statsTitle || "Measurable impact"}
+                  intro={detail.statsIntro || "Statistics backed by evidence and community-verified monitoring."}
+                  align="center"
+                />
+              </div>
               <div className="mt-10">
                 <StatGrid items={detail.statsItems} count={4} />
               </div>
@@ -101,13 +103,23 @@ export default async function ImpactStoryFullPage({ params }: { params: Promise<
           </section>
         )}
 
-        {/* 4. Video section (two-column: video + description) */}
+        {/* 4. Video section — centered, balanced two-column */}
         {(detail.videoUrl || detail.videoTitle) && (
-          <section className="py-16 md:py-24">
+          <section className="py-14 md:py-20">
             <div className="container-page">
-              <div className="grid gap-10 lg:grid-cols-[0.9fr_0.6fr]">
-                {/* Left column: video player */}
-                <div>
+              <div className="mx-auto max-w-3xl text-center">
+                {detail.videoEyebrow && <Eyebrow>{detail.videoEyebrow}</Eyebrow>}
+                {detail.videoTitle && (
+                  <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">{detail.videoTitle}</h2>
+                )}
+                {detail.videoDescription && (
+                  <p className="mt-4 max-w-xl leading-relaxed text-[var(--ink-soft)] mx-auto">
+                    {detail.videoDescription}
+                  </p>
+                )}
+              </div>
+              <div className="mt-10 flex justify-center">
+                <div className="max-w-2xl">
                   <VideoPlayer
                     videoUrl={detail.videoUrl}
                     thumbnailUrl={detail.videoThumbnailUrl}
@@ -116,47 +128,33 @@ export default async function ImpactStoryFullPage({ params }: { params: Promise<
                     caption={detail.videoTitle}
                   />
                 </div>
-
-                {/* Right column: description */}
-                <div>
-                  {detail.videoEyebrow && <Eyebrow>{detail.videoEyebrow}</Eyebrow>}
-                  {detail.videoTitle && (
-                    <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">{detail.videoTitle}</h2>
-                  )}
-                  {detail.videoDescription && (
-                    <p className="mt-4 leading-relaxed text-[var(--ink-soft)]">
-                      {detail.videoDescription}
-                    </p>
-                  )}
-                </div>
               </div>
             </div>
           </section>
         )}
 
-        {/* 5. Story testimonials from the community */}
+        {/* 5. Community testimonials — carousel format, one at a time */}
         {detail.testimonials && detail.testimonials.length > 0 && (
-          <section className="bg-[var(--surface-2)] py-16 md:py-24">
-            <TestimonialGrid
-              eyebrow={detail.testimonialsEyebrow || "Voices from the community"}
-              title={detail.testimonialsTitle || "What the community says"}
-              intro={detail.testimonialsIntro || "Permissioned reflections from the people behind this impact story."}
-              items={detail.testimonials}
-              surface
-            />
-          </section>
+          <TestimonialCarousel
+            eyebrow={detail.testimonialsEyebrow || "Voices from the community"}
+            title={detail.testimonialsTitle || "What the community says"}
+            intro={detail.testimonialsIntro || "Permissioned reflections from the people behind this impact story."}
+            items={detail.testimonials}
+          />
         )}
 
         {/* 6. Related stories */}
         {relatedStories.length > 0 && (
-          <section className="py-16 md:py-24">
+          <section className="py-14 md:py-20">
             <div className="container-page">
-              <SectionHeader
-                eyebrow="More impact stories"
-                title="Other stories of change"
-                intro="Explore more verified impact stories from communities where FOSCOD works."
-                align="center"
-              />
+              <div className="mx-auto max-w-2xl text-center">
+                <SectionHeader
+                  eyebrow="More impact stories"
+                  title="Other stories of change"
+                  intro="Explore more verified impact stories from communities where FOSCOD works."
+                  align="center"
+                />
+              </div>
               <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {relatedStories.map((story, i) => (
                   <Link
@@ -194,22 +192,7 @@ export default async function ImpactStoryFullPage({ params }: { params: Promise<
         )}
       </article>
 
-      {/* Breadcrumb */}
-      <nav className="py-8" aria-label="Breadcrumb">
-        <div className="container-page">
-          <div className="flex items-center gap-2 text-sm text-[var(--muted)]">
-            <Link href="/" className="hover:text-[var(--ink)]">Home</Link>
-            <span aria-hidden>/</span>
-            <Link href="/impact" className="hover:text-[var(--ink)]">Impact</Link>
-            <span aria-hidden>/</span>
-            <Link href="/impact/stories" className="hover:text-[var(--ink)]">Stories</Link>
-            <span aria-hidden>/</span>
-            <span className="text-[var(--ink)]" aria-current="page">{detail.title}</span>
-          </div>
-        </div>
-      </nav>
-
-      {/* CTA at the bottom */}
+      {/* Closing CTA band — reduced padding */}
       <CTABand
         title="Read more stories of change"
         body="Explore our full collection of impact stories, videos, and community experiences — all verified and consent-approved."
