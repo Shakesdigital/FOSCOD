@@ -3,7 +3,7 @@ import { footerNav, site } from "@/lib/site";
 
 export function Footer() {
   return (
-    <footer className="mt-24 bg-[var(--accent-600)] text-white">
+    <footer className="bg-[var(--accent-600)] text-white">
       {/* thick white divider separating the newsletter from the menu columns */}
       <div className="container-page">
         <hr className="border-0 border-t-4 border-white" />

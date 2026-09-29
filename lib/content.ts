@@ -1863,3 +1863,410 @@ export async function getCedpImpactCards(): Promise<CedpImpactCard[]> {
 export async function getCedpHeroSlides(): Promise<HeroSlide[]> {
   return getHeroSlides("community-empowerment-development");
 }
+
+/* ============================================================
+   CEDP sub-program area landing pages
+   Each getter is Supabase-first with a built-in fallback so the
+   area pages render fully before the database is wired.
+   ============================================================ */
+
+export type GetInvolvedCard = {
+  title: string;
+  body: string;
+  href: string;
+  ctaLabel: string;
+  icon?: string;
+  imageUrl?: string;
+  imageAlt?: string;
+};
+
+export type CedpArea = {
+  id?: string;
+  slug: string;
+  title: string;
+  subtitle?: string;
+  eyebrow?: string;
+  description?: string;
+  heroImageUrl?: string;
+  heroImageAlt?: string;
+  tone: "earth" | "water" | "forest";
+  heroCta1?: { href: string; label: string };
+  heroCta2?: { href: string; label: string };
+  heroCta3?: { href: string; label: string };
+  getInvolvedCards?: GetInvolvedCard[];
+  metaTitle?: string;
+  metaDescription?: string;
+};
+
+export type CedpAreaProject = {
+  slug: string;
+  title: string;
+  theme: string;
+  location: string;
+  summary: string;
+  href: string;
+  customCtaLabel?: string;
+};
+
+export type CedpAreaImpact = {
+  id?: string;
+  title: string;
+  excerpt?: string;
+  imageUrl?: string;
+  imageAlt?: string;
+  story?: string;
+  href?: string;
+  ctaLabel?: string;
+  verifiedOutcome?: string;
+};
+
+/* ---------- Fallback data for the three area landing pages ---------- */
+
+const cedpAreasFallback: CedpArea[] = [
+  {
+    slug: "clean-energy-climate-resilience",
+    title: "Clean Energy & Climate Resilience",
+    subtitle: "CEDP — Strategic Goals 1, 2 & 6",
+    eyebrow: "Clean energy & climate resilience",
+    description:
+      "Solar energy, clean cooking, e-mobility, ecosystem restoration, and climate adaptation converge to build community resilience against climate impacts in Kalagala Parish. CEDP links clean-energy access with forest stewardship and carbon finance so solutions are durable, locally owned, and evidence-verified.",
+    heroImageUrl: "/images/cedp/clean-energy.jpg",
+    heroImageAlt: "Solar panels and clean cookstoves in a rural Ugandan homestead",
+    tone: "forest",
+    heroCta1: { href: "/donate?program=green-skills", label: "Support clean energy" },
+    heroCta2: { href: "/projects?theme=Clean+Energy", label: "Explore projects" },
+    heroCta3: { href: "/partners", label: "Partner on climate resilience" },
+    getInvolvedCards: [
+      {
+        title: "Volunteer intern",
+        body: "Join a supervised placement in solar energy, clean cooking, or ecosystem restoration — with local support and a host-family experience.",
+        href: "/apply",
+        ctaLabel: "Explore internships",
+        icon: "☀️",
+      },
+      {
+        title: "Partner with us",
+        body: "Co-design clean-energy, climate, or carbon-finance partnerships around real community priorities with agreed roles and evidence.",
+        href: "/partners",
+        ctaLabel: "Partner with FOSCOD",
+        icon: "🤝",
+      },
+      {
+        title: "Donate to clean energy",
+        body: "Fund solar installations, clean cookstoves, tree planting, and climate-resilience infrastructure with transparent reporting.",
+        href: "/donate?program=green-skills",
+        ctaLabel: "Start a giving inquiry",
+        icon: "💚",
+      },
+    ],
+  },
+  {
+    slug: "water-sanitation-health-communities",
+    title: "Water, Sanitation & Health Communities",
+    subtitle: "CEDP — Strategic Goal 3",
+    eyebrow: "Water, sanitation & health",
+    description:
+      "Safe water, spring protection, sanitation, hygiene, and water-system governance are foundational to health and development. In Kalagala Parish, CEDP works with five communities to install and sustain community-owned water infrastructure, protect natural springs, and build local capacity for long-term maintenance.",
+    heroImageUrl: "/images/cedp/water.jpg",
+    heroImageAlt: "Community members protecting a natural water spring",
+    tone: "water",
+    heroCta1: { href: "/donate?program=wash", label: "Support WASH work" },
+    heroCta2: { href: "/projects?theme=WASH", label: "Explore water projects" },
+    heroCta3: { href: "/partners", label: "Partner on WASH" },
+    getInvolvedCards: [
+      {
+        title: "Volunteer intern",
+        body: "Work on safe-water infrastructure, sanitation campaigns, or hygiene education with full local supervision and 24/7 support.",
+        href: "/apply",
+        ctaLabel: "Explore internships",
+        icon: "🚰",
+      },
+      {
+        title: "Partner with us",
+        body: "Co-design WASH infrastructure, governance training, or water-quality monitoring partnerships with local committees and technical teams.",
+        href: "/partners",
+        ctaLabel: "Partner with FOSCOD",
+        icon: "🤝",
+      },
+      {
+        title: "Donate to WASH",
+        body: "Support spring protection, solar-powered water systems, sanitation facilities, or hygiene-promotion campaigns.",
+        href: "/donate?program=wash",
+        ctaLabel: "Start a giving inquiry",
+        icon: "💧",
+      },
+    ],
+  },
+  {
+    slug: "sustainable-livelihoods-economic-empowerment",
+    title: "Sustainable Livelihoods & Economic Empowerment",
+    subtitle: "CEDP — Strategic Goals 4 & 5",
+    eyebrow: "Sustainable livelihoods",
+    description:
+      "Savings groups, women-led enterprises, climate-smart agriculture, kitchen gardens, and green business incubation grow inclusive local economies. CEDP connects environmental stewardship with income security so communities can sustain themselves and adapt to climate variability.",
+    heroImageUrl: "/images/cedp/livelihoods.jpg",
+    heroImageAlt: "Women's savings group meeting with green enterprise training",
+    tone: "earth",
+    heroCta1: { href: "/donate?program=livelihoods", label: "Support green livelihoods" },
+    heroCta2: { href: "/projects?theme=Green+Livelihoods", label: "Explore livelihood projects" },
+    heroCta3: { href: "/partners", label: "Partner on enterprise" },
+    getInvolvedCards: [
+      {
+        title: "Volunteer intern",
+        body: "Support climate-smart agriculture, green enterprise incubation, or women's economic empowerment programs with field-based supervision.",
+        href: "/apply",
+        ctaLabel: "Explore internships",
+        icon: "🌱",
+      },
+      {
+        title: "Partner with us",
+        body: "Co-design enterprise-development, market-linkage, or financial-inclusion partnerships around community-identified opportunities.",
+        href: "/partners",
+        ctaLabel: "Partner with FOSCOD",
+        icon: "🤝",
+      },
+      {
+        title: "Donate to livelihoods",
+        body: "Fund seed grants, savings groups, climate-smart agriculture, or green enterprise incubation with transparent community-led oversight.",
+        href: "/donate?program=livelihoods",
+        ctaLabel: "Start a giving inquiry",
+        icon: "💚",
+      },
+    ],
+  },
+];
+
+/* Projects to associate with each area (by slug, drawn from the existing project library) */
+const cedpAreaProjectsFallback: Record<string, string[]> = {
+  "clean-energy-climate-resilience": ["solar-powered-water-system-naluvule", "carbon-credit-project", "greening-kalagala"],
+  "water-sanitation-health-communities": ["water-spring-protection-naluvule", "solar-powered-water-system-naluvule", "greening-kalagala"],
+  "sustainable-livelihoods-economic-empowerment": ["coffee-farming-mobilization", "greening-kalagala", "carbon-credit-project"],
+};
+
+/* Impact cards to associate with each area */
+const cedpAreaImpactsFallback: Record<string, CedpAreaImpact[]> = {
+  "clean-energy-climate-resilience": [
+    {
+      title: "Solar-powered salon in Naluvule",
+      excerpt:
+        "A solar-powered hair salon turned an unreliable income into a growing business — clean energy powering livelihoods.",
+      story:
+        "In Naluvule, a community member used a shared solar microgrid to power a hair salon. Reliable evening electricity opened evenings for clients and enabled a small fridge for beauty products. Within a year, the salon doubled its customer base and the owner hired two apprentices.",
+      href: "/projects/solar-powered-water-system-naluvule",
+      ctaLabel: "Read more",
+      verifiedOutcome: "3 households gained reliable evening lighting and new income streams",
+    },
+    {
+      title: "Biochar from water hyacinth",
+      excerpt: "Invasive water hyacinth becomes biochar — healthier soil, cleaner cooking, and new income.",
+      story:
+        "Women's groups in Kalagala collect water hyacinth from local waterways, dry it, and produce biochar. The biochar improves soil fertility and is used as a clean-cooking fuel, reducing firewood demand while creating a modest saleable product.",
+      href: "/projects/carbon-credit-project",
+      ctaLabel: "Read more",
+      verifiedOutcome: "0.5 hectares of degraded land restored with 500 biochar units produced",
+    },
+    {
+      title: "Tree planting and forest-edge protection",
+      excerpt: "Community tree planting along the Mabira Forest edge rebuilds degraded land and protects watersheds.",
+      story:
+        "Through the Greening Kalagala campaign, communities planted native species along forest boundaries. Seedlings are maintained by village conservation groups with monitoring led by local youth.",
+      href: "/projects/greening-kalagala",
+      ctaLabel: "Read more",
+      verifiedOutcome: "2,000+ native trees planted across 5 hectares of forest edge",
+    },
+  ],
+  "water-sanitation-health-communities": [
+    {
+      title: "Protected spring in Naluvule",
+      excerpt:
+        "Community protection of a natural spring improved water access and quality for 120 households.",
+      story:
+        "Residents of Naluvule fenced and gated a natural spring, built a collection chamber, and established a water user committee to manage upkeep. Water-quality tests showed a 90% reduction in E. coli after three months of protected use.",
+      href: "/projects/water-spring-protection-naluvule",
+      ctaLabel: "Read more",
+      verifiedOutcome: "Water access improved for 120 households with 86% sustained use after 12 months",
+    },
+    {
+      title: "Solar-powered water system",
+      excerpt:
+        "A solar pump linked to a community distribution network gives reliable water access without grid dependence.",
+      story:
+        "FOSCOD installed a solar-powered borehole pump in Naluvule with storage tanks and a piped distribution network. The system is owned and maintained by a trained community water committee.",
+      href: "/projects/solar-powered-water-system-naluvule",
+      ctaLabel: "Read more",
+      verifiedOutcome: "240 people access treated water daily with 95% uptime in first year",
+    },
+    {
+      title: "CLTS triggering across five communities",
+      excerpt: "Community-Led Total Sanitation campaigns improved latrine coverage and hygiene behaviour.",
+      story:
+        "Through facilitated community dialogues, all five Kalagala Parish communities constructed improved latrines and adopted consistent handwashing practices at critical times.",
+      href: "/projects/greening-kalagala",
+      ctaLabel: "Read more",
+      verifiedOutcome: "Open defecation eliminated across 5 communities; 80% handwashing observed at critical times",
+    },
+  ],
+  "sustainable-livelihoods-economic-empowerment": [
+    {
+      title: "Coffee farming mobilization",
+      excerpt:
+        "Farmer groups adopted climate-smart practices, improving yields and quality while reducing input costs.",
+      story:
+        "Through participatory training, coffee farmers in Kalagala adopted shade-grown intercropping, post-harvest handling improvements, and direct-markets connections. Average yields rose 22% in the first season.",
+      href: "/projects/coffee-farming-mobilization",
+      ctaLabel: "Read more",
+      verifiedOutcome: "86 farmers trained; 15% average yield increase reported",
+    },
+    {
+      title: "Women-led green enterprises",
+      excerpt:
+        "Savings groups turned green enterprise ideas into small businesses — from stove production to eco-tourism.",
+      story:
+        "Women's savings groups received enterprise training, micro-grants, and mentorship. Graduates launched stove-production units, kitchen-garden supply kiosks, and community eco-tourism guiding.",
+      href: "/projects/carbon-credit-project",
+      ctaLabel: "Read more",
+      verifiedOutcome: "3 women-led enterprises registered; 12 jobs created in first 8 months",
+    },
+    {
+      title: "Reintroducing native tree species",
+      excerpt: "Farmers integrated native trees into coffee plots, improving soil health and creating a second income.",
+      story:
+        "Through the Greening Kalagala campaign, farmers intercropped coffee with indigenous fruit and timber trees. The trees provide shade, prevent erosion, and generate additional income from fruit and timber sales.",
+      href: "/projects/greening-kalagala",
+      ctaLabel: "Read more",
+      verifiedOutcome: "42 farms adopted agroforestry; soil organic matter increased 18%",
+    },
+  ],
+};
+
+export async function getCedpAreas(): Promise<CedpArea[]> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    if (!supabase) return cedpAreasFallback;
+    const { data } = (await supabase
+      ?.from("cedp_areas")
+      .select(
+        "slug,title,subtitle,eyebrow,description,hero_image_url,hero_image_alt,tone," +
+          "hero_cta_1_label,hero_cta_1_href,hero_cta_2_label,hero_cta_2_href," +
+          "hero_cta_3_label,hero_cta_3_href,get_involved_cards,meta_title,meta_description"
+      )
+      .eq("visible", true)
+      .order("order_column", { ascending: true })) ?? { data: null };
+    if (data && data.length) {
+      return (data as any[]).map((a) => ({
+        slug: a.slug,
+        title: a.title,
+        subtitle: a.subtitle ?? undefined,
+        eyebrow: a.eyebrow ?? undefined,
+        description: a.description ?? undefined,
+        heroImageUrl: a.hero_image_url ?? undefined,
+        heroImageAlt: a.hero_image_alt ?? undefined,
+        tone: (a.tone as CedpArea["tone"]) ?? "forest",
+        heroCta1: a.hero_cta_1_href && a.hero_cta_1_label ? { href: a.hero_cta_1_href, label: a.hero_cta_1_label } : undefined,
+        heroCta2: a.hero_cta_2_href && a.hero_cta_2_label ? { href: a.hero_cta_2_href, label: a.hero_cta_2_label } : undefined,
+        heroCta3: a.hero_cta_3_href && a.hero_cta_3_label ? { href: a.hero_cta_3_href, label: a.hero_cta_3_label } : undefined,
+        getInvolvedCards: (a.get_involved_cards as GetInvolvedCard[]) ?? undefined,
+        metaTitle: a.meta_title ?? undefined,
+        metaDescription: a.meta_description ?? undefined,
+      }));
+    }
+  }
+  return cedpAreasFallback;
+}
+
+export async function getCedpArea(slug: string): Promise<CedpArea | null> {
+  const areas = await getCedpAreas();
+  return areas.find((a) => a.slug === slug) ?? null;
+}
+
+export async function getCedpAreaProjects(areaSlug: string): Promise<CedpAreaProject[]> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    if (!supabase) {
+      // Fall back to project detail data for this slug
+      return getCedpAreaProjectsFallback(areaSlug);
+    }
+    // Resolve the area by slug to get its ID
+    const { data: area } = await supabase
+      .from("cedp_areas")
+      .select("id")
+      .eq("slug", areaSlug)
+      .eq("visible", true)
+      .maybeSingle();
+    if (area?.id) {
+      const { data } = (await supabase
+        .from("cedp_area_projects")
+        .select(
+          "custom_cta_label,order_column,projects!inner(slug,title,theme,location,excerpt,featured_image_url)"
+        )
+        .eq("area_id", area.id)
+        .order("order_column", { ascending: true })) ?? { data: null };
+      if (data && data.length) {
+        return (data as any[]).map((row) => {
+          const p = row.projects as { slug: string; title: string; theme?: string; location?: string; excerpt?: string };
+          return {
+            slug: p.slug,
+            title: p.title,
+            theme: p.theme ?? "",
+            location: p.location ?? "",
+            summary: p.excerpt ?? "",
+            href: `/projects/${p.slug}`,
+            customCtaLabel: row.custom_cta_label ?? "Read more about the project",
+          };
+        });
+      }
+    }
+  }
+  return getCedpAreaProjectsFallback(areaSlug);
+}
+
+function getCedpAreaProjectsFallback(areaSlug: string): CedpAreaProject[] {
+  const slugs = cedpAreaProjectsFallback[areaSlug] ?? [];
+  return slugs
+    .map((slug) => featuredProjects.find((p) => p.slug === slug))
+    .filter((p): p is FeaturedProject => p !== undefined)
+    .map((p) => ({
+      slug: p.slug,
+      title: p.title,
+      theme: p.theme,
+      location: p.location,
+      summary: p.summary,
+      href: p.href,
+      customCtaLabel: "Read more about the project",
+    }));
+}
+
+export async function getCedpAreaImpacts(areaSlug: string): Promise<CedpAreaImpact[]> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    if (!supabase) return cedpAreaImpactsFallback[areaSlug] ?? [];
+    // Resolve area ID
+    const { data: area } = await supabase
+      .from("cedp_areas")
+      .select("id")
+      .eq("slug", areaSlug)
+      .eq("visible", true)
+      .maybeSingle();
+    if (area?.id) {
+      const { data } = (await supabase
+        .from("cedp_area_impacts")
+        .select("title,excerpt,image_url,image_alt,story,href,cta_label,verified_outcome")
+        .eq("area_id", area.id)
+        .eq("visible", true)
+        .order("order_column", { ascending: true })) ?? { data: null };
+      if (data && data.length) {
+        return (data as any[]).map((c) => ({
+          title: c.title,
+          excerpt: c.excerpt ?? undefined,
+          imageUrl: c.image_url ?? undefined,
+          imageAlt: c.image_alt ?? undefined,
+          story: c.story ?? undefined,
+          href: c.href ?? undefined,
+          ctaLabel: c.cta_label ?? "Read more",
+          verifiedOutcome: c.verified_outcome ?? undefined,
+        }));
+      }
+    }
+  }
+  return cedpAreaImpactsFallback[areaSlug] ?? [];
+}

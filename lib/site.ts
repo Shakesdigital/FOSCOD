@@ -68,6 +68,9 @@ export const footerNav: { heading: string; links: NavChild[] }[] = [
       { label: "Green Livelihoods & Economic Empowerment", href: "/programs/cedp/green-livelihoods-economic-empowerment" },
       { label: "Inclusive Leadership", href: "/programs/cedp/inclusive-leadership" },
       { label: "Ecosystem Restoration & Carbon Offsets", href: "/programs/cedp/ecosystem-restoration-carbon-offsets" },
+      { label: "Clean Energy & Climate Resilience", href: "/programs/cedp/areas/clean-energy-climate-resilience" },
+      { label: "Water, Sanitation & Health Communities", href: "/programs/cedp/areas/water-sanitation-health-communities" },
+      { label: "Sustainable Livelihoods & Economic Empowerment", href: "/programs/cedp/areas/sustainable-livelihoods-economic-empowerment" },
     ],
   },
   {

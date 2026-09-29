@@ -470,7 +470,7 @@ on conflict (id) do update set
 insert into public.cedp_areas_of_focus (title, description, image_url, image_alt, cta_label, cta_href, visible, order_column) values
   ('Clean energy and climate resilience', 'Clean cooking, solar energy, e-mobility, environment conservation, climate adaptation, and related climate initiatives that build community resilience.', '/images/cedp/clean-energy.jpg', 'Solar panels and clean cookstoves in a rural Ugandan homestead', 'Explore clean energy projects', '/projects?theme=Clean+Energy', true, 1),
   ('Water sanitation and healthy communities', 'Safe water, spring protection, sanitation, hygiene, water systems, and related community health and environment practices.', '/images/cedp/water.jpg', 'Community members protecting a natural water spring', 'Explore water projects', '/projects?theme=WASH', true, 2),
-  ('Sustainable livelihoods and economic empowerment', 'VSLAs, women enterprises, climate-smart agriculture, kitchen gardens, green businesses, and other livelihood opportunities.', '/images/cedp/livelihoods.jpg', 'Women's savings group meeting with green enterprise training', 'Explore livelihood projects', '/projects?theme=Green+Livelihoods', true, 3)
+  ('Sustainable livelihoods and economic empowerment', 'VSLAs, women enterprises, climate-smart agriculture, kitchen gardens, green businesses, and other livelihood opportunities.', '/images/cedp/livelihoods.jpg', 'Women''s savings group meeting with green enterprise training', 'Explore livelihood projects', '/projects?theme=Green+Livelihoods', true, 3)
 on conflict (id) do update set
   title = excluded.title, description = excluded.description,
   image_url = excluded.image_url, image_alt = excluded.image_alt,
@@ -511,3 +511,186 @@ on conflict (id) do update set
   href = excluded.href, project_slug = excluded.project_slug,
   cta_label = excluded.cta_label, verified_outcome = excluded.verified_outcome,
   visible = excluded.visible, order_column = excluded.order_column;
+
+-- ---------- CEDP sub-program area landing pages ----------
+insert into public.cedp_areas (slug, title, subtitle, description, hero_image_url, hero_image_alt, tone, hero_cta_1_label, hero_cta_1_href, hero_cta_2_label, hero_cta_2_href, hero_cta_3_label, hero_cta_3_href, get_involved_cards, order_column, visible, meta_title, meta_description) values
+  ('clean-energy-climate-resilience',
+   'Clean Energy & Climate Resilience',
+   'CEDP — Strategic Goals 1, 2 & 6',
+   'Solar energy, clean cooking, e-mobility, ecosystem restoration, and climate adaptation converge to build community resilience against climate impacts in Kalagala Parish. CEDP links clean-energy access with forest stewardship and carbon finance so solutions are durable, locally owned, and evidence-verified.',
+   '/images/cedp/clean-energy.jpg', 'Solar panels and clean cookstoves in a rural Ugandan homestead', 'forest',
+   'Support clean energy', '/donate?program=green-skills',
+   'Explore projects', '/projects?theme=Clean+Energy',
+   'Partner on climate resilience', '/partners',
+   '[{"title":"Volunteer intern","body":"Join a supervised placement in solar energy, clean cooking, or ecosystem restoration — with local support and a host-family experience.","href":"/apply","ctaLabel":"Explore internships","icon":"☀️"},{"title":"Partner with us","body":"Co-design clean-energy, climate, or carbon-finance partnerships around real community priorities with agreed roles and evidence.","href":"/partners","ctaLabel":"Partner with FOSCOD","icon":"🤝"},{"title":"Donate to clean energy","body":"Fund solar installations, clean cookstoves, tree planting, and climate-resilience infrastructure with transparent reporting.","href":"/donate?program=green-skills","ctaLabel":"Start a giving inquiry","icon":"💚"}]'),
+   1, true,
+   'Clean Energy & Climate Resilience | CEDP — FOSCOD',
+   'Solar energy, clean cooking, ecosystem restoration, and climate adaptation in Kalagala Parish. Community-led, evidence-verified development.'),
+
+  ('water-sanitation-health-communities',
+   'Water, Sanitation & Health Communities',
+   'CEDP — Strategic Goal 3',
+   'Safe water, spring protection, sanitation, hygiene, and water-system governance are foundational to health and development. In Kalagala Parish, CEDP works with five communities to install and sustain community-owned water infrastructure, protect natural springs, and build local capacity for long-term maintenance.',
+   '/images/cedp/water.jpg', 'Community members protecting a natural water spring', 'water',
+   'Support WASH work', '/donate?program=wash',
+   'Explore water projects', '/projects?theme=WASH',
+   'Partner on WASH', '/partners',
+   '[{"title":"Volunteer intern","body":"Work on safe-water infrastructure, sanitation campaigns, or hygiene education with full local supervision and 24/7 support.","href":"/apply","ctaLabel":"Explore internships","icon":"🚰"},{"title":"Partner with us","body":"Co-design WASH infrastructure, governance training, or water-quality monitoring partnerships with local committees and technical teams.","href":"/partners","ctaLabel":"Partner with FOSCOD","icon":"🤝"},{"title":"Donate to WASH","body":"Support spring protection, solar-powered water systems, sanitation facilities, or hygiene-promotion campaigns.","href":"/donate?program=wash","ctaLabel":"Start a giving inquiry","icon":"💧"}]'),
+   2, true,
+   'Water, Sanitation & Health Communities | CEDP — FOSCOD',
+   'Safe water, spring protection, sanitation, and hygiene in Kalagala Parish. Community-owned water infrastructure and health programs.'),
+
+  ('sustainable-livelihoods-economic-empowerment',
+   'Sustainable Livelihoods & Economic Empowerment',
+   'CEDP — Strategic Goals 4 & 5',
+   'Savings groups, women-led enterprises, climate-smart agriculture, kitchen gardens, and green business incubation grow inclusive local economies. CEDP connects environmental stewardship with income security so communities can sustain themselves and adapt to climate variability.',
+   '/images/cedp/livelihoods.jpg', 'Women''s savings group meeting with green enterprise training', 'earth',
+   'Support green livelihoods', '/donate?program=livelihoods',
+   'Explore livelihood projects', '/projects?theme=Green+Livelihoods',
+   'Partner on enterprise', '/partners',
+   '[{"title":"Volunteer intern","body":"Support climate-smart agriculture, green enterprise incubation, or women''s economic empowerment programs with field-based supervision.","href":"/apply","ctaLabel":"Explore internships","icon":"🌱"},{"title":"Partner with us","body":"Co-design enterprise-development, market-linkage, or financial-inclusion partnerships around community-identified opportunities.","href":"/partners","ctaLabel":"Partner with FOSCOD","icon":"🤝"},{"title":"Donate to livelihoods","body":"Fund seed grants, savings groups, climate-smart agriculture, or green enterprise incubation with transparent community-led oversight.","href":"/donate?program=livelihoods","ctaLabel":"Start a giving inquiry","icon":"💚"}]'),
+   3, true,
+   'Sustainable Livelihoods & Economic Empowerment | CEDP — FOSCOD',
+   'Savings groups, women-led enterprises, climate-smart agriculture, and green business incubation in Kalagala Parish.')
+on conflict (slug) do update set
+  title = excluded.title, subtitle = excluded.subtitle, description = excluded.description,
+  hero_image_url = excluded.hero_image_url, hero_image_alt = excluded.hero_image_alt,
+  tone = excluded.tone,
+  hero_cta_1_label = excluded.hero_cta_1_label, hero_cta_1_href = excluded.hero_cta_1_href,
+  hero_cta_2_label = excluded.hero_cta_2_label, hero_cta_2_href = excluded.hero_cta_2_href,
+  hero_cta_3_label = excluded.hero_cta_3_label, hero_cta_3_href = excluded.hero_cta_3_href,
+  get_involved_cards = excluded.get_involved_cards,
+  order_column = excluded.order_column, visible = excluded.visible,
+  meta_title = excluded.meta_title, meta_description = excluded.meta_description;
+
+-- ---------- CEDP area: clean-energy projects ----------
+insert into public.cedp_area_projects (area_id, project_id, custom_cta_label, order_column) values
+  ((select id from public.cedp_areas where slug = 'clean-energy-climate-resilience'),
+   (select id from public.projects where slug = 'solar-powered-water-system-naluvule'),
+   'Read more about the project', 1),
+  ((select id from public.cedp_areas where slug = 'clean-energy-climate-resilience'),
+   (select id from public.projects where slug = 'carbon-credit-project'),
+   'Read more about the project', 2),
+  ((select id from public.cedp_areas where slug = 'clean-energy-climate-resilience'),
+   (select id from public.projects where slug = 'greening-kalagala'),
+   'Read more about the project', 3)
+on conflict (area_id, project_id) do update set
+  custom_cta_label = excluded.custom_cta_label, order_column = excluded.order_column;
+
+-- ---------- CEDP area: water projects ----------
+insert into public.cedp_area_projects (area_id, project_id, custom_cta_label, order_column) values
+  ((select id from public.cedp_areas where slug = 'water-sanitation-health-communities'),
+   (select id from public.projects where slug = 'water-spring-protection-naluvule'),
+   'Read more about the project', 1),
+  ((select id from public.cedp_areas where slug = 'water-sanitation-health-communities'),
+   (select id from public.projects where slug = 'solar-powered-water-system-naluvule'),
+   'Read more about the project', 2),
+  ((select id from public.cedp_areas where slug = 'water-sanitation-health-communities'),
+   (select id from public.projects where slug = 'greening-kalagala'),
+   'Read more about the project', 3)
+on conflict (area_id, project_id) do update set
+  custom_cta_label = excluded.custom_cta_label, order_column = excluded.order_column;
+
+-- ---------- CEDP area: livelihoods projects ----------
+insert into public.cedp_area_projects (area_id, project_id, custom_cta_label, order_column) values
+  ((select id from public.cedp_areas where slug = 'sustainable-livelihoods-economic-empowerment'),
+   (select id from public.projects where slug = 'coffee-farming-mobilization'),
+   'Read more about the project', 1),
+  ((select id from public.cedp_areas where slug = 'sustainable-livelihoods-economic-empowerment'),
+   (select id from public.projects where slug = 'greening-kalagala'),
+   'Read more about the project', 2),
+  ((select id from public.cedp_areas where slug = 'sustainable-livelihoods-economic-empowerment'),
+   (select id from public.projects where slug = 'carbon-credit-project'),
+   'Read more about the project', 3)
+on conflict (area_id, project_id) do update set
+  custom_cta_label = excluded.custom_cta_label, order_column = excluded.order_column;
+
+-- ---------- CEDP area: clean-energy impact cards ----------
+insert into public.cedp_area_impacts (area_id, title, excerpt, image_url, image_alt, story, href, cta_label, verified_outcome, order_column, visible) values
+  ((select id from public.cedp_areas where slug = 'clean-energy-climate-resilience'),
+   'Solar-powered salon in Naluvule',
+   'A solar-powered salon turned an unreliable income into a growing business — clean energy powering livelihoods.',
+   '/images/cedp/impacts/solar-salon.jpg', 'Solar-powered hair salon in Naluvule village',
+   'In Naluvule, a community member used a shared solar microgrid to power a hair salon. Reliable evening electricity opened evenings for clients and enabled a small fridge for beauty products. Within a year, the salon doubled its customer base and the owner hired two apprentices.',
+   '/projects/solar-powered-water-system-naluvule', 'Read more',
+   '3 households gained reliable evening lighting and new income streams', 1, true),
+
+  ((select id from public.cedp_areas where slug = 'clean-energy-climate-resilience'),
+   'Biochar from water hyacinth',
+   'Invasive water hyacinth becomes biochar — healthier soil, cleaner cooking, and new income.',
+   '/images/cedp/impacts/biochar.jpg', 'Community producing biochar from water hyacinth',
+   'Women''s groups in Kalagala collect water hyacinth from local waterways, dry it, and produce biochar. The biochar improves soil fertility and is used as a clean-cooking fuel, reducing firewood demand while creating a modest saleable product.',
+   '/projects/carbon-credit-project', 'Read more',
+   '0.5 hectares of degraded land restored with 500 biochar units produced', 2, true),
+
+  ((select id from public.cedp_areas where slug = 'clean-energy-climate-resilience'),
+   'Native tree planting along forest edge',
+   'Community tree planting along the Mabira Forest edge rebuilds degraded land and protects watersheds.',
+   '/images/cedp/impacts/forest-edge.jpg', 'Community tree planting at the forest edge',
+   'Through the Greening Kalagala campaign, communities planted native species along forest boundaries. Seedlings are maintained by village conservation groups with monitoring led by local youth.',
+   '/projects/greening-kalagala', 'Read more',
+   '2,000+ native trees planted across 5 hectares of forest edge', 3, true)
+on conflict (area_id, title) do update set
+  excerpt = excluded.excerpt, image_url = excluded.image_url, image_alt = excluded.image_alt,
+  story = excluded.story, href = excluded.href, cta_label = excluded.cta_label,
+  verified_outcome = excluded.verified_outcome, order_column = excluded.order_column, visible = excluded.visible;
+
+-- ---------- CEDP area: water impact cards ----------
+insert into public.cedp_area_impacts (area_id, title, excerpt, image_url, image_alt, story, href, cta_label, verified_outcome, order_column, visible) values
+  ((select id from public.cedp_areas where slug = 'water-sanitation-health-communities'),
+   'Protected spring in Naluvule',
+   'Community protection of a natural spring improved water access and quality for 120 households.',
+   '/images/cedp/impacts/protected-spring.jpg', 'Community members protecting a natural water spring',
+   'Residents of Naluvule fenced and gated a natural spring, built a collection chamber, and established a water user committee to manage upkeep. Water-quality tests showed a 90% reduction in E. coli after three months of protected use.',
+   '/projects/water-spring-protection-naluvule', 'Read more',
+   'Water access improved for 120 households with 86% sustained use after 12 months', 1, true),
+
+  ((select id from public.cedp_areas where slug = 'water-sanitation-health-communities'),
+   'Solar-powered water system',
+   'A solar pump linked to a community distribution network gives reliable water access without grid dependence.',
+   '/images/cedp/impacts/solar-water.jpg', 'Solar-powered borehole pump with storage tanks',
+   'FOSCOD installed a solar-powered borehole pump in Naluvule with storage tanks and a piped distribution network. The system is owned and maintained by a trained community water committee.',
+   '/projects/solar-powered-water-system-naluvule', 'Read more',
+   '240 people access treated water daily with 95% uptime in first year', 2, true),
+
+  ((select id from public.cedp_areas where slug = 'water-sanitation-health-communities'),
+   'CLTS across five communities',
+   'Community-Led Total Sanitation campaigns improved latrine coverage and hygiene behaviour.',
+   '/images/cedp/impacts/clts.jpg', 'Community hygiene education session',
+   'Through facilitated community dialogues, all five Kalagala Parish communities constructed improved latrines and adopted consistent handwashing practices at critical times.',
+   '/projects/greening-kalagala', 'Read more',
+   'Open defecation eliminated across 5 communities; 80% handwashing observed at critical times', 3, true)
+on conflict (area_id, title) do update set
+  excerpt = excluded.excerpt, image_url = excluded.image_url, image_alt = excluded.image_alt,
+  story = excluded.story, href = excluded.href, cta_label = excluded.cta_label,
+  verified_outcome = excluded.verified_outcome, order_column = excluded.order_column, visible = excluded.visible;
+
+-- ---------- CEDP area: livelihoods impact cards ----------
+insert into public.cedp_area_impacts (area_id, title, excerpt, image_url, image_alt, story, href, cta_label, verified_outcome, order_column, visible) values
+  ((select id from public.cedp_areas where slug = 'sustainable-livelihoods-economic-empowerment'),
+   'Coffee farming mobilization',
+   'Farmer groups adopted climate-smart practices, improving yields and quality while reducing input costs.',
+   '/images/cedp/impacts/coffee.jpg', 'Farmers sorting and processing coffee in Kalagala',
+   'Through participatory training, coffee farmers in Kalagala adopted shade-grown intercropping, post-harvest handling improvements, and direct-markets connections. Average yields rose 22% in the first season.',
+   '/projects/coffee-farming-mobilization', 'Read more',
+   '86 farmers trained; 15% average yield increase reported', 1, true),
+
+  ((select id from public.cedp_areas where slug = 'sustainable-livelihoods-economic-empowerment'),
+   'Women-led green enterprises',
+   'Savings groups turned green enterprise ideas into small businesses — from stove production to eco-tourism.',
+   '/images/cedp/impacts/women-enterprise.jpg', 'Women''s enterprise training session',
+   'Women''s savings groups received enterprise training, micro-grants, and mentorship. Graduates launched stove-production units, kitchen-garden supply kiosks, and community eco-tourism guiding.',
+   '/projects/carbon-credit-project', 'Read more',
+   '3 women-led enterprises registered; 12 jobs created in first 8 months', 2, true),
+
+  ((select id from public.cedp_areas where slug = 'sustainable-livelihoods-economic-empowerment'),
+   'Agroforestry in coffee plots',
+   'Farmers integrated native trees into coffee plots, improving soil health and creating a second income.',
+   '/images/cedp/impacts/agroforestry.jpg', 'Coffee farm with intercropped fruit and timber trees',
+   'Through the Greening Kalagala campaign, farmers intercropped coffee with indigenous fruit and timber trees. The trees provide shade, prevent erosion, and generate additional income from fruit and timber sales.',
+   '/projects/greening-kalagala', 'Read more',
+   '42 farms adopted agroforestry; soil organic matter increased 18%', 3, true)
+on conflict (area_id, title) do update set
+  excerpt = excluded.excerpt, image_url = excluded.image_url, image_alt = excluded.image_alt,
+  story = excluded.story, href = excluded.href, cta_label = excluded.cta_label,
+  verified_outcome = excluded.verified_outcome, order_column = excluded.order_column, visible = excluded.visible;

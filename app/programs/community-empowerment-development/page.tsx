@@ -5,12 +5,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
 import { Button } from "@/components/ui/Button";
 import { pageMeta } from "@/lib/seo";
-import {
-  getCedpAreasOfFocus,
-  getCedpImpactStoryCards,
-  getCedpImpactCards,
-  getCedpHeroSlides,
-} from "@/lib/content";
+import { getCedpAreasOfFocus, getCedpImpactCards, getCedpHeroSlides } from "@/lib/content";
 
 const approach = [
   { title: "Community assessment", body: "We start by listening — mapping needs and assets together with residents." },
@@ -34,11 +29,10 @@ const kalagalaCommunities = [
 ];
 
 export default async function CedpPage() {
-  const [heroSlides, areasOfFocus, impactStoryCards, impactCards] =
+  const [heroSlides, areasOfFocus, impactCards] =
     await Promise.all([
       getCedpHeroSlides(),
       getCedpAreasOfFocus(),
-      getCedpImpactStoryCards(),
       getCedpImpactCards(),
     ]);
 
@@ -115,7 +109,7 @@ export default async function CedpPage() {
         </div>
       </section>
 
-      {/* 5. Geography — mint (kept as-is) */}
+      {/* 5. Geography — mint */}
       <section className="bg-[var(--surface-2)] py-16 md:py-24">
         <div className="container-page">
           <div className="mx-auto max-w-2xl text-center">
@@ -144,23 +138,9 @@ export default async function CedpPage() {
         </div>
       </section>
 
-      {/* 6. Impacts — white */}
-      <CardGrid
-        eyebrow="Impacts"
-        title="Stories of community-led change"
-        intro="Real outcomes from projects across Kalagala Parish — each driven by community priorities and sustained by local ownership."
-        items={impactStoryCards.map((c) => ({
-          title: c.title,
-          excerpt: c.excerpt,
-          href: c.href,
-          tone: "forest" as const,
-          imageUrl: c.imageUrl,
-          imageAlt: c.imageAlt,
-        }))}
-      />
-
-      {/* 7. Cross-cutting commitments — mint (kept as-is) */}
-      <section className="bg-[var(--surface-2)] py-16 md:py-24">
+      {/* 6. Cross-cutting commitments — white (swapped from mint to avoid
+          mint→mint adjacency with Geography above) */}
+      <section className="py-16 md:py-24">
         <div className="container-page">
           <div className="mx-auto max-w-2xl text-center">
             <Eyebrow>Cross-cutting commitments</Eyebrow>
@@ -186,8 +166,9 @@ export default async function CedpPage() {
         </div>
       </section>
 
-      {/* 8. CEDP Impact — white */}
+      {/* 7. CEDP Impact — mint (swapped from white) */}
       <CardGrid
+        surface
         eyebrow="CEDP impact"
         title="Impact cards from community-led work"
         intro="Verified outcomes from projects across clean energy, water, and livelihoods — each reflecting the priorities communities set for themselves."
@@ -202,18 +183,18 @@ export default async function CedpPage() {
         }))}
       />
 
-      {/* 9. Support community-led development — mint */}
+      {/* 8. Support community-led development — mint */}
       <section className="bg-[var(--surface-2)] py-16 md:py-24">
         <div className="container-page">
           <CTABand
-          title="Support community-led development"
-          body="Partner on a flagship project, fund priority work, or join as an intern or volunteer."
-          actions={[
-            { href: "/partners", label: "Partner with us" },
-            { href: "/donate", label: "Donate to a project", variant: "secondary" },
-            { href: "/projects", label: "Explore projects", variant: "ghost" },
-          ]}
-        />
+            title="Support community-led development"
+            body="Partner on a flagship project, fund priority work, or join as an intern or volunteer."
+            actions={[
+              { href: "/partners", label: "Partner with us" },
+              { href: "/donate", label: "Donate to a project", variant: "secondary" },
+              { href: "/projects", label: "Explore projects", variant: "ghost" },
+            ]}
+          />
         </div>
       </section>
     </>
