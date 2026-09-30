@@ -1,9 +1,9 @@
 import { HeroSlider } from "@/components/site/HeroSlider";
-import { CardGrid, CTABand } from "@/components/site/blocks";
+import { CardGrid } from "@/components/site/blocks";
 import { HowYouCanGetInvolved } from "@/components/home/HowYouCanGetInvolved";
 import { SectionHeader } from "@/components/site/Section";
 import { VideoPlayer } from "@/components/site/VideoPlayer";
-import { TestimonialGrid } from "@/components/site/TestimonialCard";
+import { TestimonialCarousel } from "@/components/site/TestimonialCard";
 import { pageMeta } from "@/lib/seo";
 import { getGeneralImpactPage } from "@/lib/content";
 import type { HeroSlide } from "@/lib/content";
@@ -110,10 +110,11 @@ export default async function GeneralImpactPage() {
         />
       )}
 
-      {/* 5. Explore more stories — two-column layout (left: testimonials, right: videos) */}
+      {/* 5. Explore more stories — clean slider + single video */}
       {(page.exploreTestimonials?.length || page.exploreVideos?.length) ? (
         <section className="py-16 md:py-24">
           <div className="container-page">
+            {/* Section header — centered, kept here only, not repeated in left column */}
             <SectionHeader
               eyebrow={page.exploreEyebrow || "More voices and videos"}
               title={page.exploreTitle || "Community voices & field films"}
@@ -122,35 +123,28 @@ export default async function GeneralImpactPage() {
             />
 
             <div className="mt-12 grid gap-12 lg:grid-cols-[0.55fr_0.45fr]">
-              {/* Left column: testimonials */}
+              {/* Left column: testimonial carousel (one at a time) */}
               {page.exploreTestimonials && page.exploreTestimonials.length > 0 && (
-                <TestimonialGrid
-                  eyebrow={page.exploreEyebrow || undefined}
-                  title={page.exploreTitle || undefined}
-                  intro={page.exploreIntro || undefined}
+                <TestimonialCarousel
                   items={page.exploreTestimonials}
-                  cta={page.exploreTestimonialsCta}
+                  cta={page.exploreTestimonialsCta || { href: "/impact", label: "Discover more stories" }}
                   surface={false}
                 />
               )}
 
-              {/* Right column: videos */}
+              {/* Right column: single video + CTA */}
               {page.exploreVideos && page.exploreVideos.length > 0 && (
-                <div>
-                  <div className="space-y-8">
-                    {page.exploreVideos.map((video, i) => (
-                      <VideoPlayer
-                        key={i}
-                        videoUrl={video.videoUrl}
-                        thumbnailUrl={video.thumbnailUrl}
-                        thumbnailAlt={video.thumbnailAlt || video.title || "Video thumbnail"}
-                        title={video.title}
-                        caption={video.title}
-                      />
-                    ))}
-                  </div>
+                <div className="flex flex-col">
+                  <VideoPlayer
+                    videoUrl={page.exploreVideos[0].videoUrl}
+                    thumbnailUrl={page.exploreVideos[0].thumbnailUrl}
+                    thumbnailAlt={page.exploreVideos[0].thumbnailAlt || page.exploreVideos[0].title || "Video thumbnail"}
+                    title={page.exploreVideos[0].title}
+                    caption={page.exploreVideos[0].title}
+                  />
+                  {/* Videos CTA below the single video */}
                   {page.exploreVideosCta && (
-                    <div className="mt-8">
+                    <div className="mt-8 text-center">
                       <a
                         href={page.exploreVideosCta.href}
                         className="inline-flex items-center gap-1.5 text-[0.9rem] font-medium text-[var(--accent-700)] transition-colors hover:underline"
@@ -176,17 +170,6 @@ export default async function GeneralImpactPage() {
           surface
         />
       )}
-
-      {/* Closing CTA band — always present at the bottom */}
-      <CTABand
-        title="Explore more verified impact"
-        body="Stories, statistics, and community voices from FOSCOD's work across Uganda — all consent-approved and evidence-backed."
-        actions={[
-          { href: "/impact", label: "See all impact" },
-          { href: "/impact/stories", label: "Read impact stories", variant: "secondary" },
-          { href: "/donate", label: "Support the work", variant: "ghost" },
-        ]}
-      />
     </>
   );
 }

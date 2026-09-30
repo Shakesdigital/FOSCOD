@@ -5,7 +5,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { useState, useEffect, useRef, useCallback } from "react";
 
 /** TestimonialCard — a single testimonial with profile photo, quote, and attribution.
- *  Uses a tone-based border-left accent; no decorative smart lines. */
+ *  Clean card with no borderlines; profile image center-aligned in carousel context. */
 export function TestimonialCard({
   quote,
   name,
@@ -13,6 +13,7 @@ export function TestimonialCard({
   photoUrl,
   photoAlt,
   tone = "forest",
+  centerImage = false,
 }: {
   quote: string;
   name: string;
@@ -20,27 +21,33 @@ export function TestimonialCard({
   photoUrl?: string;
   photoAlt?: string;
   tone?: "earth" | "water" | "forest";
+  centerImage?: boolean;
 }) {
   const toneVars: Record<string, string> = {
     earth: "var(--clay-300)",
     water: "var(--water-500)",
     forest: "var(--forest-500)",
   };
-  const borderColor = toneVars[tone];
 
   return (
     <div
-      className="flex flex-col gap-5 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-8"
-      style={{ borderLeftColor: borderColor }}
+      className="flex flex-col gap-4 rounded-[var(--radius-lg)] bg-[var(--surface)] p-8 text-center"
     >
       {photoUrl ? (
-        <img src={photoUrl} alt={photoAlt || name} className="h-14 w-14 rounded-full object-cover object-center" loading="lazy" width={56} height={56} />
+        <img
+          src={photoUrl}
+          alt={photoAlt || name}
+          className={`h-16 w-16 rounded-full object-cover object-center ${centerImage ? "mx-auto" : ""}`}
+          loading="lazy"
+          width={64}
+          height={64}
+        />
       ) : (
-        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[var(--accent-100)] text-[var(--accent-700)]">
+        <div className={`flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-[var(--accent-100)] text-[var(--accent-700)] font-medium ${centerImage ? "mx-auto" : ""}`}>
           {name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
         </div>
       )}
-      <blockquote className="text-xl italic leading-relaxed text-[var(--ink-soft)]">
+      <blockquote className="text-base italic leading-relaxed text-[var(--ink-soft)]">
         &ldquo;{quote}&rdquo;
       </blockquote>
       <figcaption className="mt-auto">
@@ -51,23 +58,26 @@ export function TestimonialCard({
   );
 }
 
-/** TestimonialCarousel — a sliding carousel that shows one testimonial at a time.
+/** TestimonialCarousel — a clean slider showing one testimonial at a time.
  *  Auto-plays with pause-on-hover, includes dot indicators and prev/next arrows.
- *  Replaces the grid layout for the "Voices from the community" section. */
+ *  Center-aligned profile image, reduced font size, no borders. Optional CTA button below. */
 export function TestimonialCarousel({
   eyebrow,
   title,
   intro,
   items,
+  cta,
   surface = false,
 }: {
   eyebrow?: string;
   title?: string;
   intro?: string;
   items: { quote: string; name: string; role?: string; photoUrl?: string; photoAlt?: string; tone?: "earth" | "water" | "forest" }[];
+  cta?: { href: string; label: string };
   surface?: boolean;
 }) {
   const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
   const regionRef = useRef<HTMLDivElement>(null);
   const count = items.length;
 
@@ -76,23 +86,23 @@ export function TestimonialCarousel({
     [count]
   );
 
-  // Auto-play
+  // Auto-play (pauses on hover)
   useEffect(() => {
-    if (count <= 1) return;
+    if (count <= 1 || paused) return;
     if (typeof window !== "undefined" &&
         window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
       return;
     }
     const id = window.setInterval(() => setIndex((i) => (i + 1) % count), 6500);
     return () => window.clearInterval(id);
-  }, [count]);
+  }, [count, paused]);
 
   if (count === 0) return null;
 
   return (
     <div className={`py-14 md:py-20 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
       <div className="container-page">
-        {/* Section header */}
+        {/* Section header — centered, no repetition on the left */}
         {(eyebrow || title) && (
           <div className="mx-auto max-w-2xl text-center">
             {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
@@ -108,7 +118,8 @@ export function TestimonialCarousel({
           role="region"
           aria-roledescription="carousel"
           aria-label="Community testimonials carousel"
-          onMouseEnter={() => {}}
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
           onKeyDown={(e) => {
             if (e.key === "ArrowLeft") go(index - 1);
             if (e.key === "ArrowRight") go(index + 1);
@@ -129,6 +140,7 @@ export function TestimonialCarousel({
                       photoUrl={t.photoUrl}
                       photoAlt={t.photoAlt}
                       tone={t.tone ?? "forest"}
+                      centerImage
                     />
                   )}
                 </div>
@@ -177,6 +189,18 @@ export function TestimonialCarousel({
                   }`}
                 />
               ))}
+            </div>
+          )}
+
+          {/* CTA button below the carousel */}
+          {cta && (
+            <div className="mt-8 text-center">
+              <a
+                href={cta.href}
+                className="inline-flex items-center gap-1.5 text-[0.9rem] font-medium text-[var(--accent-700)] transition-colors hover:underline"
+              >
+                {cta.label} →
+              </a>
             </div>
           )}
 

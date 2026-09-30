@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
-/** The field-report signature mark: a monospace, ticked label. */
+/** Eyebrow — a clean, uppercase label used above section headings sitewide.
+ *  Replaces the prior dash-delimited "signature mark" style across the site. */
 export function Eyebrow({
   children,
   className = "",
