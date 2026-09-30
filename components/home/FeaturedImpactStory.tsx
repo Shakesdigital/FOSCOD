@@ -22,10 +22,10 @@ export function FeaturedImpactStory({
   return (
     <section className="py-16 md:py-24">
       <div className="container-page">
-        <Eyebrow>{eyebrow}</Eyebrow>
-        <div className="mt-10 grid items-start gap-10 lg:grid-cols-[1.3fr_0.7fr]">
-          <div>
-            <h2 className="text-[clamp(1.8rem,3.2vw,2.5rem)] leading-snug">{story.title}</h2>
+        <div className="grid items-start gap-10 lg:grid-cols-[1.3fr_0.7fr]">
+          <div className="mx-auto max-w-2xl text-center">
+            <Eyebrow>{eyebrow}</Eyebrow>
+            <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)] leading-snug">{story.title}</h2>
             {dateStr && (
               <p className="mt-3 font-[family-name:var(--font-mono)] text-[0.72rem] uppercase tracking-[0.12em] text-[var(--muted)]">
                 Published {dateStr}

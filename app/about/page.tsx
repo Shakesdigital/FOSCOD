@@ -26,7 +26,7 @@ export default async function AboutPage() {
       {/* Our Story */}
       <section className="py-16 md:py-24">
         <div className="container-page grid items-center gap-10 lg:grid-cols-2">
-          <div>
+          <div className="mx-auto max-w-2xl text-center lg:max-w-none lg:text-left">
             <Eyebrow>Our story</Eyebrow>
             <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">A journey to Ugandan autonomy</h2>
             <div className="mt-6 space-y-4 max-w-[var(--measure)] text-[1.05rem] leading-relaxed text-[var(--ink-soft)]">

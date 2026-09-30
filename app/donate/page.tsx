@@ -49,8 +49,10 @@ export default async function DonatePage() {
       <HeroSlider slides={heroSlides} />
 
       <section className="container-page py-12 md:py-16">
-        <Eyebrow>Choose what to support</Eyebrow>
-        <h2 className="mt-4 max-w-2xl text-[clamp(1.7rem,3vw,2.3rem)]">Begin with a verified project conversation</h2>
+        <div className="mx-auto max-w-2xl text-center">
+          <Eyebrow>Choose what to support</Eyebrow>
+          <h2 className="mt-4 max-w-2xl text-center text-[clamp(1.7rem,3vw,2.3rem)]">Begin with a verified project conversation</h2>
+        </div>
         <div className="mt-10"><FeatureGrid items={priorities} columns={3} /></div>
         <p className="mt-6 font-[family-name:var(--font-mono)] text-[0.72rem] text-[var(--muted)]">
           ◷ Suggested giving amounts tied to concrete uses are added once FOSCOD
@@ -60,7 +62,7 @@ export default async function DonatePage() {
 
       <section className="bg-[var(--surface-2)] py-16 md:py-20">
         <div className="container-page">
-          <div className="max-w-2xl">
+          <div className="mx-auto max-w-2xl text-center">
             <Eyebrow>How stewardship works</Eyebrow>
             <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">From community priority to honest reporting</h2>
             <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">A donation should have a clear purpose, a safe route, and evidence proportionate to the size and risk of the work.</p>
@@ -71,11 +73,11 @@ export default async function DonatePage() {
 
       <section id="giving-inquiry" className="py-16 md:py-20">
         <div className="container-page grid gap-10 lg:grid-cols-2">
-          <div>
+          <div className="text-center">
             <h2 className="text-[clamp(1.5rem,2.5vw,2rem)]">Donor FAQ</h2>
             <div className="mt-6"><FAQ items={faqs} /></div>
           </div>
-          <div>
+          <div className="text-center">
             <h2 className="text-[clamp(1.5rem,2.5vw,2rem)]">Talk to us about giving</h2>
             <p className="mt-3 text-[var(--muted)]">
               A payment link / gateway is wired in the CMS. Meanwhile, tell us how

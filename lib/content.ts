@@ -1696,21 +1696,21 @@ const cedpAreasOfFocusFallback: CedpAreaOfFocus[] = [
     description:
       "Clean cooking, solar energy, e-mobility, environment conservation, climate adaptation, and related climate initiatives that build community resilience.",
     ctaLabel: "Explore clean energy projects",
-    ctaHref: "/projects?theme=Clean+Energy",
+    ctaHref: "/programs/cedp/areas/clean-energy-climate-resilience",
   },
   {
     title: "Water sanitation and healthy communities",
     description:
       "Safe water, spring protection, sanitation, hygiene, water systems, and related community health and environment practices.",
     ctaLabel: "Explore water projects",
-    ctaHref: "/projects?theme=WASH",
+    ctaHref: "/programs/cedp/areas/water-sanitation-health-communities",
   },
   {
     title: "Sustainable livelihoods and economic empowerment",
     description:
       "VSLAs, women enterprises, climate-smart agriculture, kitchen gardens, green businesses, and other livelihood opportunities.",
     ctaLabel: "Explore livelihood projects",
-    ctaHref: "/projects?theme=Green+Livelihoods",
+    ctaHref: "/programs/cedp/areas/sustainable-livelihoods-economic-empowerment",
   },
 ];
 

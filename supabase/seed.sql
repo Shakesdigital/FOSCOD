@@ -477,9 +477,9 @@ on conflict (id) do update set
 
 -- ---------- CEDP landing page: areas of focus ----------
 insert into public.cedp_areas_of_focus (title, description, image_url, image_alt, cta_label, cta_href, visible, order_column) values
-  ('Clean energy and climate resilience', 'Clean cooking, solar energy, e-mobility, environment conservation, climate adaptation, and related climate initiatives that build community resilience.', '/images/cedp/clean-energy.jpg', 'Solar panels and clean cookstoves in a rural Ugandan homestead', 'Explore clean energy projects', '/projects?theme=Clean+Energy', true, 1),
-  ('Water sanitation and healthy communities', 'Safe water, spring protection, sanitation, hygiene, water systems, and related community health and environment practices.', '/images/cedp/water.jpg', 'Community members protecting a natural water spring', 'Explore water projects', '/projects?theme=WASH', true, 2),
-  ('Sustainable livelihoods and economic empowerment', 'VSLAs, women enterprises, climate-smart agriculture, kitchen gardens, green businesses, and other livelihood opportunities.', '/images/cedp/livelihoods.jpg', 'Women''s savings group meeting with green enterprise training', 'Explore livelihood projects', '/projects?theme=Green+Livelihoods', true, 3)
+  ('Clean energy and climate resilience', 'Clean cooking, solar energy, e-mobility, environment conservation, climate adaptation, and related climate initiatives that build community resilience.', '/images/cedp/clean-energy.jpg', 'Solar panels and clean cookstoves in a rural Ugandan homestead', 'Explore clean energy projects', '/programs/cedp/areas/clean-energy-climate-resilience', true, 1),
+  ('Water sanitation and healthy communities', 'Safe water, spring protection, sanitation, hygiene, water systems, and related community health and environment practices.', '/images/cedp/water.jpg', 'Community members protecting a natural water spring', 'Explore water projects', '/programs/cedp/areas/water-sanitation-health-communities', true, 2),
+  ('Sustainable livelihoods and economic empowerment', 'VSLAs, women enterprises, climate-smart agriculture, kitchen gardens, green businesses, and other livelihood opportunities.', '/images/cedp/livelihoods.jpg', 'Women''s savings group meeting with green enterprise training', 'Explore livelihood projects', '/programs/cedp/areas/sustainable-livelihoods-economic-empowerment', true, 3)
 on conflict (id) do update set
   title = excluded.title, description = excluded.description,
   image_url = excluded.image_url, image_alt = excluded.image_alt,

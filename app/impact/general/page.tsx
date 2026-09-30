@@ -77,9 +77,9 @@ export default async function GeneralImpactPage() {
       {(page.descriptionTitle || page.descriptionBody) && (
         <section className="bg-[var(--surface-2)] py-16 md:py-24">
           <div className="container-page">
-            {page.descriptionTitle && (
-              <h2 className="text-[clamp(1.7rem,3vw,2.3rem)] font-medium">{page.descriptionTitle}</h2>
-            )}
+            <div className="mx-auto max-w-2xl text-center">
+              <h2 className="text-[clamp(1.5rem,2.5vw,2rem)]">{page.descriptionTitle}</h2>
+            </div>
             {page.descriptionBody && (
               <p className="mt-4 max-w-3xl leading-relaxed text-[var(--ink-soft)]">{page.descriptionBody}</p>
             )}

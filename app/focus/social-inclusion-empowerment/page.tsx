@@ -31,10 +31,10 @@ export default async function SocialInclusionPage() {
         <FeatureGrid items={groups} columns={4} />
       </section>
       <section className="bg-[var(--surface-2)] py-16 md:py-20">
-        <div className="container-page">
+        <div className="mx-auto max-w-2xl text-center">
           <h2 className="max-w-xl text-[clamp(1.7rem,3vw,2.3rem)]">How we work</h2>
-          <div className="mt-10"><Steps steps={how} /></div>
         </div>
+        <div className="mt-10"><Steps steps={how} /></div>
       </section>
       <CTABand
         title="Advance inclusion with us"

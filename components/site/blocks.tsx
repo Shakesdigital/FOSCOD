@@ -28,11 +28,11 @@ export function FeatureRow({
   return (
     <section className={`py-14 md:py-20 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
       <div className="container-page grid items-center gap-10 md:grid-cols-2">
-        <div className={reverse ? "md:order-2" : ""}>
+        <div className={`mx-auto max-w-2xl text-center ${reverse ? "md:order-2" : ""}`}>
           {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
-          <h2 className="mt-4 text-[clamp(1.6rem,2.8vw,2.2rem)]">{title}</h2>
+          <h2 className="mt-4 text-[clamp(1.6rem,2.8vw,2.2rem)] text-center">{title}</h2>
           <div className="mt-4 max-w-[var(--measure)] space-y-3 leading-relaxed text-[var(--ink-soft)]">
-            {typeof body === "string" ? <p>{body}</p> : body}
+            {typeof body === "string" ? <p className="text-center">{body}</p> : body}
           </div>
           {cta && (
             <div className="mt-7">
@@ -65,7 +65,7 @@ export function HowWeWork({
   return (
     <section className={`py-14 md:py-20 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
       <div className="container-page">
-        <div className="max-w-2xl">
+        <div className="mx-auto max-w-2xl text-center">
           <Eyebrow>{eyebrow}</Eyebrow>
           <h2 className="mt-4 text-[clamp(1.6rem,2.8vw,2.2rem)]">{title}</h2>
         </div>
@@ -495,7 +495,7 @@ export function CardGrid({
   items,
   more,
   surface = false,
-  align = "left",
+  align = "center",
 }: {
   eyebrow: string;
   title: string;
@@ -512,9 +512,9 @@ export function CardGrid({
       <div className="container-page">
         <div className={align === "center" ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
           <Eyebrow>{eyebrow}</Eyebrow>
-          <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">{title}</h2>
+          <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)] text-center">{title}</h2>
           {intro && (
-            <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">{intro}</p>
+            <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)] text-center">{intro}</p>
           )}
         </div>
 
@@ -611,7 +611,7 @@ export function QuoteGrid({
   return (
     <section className={`py-14 md:py-20 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
       <div className="container-page">
-        <div className="max-w-2xl">
+        <div className="mx-auto max-w-2xl text-center">
           <Eyebrow>{eyebrow}</Eyebrow>
           <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">{title}</h2>
           {intro && (
@@ -671,7 +671,7 @@ export function TeamPreview({
     <section className={`py-16 md:py-20 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
       <div className="container-page">
         {title && (
-          <div className="max-w-2xl">
+          <div className="mx-auto max-w-2xl text-center">
             <Eyebrow>{eyebrow}</Eyebrow>
             <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">{title}</h2>
             {intro && (
@@ -718,8 +718,10 @@ export function LocationBlock({
   return (
     <section className="bg-[var(--surface-2)] py-16 md:py-20">
       <div className="container-page">
-        <Eyebrow>Our location</Eyebrow>
-        <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">Find us in Jinja</h2>
+        <div className="mx-auto max-w-2xl text-center">
+          <Eyebrow>Our location</Eyebrow>
+          <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">Find us in Jinja</h2>
+        </div>
         <div className="mt-8 grid gap-6 overflow-hidden md:grid-cols-[1.5fr_1fr]">
           <div className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
             <iframe

@@ -14,7 +14,7 @@ export function ImpactStrip({
   return (
     <section className="bg-[var(--surface-2)] py-12 md:py-16">
       <div className="container-page">
-        <div className="max-w-2xl">
+        <div className="mx-auto max-w-2xl text-center">
           <Eyebrow>{eyebrow}</Eyebrow>
           <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">{title}</h2>
         </div>

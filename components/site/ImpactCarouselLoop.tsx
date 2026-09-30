@@ -48,7 +48,7 @@ export function ImpactCarouselLoop({
     <section className={`py-16 md:py-24 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
       <div className="container-page">
         <div className="flex flex-wrap items-end justify-between gap-4">
-          <div className="max-w-2xl">
+          <div className="mx-auto max-w-2xl text-center">
             <Eyebrow>{eyebrow}</Eyebrow>
             {title && <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">{title}</h2>}
             {intro && <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">{intro}</p>}

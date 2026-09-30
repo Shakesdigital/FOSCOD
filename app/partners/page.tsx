@@ -52,16 +52,20 @@ export default async function PartnersPage() {
       <HeroSlider slides={heroSlides} />
 
       <section id="partnership-inquiry" className="container-page scroll-mt-28 py-12 md:py-16">
-        <Eyebrow>Choose your partnership path</Eyebrow>
-        <h2 className="mt-4 max-w-2xl text-[clamp(1.7rem,3vw,2.3rem)]">Different partners bring different value—and need different answers</h2>
+        <div className="mx-auto max-w-2xl text-center">
+          <Eyebrow>Choose your partnership path</Eyebrow>
+          <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">Different partners bring different value—and need different answers</h2>
+        </div>
         <div className="mt-10"><FeatureGrid items={types} columns={3} /></div>
       </section>
 
       <section className="bg-[var(--surface-2)] py-16 md:py-20">
         <div className="container-page grid gap-8 lg:grid-cols-2">
           <div className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-8">
-            <Eyebrow>Why work with FOSCOD</Eyebrow>
-            <h2 className="mt-4 text-2xl">Local presence with a documented track record</h2>
+            <div className="text-center">
+              <Eyebrow>Why work with FOSCOD</Eyebrow>
+              <h2 className="mt-4 text-2xl">Local presence with a documented track record</h2>
+            </div>
             <ul className="mt-5 space-y-3 text-[var(--ink-soft)]">
               <li><strong>Registered in Uganda:</strong> {site.registration.number}</li>
               <li><strong>Located in Buikwe District:</strong> {site.contact.location}</li>
@@ -84,14 +88,17 @@ export default async function PartnersPage() {
 
       <section className="bg-[var(--surface-2)] py-16 md:py-20">
         <div className="container-page">
-          <h2 className="max-w-xl text-[clamp(1.7rem,3vw,2.3rem)]">The partnership process</h2>
+          <div className="mx-auto max-w-2xl text-center">
+            <Eyebrow>The partnership process</Eyebrow>
+            <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">How it works</h2>
+          </div>
           <div className="mt-10"><Steps steps={process} /></div>
         </div>
       </section>
 
       <section className="container-page py-12 md:py-16">
         <div className="grid gap-10 lg:grid-cols-[0.7fr_1.3fr]">
-          <div>
+          <div className="text-center">
             <h2 className="text-[clamp(1.5rem,2.5vw,2rem)]">Start a partnership inquiry</h2>
             <p className="mt-3 text-[var(--muted)]">
               Tell us a little about your organization and goals. We'll follow up to
@@ -111,8 +118,10 @@ export default async function PartnersPage() {
       <section className="bg-[var(--surface-2)] py-16 md:py-20">
         <div className="container-page grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
           <div>
-            <Eyebrow>Partner FAQ</Eyebrow>
-            <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">Prepare for a useful first conversation</h2>
+            <div className="mx-auto max-w-2xl text-center">
+              <Eyebrow>Partner FAQ</Eyebrow>
+              <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">Prepare for a useful first conversation</h2>
+            </div>
             <p className="mt-4 leading-relaxed text-[var(--ink-soft)]">Clear questions about governance, evidence, money, safeguards, roles, and learning are welcome.</p>
           </div>
           <FAQ items={partnerFaqs} />

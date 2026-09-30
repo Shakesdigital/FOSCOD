@@ -81,7 +81,7 @@ export default async function ApplyPage() {
       {/* application procedure — white */}
       <section className="py-14 md:py-20">
         <div className="container-page">
-          <div className="max-w-2xl">
+          <div className="mx-auto max-w-2xl text-center">
             <Eyebrow>Application procedure</Eyebrow>
             <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">From application to arrival</h2>
           </div>

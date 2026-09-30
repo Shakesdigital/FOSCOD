@@ -49,7 +49,9 @@ export default async function FeesPage() {
       </section>
 
       <section className="container-page py-12">
-        <h2 className="max-w-xl text-[clamp(1.7rem,3vw,2.3rem)]">Financial planning FAQ</h2>
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="max-w-xl text-[clamp(1.7rem,3vw,2.3rem)]">Financial planning FAQ</h2>
+        </div>
         <div className="mt-8 max-w-3xl"><FAQ items={faqs} /></div>
       </section>
 

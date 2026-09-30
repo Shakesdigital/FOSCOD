@@ -32,14 +32,16 @@ export default async function AlumniPage() {
       <HeroSlider slides={heroSlides} />
 
       <section className="container-page py-12 md:py-16">
-        <h2 className="max-w-xl text-[clamp(1.7rem,3vw,2.3rem)]">Ways to stay involved</h2>
+        <h2 className="mx-auto max-w-xl text-center text-[clamp(1.7rem,3vw,2.3rem)]">Ways to stay involved</h2>
         <div className="mt-10"><FeatureGrid items={ways} columns={3} /></div>
       </section>
 
       <section className="container-page pb-16">
         <div className="grid gap-10 lg:grid-cols-[0.7fr_1.3fr]">
           <div>
-            <h2 className="text-[clamp(1.5rem,2.5vw,2rem)]">Join or write a review</h2>
+            <div className="text-center">
+              <h2 className="text-[clamp(1.5rem,2.5vw,2rem)]">Join or write a review</h2>
+            </div>
             <p className="mt-3 text-[var(--muted)]">
               Reviews appear on the site once approved in the CMS, with your
               permission.
