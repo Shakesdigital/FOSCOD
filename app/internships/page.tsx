@@ -93,7 +93,7 @@ export default async function InternshipsPage() {
 
       <section className="py-14 md:py-20">
         <div className="container-page">
-          <div className="mx-auto max-w-2xl text-center">
+          <div className="max-w-2xl">
             <Eyebrow>How an internship moves</Eyebrow>
             <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">Preparation and handover are part of the work</h2>
             <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">A useful placement begins before arrival and continues through a documented handover—not just time spent in the field.</p>
@@ -153,7 +153,7 @@ export default async function InternshipsPage() {
 
       <section className="py-14 md:py-20">
         <div className="container-page grid gap-10 lg:grid-cols-[0.75fr_1.25fr]">
-          <div className="text-center lg:max-w-xl"><Eyebrow>Internship FAQ</Eyebrow><h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">Know the role before you travel</h2></div>
+          <div><Eyebrow>Internship FAQ</Eyebrow><h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">Know the role before you travel</h2></div>
           <FAQ items={faqs} />
         </div>
       </section>

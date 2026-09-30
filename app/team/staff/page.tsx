@@ -19,9 +19,7 @@ export default async function StaffPage() {
       <HeroSlider slides={heroSlides} />
 
       <section className="container-page py-12 first:pt-16">
-        <div className="text-center">
-          <h2 className="text-[clamp(1.5rem,2.5vw,2rem)]">Staff & Program Team</h2>
-        </div>
+        <h2 className="text-[clamp(1.5rem,2.5vw,2rem)]">Staff & Program Team</h2>
         <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {staff.map((m, i) => (
             <li key={`${m.name}-${i}`}>

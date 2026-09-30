@@ -53,8 +53,8 @@ export function ProjectCarousel({
   return (
     <section className={`py-14 md:py-20 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
       <div className="container-page">
-        <div className="flex flex-wrap items-end justify-center gap-4">
-          <div className="max-w-2xl text-center">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div className="max-w-2xl">
             <Eyebrow>{eyebrow}</Eyebrow>
             <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">{title}</h2>
             {intro && <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">{intro}</p>}
@@ -130,6 +130,7 @@ export function ProjectCarousel({
             ))}
           </div>
         </div>
+
         {count > 1 && (
           <div className="mt-8 flex items-center justify-center gap-2.5">
             {slides.map((_, i) => (

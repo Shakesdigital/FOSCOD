@@ -59,14 +59,9 @@
       --info: #124f4b;
 
       /* Type */
-      @font-face {
-        font-family: "Arial-Amperzan";
-        src: local("Arial");
-        unicode-range: U+0026;
-      }
-      --font-display: "Arial-Amperzan", "Fraunces", Georgia, serif;
-      --font-text: "Arial-Amperzan", "Public Sans", system-ui, sans-serif;
-      --font-mono: "Arial-Amperzan", "IBM Plex Mono", "SFMono-Regular", monospace;
+      --font-display: "Fraunces", Georgia, serif;
+      --font-text: "Public Sans", system-ui, sans-serif;
+      --font-mono: "IBM Plex Mono", "SFMono-Regular", monospace;
 
       /* Modular scale ~1.25 */
       --text-xs: 0.8rem;
@@ -174,6 +169,15 @@
       letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--accent-700);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    .eyebrow::before {
+      content: "";
+      width: 1.5rem;
+      height: 1px;
+      background: var(--accent-500);
     }
 
     /* ===== Button ===== */
@@ -852,7 +856,7 @@
   <!-- ==================== IMPACT STRIP ==================== -->
   <section class="section--mint">
     <div class="container-page">
-      <div class="section-title">
+      <div class="section-title--left">
         <span class="eyebrow">Verified impact</span>
         <h2>The difference, measured honestly</h2>
       </div>
@@ -968,7 +972,7 @@
   <!-- ==================== RESPONSIBLE ENGAGEMENT ==================== -->
   <section class="section">
     <div class="container-page">
-      <div class="section-title">
+      <div class="section-title--left">
         <span class="eyebrow">How it works</span>
         <h2>Local direction before outside participation</h2>
         <p>A useful partnership begins with the problem as communities understand it, then matches the right people, resources, safeguards, and evidence to the work.</p>
@@ -1011,12 +1015,10 @@
   <!-- ==================== FEATURED IMPACT STORY ==================== -->
   <section class="section">
     <div class="container-page">
-      <div class="section-title">
-        <span class="eyebrow">Featured impact story</span>
-      </div>
+      <span class="eyebrow">Featured impact story</span>
       <div class="mt-10 grid items-start gap-10 lg:grid-cols-[1.3fr_0.7fr]">
         <div>
-          <h2 style="font-size: clamp(1.8rem, 3.2vw, 2.5rem); line-height: 1.1; text-align: center;">Clean energy that powers a livelihood</h2>
+          <h2 style="font-size: clamp(1.8rem, 3.2vw, 2.5rem); line-height: 1.1;">Clean energy that powers a livelihood</h2>
           <p style="margin-top: 1rem; font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent-700);">
             — Community voice: Sarah N., Naluvule Village
           </p>
@@ -1049,7 +1051,7 @@
   <section class="section section--mint">
     <div class="container-page">
       <div class="flex flex-wrap items-end justify-between gap-4">
-        <div class="section-title">
+        <div class="section-title--left">
           <span class="eyebrow">Featured projects</span>
           <h2>Projects led by the communities we serve</h2>
           <p>Clean energy, water, climate, and livelihoods — explore the work, three projects at a time.</p>

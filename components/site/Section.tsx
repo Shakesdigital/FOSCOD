@@ -23,7 +23,7 @@ export function SectionHeader({
   eyebrow,
   title,
   intro,
-  align = "center",
+  align = "left",
 }: {
   eyebrow: string;
   title: string;

@@ -53,9 +53,7 @@ export default async function TeamPage() {
         if (!members.length) return null;
         return (
           <section key={cat.key} className="container-page py-12 first:pt-16">
-            <div className="text-center">
-              <h2 className="text-[clamp(1.5rem,2.5vw,2rem)]">{cat.label}</h2>
-            </div>
+            <h2 className="text-[clamp(1.5rem,2.5vw,2rem)]">{cat.label}</h2>
             <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {members.map((m, i) => (
                 <li key={`${m.name}-${i}`}>
