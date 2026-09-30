@@ -292,7 +292,7 @@ export default async function SubProgramPage({ params }: { params: Promise<{ sub
                       {impactStories[0].verified_outcome}
                     </p>
                   )}
-                  <a href={`/impact/stories/${impactStories[0].slug}`} className="mt-4 inline-flex items-center gap-1.5 text-[0.9rem] font-medium text-[var(--accent-700)]">
+                  <a href={`/impact/stories/${impactStories[0].slug}/full`} className="mt-4 inline-flex items-center gap-1.5 text-[0.9rem] font-medium text-[var(--accent-700)]">
                     Read full story →
                   </a>
                 </div>

@@ -62,7 +62,7 @@ export function FeaturedImpactStory({
             )}
 
             <div className="mt-8">
-              <Button href={`/impact/stories/${story.slug}`} variant="secondary" size="md">
+              <Button href={`/impact/stories/${story.slug}/full`} variant="secondary" size="md">
                 Read full story →
               </Button>
             </div>

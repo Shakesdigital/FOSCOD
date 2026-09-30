@@ -52,7 +52,7 @@ export const primaryNav: NavItem[] = [
       { label: "Community Empowerment & Development (CEDP)", href: "/programs/community-empowerment-development" },
     ],
   },
-  { label: "Impact", href: "/impact" },
+  { label: "Impact", href: "/impact/general" },
   { label: "Contact Us", href: "/contact" },
 ];
 
@@ -76,7 +76,7 @@ export const footerNav: { heading: string; links: NavChild[] }[] = [
   {
     heading: "Impact",
     links: [
-      { label: "Impact Overview", href: "/impact" },
+      { label: "Impact Overview", href: "/impact/general" },
       { label: "Impact Stories", href: "/impact/stories" },
       { label: "Projects", href: "/projects" },
       { label: "Downloads & Reports", href: "/impact#downloads" },
