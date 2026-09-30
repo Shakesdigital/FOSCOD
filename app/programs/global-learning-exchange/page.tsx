@@ -91,7 +91,7 @@ export default async function GlePage() {
 
       <section className="py-16 md:py-24">
         <div className="container-page">
-          <div className="max-w-2xl">
+          <div className="mx-auto max-w-2xl text-center">
             <Eyebrow>Our ethical commitment</Eyebrow>
             <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">Learning and community value must travel together</h2>
             <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
@@ -212,7 +212,7 @@ export default async function GlePage() {
       {/* GLE Impact Stats */}
       <section className="py-12 md:py-16">
         <div className="container-page">
-          <div className="max-w-2xl">
+          <div className="mx-auto max-w-2xl text-center">
             <Eyebrow>GLE impact (2019–2024)</Eyebrow>
             <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">Verified outcomes from global learning</h2>
           </div>

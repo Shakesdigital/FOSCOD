@@ -91,7 +91,7 @@ export default async function VolunteerPage() {
 
       <section className="py-14 md:py-20">
         <div className="container-page">
-          <div className="max-w-2xl">
+          <div className="mx-auto max-w-2xl text-center">
             <Eyebrow>Responsible volunteering</Eyebrow>
             <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">Community purpose before volunteer activity</h2>
             <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">Selection, preparation, duty of care, role management, debriefing, and evaluation all shape whether a placement is helpful.</p>
@@ -151,7 +151,7 @@ export default async function VolunteerPage() {
 
       <section className="py-14 md:py-20">
         <div className="container-page grid gap-10 lg:grid-cols-[0.75fr_1.25fr]">
-          <div><Eyebrow>Volunteer FAQ</Eyebrow><h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">Know the purpose and boundaries before you travel</h2></div>
+          <div className="text-center lg:max-w-xl"><Eyebrow>Volunteer FAQ</Eyebrow><h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">Know the purpose and boundaries before you travel</h2></div>
           <FAQ items={faqs} />
         </div>
       </section>

@@ -6,8 +6,8 @@ export function ImpactSnapshot({ metrics }: { metrics: ImpactMetric[] }) {
   return (
     <section className="bg-[var(--ink)] text-[var(--bg)]">
       <div className="container-page py-16 md:py-24">
-        <div className="flex flex-wrap items-end justify-between gap-6">
-          <div className="max-w-xl">
+        <div className="flex flex-wrap items-end justify-center gap-6">
+          <div className="max-w-xl text-center">
             <span className="eyebrow text-[var(--accent-300)] [&::before]:bg-[var(--accent-300)]">
               Field report · impact
             </span>

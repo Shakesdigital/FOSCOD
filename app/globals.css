@@ -57,10 +57,17 @@
   --error: #9d3b24;
   --info: #10474c;
 
+  /* --- ampersand-only Arial override (reduce the AI feel) --- */
+  @font-face {
+    font-family: "Arial-Amperzan";
+    src: local("Arial");
+    unicode-range: U+0026;
+  }
+
   /* --- type --- */
-  --font-display: var(--font-fraunces), "Georgia", serif;
-  --font-text: var(--font-public-sans), system-ui, sans-serif;
-  --font-mono: var(--font-plex-mono), "SFMono-Regular", monospace;
+  --font-display: local("Arial-Amperzan"), var(--font-fraunces), "Georgia", serif;
+  --font-text: local("Arial-Amperzan"), var(--font-public-sans), system-ui, sans-serif;
+  --font-mono: local("Arial-Amperzan"), var(--font-plex-mono), "SFMono-Regular", monospace;
 
   /* modular scale ~1.25 */
   --text-xs: 0.8rem;
@@ -210,12 +217,6 @@
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
-  }
-  .eyebrow::before {
-    content: "";
-    width: 1.5rem;
-    height: 1px;
-    background: var(--accent-500);
   }
 
   .container-page {

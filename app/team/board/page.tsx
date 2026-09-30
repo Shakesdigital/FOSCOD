@@ -19,7 +19,9 @@ export default async function BoardPage() {
       <HeroSlider slides={heroSlides} />
 
       <section className="container-page py-12 first:pt-16">
-        <h2 className="text-[clamp(1.5rem,2.5vw,2rem)]">Board of Directors</h2>
+        <div className="text-center">
+          <h2 className="text-[clamp(1.5rem,2.5vw,2rem)]">Board of Directors</h2>
+        </div>
         <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {board.map((m, i) => (
             <li key={`${m.name}-${i}`}>

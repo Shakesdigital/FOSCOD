@@ -33,7 +33,7 @@ export default async function ContactPage() {
 
       {/* Send us a message */}
       <section className="container-page py-12 md:py-16">
-        <div className="max-w-2xl">
+        <div className="mx-auto max-w-2xl text-center">
           <Eyebrow>Send us a message</Eyebrow>
           <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">Application &amp; inquiry form</h2>
           <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">

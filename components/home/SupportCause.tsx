@@ -7,7 +7,7 @@ export function SupportCause() {
     <section className="py-16 md:py-24">
       <div className="container-page">
         <div className="grid items-center gap-10 md:grid-cols-2">
-          <div>
+          <div className="text-center">
             <Eyebrow>Driving sustainable change</Eyebrow>
             <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.4rem)]">
               Driving sustainable change in Uganda
