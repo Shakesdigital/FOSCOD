@@ -21,14 +21,14 @@
   --border: #dde9e2;
   --border-strong: #c5d7cd;
 
-  /* --- accent ramp: deep teal (brand primary #10474c) --- */
+  /* --- accent ramp: deep teal (brand primary #124f4b) --- */
   --accent-50: #e6eeef;
   --accent-100: #c2d6d8;
   --accent-200: #94a9ab;
   --accent-300: #5f9499;
-  --accent-500: #10474c;
-  --accent-600: #0e3d41; /* button bg — white text passes AA */
-  --accent-700: #0b3034; /* accent text on light bg — passes AA */
+  --accent-500: #124f4b;
+  --accent-600: #0f3d3d; /* button bg — white text passes AA */
+  --accent-700: #0c3034; /* accent text on light bg — passes AA */
   --accent: var(--accent-500);
   --accent-fg: #ffffff;
 
@@ -43,7 +43,7 @@
   /* --- supporting brand colors (rooted in the work) --- */
   --water-50: #e6f0ef;
   --water-300: #5fa39a;
-  --water-500: #10474c; /* unified with brand teal (Nile / WASH) */
+  --water-500: #124f4b; /* unified with brand teal (Nile / WASH) */
   --water-700: #0b3034; /* water as text on light */
   --gold-500: #d99a24;  /* solar / maize / energy */
   --gold-700: #9c6c12;  /* gold as text on light */
@@ -60,7 +60,7 @@
   --success: #2f5d3a;
   --warning: #9c6c12;
   --error: #9d3b24;
-  --info: #10474c;
+  --info: #124f4b;
 
   /* --- ampersand-only Arial override (reduce the AI feel) --- */
   @font-face {
