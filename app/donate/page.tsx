@@ -94,15 +94,19 @@ export default async function DonatePage() {
         </div>
       </section>
 
-      <CTABand
-        title="Support begins with clarity"
-        body="Tell FOSCOD which project or theme interests you. The team will confirm the current opportunity and approved giving route."
-        actions={[
-          { href: "#giving-inquiry", label: "Start a giving inquiry" },
-          { href: "/impact", label: "Review verified impact", variant: "secondary" },
-          { href: "/about", label: "Check our identity", variant: "ghost" },
-        ]}
-      />
+      <section className="bg-[var(--surface-2)] py-14 md:py-20">
+        <div className="container-page">
+          <CTABand
+            title="Support begins with clarity"
+            body="Tell FOSCOD which project or theme interests you. The team will confirm the current opportunity and approved giving route."
+            actions={[
+              { href: "#giving-inquiry", label: "Start a giving inquiry" },
+              { href: "/impact", label: "Review verified impact", variant: "secondary" },
+              { href: "/about", label: "Check our identity", variant: "ghost" },
+            ]}
+          />
+        </div>
+      </section>
     </>
   );
 }

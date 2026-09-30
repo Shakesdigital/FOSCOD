@@ -50,6 +50,7 @@ export default async function ProgramsPage() {
         reverse
         tone="earth"
         imageCaption="Theory of Change diagram — add via CMS"
+        surface
         body={
           <>
             <p className="mb-4">

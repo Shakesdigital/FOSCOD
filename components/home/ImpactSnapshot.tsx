@@ -8,7 +8,7 @@ export function ImpactSnapshot({ metrics }: { metrics: ImpactMetric[] }) {
       <div className="container-page py-16 md:py-24">
         <div className="flex flex-wrap items-end justify-center gap-6">
           <div className="max-w-xl text-center">
-            <span className="eyebrow text-[var(--accent-300)] [&::before]:bg-[var(--accent-300)]">
+            <span className="eyebrow text-[var(--accent-300)]">
               Field report · impact
             </span>
             <h2 className="mt-4 text-[clamp(1.9rem,3.5vw,2.6rem)] text-[var(--bg)]">

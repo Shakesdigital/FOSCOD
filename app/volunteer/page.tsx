@@ -89,7 +89,8 @@ export default async function VolunteerPage() {
         </div>
       </section>
 
-      <section className="py-14 md:py-20">
+      {/* responsible volunteering — mint */}
+      <section className="bg-[var(--surface-2)] py-14 md:py-20">
         <div className="container-page">
           <div className="mx-auto max-w-2xl text-center">
             <Eyebrow>Responsible volunteering</Eyebrow>
@@ -101,8 +102,8 @@ export default async function VolunteerPage() {
         </div>
       </section>
 
-      {/* why volunteer — mint */}
-      <section className="bg-[var(--surface-2)] py-14 md:py-20">
+      {/* why volunteer — white */}
+      <section className="py-14 md:py-20">
         <div className="container-page">
           <div className="mx-auto max-w-2xl text-center">
             <Eyebrow>Why volunteer with FOSCOD</Eyebrow>

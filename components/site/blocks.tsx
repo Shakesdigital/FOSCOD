@@ -548,7 +548,9 @@ export function CardGrid({
                 )}
                 <div className="flex flex-1 flex-col p-6">
                   {c.kicker && (
-                    <p className="mb-1 text-sm text-[var(--ink-soft)]">{c.kicker}</p>
+                    <p className="mb-1 font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
+                      {c.kicker}
+                    </p>
                   )}
                   <h3 className="mt-2 text-lg leading-snug">{c.title}</h3>
                   {c.excerpt && (

@@ -31,7 +31,7 @@ export default async function AlumniPage() {
     <>
       <HeroSlider slides={heroSlides} />
 
-      <section className="container-page py-12 md:py-16">
+      <section className="bg-[var(--surface-2)] container-page py-12 md:py-16">
         <div className="mx-auto max-w-xl text-center">
           <h2 className="text-[clamp(1.7rem,3vw,2.3rem)]">Ways to stay involved</h2>
         </div>

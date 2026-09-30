@@ -59,7 +59,7 @@ export default async function PartnersPage() {
         <div className="mt-10"><FeatureGrid items={types} columns={3} /></div>
       </section>
 
-      <section className="py-16 md:py-20">
+      <section className="bg-[var(--surface-2)] py-16 md:py-20">
         <div className="container-page grid gap-8 lg:grid-cols-2">
           <div className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-8 text-center">
             <Eyebrow>Why work with FOSCOD</Eyebrow>

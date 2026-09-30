@@ -24,6 +24,7 @@
   /* --- accent ramp: deep teal (brand primary #10474c) --- */
   --accent-50: #e6eeef;
   --accent-100: #c2d6d8;
+  --accent-200: #94a9ab;
   --accent-300: #5f9499;
   --accent-500: #10474c;
   --accent-600: #0e3d41; /* button bg — white text passes AA */
@@ -40,10 +41,14 @@
   --clay-700: #87311d; /* warm accent text on light — passes AA */
 
   /* --- supporting brand colors (rooted in the work) --- */
+  --water-50: #e6f0ef;
+  --water-300: #5fa39a;
   --water-500: #10474c; /* unified with brand teal (Nile / WASH) */
   --water-700: #0b3034; /* water as text on light */
   --gold-500: #d99a24;  /* solar / maize / energy */
   --gold-700: #9c6c12;  /* gold as text on light */
+  --forest-50: #e8f0e8;
+  --forest-200: #b3c9b7;
   --forest-500: #2f5d3a; /* environment, quiet tertiary */
   --forest-700: #1f4128;
 
@@ -125,6 +130,8 @@
   --color-accent-500: var(--accent-500);
   --color-accent-600: var(--accent-600);
   --color-accent-700: var(--accent-700);
+
+  --color-accent-200: var(--accent-200);
 
   --color-clay-300: var(--clay-300);
   --color-clay-500: var(--clay-500);

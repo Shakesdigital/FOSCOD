@@ -84,9 +84,9 @@ export default async function ImpactStoryFullPage({ params }: { params: Promise<
           </div>
         </section>
 
-        {/* 3. Statistics — centered, no background wrapper, cards separated */}
+        {/* 3. Statistics — centered, mint background, cards separated */}
         {detail.statsItems && detail.statsItems.length > 0 && (
-          <section className="py-14 md:py-20">
+          <section className="bg-[var(--surface-2)] py-14 md:py-20">
             <div className="container-page">
               <div className="mx-auto max-w-2xl text-center">
                 <SectionHeader
@@ -103,7 +103,7 @@ export default async function ImpactStoryFullPage({ params }: { params: Promise<
           </section>
         )}
 
-        {/* 4. Video section — centered, balanced two-column */}
+        {/* 4. Video section — centered, balanced two-column, white bg */}
         {(detail.videoUrl || detail.videoTitle) && (
           <section className="py-14 md:py-20">
             <div className="container-page">
@@ -140,6 +140,7 @@ export default async function ImpactStoryFullPage({ params }: { params: Promise<
             title={detail.testimonialsTitle || "What the community says"}
             intro={detail.testimonialsIntro || "Permissioned reflections from the people behind this impact story."}
             items={detail.testimonials}
+            surface
           />
         )}
 
@@ -192,16 +193,20 @@ export default async function ImpactStoryFullPage({ params }: { params: Promise<
         )}
       </article>
 
-      {/* Closing CTA band — reduced padding */}
-      <CTABand
-        title="Read more stories of change"
-        body="Explore our full collection of impact stories, videos, and community experiences — all verified and consent-approved."
-        actions={[
-          { href: "/impact", label: "View all impact" },
-          { href: "/impact/stories", label: "Impact story archive", variant: "secondary" },
-          { href: "/donate", label: "Support this work", variant: "ghost" },
-        ]}
-      />
+      {/* Closing CTA band — mint background */}
+      <section className="bg-[var(--surface-2)] py-14 md:py-20">
+        <div className="container-page">
+          <CTABand
+            title="Read more stories of change"
+            body="Explore our full collection of impact stories, videos, and community experiences — all verified and consent-approved."
+            actions={[
+              { href: "/impact", label: "View all impact" },
+              { href: "/impact/stories", label: "Impact story archive", variant: "secondary" },
+              { href: "/donate", label: "Support this work", variant: "ghost" },
+            ]}
+          />
+        </div>
+      </section>
     </>
   );
 }

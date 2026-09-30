@@ -5,7 +5,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { useState, useEffect, useRef, useCallback } from "react";
 
 /** TestimonialCard — a single testimonial with profile photo, quote, and attribution.
- *  Clean card with no borderlines; profile image center-aligned in carousel context. */
+ *  Tone-based border-left accent; profile image center-aligned in carousel context. */
 export function TestimonialCard({
   quote,
   name,
@@ -31,7 +31,8 @@ export function TestimonialCard({
 
   return (
     <div
-      className="flex flex-col gap-4 rounded-[var(--radius-lg)] bg-[var(--surface)] p-8 text-center"
+      className="flex flex-col gap-4 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-8 text-center"
+      style={{ borderLeftColor: toneVars[tone] }}
     >
       {photoUrl ? (
         <img
@@ -47,7 +48,7 @@ export function TestimonialCard({
           {name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
         </div>
       )}
-      <blockquote className="text-base italic leading-relaxed text-[var(--ink-soft)]">
+      <blockquote className="text-xl italic leading-relaxed text-[var(--ink-soft)]">
         &ldquo;{quote}&rdquo;
       </blockquote>
       <figcaption className="mt-auto">
@@ -60,7 +61,7 @@ export function TestimonialCard({
 
 /** TestimonialCarousel — a clean slider showing one testimonial at a time.
  *  Auto-plays with pause-on-hover, includes dot indicators and prev/next arrows.
- *  Center-aligned profile image, reduced font size, no borders. Optional CTA button below. */
+ *  Center-aligned profile image with tone-based border-left accent. Optional CTA button below. */
 export function TestimonialCarousel({
   eyebrow,
   title,

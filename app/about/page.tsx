@@ -148,7 +148,7 @@ export default async function AboutPage() {
       <PartnerLogos partners={partners} eyebrow="Our partners" title="Collaboration across sectors and borders" />
 
       {/* Want to work with us — CTABand with background and thicker border */}
-      <div className="border-2 border-[var(--border-strong)] bg-[var(--surface-2)] py-4">
+      <div className="border-2 border-[var(--border-strong)] py-4">
         <CTABand
           title="Want to work with us?"
           body="Whether you're a university, a funder, a community organization, or an individual — there's a path to partnership."
