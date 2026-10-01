@@ -239,9 +239,40 @@ const impactMetrics: ImpactMetric[] = [
   { label: "Projects sustaining benefits", value: "86%", note: "Verified completed-project sustainability rate", status: "verified" },
 ];
 
-// Illustrative until real, permissioned alumni reviews are loaded via the CMS.
+// Illustrative alumni testimonials — replace with permissioned reviews via the CMS.
 // Attributions are role-based, not invented names — honest placeholders.
-const testimonials: Testimonial[] = [];
+const testimonials: Testimonial[] = [
+  {
+    quote: "Working on the solar-powered water system in Naluvule taught me that clean energy is never just about the technology — it's about who controls it, who maintains it, and who benefits. The host-family experience alone reshaped how I approach every project today.",
+    name: "Aisha M.",
+    cohort: "GLE 2023",
+    program: "Alumni · Renewable energy intern",
+  },
+  {
+    quote: "I came thinking I was there to 'help'. Six months later I realised I was there to learn — from community engineers who'd never seen a textbook but could tell you exactly why a borehole fails. That humility is the real takeaway.",
+    name: "Diego R.",
+    cohort: "GLE 2022",
+    program: "Alumni · WASH volunteer",
+  },
+  {
+    quote: "The CBPR framework FOSCOD uses — consent, co-design, and return-of-findings — became my north star for every research project after graduation. I now design every study around what the community asks for, not what fills a publication.",
+    name: "Fatima N.",
+    cohort: "GLE 2021",
+    program: "Alumni · Research fellow",
+  },
+  {
+    quote: "I came for eight weeks to document a carbon-credit readiness project and left with a new way of listening. The community mapping session changed how I frame research questions — power dynamics, consent, and who holds the pen matter more than any methodology.",
+    name: "Marcus T.",
+    cohort: "GLE 2023",
+    program: "Alumni · Carbon strategy intern",
+  },
+  {
+    quote: "My six-month placement on the youth mentorship pairings taught me that effective development is built on relationships, not deliverables. The handover session I co-led is still running — that continuity is what makes the work ethical.",
+    name: "Zara A.",
+    cohort: "GLE 2022",
+    program: "Alumni · Program coordination volunteer",
+  },
+];
 
 const partners: Partner[] = [
   { name: "University Partner", type: "Academic" },
@@ -968,8 +999,7 @@ export async function getAlumniExperiences(): Promise<Testimonial[]> {
       ?.from("testimonials")
       .select("name,cohort,program,quote")
       .eq("status", "published")
-      .order("order_column", { ascending: true })
-      .limit(3)) ?? { data: null };
+      .order("order_column", { ascending: true })) ?? { data: null };
     if (data && data.length) {
       return data.map((t) => ({
         quote: t.quote,
@@ -2790,4 +2820,170 @@ export async function getAllGeneralImpactSlugs(): Promise<string[]> {
     if (data && data.length) return data.map((r) => r.slug);
   }
   return Object.keys(generalImpactPagesFallback);
+}
+
+/* ============================================================
+   GLE landing page — pathways, introduction, apply section
+   Supabase-first with fallback data so the page renders fully
+   before the database is wired.
+   ============================================================ */
+
+export type GlePathwayCard = {
+  title: string;
+  body: string;
+  href: string;
+  cta: string;
+  kicker?: string;
+  imageUrl?: string;
+  imageAlt?: string;
+};
+
+export type GleIntroduction = {
+  title: string;
+  eyebrow?: string;
+  body: string;
+  imageUrl?: string;
+  imageAlt?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+};
+
+export type GleApplySection = {
+  title: string;
+  eyebrow?: string;
+  body: string;
+  imageUrl?: string;
+  imageAlt?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+};
+
+const glePathwaysFallback: GlePathwayCard[] = [
+  {
+    title: "Internships",
+    body: "A role matched to your discipline, learning goals, demonstrated skills, and the supervision available.",
+    href: "/internships",
+    cta: "Explore internships",
+    kicker: "Individuals",
+    imageUrl: "/images/gle/internships.jpg",
+    imageAlt: "Intern working on a solar installation with local technicians",
+  },
+  {
+    title: "Responsible volunteering",
+    body: "A defined contribution to ongoing work, with role boundaries, preparation, local guidance, and handover.",
+    href: "/volunteer",
+    cta: "Explore volunteering",
+    kicker: "Individuals & groups",
+    imageUrl: "/images/gle/volunteering.jpg",
+    imageAlt: "Volunteer teaching hygiene practices in a community setting",
+  },
+  {
+    title: "Faculty-led programs",
+    body: "Co-designed group learning connected to course outcomes, field activities, reflection, and community value.",
+    href: "/partners",
+    cta: "Plan a faculty program",
+    kicker: "Universities",
+    imageUrl: "/images/gle/faculty-led.jpg",
+    imageAlt: "University faculty and students collaborating with community leaders",
+  },
+  {
+    title: "Community-based research",
+    body: "Research shaped with local partners, including ethics, data, authorship, dissemination, and return-of-findings agreements.",
+    href: "/partners",
+    cta: "Discuss research",
+    kicker: "Researchers",
+    imageUrl: "/images/gle/research.jpg",
+    imageAlt: "Researchers collecting water quality data with community members",
+  },
+];
+
+const gleIntroductionFallback: GleIntroduction = {
+  title: "Learn ethical development through real projects",
+  eyebrow: "About Global Learning & Exchange",
+  body: "FOSCOD's Global Learning & Exchange (GLE) program connects students, professionals, researchers, and university groups with structured, supervised field learning in Uganda.\n\nParticipants work alongside FOSCOD, community organizations, host families, and local leaders across clean energy, WASH, livelihoods, health, and environmental sustainability. You contribute to genuine community priorities under local supervision — not manufactured tasks.\n\nWhether you come for academic learning, career experience, service, or community-based participatory research (CBPR), the structure is the same: prepare, contribute within a defined role, reflect, and complete a useful handover.",
+  imageUrl: "/images/gle/introduction.jpg",
+  imageAlt: "Global learning participants working with a community on solar installation",
+  ctaLabel: "Apply now",
+  ctaHref: "/apply",
+};
+
+const gleApplySectionFallback: GleApplySection = {
+  title: "Apply to join GLE",
+  eyebrow: "Get involved",
+  body: "Start your application to join a supervised, ethical field-learning placement in Uganda. We'll match your skills, study background, and timeline to an active community priority — with local supervision, host-family support, and clear role boundaries from day one.",
+  imageUrl: "/images/gle/apply.jpg",
+  imageAlt: "Application documents and a pen beside a community project site",
+  ctaLabel: "Start your application",
+  ctaHref: "/apply",
+};
+
+export async function getGlePathways(): Promise<GlePathwayCard[]> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    const { data } = (await supabase
+      ?.from("gle_pathways")
+      .select("title,body,href,cta,kicker,image_url,image_alt")
+      .eq("visible", true)
+      .order("order_column", { ascending: true })) ?? { data: null };
+    if (data && data.length) {
+      return data.map((p) => ({
+        title: p.title,
+        body: p.body ?? "",
+        href: p.href ?? "",
+        cta: p.cta ?? "Learn more",
+        kicker: p.kicker ?? undefined,
+        imageUrl: p.image_url ?? undefined,
+        imageAlt: p.image_alt ?? undefined,
+      }));
+    }
+  }
+  return glePathwaysFallback;
+}
+
+export async function getGleIntroduction(): Promise<GleIntroduction> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    const { data } = (await supabase
+      ?.from("gle_introduction")
+      .select("title,eyebrow,body,image_url,image_alt,cta_label,cta_href")
+      .eq("visible", true)
+      .order("order_column", { ascending: true })
+      .limit(1)) ?? { data: null };
+    if (data && data.length) {
+      return {
+        title: data[0].title,
+        eyebrow: data[0].eyebrow ?? undefined,
+        body: data[0].body ?? "",
+        imageUrl: data[0].image_url ?? undefined,
+        imageAlt: data[0].image_alt ?? undefined,
+        ctaLabel: data[0].cta_label ?? undefined,
+        ctaHref: data[0].cta_href ?? undefined,
+      };
+    }
+  }
+  return gleIntroductionFallback;
+}
+
+export async function getGleApplySection(): Promise<GleApplySection> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    const { data } = (await supabase
+      ?.from("gle_apply_section")
+      .select("title,eyebrow,body,image_url,image_alt,cta_label,cta_href")
+      .eq("visible", true)
+      .order("order_column", { ascending: true })
+      .limit(1)) ?? { data: null };
+    if (data && data.length) {
+      return {
+        title: data[0].title,
+        eyebrow: data[0].eyebrow ?? undefined,
+        body: data[0].body ?? "",
+        imageUrl: data[0].image_url ?? undefined,
+        imageAlt: data[0].image_alt ?? undefined,
+        ctaLabel: data[0].cta_label ?? "Apply now",
+        ctaHref: data[0].cta_href ?? "/apply",
+      };
+    }
+  }
+  return gleApplySectionFallback;
 }

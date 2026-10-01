@@ -1,8 +1,11 @@
+"use client";
+
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
+import { useState, useEffect, useRef, useCallback } from "react";
 
 /** FeatureRow — alternating text + image block with an optional CTA.
  *  Mirrors the wireframe's "text + illustration + Learn more" sections. */
@@ -200,13 +203,15 @@ export function FeatureGrid({
   );
 }
 
-/** CheckList — "what's included" style list with a tick. */
+/** CheckList — "what's included" style list with an accent dot. */
 export function CheckList({
   items,
   tone = "accent",
+  columns = 2,
 }: {
   items: string[];
   tone?: "accent" | "water" | "muted";
+  columns?: 1 | 2;
 }) {
   const color =
     tone === "water"
@@ -214,13 +219,12 @@ export function CheckList({
       : tone === "muted"
         ? "var(--muted)"
         : "var(--accent-600)";
+  const gridCols = columns === 1 ? "sm:grid-cols-1" : "sm:grid-cols-2";
   return (
-    <ul className="grid gap-2.5 sm:grid-cols-2">
+    <ul className={`grid gap-2.5 ${gridCols}`}>
       {items.map((it) => (
         <li key={it} className="flex items-start gap-2.5 text-[0.95rem] text-[var(--ink-soft)]">
-          <span className="mt-1 shrink-0" style={{ color }} aria-hidden>
-            ✓
-          </span>
+          <span className="mt-1.5 shrink-0 rounded-full" style={{ color, width: "0.45rem", height: "0.45rem", background: "currentColor" }} aria-hidden />
           {it}
         </li>
       ))}
@@ -654,7 +658,243 @@ export function QuoteGrid({
   );
 }
 
-/** TeamPreview — the About wireframe's "Our team": two cards (Staff + Board). */
+/** IntroSection — title on top, image on the left, body text on the right.
+ *  A full-width two-column block with an optional CTA. */
+export function IntroSection({
+  title,
+  eyebrow,
+  body,
+  imageUrl,
+  imageAlt,
+  ctaLabel,
+  ctaHref,
+  surface = false,
+  align = "left",
+}: {
+  title: string;
+  eyebrow?: string;
+  body: string;
+  imageUrl?: string;
+  imageAlt?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  surface?: boolean;
+  align?: "left" | "center";
+}) {
+  return (
+    <section className={`py-16 md:py-24 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
+      <div className="container-page">
+        <div className="mx-auto max-w-2xl text-center">
+          {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+          <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">{title}</h2>
+        </div>
+        <div className="mt-10 grid gap-10 md:grid-cols-[1.1fr_0.9fr]">
+          <div className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
+            {imageUrl ? (
+              <img
+                src={imageUrl}
+                alt={imageAlt || title}
+                className="h-full w-full object-cover"
+                loading="lazy"
+                width={640}
+                height={480}
+              />
+            ) : (
+              <div className="flex h-full min-h-[200px] w-full items-center justify-center text-[var(--muted)]" />
+            )}
+          </div>
+          <div>
+            {body.split("\n\n").map((para, i) => (
+              <p key={i} className={i > 0 ? "mt-4 text-[var(--ink-soft)]" : "text-[var(--ink-soft)]"} style={{ lineHeight: "1.6" }}>
+                {para}
+              </p>
+            ))}
+            {ctaLabel && ctaHref && (
+              <Button href={ctaHref} variant="secondary" size="sm" className="mt-6">
+                {ctaLabel}
+              </Button>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/** ApplySection — title on top, image on the left, statement + CTA on the right. */
+export function ApplySection({
+  title,
+  eyebrow,
+  body,
+  imageUrl,
+  imageAlt,
+  ctaLabel,
+  ctaHref,
+  surface = false,
+}: {
+  title: string;
+  eyebrow?: string;
+  body: string;
+  imageUrl?: string;
+  imageAlt?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  surface?: boolean;
+}) {
+  return (
+    <section className={`py-16 md:py-24 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
+      <div className="container-page">
+        <div className="mx-auto max-w-2xl text-center">
+          {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+          <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">{title}</h2>
+        </div>
+        <div className="mt-10 grid gap-10 md:grid-cols-[0.9fr_1.1fr]">
+          <div className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
+            {imageUrl ? (
+              <img
+                src={imageUrl}
+                alt={imageAlt || title}
+                className="h-full w-full object-cover"
+                loading="lazy"
+                width={640}
+                height={480}
+              />
+            ) : (
+              <div className="flex h-full min-h-[200px] w-full items-center justify-center text-[var(--muted)]" />
+            )}
+          </div>
+          <div className="flex flex-col justify-center">
+            {body.split("\n\n").map((para, i) => (
+              <p
+                key={i}
+                className={i > 0 ? "mt-4 text-[var(--ink-soft)]" : "text-[var(--ink-soft)]"}
+                style={{ lineHeight: "1.6" }}
+              >
+                {para}
+              </p>
+            ))}
+            {ctaLabel && ctaHref && (
+              <Button href={ctaHref} variant="secondary" size="sm" className="mt-6">
+                {ctaLabel}
+              </Button>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/** TestimonialCarousel — a slider showing 3 testimonies per slide
+ *  with prev/next arrows and dot indicators. */
+export function TestimonialCarousel({
+  items,
+  eyebrow,
+  title,
+  intro,
+  surface = false,
+}: {
+  items: { quote: string; name: string; program?: string; cohort?: string }[];
+  eyebrow?: string;
+  title?: string;
+  intro?: string;
+  surface?: boolean;
+}) {
+  if (!items.length) return null;
+
+  const totalSlides = Math.ceil(items.length / 3);
+  const [current, setCurrent] = useState(0);
+
+  const prev = () => setCurrent((prev) => (prev - 1 + totalSlides) % totalSlides);
+  const next = () => setCurrent((prev) => (prev + 1) % totalSlides);
+  const goTo = (idx: number) => setCurrent(idx);
+
+  const startIndex = current * 3;
+  const visibleItems = items.slice(startIndex, startIndex + 3);
+
+  return (
+    <section className={`py-16 md:py-24 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
+      <div className="container-page">
+        <div className="mx-auto max-w-2xl text-center">
+          {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+          {title && (
+            <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">{title}</h2>
+          )}
+          {intro && (
+            <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">{intro}</p>
+          )}
+        </div>
+
+        <div className="relative mt-12">
+          <ul className="grid gap-6 md:grid-cols-3">
+            {visibleItems.map((t, i) => (
+              <li
+                key={t.name + startIndex + i}
+                className="flex flex-col rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-7 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)]"
+              >
+                <span className="font-[family-name:var(--font-display)] text-4xl leading-none text-[var(--accent-300)]" aria-hidden>
+                  &ldquo;
+                </span>
+                <blockquote className="mt-2 flex-1 text-[1.02rem] leading-relaxed text-[var(--ink-soft)]">
+                  {t.quote}
+                </blockquote>
+                <figcaption className="mt-5 border-t border-[var(--border)] pt-4">
+                  <span className="block font-medium text-[var(--ink)]">{t.name}</span>
+                  {(t.program || t.cohort) && (
+                    <span className="block font-[family-name:var(--font-mono)] text-[0.72rem] uppercase tracking-[0.12em] text-[var(--muted)]">
+                      {[t.program, t.cohort].filter(Boolean).join(" · ")}
+                    </span>
+                  )}
+                </figcaption>
+              </li>
+            ))}
+          </ul>
+
+          {/* Navigation */}
+          {totalSlides > 1 && (
+            <>
+              <button
+                type="button"
+                onClick={prev}
+                aria-label="Previous testimonials"
+                className="absolute -left-4 top-1/2 -translate-y-1/2 rounded-full border border-[var(--border)] bg-[var(--surface)] p-2 text-[var(--ink)] hover:bg-[var(--accent-50)] disabled:opacity-40"
+              >
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 5l-4 4 4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                onClick={next}
+                aria-label="Next testimonials"
+                className="absolute -right-4 top-1/2 -translate-y-1/2 rounded-full border border-[var(--border)] bg-[var(--surface)] p-2 text-[var(--ink)] hover:bg-[var(--accent-50)] disabled:opacity-40"
+              >
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 5l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            </>
+          )}
+
+          {/* Dot indicators */}
+          {totalSlides > 1 && (
+            <div className="mt-8 flex justify-center gap-1.5">
+              {Array.from({ length: totalSlides }).map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => goTo(i)}
+                  aria-label={`Slide ${i + 1} of ${totalSlides}`}
+                  className={`h-2 w-2 rounded-full transition-all ${i === current ? "bg-[var(--accent-600)] w-6" : "bg-[var(--border-strong)]"}`}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
 export function TeamPreview({
   eyebrow = "Our team",
   title,
