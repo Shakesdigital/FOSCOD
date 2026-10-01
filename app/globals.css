@@ -62,10 +62,10 @@
   --error: #9d3b24;
   --info: #124f4b;
 
-  /* --- type --- */
-  --font-display: var(--font-fraunces), "Georgia", serif;
-  --font-text: var(--font-public-sans), system-ui, sans-serif;
-  --font-mono: var(--font-plex-mono), "SFMono-Regular", monospace;
+  /* --- type — Arial across all landing pages --- */
+  --font-display: "Arial", "Helvetica", sans-serif;
+  --font-text: "Arial", "Helvetica", sans-serif;
+  --font-mono: "SFMono-Regular", "Consolas", monospace;
 
   /* modular scale ~1.25 */
   --text-xs: 0.8rem;
