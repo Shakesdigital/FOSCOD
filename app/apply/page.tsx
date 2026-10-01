@@ -1,11 +1,11 @@
 import { HeroSlider } from "@/components/site/HeroSlider";
-import { ProgramDatesTable, Steps, CardGrid, QuoteGrid } from "@/components/site/blocks";
+import { ProgramDatesTable, Steps, CheckList, TestimonialCarousel } from "@/components/site/blocks";
 import { SubmitForm, type Field } from "@/components/forms/SubmitForm";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Button } from "@/components/ui/Button";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
 import { pageMeta } from "@/lib/seo";
-import { getHeroSlides, getProgramDates, getProgramHighlights, getAlumniExperiences } from "@/lib/content";
+import { getHeroSlides, getProgramDates, getAlumniExperiences } from "@/lib/content";
 
 export const metadata = pageMeta(
   "Apply to Join FOSCOD",
@@ -27,29 +27,25 @@ const formChoices = [
   { title: "Global Service Trip Form", body: "Faculty-led group programs and service trips.", href: "/programs/finder", tone: "earth" as const },
 ];
 
-const applicationFields: Field[] = [
-  { name: "first_name", label: "First name", required: true },
-  { name: "last_name", label: "Last name", required: true },
-  { name: "email", label: "Email", type: "email", required: true },
-  { name: "country", label: "Country" },
-  { name: "program_type", label: "Program type", type: "select", required: true, options: ["Internship", "Volunteer", "Group / University", "Research / Academic"] },
-  { name: "sector", label: "Field of interest", type: "select", options: ["WASH & public health", "Renewable energy", "Livelihoods", "Health", "Environment", "Social inclusion", "Research", "Communications", "Fundraising", "ICT / data"] },
-  { name: "duration", label: "Preferred duration", type: "select", options: ["4 weeks", "8 weeks", "10 weeks", "12 weeks", "Custom"] },
-  { name: "start_date", label: "Preferred start date" },
-  { name: "message", label: "Anything else we should know?", type: "textarea" },
-];
-
 const inquiryFields: Field[] = [
   { name: "name", label: "Name", required: true },
   { name: "email", label: "Email", type: "email", required: true },
   { name: "message", label: "Message", type: "textarea", required: true },
 ];
 
+const internVolunteerItems = [
+  "Application review & matching to community priorities",
+  "Role-specific cultural, ethical, safety, and technical preparation",
+  "Accommodation, transport, and support confirmed in the current intake brief",
+  "Supervised field work with FOSCOD staff & community mentors",
+  "Ethical development practice standards & reflection sessions",
+  "Debrief, handover, and completion record agreed for the role",
+];
+
 export default async function ApplyPage() {
-  const [heroSlides, dates, highlights, alumni] = await Promise.all([
+  const [heroSlides, dates, alumni] = await Promise.all([
     getHeroSlides("apply"),
     getProgramDates(),
-    getProgramHighlights(),
     getAlumniExperiences(),
   ]);
 
@@ -57,8 +53,8 @@ export default async function ApplyPage() {
     <>
       <HeroSlider slides={heroSlides} />
 
-      {/* intro — white */}
-      <section className="py-12 md:py-16">
+      {/* intro — mint (swapped) */}
+      <section className="bg-[var(--surface-2)] py-12 md:py-16">
         <div className="container-page mx-auto max-w-2xl text-center">
           <Eyebrow>How to apply</Eyebrow>
           <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">Your journey starts here</h2>
@@ -69,17 +65,16 @@ export default async function ApplyPage() {
         </div>
       </section>
 
-      {/* program dates — mint */}
+      {/* program dates — white (swapped) */}
       <ProgramDatesTable
         eyebrow="Program dates"
         title="Upcoming intakes & partners"
         intro="Indicative intakes and partner organisations — confirm exact dates with our team when you apply."
         rows={dates}
-        surface
       />
 
-      {/* application procedure — white */}
-      <section className="py-14 md:py-20">
+      {/* application procedure — mint (swapped) */}
+      <section className="bg-[var(--surface-2)] py-14 md:py-20">
         <div className="container-page">
           <div className="mx-auto max-w-2xl text-center">
             <Eyebrow>Application procedure</Eyebrow>
@@ -89,12 +84,15 @@ export default async function ApplyPage() {
         </div>
       </section>
 
-      {/* application form — mint */}
-      <section id="application-forms" className="bg-[var(--surface-2)] py-14 md:py-20">
+      {/* application form — white (swapped); Start your application moved to top, centered; form removed */}
+      <section id="application-forms" className="py-14 md:py-20">
         <div className="container-page">
           <div className="mx-auto max-w-2xl text-center">
-            <Eyebrow>Application form</Eyebrow>
-            <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">Pick a pathway, then apply</h2>
+            <h2 className="text-[clamp(1.7rem,3vw,2.3rem)]">Start your application</h2>
+            <p className="mt-3 text-[var(--muted)]">
+              One form for all pathways — we&rsquo;ll route your application to the
+              right team. University groups can request a dedicated call.
+            </p>
           </div>
           <div className="mt-10 grid gap-6 md:grid-cols-3">
             {formChoices.map((c) => (
@@ -110,28 +108,11 @@ export default async function ApplyPage() {
               </div>
             ))}
           </div>
-
-          <div className="mt-12 grid gap-10 lg:grid-cols-[0.7fr_1.3fr]">
-            <div>
-              <h3 className="text-[clamp(1.4rem,2.5vw,1.9rem)]">Start your application</h3>
-              <p className="mt-3 text-[var(--muted)]">
-                One form for all pathways — we&rsquo;ll route your application to the
-                right team. University groups can request a dedicated call.
-              </p>
-            </div>
-            <SubmitForm
-              formType="internship"
-              fields={applicationFields}
-              submitLabel="Submit application"
-              successTitle="Application received"
-              successBody="The FOSCOD team will review your application and contact you with next steps."
-            />
-          </div>
         </div>
       </section>
 
-      {/* program fees — white */}
-      <section className="py-14 md:py-20">
+      {/* program fees — mint (swapped) */}
+      <section className="bg-[var(--surface-2)] py-14 md:py-20">
         <div className="container-page mx-auto max-w-2xl text-center">
           <Eyebrow>Program fees</Eyebrow>
           <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">Transparent, all-inclusive fees</h2>
@@ -146,24 +127,47 @@ export default async function ApplyPage() {
         </div>
       </section>
 
-      {/* program highlights — mint */}
-      <CardGrid
-        eyebrow="Program highlights"
-        title="What you can expect"
-        items={highlights.map((h) => ({ title: h.title, excerpt: h.excerpt, media: false }))}
-        surface
-      />
+      {/* Why Participate in Internship and Volunteer Program — mint (swapped) */}
+      <section className="bg-[var(--surface-2)] py-16 md:py-24">
+        <div className="container-page">
+          <div className="mx-auto max-w-3xl text-center">
+            <Eyebrow>Why Participate in Internship and Volunteer Program</Eyebrow>
+            <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">A program built around real impact</h2>
+            <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
+              Every placement is tied to a genuine community priority, supervised by
+              FOSCOD staff and local mentors, supported by host families, and
+              concluded with a responsible handover.
+            </p>
+          </div>
+          <div className="mt-12 grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+            <div>
+              <CheckList items={internVolunteerItems} columns={2} />
+            </div>
+            <div className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
+              <img
+                src="/GLE%20current.png"
+                alt="Internship and volunteer participants in the field"
+                className="h-full w-full object-cover"
+                loading="lazy"
+                width={640}
+                height={480}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
 
-      {/* alumni experiences — white */}
-      <QuoteGrid
+      {/* alumni experiences — mint (swapped); carousel with 3 cards per slide, loop */}
+      <TestimonialCarousel
         eyebrow="Alumni experiences"
         title="What our alumni say"
         items={alumni}
-        more={{ href: "/alumni", label: "Read more reviews" }}
+        cta={{ href: "/alumni", label: "Read more reviews" }}
+        surface
       />
 
-      {/* application inquiry — mint */}
-      <section className="bg-[var(--surface-2)] py-14 md:py-20">
+      {/* application inquiry — white (swapped) */}
+      <section className="py-14 md:py-20">
         <div className="container-page">
           <div className="mx-auto max-w-2xl text-center">
             <Eyebrow>Contact us</Eyebrow>

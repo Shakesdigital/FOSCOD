@@ -786,19 +786,21 @@ export function ApplySection({
 }
 
 /** TestimonialCarousel — a slider showing 3 testimonies per slide
- *  with prev/next arrows and dot indicators. */
+ *  with prev/next arrows and dot indicators. Loops continuously. */
 export function TestimonialCarousel({
   items,
   eyebrow,
   title,
   intro,
   surface = false,
+  cta,
 }: {
   items: { quote: string; name: string; program?: string; cohort?: string }[];
   eyebrow?: string;
   title?: string;
   intro?: string;
   surface?: boolean;
+  cta?: { href: string; label: string };
 }) {
   if (!items.length) return null;
 
@@ -888,6 +890,15 @@ export function TestimonialCarousel({
                   className={`h-2 w-2 rounded-full transition-all ${i === current ? "bg-[var(--accent-600)] w-6" : "bg-[var(--border-strong)]"}`}
                 />
               ))}
+            </div>
+          )}
+
+          {/* Center-aligned CTA below the carousel */}
+          {cta && (
+            <div className="mt-10 text-center">
+              <Button href={cta.href} variant="secondary" size="md">
+                {cta.label}
+              </Button>
             </div>
           )}
         </div>
