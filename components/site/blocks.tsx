@@ -478,6 +478,7 @@ export type GridCard = {
   excerpt?: string;
   kicker?: string;
   href?: string;
+  ctaLabel?: string;
   tone?: "earth" | "water" | "forest";
   tag?: string;
   imageUrl?: string;
@@ -565,7 +566,7 @@ export function CardGrid({
                       size="sm"
                       className="mt-4"
                     >
-                      Read more
+                      {c.ctaLabel || "Read more"}
                     </Button>
                   )}
                 </div>

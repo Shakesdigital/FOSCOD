@@ -73,6 +73,7 @@ export default async function CedpAreaPage({ params }: { params: Promise<{ slug:
     imageUrl: c.imageUrl,
     imageAlt: c.imageAlt,
     kicker: c.verifiedOutcome,
+    ctaLabel: c.ctaLabel,
   }));
 
   return (

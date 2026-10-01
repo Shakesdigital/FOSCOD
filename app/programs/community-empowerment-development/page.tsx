@@ -180,6 +180,7 @@ export default async function CedpPage() {
           kicker: c.verifiedOutcome,
           imageUrl: c.imageUrl,
           imageAlt: c.imageAlt,
+          ctaLabel: c.ctaLabel,
         }))}
       />
 

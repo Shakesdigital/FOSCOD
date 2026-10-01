@@ -77,7 +77,7 @@ export const projectImpacts: Record<string, ProjectImpactCard[]> = {
       excerpt:
         "A solar-powered hair salon turned an unreliable income into a growing business — clean energy powering livelihoods.",
       verifiedOutcome: "3 households gained reliable evening lighting and new income streams",
-      href: "/impact/stories/solar-powered-salon-naluvule",
+      href: "/impact/stories/solar-powered-salon-naluvule/full",
       ctaLabel: "Read the impact story",
       imageAlt: "Salon owner working under solar-powered lighting",
     },
@@ -86,7 +86,7 @@ export const projectImpacts: Record<string, ProjectImpactCard[]> = {
       excerpt:
         "The community solar borehole delivers treated water daily with 95% uptime in its first year — eliminating the need for long water-collection trips.",
       verifiedOutcome: "240 people access treated water daily with 95% system uptime",
-      href: "/impact/stories/naluvule-water-access",
+      href: "/impact/stories/naluvule-water-access/full",
       ctaLabel: "Read the impact story",
       imageAlt: "Children filling jerrycans at the solar-powered water kiosk",
     },
@@ -95,7 +95,7 @@ export const projectImpacts: Record<string, ProjectImpactCard[]> = {
       excerpt:
         "Twelve community members were certified in solar PV installation and pump maintenance, creating a local technical workforce.",
       verifiedOutcome: "12 technicians trained; 8 employed within 6 months",
-      href: "/impact/stories/naluvule-youth-tech",
+      href: "/impact/stories/naluvule-youth-tech/full",
       ctaLabel: "Read the impact story",
       imageAlt: "Graduating youth technicians in solar training workshop",
     },

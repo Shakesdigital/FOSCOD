@@ -1675,6 +1675,7 @@ export type CedpImpactStoryCard = {
   imageAlt?: string;
   href?: string;
   projectSlug?: string;
+  storySlug?: string;
   ctaLabel?: string;
 };
 
@@ -1686,6 +1687,7 @@ export type CedpImpactCard = {
   imageAlt?: string;
   href?: string;
   projectSlug?: string;
+  storySlug?: string;
   ctaLabel?: string;
   verifiedOutcome?: string;
 };
@@ -1737,24 +1739,27 @@ const cedpImpactStoryCardsFallback: CedpImpactStoryCard[] = [
     title: "Solar-powered salon in Naluvule",
     excerpt:
       "A solar-powered salon turned an unreliable income into a growing business — clean energy powering livelihoods.",
-    href: "/projects/solar-powered-water-system-naluvule",
+    href: "/impact/stories/solar-powered-salon-naluvule/full",
     projectSlug: "solar-powered-water-system-naluvule",
+    storySlug: "solar-powered-salon-naluvule",
     ctaLabel: "Read the story",
   },
   {
     title: "Greening Kalagala, one tree at a time",
     excerpt:
       "Agroforestry and tree-planting restore soil, grow local income, and protect the forest edge.",
-    href: "/projects/greening-kalagala",
+    href: "/impact/stories/greening-kalagala/full",
     projectSlug: "greening-kalagala",
+    storySlug: "greening-kalagala",
     ctaLabel: "Read the story",
   },
   {
     title: "Coffee farming mobilization",
     excerpt:
       "Community mobilization around coffee farming and resilient local livelihoods in Kalagala Parish.",
-    href: "/projects/coffee-farming-mobilization",
+    href: "/impact/stories/coffee-farming-mobilization/full",
     projectSlug: "coffee-farming-mobilization",
+    storySlug: "coffee-farming-mobilization",
     ctaLabel: "Read the story",
   },
 ];
@@ -1763,24 +1768,27 @@ const cedpImpactCardsFallback: CedpImpactCard[] = [
   {
     title: "Clean energy that powers a livelihood",
     excerpt: "In Naluvule, a solar-powered salon turned an unreliable income into a growing business.",
-    href: "/projects/solar-powered-water-system-naluvule",
+    href: "/impact/stories/solar-powered-salon-naluvule/full",
     projectSlug: "solar-powered-water-system-naluvule",
+    storySlug: "solar-powered-salon-naluvule",
     ctaLabel: "Read the story",
     verifiedOutcome: "3 households gained reliable evening lighting and new income streams",
   },
   {
     title: "Protected springs and hygiene education",
     excerpt: "Across Busoga, protected water springs and hygiene education are reducing illness and restoring dignity.",
-    href: "/projects/water-spring-protection-naluvule",
+    href: "/impact/stories/water-is-life-lubani/full",
     projectSlug: "water-spring-protection-naluvule",
+    storySlug: "water-is-life-lubani",
     ctaLabel: "Read the story",
     verifiedOutcome: "Water access improved for 120 households with 86% sustained use after 12 months",
   },
   {
     title: "Regenerating land with biochar",
     excerpt: "In Kalagala Parish, invasive water hyacinth becomes biochar — healthier soil, cleaner cooking, and new income.",
-    href: "/projects/carbon-credit-project",
+    href: "/impact/stories/regenerating-land-with-biochar/full",
     projectSlug: "carbon-credit-project",
+    storySlug: "regenerating-land-with-biochar",
     ctaLabel: "Read the story",
     verifiedOutcome: "0.5 hectares of degraded land restored with 500 biochar units produced",
   },
@@ -1837,7 +1845,7 @@ export async function getCedpImpactStoryCards(): Promise<CedpImpactStoryCard[]> 
     if (!supabase) return cedpImpactStoryCardsFallback;
     const { data } = (await supabase
       ?.from("cedp_impact_stories")
-      .select("title,excerpt,image_url,image_alt,href,project_slug,cta_label")
+      .select("title,excerpt,image_url,image_alt,href,project_slug,story_slug,cta_label")
       .eq("visible", true)
       .order("order_column", { ascending: true })) ?? { data: null };
     if (data && data.length) {
@@ -1846,8 +1854,9 @@ export async function getCedpImpactStoryCards(): Promise<CedpImpactStoryCard[]> 
         excerpt: c.excerpt ?? undefined,
         imageUrl: c.image_url ?? undefined,
         imageAlt: c.image_alt ?? undefined,
-        href: c.href ?? undefined,
+        href: c.story_slug ? `/impact/stories/${c.story_slug}/full` : c.href ?? undefined,
         projectSlug: c.project_slug ?? undefined,
+        storySlug: c.story_slug ?? undefined,
         ctaLabel: c.cta_label ?? undefined,
       }));
     }
@@ -1861,7 +1870,7 @@ export async function getCedpImpactCards(): Promise<CedpImpactCard[]> {
     if (!supabase) return cedpImpactCardsFallback;
     const { data } = (await supabase
       ?.from("cedp_impact_cards")
-      .select("title,excerpt,image_url,image_alt,href,project_slug,cta_label,verified_outcome")
+      .select("title,excerpt,image_url,image_alt,href,project_slug,story_slug,cta_label,verified_outcome")
       .eq("visible", true)
       .order("order_column", { ascending: true })) ?? { data: null };
     if (data && data.length) {
@@ -1870,8 +1879,9 @@ export async function getCedpImpactCards(): Promise<CedpImpactCard[]> {
         excerpt: c.excerpt ?? undefined,
         imageUrl: c.image_url ?? undefined,
         imageAlt: c.image_alt ?? undefined,
-        href: c.href ?? undefined,
+        href: c.story_slug ? `/impact/stories/${c.story_slug}/full` : c.href ?? undefined,
         projectSlug: c.project_slug ?? undefined,
+        storySlug: c.story_slug ?? undefined,
         ctaLabel: c.cta_label ?? undefined,
         verifiedOutcome: c.verified_outcome ?? undefined,
       }));
@@ -1936,6 +1946,7 @@ export type CedpAreaImpact = {
   imageAlt?: string;
   story?: string;
   href?: string;
+  storySlug?: string;
   ctaLabel?: string;
   verifiedOutcome?: string;
 };
@@ -2072,7 +2083,8 @@ const cedpAreaImpactsFallback: Record<string, CedpAreaImpact[]> = {
         "A solar-powered hair salon turned an unreliable income into a growing business — clean energy powering livelihoods.",
       story:
         "In Naluvule, a community member used a shared solar microgrid to power a hair salon. Reliable evening electricity opened evenings for clients and enabled a small fridge for beauty products. Within a year, the salon doubled its customer base and the owner hired two apprentices.",
-      href: "/projects/solar-powered-water-system-naluvule",
+      href: "/impact/stories/solar-powered-salon-naluvule/full",
+      storySlug: "solar-powered-salon-naluvule",
       ctaLabel: "Read more",
       verifiedOutcome: "3 households gained reliable evening lighting and new income streams",
     },
@@ -2081,7 +2093,8 @@ const cedpAreaImpactsFallback: Record<string, CedpAreaImpact[]> = {
       excerpt: "Invasive water hyacinth becomes biochar — healthier soil, cleaner cooking, and new income.",
       story:
         "Women's groups in Kalagala collect water hyacinth from local waterways, dry it, and produce biochar. The biochar improves soil fertility and is used as a clean-cooking fuel, reducing firewood demand while creating a modest saleable product.",
-      href: "/projects/carbon-credit-project",
+      href: "/impact/stories/biochar-from-water-hyacinth/full",
+      storySlug: "biochar-from-water-hyacinth",
       ctaLabel: "Read more",
       verifiedOutcome: "0.5 hectares of degraded land restored with 500 biochar units produced",
     },
@@ -2090,7 +2103,8 @@ const cedpAreaImpactsFallback: Record<string, CedpAreaImpact[]> = {
       excerpt: "Community tree planting along the Mabira Forest edge rebuilds degraded land and protects watersheds.",
       story:
         "Through the Greening Kalagala campaign, communities planted native species along forest boundaries. Seedlings are maintained by village conservation groups with monitoring led by local youth.",
-      href: "/projects/greening-kalagala",
+      href: "/impact/stories/greening-kalagala/full",
+      storySlug: "greening-kalagala",
       ctaLabel: "Read more",
       verifiedOutcome: "2,000+ native trees planted across 5 hectares of forest edge",
     },
@@ -2102,7 +2116,8 @@ const cedpAreaImpactsFallback: Record<string, CedpAreaImpact[]> = {
         "Community protection of a natural spring improved water access and quality for 120 households.",
       story:
         "Residents of Naluvule fenced and gated a natural spring, built a collection chamber, and established a water user committee to manage upkeep. Water-quality tests showed a 90% reduction in E. coli after three months of protected use.",
-      href: "/projects/water-spring-protection-naluvule",
+      href: "/impact/stories/water-is-life-lubani/full",
+      storySlug: "water-is-life-lubani",
       ctaLabel: "Read more",
       verifiedOutcome: "Water access improved for 120 households with 86% sustained use after 12 months",
     },
@@ -2112,7 +2127,8 @@ const cedpAreaImpactsFallback: Record<string, CedpAreaImpact[]> = {
         "A solar pump linked to a community distribution network gives reliable water access without grid dependence.",
       story:
         "FOSCOD installed a solar-powered borehole pump in Naluvule with storage tanks and a piped distribution network. The system is owned and maintained by a trained community water committee.",
-      href: "/projects/solar-powered-water-system-naluvule",
+      href: "/impact/stories/solar-powered-water-system-naluvule/full",
+      storySlug: "solar-powered-water-system-naluvule",
       ctaLabel: "Read more",
       verifiedOutcome: "240 people access treated water daily with 95% uptime in first year",
     },
@@ -2121,7 +2137,8 @@ const cedpAreaImpactsFallback: Record<string, CedpAreaImpact[]> = {
       excerpt: "Community-Led Total Sanitation campaigns improved latrine coverage and hygiene behaviour.",
       story:
         "Through facilitated community dialogues, all five Kalagala Parish communities constructed improved latrines and adopted consistent handwashing practices at critical times.",
-      href: "/projects/greening-kalagala",
+      href: "/impact/stories/clts-five-communities/full",
+      storySlug: "clts-five-communities",
       ctaLabel: "Read more",
       verifiedOutcome: "Open defecation eliminated across 5 communities; 80% handwashing observed at critical times",
     },
@@ -2133,7 +2150,8 @@ const cedpAreaImpactsFallback: Record<string, CedpAreaImpact[]> = {
         "Farmer groups adopted climate-smart practices, improving yields and quality while reducing input costs.",
       story:
         "Through participatory training, coffee farmers in Kalagala adopted shade-grown intercropping, post-harvest handling improvements, and direct-markets connections. Average yields rose 22% in the first season.",
-      href: "/projects/coffee-farming-mobilization",
+      href: "/impact/stories/coffee-farming-mobilization/full",
+      storySlug: "coffee-farming-mobilization",
       ctaLabel: "Read more",
       verifiedOutcome: "86 farmers trained; 15% average yield increase reported",
     },
@@ -2143,7 +2161,8 @@ const cedpAreaImpactsFallback: Record<string, CedpAreaImpact[]> = {
         "Savings groups turned green enterprise ideas into small businesses — from stove production to eco-tourism.",
       story:
         "Women's savings groups received enterprise training, micro-grants, and mentorship. Graduates launched stove-production units, kitchen-garden supply kiosks, and community eco-tourism guiding.",
-      href: "/projects/carbon-credit-project",
+      href: "/impact/stories/women-led-green-enterprises/full",
+      storySlug: "women-led-green-enterprises",
       ctaLabel: "Read more",
       verifiedOutcome: "3 women-led enterprises registered; 12 jobs created in first 8 months",
     },
@@ -2152,7 +2171,8 @@ const cedpAreaImpactsFallback: Record<string, CedpAreaImpact[]> = {
       excerpt: "Farmers integrated native trees into coffee plots, improving soil health and creating a second income.",
       story:
         "Through the Greening Kalagala campaign, farmers intercropped coffee with indigenous fruit and timber trees. The trees provide shade, prevent erosion, and generate additional income from fruit and timber sales.",
-      href: "/projects/greening-kalagala",
+      href: "/impact/stories/agroforestry-native-trees/full",
+      storySlug: "agroforestry-native-trees",
       ctaLabel: "Read more",
       verifiedOutcome: "42 farms adopted agroforestry; soil organic matter increased 18%",
     },
@@ -2270,7 +2290,7 @@ export async function getCedpAreaImpacts(areaSlug: string): Promise<CedpAreaImpa
     if (area?.id) {
       const { data } = (await supabase
         .from("cedp_area_impacts")
-        .select("title,excerpt,image_url,image_alt,story,href,cta_label,verified_outcome")
+        .select("title,excerpt,image_url,image_alt,story,href,story_slug,cta_label,verified_outcome")
         .eq("area_id", area.id)
         .eq("visible", true)
         .order("order_column", { ascending: true })) ?? { data: null };
@@ -2281,7 +2301,8 @@ export async function getCedpAreaImpacts(areaSlug: string): Promise<CedpAreaImpa
           imageUrl: c.image_url ?? undefined,
           imageAlt: c.image_alt ?? undefined,
           story: c.story ?? undefined,
-          href: c.href ?? undefined,
+          href: c.story_slug ? `/impact/stories/${c.story_slug}/full` : c.href ?? undefined,
+          storySlug: c.story_slug ?? undefined,
           ctaLabel: c.cta_label ?? "Read more",
           verifiedOutcome: c.verified_outcome ?? undefined,
         }));
@@ -2335,7 +2356,7 @@ export async function getProjectImpactCards(slug: string): Promise<ProjectImpact
         imageUrl: c.image_url ?? undefined,
         imageAlt: c.image_alt ?? undefined,
         verifiedOutcome: c.verified_outcome ?? undefined,
-        href: c.story_slug ? `/impact/stories/${c.story_slug}` : undefined,
+        href: c.story_slug ? `/impact/stories/${c.story_slug}/full` : undefined,
         ctaLabel: c.cta_label ?? "Read the impact story",
       }));
     }
