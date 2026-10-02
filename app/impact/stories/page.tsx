@@ -1,6 +1,5 @@
 import { HeroSlider } from "@/components/site/HeroSlider";
-import { Eyebrow } from "@/components/ui/Eyebrow";
-import { CTABand } from "@/components/site/blocks";
+import { CTABand, IntroSection } from "@/components/site/blocks";
 import { ImpactStoryGrid } from "@/components/site/ImpactStoryGrid";
 import { pageMeta } from "@/lib/seo";
 import {
@@ -34,22 +33,15 @@ export default async function ImpactStoriesPage() {
       {/* 1. Hero */}
       <HeroSlider slides={slides} />
 
-      {/* 2. Intro */}
-      <section className="border-b border-[var(--border)] bg-[var(--surface)] py-12 md:py-16">
-        <div className="container-page max-w-5xl">
-          <Eyebrow>Verified stories</Eyebrow>
-          <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">
-            Community voices, evidence-backed outcomes
-          </h2>
-          <p className="mt-4 max-w-3xl text-lg leading-relaxed text-[var(--ink-soft)]">
-            These stories are published only after consent is recorded and
-            outcomes are verified through independent monitoring. Use the
-            filter sidebar to explore by program — Community Empowerment
-            and Development Program (CEDP) or Global Learning & Exchange (GLE)
-            — and by thematic area, development sector, or project.
-          </p>
-        </div>
-      </section>
+      {/* 2. Intro — image left, text right, centered heading */}
+      <IntroSection
+        eyebrow="Verified stories"
+        title="Community voices, evidence-backed outcomes"
+        body="These stories are published only after consent is recorded and outcomes are verified through independent monitoring. Use the filter sidebar to explore by program — Community Empowerment and Development Program (CEDP) or Global Learning & Exchange (GLE) — and by thematic area, development sector, or project."
+        imageUrl="/images/impact-archive-hero.png"
+        imageAlt="Community member sharing an impact story"
+        align="center"
+      />
 
       {/* 3. Filterable story grid */}
       <ImpactStoryGrid

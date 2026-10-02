@@ -703,10 +703,15 @@ export function IntroSection({
                 height={480}
               />
             ) : (
-              <div className="flex h-full min-h-[200px] w-full items-center justify-center text-[var(--muted)]" />
+              <PhotoSlot
+                tone="forest"
+                ratio="4/3"
+                caption={title}
+                className="border-0 bg-transparent shadow-none"
+              />
             )}
           </div>
-          <div>
+          <div className={align === "center" ? "text-center" : ""}>
             {body.split("\n\n").map((para, i) => (
               <p key={i} className={i > 0 ? "mt-4 text-[var(--ink-soft)]" : "text-[var(--ink-soft)]"} style={{ lineHeight: "1.6" }}>
                 {para}
