@@ -101,6 +101,15 @@ export type DownloadResource = {
   category: string;
 };
 
+/* ---------- GLE development sectors (archive filter) ---------- */
+export type GleDevelopmentSector = {
+  id?: string;
+  slug: string;
+  title: string;
+  description?: string;
+  icon?: string;
+};
+
 export type ImpactStory = {
   slug: string;
   title: string;
@@ -111,6 +120,7 @@ export type ImpactStory = {
   narrative?: string;
   linked_program?: string;
   linked_sub_program_id?: string;
+  linked_gle_sector_id?: string;
   linked_project_id?: string;
   verified_outcome?: string;
   published_at?: string;
@@ -941,6 +951,16 @@ const heroSlides: Record<string, HeroSlide[]> = {
       tone: "earth",
     },
   ],
+  "impact-stories": [
+    {
+      eyebrow: "Verified stories",
+      title: "Impact stories from communities we serve",
+      intro: "Every story is published with evidence and consent. Filter by CEDP or GLE to explore verified community-led change across Uganda.",
+      cta: { href: "/impact/stories?program=CEDP", label: "Browse CEDP" },
+      cta2: { href: "/impact/stories?program=GLE", label: "Browse GLE" },
+      tone: "earth",
+    },
+  ],
   "program-fees": [
     {
       eyebrow: "Program fees",
@@ -1078,7 +1098,7 @@ export async function getImpactStories(limit = 3): Promise<ImpactStory[]> {
     const supabase = await createClient();
     const { data } = (await supabase
       ?.from("impact_stories")
-      .select("slug,title,community_voice,quote,hero_image_url,gallery,narrative,linked_program,linked_sub_program_id,linked_project_id,verified_outcome,published_at")
+      .select("slug,title,community_voice,quote,hero_image_url,gallery,narrative,linked_program,linked_sub_program_id,linked_gle_sector_id,linked_project_id,verified_outcome,published_at")
       .eq("status", "published")
       .order("published_at", { ascending: false })
       .limit(limit)) ?? { data: null };
@@ -1093,6 +1113,7 @@ export async function getImpactStories(limit = 3): Promise<ImpactStory[]> {
         narrative: s.narrative ?? undefined,
         linked_program: s.linked_program ?? undefined,
         linked_sub_program_id: s.linked_sub_program_id ?? undefined,
+        linked_gle_sector_id: s.linked_gle_sector_id ?? undefined,
         linked_project_id: s.linked_project_id ?? undefined,
         verified_outcome: s.verified_outcome ?? undefined,
         published_at: s.published_at ?? undefined,
@@ -1100,6 +1121,113 @@ export async function getImpactStories(limit = 3): Promise<ImpactStory[]> {
     }
   }
   return impactStoriesFallback.slice(0, limit);
+}
+
+/* ---------- impact story archive (all stories with optional filters) ---------- */
+const gleSectorsFallback: GleDevelopmentSector[] = [
+  { slug: "global-learning", title: "Global learning & exchange" },
+  { slug: "community-partnerships", title: "Community partnerships" },
+  { slug: "environmental-stewardship", title: "Environmental stewardship" },
+];
+
+export async function getGleDevelopmentSectors(): Promise<GleDevelopmentSector[]> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    const { data } = (await supabase
+      ?.from("gle_development_sectors")
+      .select("id,slug,title,description,icon")
+      .eq("visible", true)
+      .order("order_column", { ascending: true })) ?? { data: null };
+    if (data && data.length) {
+      return data.map((s) => ({
+        id: s.id,
+        slug: s.slug,
+        title: s.title,
+        description: s.description ?? undefined,
+        icon: s.icon ?? undefined,
+      }));
+    }
+  }
+  return gleSectorsFallback;
+}
+
+/** Fetch all published impact stories regardless of program, optionally filtered by program, area, or sector. */
+export async function getImpactStoryArchive(params?: {
+  program?: "CEDP" | "GLE" | "ORG";
+  cedpAreaSlug?: string;
+  gleSectorSlug?: string;
+}): Promise<ImpactStory[]> {
+  const { program, cedpAreaSlug, gleSectorSlug } = params ?? {};
+  if (!isSupabaseConfigured()) {
+    return impactStoriesFallback.filter((s) => {
+      if (program && s.linked_program !== program) return false;
+      return true;
+    });
+  }
+  const supabase = await createClient();
+  if (!supabase) return impactStoriesFallback;
+  let query = supabase
+    .from("impact_stories")
+    .select("slug,title,community_voice,quote,hero_image_url,gallery,narrative,linked_program,linked_sub_program_id,linked_gle_sector_id,linked_project_id,verified_outcome,published_at")
+    .eq("status", "published")
+    .order("published_at", { ascending: false });
+  if (program) query = query.eq("linked_program", program);
+  if (cedpAreaSlug) {
+    // Resolve the area to its sub_program_ids via cedp_areas → sub_programs
+    // We join through cedp_area_projects to projects, but impact_stories link to
+    // sub_programs directly. Instead, resolve area → strategic goals via sub_programs.
+    // For simplicity, filter by sub_program_id matching the area's strategic goals.
+    // The cedp_areas table doesn't directly hold sub_program_ids, so we resolve
+    // via projects that belong to the area.
+    const areaMatch: Record<string, number[]> = {
+      "clean-energy-climate-resilience": [1, 2, 6],
+      "water-sanitation-health-communities": [3],
+      "sustainable-livelihoods-economic-empowerment": [4, 5],
+    };
+    const goals = areaMatch[cedpAreaSlug] ?? [];
+    if (goals.length > 0) {
+      const { data: subs } = (await supabase
+        .from("sub_programs")
+        .select("id")
+        .eq("status", "published")
+        .in("strategic_goal", goals)) ?? { data: null };
+      if (subs && subs.length) {
+        query = query.in("linked_sub_program_id", subs.map((s: { id: string }) => s.id));
+      }
+    }
+  }
+  if (gleSectorSlug) {
+    const { data: sectors } = (await supabase
+      .from("gle_development_sectors")
+      .select("id")
+      .eq("slug", gleSectorSlug)
+      .eq("visible", true)) ?? { data: null };
+    if (sectors && sectors.length) {
+      query = query.eq("linked_gle_sector_id", sectors[0].id);
+    }
+  }
+  const { data } = (await query) ?? { data: null };
+  if (data && data.length) {
+    return data.map((s) => ({
+      slug: s.slug,
+      title: s.title,
+      community_voice: s.community_voice ?? undefined,
+      quote: s.quote ?? undefined,
+      hero_image_url: s.hero_image_url ?? undefined,
+      gallery: s.gallery ?? undefined,
+      narrative: s.narrative ?? undefined,
+      linked_program: s.linked_program ?? undefined,
+      linked_sub_program_id: s.linked_sub_program_id ?? undefined,
+      linked_gle_sector_id: s.linked_gle_sector_id ?? undefined,
+      linked_project_id: s.linked_project_id ?? undefined,
+      verified_outcome: s.verified_outcome ?? undefined,
+      published_at: s.published_at ?? undefined,
+    }));
+  }
+  return impactStoriesFallback.filter((s) => {
+    if (program && s.linked_program !== program) return false;
+    return true;
+  });
 }
 
 /* ---------- partners (from CMS) ---------- */
@@ -1680,6 +1808,7 @@ export async function getResponsibleEngagement(): Promise<ResponsibleEngagementD
 
 export type CedpAreaOfFocus = {
   id?: string;
+  slug?: string;
   title: string;
   description: string;
   imageUrl?: string;
@@ -1724,6 +1853,7 @@ export type CedpImpactCard = {
 
 const cedpAreasOfFocusFallback: CedpAreaOfFocus[] = [
   {
+    slug: "clean-energy-climate-resilience",
     title: "Clean energy and climate resilience",
     description:
       "Clean cooking, solar energy, e-mobility, environment conservation, climate adaptation, and related climate initiatives that build community resilience.",
@@ -1731,6 +1861,7 @@ const cedpAreasOfFocusFallback: CedpAreaOfFocus[] = [
     ctaHref: "/programs/cedp/areas/clean-energy-climate-resilience",
   },
   {
+    slug: "water-sanitation-health-communities",
     title: "Water sanitation and healthy communities",
     description:
       "Safe water, spring protection, sanitation, hygiene, water systems, and related community health and environment practices.",
@@ -1738,6 +1869,7 @@ const cedpAreasOfFocusFallback: CedpAreaOfFocus[] = [
     ctaHref: "/programs/cedp/areas/water-sanitation-health-communities",
   },
   {
+    slug: "sustainable-livelihoods-economic-empowerment",
     title: "Sustainable livelihoods and economic empowerment",
     description:
       "VSLAs, women enterprises, climate-smart agriculture, kitchen gardens, green businesses, and other livelihood opportunities.",
@@ -1830,18 +1962,28 @@ export async function getCedpAreasOfFocus(): Promise<CedpAreaOfFocus[]> {
     if (!supabase) return cedpAreasOfFocusFallback;
     const { data } = (await supabase
       ?.from("cedp_areas_of_focus")
-      .select("title,description,image_url,image_alt,cta_label,cta_href")
+      .select("title,description,image_url,image_alt,cta_label,cta_href,slug")
       .eq("visible", true)
       .order("order_column", { ascending: true })) ?? { data: null };
     if (data && data.length) {
-      return data.map((c) => ({
-        title: c.title,
-        description: c.description ?? "",
-        imageUrl: c.image_url ?? undefined,
-        imageAlt: c.image_alt ?? undefined,
-        ctaLabel: c.cta_label ?? undefined,
-        ctaHref: c.cta_href ?? undefined,
-      }));
+      return data.map((c, i) => {
+        const fallback = cedpAreasOfFocusFallback[i] ?? {};
+        // Use the dedicated slug column, falling back to the slug embedded
+        // in cta_href, then the fallback
+        const slug =
+          c.slug ??
+          c.cta_href?.match(/\/areas\/([^/]+)/)?.[1] ??
+          fallback.slug;
+        return {
+          slug,
+          title: c.title,
+          description: c.description ?? "",
+          imageUrl: c.image_url ?? undefined,
+          imageAlt: c.image_alt ?? undefined,
+          ctaLabel: c.cta_label ?? undefined,
+          ctaHref: c.cta_href ?? undefined,
+        };
+      });
     }
   }
   return cedpAreasOfFocusFallback;

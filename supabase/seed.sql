@@ -476,12 +476,13 @@ on conflict (id) do update set
   visible = excluded.visible, order_column = excluded.order_column;
 
 -- ---------- CEDP landing page: areas of focus ----------
-insert into public.cedp_areas_of_focus (title, description, image_url, image_alt, cta_label, cta_href, visible, order_column) values
-  ('Clean energy and climate resilience', 'Clean cooking, solar energy, e-mobility, environment conservation, climate adaptation, and related climate initiatives that build community resilience.', '/images/cedp/clean-energy.jpg', 'Solar panels and clean cookstoves in a rural Ugandan homestead', 'Explore clean energy projects', '/programs/cedp/areas/clean-energy-climate-resilience', true, 1),
-  ('Water sanitation and healthy communities', 'Safe water, spring protection, sanitation, hygiene, water systems, and related community health and environment practices.', '/images/cedp/water.jpg', 'Community members protecting a natural water spring', 'Explore water projects', '/programs/cedp/areas/water-sanitation-health-communities', true, 2),
-  ('Sustainable livelihoods and economic empowerment', 'VSLAs, women enterprises, climate-smart agriculture, kitchen gardens, green businesses, and other livelihood opportunities.', '/images/cedp/livelihoods.jpg', 'Women''s savings group meeting with green enterprise training', 'Explore livelihood projects', '/programs/cedp/areas/sustainable-livelihoods-economic-empowerment', true, 3)
+delete from public.cedp_areas_of_focus;
+insert into public.cedp_areas_of_focus (slug, title, description, image_url, image_alt, cta_label, cta_href, visible, order_column) values
+  ('clean-energy-climate-resilience', 'Clean energy and climate resilience', 'Clean cooking, solar energy, e-mobility, environment conservation, climate adaptation, and related climate initiatives that build community resilience.', '/images/cedp/clean-energy.jpg', 'Solar panels and clean cookstoves in a rural Ugandan homestead', 'Explore clean energy projects', '/programs/cedp/areas/clean-energy-climate-resilience', true, 1),
+  ('water-sanitation-health-communities', 'Water sanitation and healthy communities', 'Safe water, spring protection, sanitation, hygiene, water systems, and related community health and environment practices.', '/images/cedp/water.jpg', 'Community members protecting a natural water spring', 'Explore water projects', '/programs/cedp/areas/water-sanitation-health-communities', true, 2),
+  ('sustainable-livelihoods-economic-empowerment', 'Sustainable livelihoods and economic empowerment', 'VSLAs, women enterprises, climate-smart agriculture, kitchen gardens, green businesses, and other livelihood opportunities.', '/images/cedp/livelihoods.jpg', 'Women''s savings group meeting with green enterprise training', 'Explore livelihoods projects', '/programs/cedp/areas/sustainable-livelihoods-economic-empowerment', true, 3)
 on conflict (id) do update set
-  title = excluded.title, description = excluded.description,
+  slug = excluded.slug, title = excluded.title, description = excluded.description,
   image_url = excluded.image_url, image_alt = excluded.image_alt,
   cta_label = excluded.cta_label, cta_href = excluded.cta_href,
   visible = excluded.visible, order_column = excluded.order_column;
@@ -745,4 +746,31 @@ on conflict (project_slug, title) do update set
   excerpt = excluded.excerpt, image_url = excluded.image_url, image_alt = excluded.image_alt,
   verified_outcome = excluded.verified_outcome, story_slug = excluded.story_slug,
   cta_label = excluded.cta_label, order_column = excluded.order_column, visible = excluded.visible;
+
+-- ---------- GLE development sectors (for impact story archive filter) ----------
+delete from public.gle_development_sectors;
+insert into public.gle_development_sectors (slug, title, description, icon, order_column, visible) values
+  ('education-capacity-building', 'Education & Capacity Building', 'Teacher training, school partnerships, literacy programs, and educational infrastructure development.', '🎓', 1, true),
+  ('health-community-wellbeing', 'Health & Community Wellbeing', 'Community health outreach, hygiene education, mental health support, and public health initiatives.', '🏥', 2, true),
+  ('environmental-stewardship', 'Environmental Stewardship', 'Tree planting, ecosystem restoration, conservation education, and climate resilience projects.', '🌱', 3, true),
+  ('livelihoods-economic-opportunity', 'Livelihoods & Economic Opportunity', 'Enterprise incubation, market linkage research, financial literacy, and income-generation support.', '💼', 4, true),
+  ('research-knowledge-exchange', 'Research & Knowledge Exchange', 'Community-based participatory research, data collection, mapping, and academic knowledge sharing.', '🔬', 5, true),
+  ('governance-leadership', 'Governance & Leadership', 'Leadership training, organizational development, women/youth empowerment, and community mobilization.', '🤝', 6, true)
+on conflict (slug) do update set
+  title = excluded.title, description = excluded.description,
+  icon = excluded.icon, order_column = excluded.order_column, visible = excluded.visible;
+
+-- ---------- hero slides: impact story archive ----------
+delete from public.hero_slides where page_slug = 'impact-stories';
+insert into public.hero_slides (page_slug, eyebrow, title, intro, cta_label, cta_href, cta2_label, cta2_href, tone, order_column, visible) values
+  ('impact-stories',
+   'Verified stories',
+   'Impact stories from communities we serve',
+   'Every story is published with evidence and consent. Filter by CEDP or GLE to explore verified community-led change across Uganda.',
+   'Browse CEDP', '/impact/stories?program=CEDP',
+   'Browse GLE', '/impact/stories?program=GLE',
+   'earth', 1, true)
+on conflict (page_slug, eyebrow, title) do update set
+  intro = excluded.intro, cta_label = excluded.cta_label, cta_href = excluded.cta_href,
+  cta2_label = excluded.cta2_label, cta2_href = excluded.cta2_href, tone = excluded.tone;
 

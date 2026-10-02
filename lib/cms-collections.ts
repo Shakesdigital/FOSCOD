@@ -680,6 +680,22 @@ export const cmsCollections: CmsCollection[] = [
       yesNo("visible", "Visible"),
     ],
   },
+  {
+    key: "gle-development-sectors",
+    table: "gle_development_sectors",
+    label: "GLE: Development sectors",
+    singular: "development sector",
+    description: "The thematic development sectors GLE participants work in across Uganda — used to filter impact stories on the archive page (/impact/stories).",
+    titleField: "title",
+    fields: [
+      { name: "slug", label: "URL slug", required: true, help: "Lowercase words separated by hyphens, e.g. 'education-capacity-building'." },
+      { name: "title", label: "Sector name", required: true },
+      { name: "description", label: "Description", type: "textarea" },
+      { name: "icon", label: "Icon (emoji or key)" },
+      yesNo("visible", "Visible"),
+      { name: "order_column", label: "Display order", type: "number" },
+    ],
+  },
 ];
 
 export const cmsCollectionMap = Object.fromEntries(cmsCollections.map((collection) => [collection.key, collection])) as Record<string, CmsCollection>;
