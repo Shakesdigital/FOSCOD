@@ -33,6 +33,7 @@ export default async function TestimonialsPage() {
         title="Permissioned testimonials from participants and communities"
         body="Reflections from interns, volunteers, alumni, and community members across CEDP and GLE — published with consent. Use the filter sidebar to explore by program and project."
         align="center"
+        noImage
       />
 
       {/* 3. Filterable testimonial grid */}

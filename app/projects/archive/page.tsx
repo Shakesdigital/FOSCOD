@@ -31,6 +31,7 @@ export default async function ProjectsArchivePage() {
         title="Community-led change in action"
         body="Each project is designed and led by the communities where FOSCOD works — across clean energy, WASH, livelihoods, health, education, environment, and research. Use the filter sidebar to explore by program — Community Empowerment and Development Program (CEDP) or Global Learning & Exchange (GLE) — and by theme."
         align="center"
+        noImage
       />
 
       {/* 3. Filterable project grid */}

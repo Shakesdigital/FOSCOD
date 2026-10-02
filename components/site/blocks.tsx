@@ -673,6 +673,7 @@ export function IntroSection({
   ctaHref,
   surface = false,
   align = "left",
+  noImage = false,
 }: {
   title: string;
   eyebrow?: string;
@@ -683,35 +684,17 @@ export function IntroSection({
   ctaHref?: string;
   surface?: boolean;
   align?: "left" | "center";
+  noImage?: boolean;
 }) {
   return (
     <section className={`py-16 md:py-24 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
       <div className="container-page">
-        <div className="mx-auto max-w-2xl text-center">
+        <div className={`mx-auto ${align === "center" ? "max-w-2xl text-center" : "max-w-3xl"}`}>
           {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
           <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">{title}</h2>
         </div>
-        <div className="mt-10 grid gap-10 md:grid-cols-[1.1fr_0.9fr]">
-          <div className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
-            {imageUrl ? (
-              <img
-                src={imageUrl}
-                alt={imageAlt || title}
-                className="h-full w-full object-cover"
-                loading="lazy"
-                width={640}
-                height={480}
-              />
-            ) : (
-              <PhotoSlot
-                tone="forest"
-                ratio="4/3"
-                caption={title}
-                className="border-0 bg-transparent shadow-none"
-              />
-            )}
-          </div>
-          <div className={align === "center" ? "text-center" : ""}>
+        {noImage ? (
+          <div className={align === "center" ? "mx-auto mt-10 max-w-2xl text-center" : "mt-10 max-w-3xl"}>
             {body.split("\n\n").map((para, i) => (
               <p key={i} className={i > 0 ? "mt-4 text-[var(--ink-soft)]" : "text-[var(--ink-soft)]"} style={{ lineHeight: "1.6" }}>
                 {para}
@@ -723,7 +706,41 @@ export function IntroSection({
               </Button>
             )}
           </div>
-        </div>
+        ) : (
+          <div className="mt-10 grid gap-10 md:grid-cols-[1.1fr_0.9fr]">
+            <div className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
+              {imageUrl ? (
+                <img
+                  src={imageUrl}
+                  alt={imageAlt || title}
+                  className="h-full w-full object-cover"
+                  loading="lazy"
+                  width={640}
+                  height={480}
+                />
+              ) : (
+                <PhotoSlot
+                  tone="forest"
+                  ratio="4/3"
+                  caption={title}
+                  className="border-0 bg-transparent shadow-none"
+                />
+              )}
+            </div>
+            <div className={align === "center" ? "text-center" : ""}>
+              {body.split("\n\n").map((para, i) => (
+                <p key={i} className={i > 0 ? "mt-4 text-[var(--ink-soft)]" : "text-[var(--ink-soft)]"} style={{ lineHeight: "1.6" }}>
+                  {para}
+                </p>
+              ))}
+              {ctaLabel && ctaHref && (
+                <Button href={ctaHref} variant="secondary" size="sm" className="mt-6">
+                  {ctaLabel}
+                </Button>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
