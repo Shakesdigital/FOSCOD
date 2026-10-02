@@ -33,13 +33,11 @@ export default async function ImpactStoriesPage() {
       {/* 1. Hero */}
       <HeroSlider slides={slides} />
 
-      {/* 2. Intro — image left, text right, centered heading */}
+      {/* 2. Intro — centered heading, balanced text */}
       <IntroSection
         eyebrow="Verified stories"
         title="Community voices, evidence-backed outcomes"
         body="These stories are published only after consent is recorded and outcomes are verified through independent monitoring. Use the filter sidebar to explore by program — Community Empowerment and Development Program (CEDP) or Global Learning & Exchange (GLE) — and by thematic area, development sector, or project."
-        imageUrl="/images/impact-archive-hero.png"
-        imageAlt="Community member sharing an impact story"
         align="center"
       />
 
