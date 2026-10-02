@@ -139,6 +139,7 @@ export const cmsCollections: CmsCollection[] = [
       { name: "budget", label: "Budget (optional)" }, { name: "project_brief_url", label: "Project brief URL", type: "url" },
       { name: "gallery", label: "Gallery", type: "json", help: "Each image requires url and alt fields; use beforeAfter for paired images." },
       { name: "featured_image_url", label: "Hero image URL", type: "url" }, { name: "featured_image_alt", label: "Hero image alt text" },
+      { name: "linked_program", label: "Linked program", type: "select", options: ["GLE","CEDP","ORG"].map((value) => ({ label: value, value })) },
       { name: "status", label: "Publishing status", type: "select", options: statusOptions, required: true }, yesNo("featured", "Featured"),
       { name: "order_column", label: "Display order", type: "number" }, ...seoFields,
     ],

@@ -52,6 +52,8 @@ export type ProjectListItem = {
   title: string;
   theme: string;
   location: string;
+  linked_program?: "CEDP" | "GLE" | "ORG" | null;
+  featured_image_url?: string | null;
 };
 
 export type ImpactMetric = {
@@ -251,11 +253,11 @@ const featuredProjects: FeaturedProject[] = [
 ];
 
 const projectsListFallback: ProjectListItem[] = [
-  { id: "p-greening-kalagala", slug: "greening-kalagala", title: "Greening Kalagala", theme: "Ecosystem Restoration", location: "Kalagala Parish, Buikwe District" },
-  { id: "p-water-spring", slug: "water-spring-protection-naluvule", title: "Water Spring Protection in Naluvule Community", theme: "WASH", location: "Naluvule, Buikwe District" },
-  { id: "p-solar-water", slug: "solar-powered-water-system-naluvule", title: "Solar-Powered Water System, Naluvule Village", theme: "Clean Energy & WASH", location: "Naluvule, Buikwe District" },
-  { id: "p-coffee-farming", slug: "coffee-farming-mobilization", title: "Coffee Farming Mobilization", theme: "Green Livelihoods", location: "Kalagala Parish, Buikwe District" },
-  { id: "p-carbon-credit", slug: "carbon-credit-project", title: "Carbon Credit Project", theme: "Clean Cooking & Ecosystem Restoration", location: "Kalagala Parish, Buikwe District" },
+  { id: "p-greening-kalagala", slug: "greening-kalagala", title: "Greening Kalagala", theme: "Ecosystem Restoration", location: "Kalagala Parish, Buikwe District", linked_program: "CEDP" },
+  { id: "p-water-spring", slug: "water-spring-protection-naluvule", title: "Water Spring Protection in Naluvule Community", theme: "WASH", location: "Naluvule, Buikwe District", linked_program: "CEDP" },
+  { id: "p-solar-water", slug: "solar-powered-water-system-naluvule", title: "Solar-Powered Water System, Naluvule Village", theme: "Clean Energy & WASH", location: "Naluvule, Buikwe District", linked_program: "CEDP" },
+  { id: "p-coffee-farming", slug: "coffee-farming-mobilization", title: "Coffee Farming Mobilization", theme: "Green Livelihoods", location: "Kalagala Parish, Buikwe District", linked_program: "CEDP" },
+  { id: "p-carbon-credit", slug: "carbon-credit-project", title: "Carbon Credit Project", theme: "Clean Cooking & Ecosystem Restoration", location: "Kalagala Parish, Buikwe District", linked_program: "CEDP" },
 ];
 
 const impactMetrics: ImpactMetric[] = [
@@ -446,13 +448,13 @@ export async function getFeaturedProjects(): Promise<FeaturedProject[]> {
   return featuredProjects;
 }
 
-/** Fetch all published projects for the impact story archive filter. */
+/** Fetch all published projects for the projects archive filter. */
 export async function getAllProjects(): Promise<ProjectListItem[]> {
   if (isSupabaseConfigured()) {
     const supabase = await createClient();
     const { data } = (await supabase
       ?.from("projects")
-      .select("id,slug,title,theme,location")
+      .select("id,slug,title,theme,location,linked_program,featured_image_url")
       .eq("status", "published")
       .order("order_column", { ascending: true })) ?? { data: null };
     if (data && data.length) {
@@ -462,6 +464,8 @@ export async function getAllProjects(): Promise<ProjectListItem[]> {
         title: p.title,
         theme: p.theme ?? "",
         location: p.location ?? "",
+        linked_program: p.linked_program ?? null,
+        featured_image_url: p.featured_image_url ?? null,
       }));
     }
   }
@@ -955,6 +959,16 @@ const heroSlides: Record<string, HeroSlide[]> = {
       title: "Community-led projects across Uganda",
       intro: "Explore work spanning WASH, renewable energy, livelihoods, health, education, environment, research, and social inclusion. Filter and detail views are wired to the CMS.",
       tone: "earth",
+    },
+  ],
+  "projects-archive": [
+    {
+      eyebrow: "Projects library",
+      title: "All FOSCOD projects, verified and ongoing",
+      intro: "Community-led projects spanning clean energy, WASH, livelihoods, health, education, environment, and research. Filter by program — CEDP or GLE — to explore the work on the ground.",
+      cta: { href: "/projects/archive?program=CEDP", label: "Browse CEDP" },
+      cta2: { href: "/projects/archive?program=GLE", label: "Browse GLE" },
+      tone: "forest",
     },
   ],
   alumni: [

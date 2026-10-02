@@ -67,11 +67,10 @@ export default async function ProjectsPage() {
       </section>
 
       <CTABand
-        title="Fund or join a project"
+        title="Browse all FOSCOD projects"
+        body="Explore our full archive of community-led projects, filtered by program and theme."
         actions={[
-          { href: "/donate", label: "Donate" },
-          { href: "/partners", label: "Partner with us", variant: "secondary" },
-          { href: "/apply", label: "Apply", variant: "ghost" },
+          { href: "/projects/archive", label: "Projects archive" },
         ]}
       />
     </>

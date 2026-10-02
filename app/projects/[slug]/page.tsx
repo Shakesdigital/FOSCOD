@@ -294,6 +294,8 @@ export default async function ProjectDetailPage({
             <span aria-hidden>/</span>
             <Link href="/projects" className="hover:text-[var(--ink)]">Projects</Link>
             <span aria-hidden>/</span>
+            <Link href="/projects/archive" className="hover:text-[var(--ink)]">Archive</Link>
+            <span aria-hidden>/</span>
             <span className="text-[var(--ink)]" aria-current="page">{p.title}</span>
           </nav>
         </div>
