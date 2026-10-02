@@ -699,6 +699,35 @@ export const cmsCollections: CmsCollection[] = [
       { name: "order_column", label: "Display order", type: "number" },
     ],
   },
+  {
+    key: "footer-columns",
+    table: "footer_columns",
+    label: "Footer columns",
+    singular: "footer column",
+    titleField: "title",
+    description: "The three footer column headings: About Us, Quick Links, and Contacts.",
+    fields: [
+      { name: "key", label: "Column key", required: true, help: "e.g. 'about', 'quick-links', 'contact'." },
+      { name: "title", label: "Column heading", required: true },
+      { name: "position", label: "Display order", type: "number", required: true },
+      yesNo("visible", "Visible"),
+    ],
+  },
+  {
+    key: "footer-nav",
+    table: "footer_nav",
+    label: "Footer quick links",
+    singular: "footer link",
+    titleField: "label",
+    description: "Individual links shown under the Quick Links column. Set column_key to 'quick-links' for all entries.",
+    fields: [
+      { name: "column_key", label: "Column key", required: true, help: "Currently always 'quick-links'." },
+      { name: "label", label: "Link label", required: true },
+      { name: "href", label: "Link URL", required: true },
+      { name: "order_column", label: "Display order", type: "number", required: true },
+      yesNo("visible", "Visible"),
+    ],
+  },
 ];
 
 export const cmsCollectionMap = Object.fromEntries(cmsCollections.map((collection) => [collection.key, collection])) as Record<string, CmsCollection>;

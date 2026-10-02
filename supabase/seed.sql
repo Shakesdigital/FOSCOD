@@ -24,7 +24,8 @@ insert into public.settings (key, value, "group") values
   ('brand_bg', '"#ffffff"', 'branding'),
   ('brand_ink', '"#16241f"', 'branding'),
   ('seo_default_title', '"FOSCOD — Community-led environmental innovation in Uganda"', 'seo'),
-  ('seo_default_description', '"FOSCOD empowers underserved communities in Uganda to drive environmental innovation and adopt clean energy through ethical, sustainable development and global knowledge exchange."', 'seo')
+  ('seo_default_description', '"FOSCOD empowers underserved communities in Uganda to drive environmental innovation and adopt clean energy through ethical, sustainable development and global knowledge exchange."', 'seo'),
+  ('site_description', '"FOSCOD connects locally led development with ethical global learning and exchange — on clean energy, water, livelihoods, health, and the environment."', 'site')
 on conflict (key) do update set value = excluded.value, "group" = excluded."group";
 
 -- ---------- redirects (old WordPress URLs → new structure) ----------
@@ -774,4 +775,23 @@ insert into public.hero_slides (page_slug, eyebrow, title, intro, cta_label, cta
 on conflict (page_slug, eyebrow, title) do update set
   intro = excluded.intro, cta_label = excluded.cta_label, cta_href = excluded.cta_href,
   cta2_label = excluded.cta2_label, cta2_href = excluded.cta2_href, tone = excluded.tone;
+
+-- ---------- footer navigation (CMS-managed three-column footer) ----------
+-- All Quick Links go under column_key 'quick-links' so they group under the
+-- "Quick Links" footer_columns row that matches the 3-column layout.
+insert into public.footer_nav (column_key, label, href, order_column, visible) values
+  ('quick-links', 'Global Learning Exchange', '/programs/global-learning-exchange', 1, true),
+  ('quick-links', 'Community Empowerment & Development', '/programs/community-empowerment-development', 2, true),
+  ('quick-links', 'Impact Overview', '/impact/general', 3, true),
+  ('quick-links', 'Impact Stories', '/impact/stories', 4, true),
+  ('quick-links', 'Projects', '/projects', 5, true),
+  ('quick-links', 'Downloads & Reports', '/impact#downloads', 6, true),
+  ('quick-links', 'Partner With Us', '/partners', 7, true),
+  ('quick-links', 'Apply / Volunteer', '/apply', 8, true),
+  ('quick-links', 'Support Our Work', '/donate', 9, true),
+  ('quick-links', 'Stories from the Field', '/stories', 10, true),
+  ('quick-links', 'Project Updates', '/stories?category=Project+Updates', 11, true),
+  ('quick-links', 'Impact Reports', '/stories?category=Impact+Reports', 12, true)
+on conflict (column_key, label) do update set
+  href = excluded.href, order_column = excluded.order_column, visible = excluded.visible;
 

@@ -1,4 +1,5 @@
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
+import { site, footerNav, type NavChild } from "@/lib/site";
 
 /* ============================================================
    Home content layer.
@@ -3361,4 +3362,151 @@ export async function getGleApplySection(): Promise<GleApplySection> {
     }
   }
   return gleApplySectionFallback;
+}
+
+/* ============================================================
+   Footer (CMS-backed)
+   ============================================================ */
+
+export type FooterColumn = {
+  label: string;
+  href: string;
+};
+
+export type FooterData = {
+  description: string;
+  columns: { key: string; title: string; links: FooterColumn[] }[];
+  contact: {
+    location: string;
+    mailing: string;
+    email: string;
+    secondaryEmail: string;
+    phone: string;
+  };
+  social: Record<string, string>;
+  registrationNumber: string;
+  legalName: string;
+};
+
+/**
+ * Pulls every footer field from the Supabase `settings` group +
+ * `footer_nav` / `footer_columns` tables. Falls back to the built-in
+ * defaults in lib/site.ts when the DB is not configured or returns
+ * no rows, so the footer always renders.
+ */
+export async function getFooterData(): Promise<FooterData> {
+  // Inline fallbacks — mirror lib/site.ts so we never import a second source
+  // of truth at render time.
+  const fallbackDescription =
+    site.description;
+  const fallbackCols = footerNav;
+  const fallbackContact = site.contact;
+  const fallbackSocial = site.social;
+
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    if (!supabase) return _footerFromDefaults(fallbackDescription, fallbackCols, fallbackContact, fallbackSocial);
+
+    // --- settings (description + contact + social) ---
+    const { data: settings, error: settingsErr } = await supabase
+      .from("settings")
+      .select("key,value,group")
+      .in("group", ["site", "contact"]);
+    if (settingsErr) console.error("[footer] settings fetch error:", settingsErr.message);
+
+    const sMap = new Map<string, string>();
+    (settings ?? []).forEach((row) => {
+      const v = row.value;
+      sMap.set(row.key, typeof v === "string" ? v : JSON.stringify(v));
+    });
+
+    // Also pull social_* link rows (stored under group 'contact')
+    const { data: socialRows, error: socialErr } = await supabase
+      .from("settings")
+      .select("key,value")
+      .like("key", "social_%");
+    if (socialErr) console.error("[footer] social fetch error:", socialErr.message);
+
+    const social: Record<string, string> = {};
+    (socialRows ?? []).forEach((row) => {
+      const platform = row.key.replace("social_", "");
+      const v = row.value;
+      social[platform] = typeof v === "string" ? v : "";
+    });
+
+    // --- footer columns ---
+    const { data: colRows, error: colErr } = await supabase
+      .from("footer_columns")
+      .select("key,title,position")
+      .eq("visible", true)
+      .order("position", { ascending: true });
+    if (colErr) console.error("[footer] columns fetch error:", colErr.message);
+
+    // --- footer nav links ---
+    const { data: navRows, error: navErr } = await supabase
+      .from("footer_nav")
+      .select("column_key,label,href,order_column")
+      .eq("visible", true)
+      .order("order_column", { ascending: true });
+    if (navErr) console.error("[footer] nav fetch error:", navErr.message);
+
+    // If we got settings but no navigation rows, fall back to default columns
+    if (colRows && colRows.length && navRows && navRows.length) {
+      const cols = colRows.map((c) => ({
+        key: c.key,
+        title: c.title,
+        links: (navRows ?? [])
+          .filter((n) => n.column_key === c.key)
+          .sort((a, b) => (a.order_column ?? 0) - (b.order_column ?? 0))
+          .map((n) => ({ label: n.label, href: n.href })),
+      }));
+
+      return {
+        description: sMap.get("site_description") ?? fallbackDescription,
+        columns: cols,
+        contact: {
+          location: sMap.get("contact_location") ?? fallbackContact.location,
+          mailing: sMap.get("contact_mailing") ?? fallbackContact.mailing,
+          email: sMap.get("contact_email") ?? fallbackContact.email,
+          secondaryEmail: sMap.get("contact_email_secondary") ?? fallbackContact.secondaryEmail,
+          phone: sMap.get("contact_phone") ?? fallbackContact.phone,
+        },
+        social,
+        registrationNumber: site.registration.number,
+        legalName: sMap.get("legal_name") ?? site.legalName,
+      };
+    }
+  }
+
+  return _footerFromDefaults(fallbackDescription, fallbackCols, fallbackContact, fallbackSocial);
+}
+
+function _footerFromDefaults(
+  description: string,
+  cols: { heading: string; links: NavChild[] }[],
+  contact: { location: string; mailing: string; email: string; secondaryEmail: string; phone: string },
+  social: Record<string, string>,
+): FooterData {
+  // Build the 3-column structure: About Us, Quick Links, Contacts.
+  // "Quick Links" merges Programs + Impact + Get Involved + Blog (from footerNav)
+  // so the fallback matches the CMS column layout in footer_columns.
+  const quickLinks = cols.reduce<NavChild[]>((acc, c) => {
+    if (c.heading === "About Us" || c.heading === "Contacts" || c.heading === "Quick Links") return acc;
+    return acc.concat(c.links);
+  }, []);
+  // Add a Blog link (from stories) since the old footerNav didn't include it
+  quickLinks.push({ label: "Stories from the Field", href: "/stories" });
+
+  return {
+    description,
+    columns: [
+      { key: "about", title: "About Us", links: [] },
+      { key: "quick-links", title: "Quick Links", links: quickLinks },
+      { key: "contact", title: "Contacts", links: [] },
+    ],
+    contact,
+    social,
+    registrationNumber: site.registration.number,
+    legalName: site.legalName,
+  };
 }
