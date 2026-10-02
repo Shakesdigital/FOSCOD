@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
 import type { ImpactStory, CedpAreaOfFocus, GleDevelopmentSector, ProjectListItem, SubProgram } from "@/lib/content";
 import type { GridCard } from "@/components/site/blocks";
 import { CardGrid } from "@/components/site/blocks";
@@ -32,25 +31,27 @@ export function ImpactStoryGrid({
   subPrograms: SubProgram[];
   projects: ProjectListItem[];
 }) {
-  const searchParams = useSearchParams();
-  const router = useRouter();
+  // Read initial filter state from URL query params (safe for SSR)
+  const getInitialFilter = (): ArchiveFilterValue => {
+    try {
+      if (typeof window === "undefined") return { program: "ALL", cedpArea: "", gleSector: "", project: "" };
+      const params = new URLSearchParams(window.location.search);
+      return {
+        program: (params.get("program") as ArchiveFilterValue["program"]) || "ALL",
+        cedpArea: params.get("area") || "",
+        gleSector: params.get("sector") || "",
+        project: params.get("project") || "",
+      };
+    } catch {
+      return { program: "ALL", cedpArea: "", gleSector: "", project: "" };
+    }
+  };
 
-  // Initialize filter state from URL query params
-  const initialProgram = (searchParams.get("program") as ArchiveFilterValue["program"]) || "ALL";
-  const initialCedpArea = searchParams.get("area") || "";
-  const initialGleSector = searchParams.get("sector") || "";
-  const initialProject = searchParams.get("project") || "";
-
-  const [filter, setFilter] = useState<ArchiveFilterValue>({
-    program: initialProgram,
-    cedpArea: initialCedpArea,
-    gleSector: initialGleSector,
-    project: initialProject,
-  });
+  const [filter, setFilter] = useState<ArchiveFilterValue>(getInitialFilter);
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Keep URL in sync with filter changes
+  // Sync URL query params with filter changes
   const handleFilterChange = (next: ArchiveFilterValue) => {
     setFilter(next);
     setCurrentPage(1);
@@ -62,7 +63,12 @@ export function ImpactStoryGrid({
     if (next.project) params.set("project", next.project);
 
     const query = params.toString();
-    router.replace(`/impact/stories${query ? `?${query}` : ""}`, { scroll: true });
+    const url = window.location.pathname + (query ? `?${query}` : "");
+    try {
+      window.history.replaceState({ filter: next }, "", url);
+    } catch {
+      // History API may not be available in some edge environments
+    }
   };
 
   const visibleStories = useMemo(() => {
@@ -112,7 +118,7 @@ export function ImpactStoryGrid({
     imageAlt: story.community_voice || story.title,
   }));
 
-  const goToShowing = (page: number) => {
+  const goToPage = (page: number) => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -120,7 +126,7 @@ export function ImpactStoryGrid({
   return (
     <section className="py-16 md:py-24">
       <div className="container-page">
-        <div className="flex gap-8 md:gap-12">
+        <div className="flex flex-col gap-8 md:flex-row md:gap-12">
           {/* Sidebar filters */}
           <ImpactArchiveFilter
             cedpAreas={cedpAreas}
@@ -158,7 +164,7 @@ export function ImpactStoryGrid({
               <div className="mt-8 flex items-center justify-center gap-2">
                 <button
                   type="button"
-                  onClick={() => goToShowing(currentPage - 1)}
+                  onClick={() => goToPage(currentPage - 1)}
                   disabled={currentPage === 1}
                   className={
                     currentPage === 1
@@ -174,7 +180,7 @@ export function ImpactStoryGrid({
                 </span>
                 <button
                   type="button"
-                  onClick={() => goToShowing(currentPage + 1)}
+                  onClick={() => goToPage(currentPage + 1)}
                   disabled={currentPage === totalPages}
                   className={
                     currentPage === totalPages
