@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
 
 const ALLOWED = new Set([
+  "application",
   "internship",
   "volunteer",
   "group",

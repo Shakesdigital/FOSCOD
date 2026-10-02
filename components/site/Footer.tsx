@@ -1,25 +1,34 @@
 import Link from "next/link";
 import { getFooterData } from "@/lib/content";
-import { SocialIcons } from "@/components/site/SocialIcons";
 
 /**
  * CMS-backed footer.
  *
  * Three columns:
- *   1. About Us — site description + social icon links
- *   2. Quick Links — Programs, Impact, Get Involved, Blog (from footer_nav)
- *   3. Contacts — location, mailing box number, email, phone
+ *   1. About Us — site description
+ *   2. Quick Links — Community Empowerment & Development, Global Learning &
+ *      Exchange, Impact, Get Involved, Blog
+ *   3. Contacts — address, mailing box number, email, phone
  */
 export async function Footer() {
   const data = await getFooterData();
 
-  const { description, columns, contact, social, registrationNumber, legalName } = data;
+  const { description, columns, contact, registrationNumber, legalName } = data;
 
-  // Split columns into the navigation group (Quick Links) and the static
-  // About / Contacts columns. The CMS tables define all three, but About and
-  // Contacts are rendered from live settings rather than footer_nav links.
-  const quickLinksColumn = columns.find((c) => c.key === "quick-links") ?? columns[1] ?? columns[0];
-  const otherColumns = columns.filter((c) => c.key !== "quick-links");
+  // Find the Quick Links column from the CMS data, or fall back to the
+  // default set if the DB is not configured.
+  const quickLinksColumn =
+    columns.find((c) => c.key === "quick-links") ?? columns[1] ?? columns[0];
+
+  // Hard-coded Quick Links per the site spec — these always override CMS
+  // rows so the footer stays consistent regardless of DB state.
+  const quickLinks = [
+    { label: "Community Empowerment and Development", href: "/programs/community-empowerment-development" },
+    { label: "Global Learning and Education", href: "/programs/global-learning-exchange" },
+    { label: "Impact", href: "/impact/general" },
+    { label: "Get Involved", href: "/apply" },
+    { label: "Blog", href: "/stories" },
+  ];
 
   return (
     <footer className="bg-[var(--accent-600)] text-white">
@@ -31,55 +40,48 @@ export async function Footer() {
       <div className="container-page grid gap-12 py-16 md:grid-cols-3">
         {/* ---- Column 1: About Us ---- */}
         <div className="flex flex-col gap-6">
-          <h3 className="font-[family-name:var(--font-mono)] text-[0.7rem] uppercase tracking-[0.16em]">
+          <h3 className="font-[family-name:var(--font-text)] text-[0.75rem] font-bold uppercase tracking-[0.16em] text-white">
             About Us
           </h3>
 
           {description ? (
-            <p className="text-[0.95rem] leading-relaxed text-white/75">
+            <p className="font-[family-name:var(--font-text)] text-[0.95rem] leading-relaxed text-white/75">
               {description}
             </p>
           ) : null}
-
-          <SocialIcons social={social} />
         </div>
 
         {/* ---- Column 2: Quick Links ---- */}
         <div className="flex flex-col gap-6">
-          <h3 className="font-[family-name:var(--font-mono)] text-[0.7rem] uppercase tracking-[0.16em]">
+          <h3 className="font-[family-name:var(--font-text)] text-[0.75rem] font-bold uppercase tracking-[0.16em] text-white">
             {quickLinksColumn.title || "Quick Links"}
           </h3>
 
-          {quickLinksColumn.links.length > 0 ? (
-            <ul className="flex flex-col gap-3">
-              {quickLinksColumn.links.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-[0.9rem] text-white/70 transition-colors hover:text-white"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-sm text-white/50">No links configured.</p>
-          )}
+          <ul className="flex flex-col gap-3">
+            {quickLinks.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className="font-[family-name:var(--font-text)] text-[0.9rem] text-white/70 transition-colors hover:text-white"
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
 
         {/* ---- Column 3: Contacts ---- */}
         <div className="flex flex-col gap-6">
-          <h3 className="font-[family-name:var(--font-mono)] text-[0.7rem] uppercase tracking-[0.16em]">
+          <h3 className="font-[family-name:var(--font-text)] text-[0.75rem] font-bold uppercase tracking-[0.16em] text-white">
             Contacts
           </h3>
 
-          <address className="not-italic font-[family-name:var(--font-mono)] text-xs leading-relaxed text-white/70">
+          <address className="not-italic font-[family-name:var(--font-text)] text-[0.9rem] leading-relaxed text-white/70">
             {contact.location && <span className="block">{contact.location}</span>}
             {contact.mailing && <span className="block">{contact.mailing}</span>}
             {contact.email && (
               <span className="block">
-                <span className="text-white/50">Email:</span>{" "}
                 <a
                   href={`mailto:${contact.email}`}
                   className="text-white transition-colors hover:text-white"
@@ -89,9 +91,7 @@ export async function Footer() {
               </span>
             )}
             {contact.phone && (
-              <span className="block">
-                <span className="text-white/50">Phone:</span> {contact.phone}
-              </span>
+              <span className="block">{contact.phone}</span>
             )}
           </address>
         </div>
@@ -100,24 +100,24 @@ export async function Footer() {
       {/* ---- Legal / secondary links ---- */}
       <div className="border-t border-white/15">
         <div className="container-page flex flex-col items-start justify-between gap-3 py-6 text-xs text-white/65 sm:flex-row sm:items-center">
-          <p>
+          <p className="font-[family-name:var(--font-text)]">
             © {new Date().getFullYear()} {legalName}. Registered Ugandan
             indigenous NGO (Reg. No. {registrationNumber}).
           </p>
           <div className="flex flex-wrap gap-5">
-            <Link href="/partners" className="hover:text-white">
+            <Link href="/partners" className="font-[family-name:var(--font-text)] hover:text-white">
               Partner With Us
             </Link>
-            <Link href="/apply" className="hover:text-white">
+            <Link href="/apply" className="font-[family-name:var(--font-text)] hover:text-white">
               Apply / Volunteer
             </Link>
-            <Link href="/donate" className="hover:text-white">
+            <Link href="/donate" className="font-[family-name:var(--font-text)] hover:text-white">
               Support Our Work
             </Link>
-            <Link href="/programs/refund-policy" className="hover:text-white">
+            <Link href="/programs/refund-policy" className="font-[family-name:var(--font-text)] hover:text-white">
               Refund Policy
             </Link>
-            <Link href="/contact" className="hover:text-white">
+            <Link href="/contact" className="font-[family-name:var(--font-text)] hover:text-white">
               Contact
             </Link>
           </div>

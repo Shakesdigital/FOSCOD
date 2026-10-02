@@ -3,7 +3,6 @@ import { ProgramDatesTable, Steps, FeatureGrid, TestimonialCarousel } from "@/co
 import { SubmitForm, type Field } from "@/components/forms/SubmitForm";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Button } from "@/components/ui/Button";
-import { PhotoSlot } from "@/components/ui/PhotoSlot";
 import { pageMeta } from "@/lib/seo";
 import { getHeroSlides, getProgramDates, getAlumniExperiences } from "@/lib/content";
 
@@ -19,12 +18,6 @@ const steps = [
   { title: "Confirmation & deposit", body: "Secure your place." },
   { title: "Pre-departure prep", body: "Logistics, health, and safety support." },
   { title: "Arrival & orientation", body: "Local orientation and your placement begins." },
-];
-
-const formChoices = [
-  { title: "Volunteer Form", body: "For those giving time and skills to community-led projects.", href: "/apply/volunteer", tone: "forest" as const },
-  { title: "Internship Form", body: "Supervised, credit-friendly field experience in your area.", href: "/apply/internship", tone: "water" as const },
-  { title: "Global Service Trip Form", body: "Faculty-led group programs and service trips.", href: "/apply/group-service-trip", tone: "earth" as const },
 ];
 
 const inquiryFields: Field[] = [
@@ -178,29 +171,21 @@ export default async function ApplyPage() {
         </div>
       </section>
 
-      {/* application form — white (swapped); Start application moved to top, centered; form removed */}
+      {/* application form — white (swapped) */}
       <section id="application-forms" className="py-14 md:py-20">
         <div className="container-page">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-[clamp(1.7rem,3vw,2.3rem)]">Start your application</h2>
             <p className="mt-3 text-[var(--muted)]">
-              One form for all pathways — we&rsquo;ll route your application to the
-              right team. University groups can request a dedicated call.
+              One unified form for all pathways — volunteering, internships, and
+              group service trips. You&rsquo;ll choose your program type within
+              the form, and it will adapt to show the fields that apply to you.
             </p>
           </div>
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {formChoices.map((c) => (
-              <div key={c.title} className="flex flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
-                <PhotoSlot tone={c.tone} ratio="16/9" caption={c.title} />
-                <div className="flex flex-1 flex-col p-6">
-                  <h3 className="text-lg">{c.title}</h3>
-                  <p className="mt-2 flex-1 text-[0.92rem] leading-relaxed text-[var(--muted)]">{c.body}</p>
-                  <div className="mt-5">
-                    <Button href={c.href} variant="secondary" size="md">Learn more</Button>
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="mt-8 text-center">
+            <Button href="/apply/form" variant="primary" size="lg">
+              Apply Now
+            </Button>
           </div>
         </div>
       </section>
