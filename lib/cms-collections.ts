@@ -200,6 +200,8 @@ export const cmsCollections: CmsCollection[] = [
     fields: [
       { name: "name", label: "Name", required: true }, { name: "quote", label: "Quotation", type: "textarea", required: true },
       { name: "cohort", label: "Cohort" }, { name: "program", label: "Program or affiliation" },
+      { name: "linked_program", label: "Linked program", type: "select", options: ["GLE","CEDP","ORG"].map((value) => ({ label: value, value })) },
+      { name: "linked_project_id", label: "Linked project ID (slug)" },
       yesNo("permission", "Permission confirmed"), { name: "photo_url", label: "Photo URL", type: "url" },
       { name: "photo_alt", label: "Photo alt text" },
       { name: "status", label: "Publishing status", type: "select", options: statusOptions, required: true }, { name: "order_column", label: "Display order", type: "number" },

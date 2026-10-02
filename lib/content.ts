@@ -65,10 +65,13 @@ export type ImpactMetric = {
 };
 
 export type Testimonial = {
-  quote: string;
   name: string;
+  quote: string;
   cohort: string;
   program: string;
+  photo_url?: string | null;
+  linked_program?: "CEDP" | "GLE" | "ORG" | null;
+  linked_project_id?: string | null;
 };
 
 export type Partner = { name: string; type: string; logo_url?: string; logo_alt?: string; website?: string };
@@ -275,30 +278,62 @@ const testimonials: Testimonial[] = [
     name: "Aisha M.",
     cohort: "GLE 2023",
     program: "Alumni · Renewable energy intern",
+    linked_program: "GLE",
+    linked_project_id: "solar-powered-water-system-naluvule",
   },
   {
     quote: "I came thinking I was there to 'help'. Six months later I realised I was there to learn — from community engineers who'd never seen a textbook but could tell you exactly why a borehole fails. That humility is the real takeaway.",
     name: "Diego R.",
     cohort: "GLE 2022",
     program: "Alumni · WASH volunteer",
+    linked_program: "GLE",
+    linked_project_id: "water-spring-protection-naluvule",
   },
   {
     quote: "The CBPR framework FOSCOD uses — consent, co-design, and return-of-findings — became my north star for every research project after graduation. I now design every study around what the community asks for, not what fills a publication.",
     name: "Fatima N.",
     cohort: "GLE 2021",
     program: "Alumni · Research fellow",
+    linked_program: "GLE",
   },
   {
     quote: "I came for eight weeks to document a carbon-credit readiness project and left with a new way of listening. The community mapping session changed how I frame research questions — power dynamics, consent, and who holds the pen matter more than any methodology.",
     name: "Marcus T.",
     cohort: "GLE 2023",
     program: "Alumni · Carbon strategy intern",
+    linked_program: "GLE",
+    linked_project_id: "carbon-credit-project",
   },
   {
     quote: "My six-month placement on the youth mentorship pairings taught me that effective development is built on relationships, not deliverables. The handover session I co-led is still running — that continuity is what makes the work ethical.",
     name: "Zara A.",
     cohort: "GLE 2022",
     program: "Alumni · Program coordination volunteer",
+    linked_program: "GLE",
+  },
+  {
+    quote: "Planting trees in Greening Kalagala, I saw how community ownership changes everything. The seedlings we planted are now three meters tall, and the families managing them have a new source of firewood and fruit.",
+    name: "Grace K.",
+    cohort: "CEDP 2024",
+    program: "Community member · Reforestation participant",
+    linked_program: "CEDP",
+    linked_project_id: "greening-kalagala",
+  },
+  {
+    quote: "Since the spring protection project started, children from our village walk to school without fear of waterborne illness. The water committee we formed is already planning a second protection site.",
+    name: "Mariam N.",
+    cohort: "CEDP 2024",
+    program: "Community member · Water committee",
+    linked_program: "CEDP",
+    linked_project_id: "water-spring-protection-naluvule",
+  },
+  {
+    quote: "The coffee farming training changed how I tend my field — intercropping with banana and using compost has doubled my yield. My three children are back in school thanks to the extra income.",
+    name: "Samuel B.",
+    cohort: "CEDP 2023",
+    program: "Community member · Coffee farmer",
+    linked_program: "CEDP",
+    linked_project_id: "coffee-farming-mobilization",
   },
 ];
 
@@ -495,6 +530,30 @@ export async function getImpactMetrics(): Promise<ImpactMetric[]> {
 }
 
 export async function getTestimonials(): Promise<Testimonial[]> {
+  return getAlumniExperiences();
+}
+
+/** Fetch all published testimonials for the testimonials archive. */
+export async function getAllTestimonials(): Promise<Testimonial[]> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    const { data } = (await supabase
+      ?.from("testimonials")
+      .select("name,quote,cohort,program,photo_url,linked_program,linked_project_id")
+      .eq("status", "published")
+      .order("order_column", { ascending: true })) ?? { data: null };
+    if (data && data.length) {
+      return data.map((t) => ({
+        name: t.name,
+        quote: t.quote,
+        cohort: t.cohort ?? "",
+        program: t.program ?? "",
+        photo_url: t.photo_url ?? null,
+        linked_program: t.linked_program ?? null,
+        linked_project_id: t.linked_project_id ?? null,
+      }));
+    }
+  }
   return testimonials;
 }
 
@@ -977,6 +1036,16 @@ const heroSlides: Record<string, HeroSlide[]> = {
       title: "FOSCOD alumni network",
       intro: "Stay connected, mentor new participants, share your story, and keep contributing to community-led development.",
       tone: "water",
+    },
+  ],
+  testimonials: [
+    {
+      eyebrow: "In their own words",
+      title: "Permissioned testimonials from participants and communities",
+      intro: "Reflections from interns, volunteers, alumni, and community members across CEDP and GLE — published with consent.",
+      cta: { href: "/testimonials?program=CEDP", label: "Browse CEDP" },
+      cta2: { href: "/testimonials?program=GLE", label: "Browse GLE" },
+      tone: "forest",
     },
   ],
   "health-wellbeing": [

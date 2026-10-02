@@ -162,7 +162,7 @@ export default async function ApplyPage() {
         eyebrow="Alumni experiences"
         title="What our alumni say"
         items={alumni}
-        cta={{ href: "/alumni", label: "Read more reviews" }}
+        cta={{ href: "/testimonials", label: "Read more reviews" }}
         surface
       />
 

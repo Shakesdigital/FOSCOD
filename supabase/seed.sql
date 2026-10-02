@@ -74,20 +74,21 @@ on conflict (slug) do update set
 
 -- ---------- projects ----------
 delete from public.projects where slug in ('biochar-uganda','wash','renewable-energy','sustainable-livelihood-green-enterprises');
-insert into public.projects (slug, title, theme, location, status, featured, excerpt, order_column) values
+insert into public.projects (slug, title, theme, location, status, featured, excerpt, linked_program, order_column) values
   ('greening-kalagala', 'Greening Kalagala', 'Ecosystem Restoration', 'Kalagala Parish, Buikwe District', 'published', true,
-    'A community reforestation campaign in FOSCOD''s core CEDP implementation area.', 1),
+    'A community reforestation campaign in FOSCOD''s core CEDP implementation area.', 'CEDP', 1),
   ('water-spring-protection-naluvule', 'Water Spring Protection in Naluvule Community', 'WASH', 'Naluvule, Buikwe District', 'published', true,
-    'Community-led protection of a natural water spring in Naluvule.', 2),
+    'Community-led protection of a natural water spring in Naluvule.', 'CEDP', 2),
   ('coffee-farming-mobilization', 'Coffee Farming Mobilization', 'Green Livelihoods', 'Kalagala Parish, Buikwe District', 'published', true,
-    'Community mobilization around coffee farming and resilient local livelihoods.', 3),
+    'Community mobilization around coffee farming and resilient local livelihoods.', 'CEDP', 3),
   ('solar-powered-water-system-naluvule', 'Solar-Powered Water System, Naluvule Village', 'Clean Energy & WASH', 'Naluvule, Buikwe District', 'published', true,
-    'A solar-powered water initiative linking renewable energy with community water access.', 4),
+    'A solar-powered water initiative linking renewable energy with community water access.', 'CEDP', 4),
   ('carbon-credit-project', 'Carbon Credit Project', 'Clean Cooking & Ecosystem Restoration', 'Kalagala Parish, Buikwe District', 'published', true,
-    'A planned clean-cookstove and reforestation initiative aligned with Gold Standard and Verra REDD+ methodologies.', 5)
+    'A planned clean-cookstove and reforestation initiative aligned with Gold Standard and Verra REDD+ methodologies.', 'CEDP', 5)
 on conflict (slug) do update set
   title = excluded.title, theme = excluded.theme, location = excluded.location,
-  status = excluded.status, featured = excluded.featured, excerpt = excluded.excerpt;
+  status = excluded.status, featured = excluded.featured, excerpt = excluded.excerpt,
+  linked_program = excluded.linked_program;
 
 -- Set challenge images for projects
 -- UPDATE (not INSERT) avoids NOT NULL violations on title: the project row

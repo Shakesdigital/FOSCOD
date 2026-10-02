@@ -166,7 +166,7 @@ export default async function VolunteerPage() {
           eyebrow="Volunteer alumni testimonials"
           title="From people who've been there"
           items={alumni}
-          more={{ href: "/alumni", label: "Read more" }}
+          more={{ href: "/testimonials", label: "Read more" }}
           surface
         />
       ) : null}
