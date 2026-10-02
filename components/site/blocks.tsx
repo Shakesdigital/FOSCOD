@@ -474,9 +474,10 @@ export function ProgramDatesTable({
   );
 }
 
-/** CardGrid — a 3-up grid of media/story cards with an optional trailing
+/** CardGrid — a responsive grid of media/story cards with an optional trailing
  *  "Read more" button. Powers the wireframe's repeated card sections
- *  (Impact Stories, Impact Videos, Community Experiences, alumni legacy). */
+ *  (Impact Stories, Impact Videos, Community Experiences, alumni legacy).
+ *  Defaults to 3 columns on desktop; pass columns={2} for a denser card layout. */
 export type GridCard = {
   title: string;
   excerpt?: string;
@@ -501,6 +502,7 @@ export function CardGrid({
   more,
   surface = false,
   align = "center",
+  columns = 3,
 }: {
   eyebrow: string;
   title: string;
@@ -509,6 +511,7 @@ export function CardGrid({
   more?: { href: string; label: string };
   surface?: boolean;
   align?: "left" | "center";
+  columns?: 2 | 3;
 }) {
   if (!items.length) return null;
   const tones = ["forest", "water", "earth"] as const;
@@ -523,7 +526,7 @@ export function CardGrid({
           )}
         </div>
 
-        <ul className="mt-10 grid gap-6 md:grid-cols-3">
+        <ul className={`mt-10 grid gap-6 md:grid-cols-${columns}`}>
           {items.map((c, i) => {
             const Card = (
               <div className="flex h-full flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] transition-all duration-200 group-hover:-translate-y-0.5 group-hover:border-[var(--border-strong)] group-hover:shadow-[var(--shadow-md)]">

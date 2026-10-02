@@ -144,6 +144,7 @@ export function ImpactStoryGrid({
                   title="Verified change on the ground"
                   intro="Stories are published with evidence and consent from the communities where FOSCOD works."
                   items={cards}
+                  columns={2}
                 />
                 {visibleStories.length > STORIES_PER_PAGE && (
                   <p className="mt-4 text-center text-sm text-[var(--muted)]">

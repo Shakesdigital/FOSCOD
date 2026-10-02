@@ -54,13 +54,13 @@ export function ImpactArchiveFilter({
 
   return (
     <aside className="w-full border-b border-[var(--border)] bg-[var(--surface)] md:border-r md:border-b-0 md:w-72 md:flex-shrink-0 md:overflow-y-auto">
-      <div className="py-6 md:py-8 md:px-0 md:pl-4">
+      <div className="flex flex-col items-center gap-6 py-6 md:py-8 md:px-6">
         <h3 className="font-[family-name:var(--font-mono)] text-xs uppercase tracking-wider text-[var(--ink-soft)]">
           Filter stories
         </h3>
 
         {/* Program tabs */}
-        <div className="mt-4 flex flex-wrap gap-2">
+        <div className="mt-4 flex justify-center gap-2 flex-wrap">
           <button
             type="button"
             onClick={() => handleProgramChange("ALL")}
@@ -98,7 +98,7 @@ export function ImpactArchiveFilter({
 
         {/* Secondary filters: CEDP areas of focus */}
         {(program === "ALL" || program === "CEDP") && cedpAreas.filter((a) => a.slug).length > 0 ? (
-          <div className="mt-6 border-t border-[var(--border)] pt-4">
+          <div className="mt-6 w-full max-w-sm border-t border-[var(--border)] pt-4">
             <label className="block text-xs font-medium uppercase tracking-wider text-[var(--ink-soft)]">
               CEDP area of focus
             </label>
@@ -121,7 +121,7 @@ export function ImpactArchiveFilter({
 
         {/* Secondary filters: GLE development sectors */}
         {(program === "ALL" || program === "GLE") && gleSectors.length > 0 ? (
-          <div className="mt-6 border-t border-[var(--border)] pt-4">
+          <div className="mt-6 w-full max-w-sm border-t border-[var(--border)] pt-4">
             <label className="block text-xs font-medium uppercase tracking-wider text-[var(--ink-soft)]">
               GLE development sector
             </label>
@@ -142,7 +142,7 @@ export function ImpactArchiveFilter({
 
         {/* Project filter */}
         {projects.length > 0 && (
-          <div className="mt-6 border-t border-[var(--border)] pt-4">
+          <div className="mt-6 w-full max-w-sm border-t border-[var(--border)] pt-4">
             <label className="block text-xs font-medium uppercase tracking-wider text-[var(--ink-soft)]">
               Project
             </label>
