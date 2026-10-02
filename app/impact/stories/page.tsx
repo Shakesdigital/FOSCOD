@@ -40,6 +40,7 @@ export default async function ImpactStoriesPage() {
         body="These stories are published only after consent is recorded and outcomes are verified through independent monitoring. Use the filter sidebar to explore by program — Community Empowerment and Development Program (CEDP) or Global Learning & Exchange (GLE) — and by thematic area, development sector, or project."
         align="center"
         noImage
+        surface
       />
 
       {/* 3. Filterable story grid */}
