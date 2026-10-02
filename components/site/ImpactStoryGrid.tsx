@@ -1,7 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { ImpactStory, CedpAreaOfFocus, GleDevelopmentSector, SubProgram } from "@/lib/content";
+import { useSearchParams, useRouter } from "next/navigation";
+import type { ImpactStory, CedpAreaOfFocus, GleDevelopmentSector, ProjectListItem, SubProgram } from "@/lib/content";
 import type { GridCard } from "@/components/site/blocks";
 import { CardGrid } from "@/components/site/blocks";
 import { ImpactArchiveFilter, type ArchiveFilterValue } from "@/components/site/ImpactArchiveFilter";
@@ -16,22 +17,53 @@ const goalToCedpArea: Record<number, string> = {
   6: "clean-energy-climate-resilience",
 };
 
+const STORIES_PER_PAGE = 8;
+
 export function ImpactStoryGrid({
   allStories,
   cedpAreas,
   gleSectors,
   subPrograms,
+  projects,
 }: {
   allStories: ImpactStory[];
   cedpAreas: CedpAreaOfFocus[];
   gleSectors: GleDevelopmentSector[];
   subPrograms: SubProgram[];
+  projects: ProjectListItem[];
 }) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  // Initialize filter state from URL query params
+  const initialProgram = (searchParams.get("program") as ArchiveFilterValue["program"]) || "ALL";
+  const initialCedpArea = searchParams.get("area") || "";
+  const initialGleSector = searchParams.get("sector") || "";
+  const initialProject = searchParams.get("project") || "";
+
   const [filter, setFilter] = useState<ArchiveFilterValue>({
-    program: "ALL",
-    cedpArea: "",
-    gleSector: "",
+    program: initialProgram,
+    cedpArea: initialCedpArea,
+    gleSector: initialGleSector,
+    project: initialProject,
   });
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Keep URL in sync with filter changes
+  const handleFilterChange = (next: ArchiveFilterValue) => {
+    setFilter(next);
+    setCurrentPage(1);
+
+    const params = new URLSearchParams();
+    if (next.program !== "ALL") params.set("program", next.program);
+    if (next.cedpArea) params.set("area", next.cedpArea);
+    if (next.gleSector) params.set("sector", next.gleSector);
+    if (next.project) params.set("project", next.project);
+
+    const query = params.toString();
+    router.replace(`/impact/stories${query ? `?${query}` : ""}`, { scroll: true });
+  };
 
   const visibleStories = useMemo(() => {
     return allStories.filter((story) => {
@@ -40,23 +72,32 @@ export function ImpactStoryGrid({
         return false;
       }
       // Secondary filter: CEDP area of focus
-      if (filter.program === "CEDP" && filter.cedpArea) {
+      if (filter.cedpArea) {
         if (!story.linked_sub_program_id) return false;
         const sub = subPrograms.find((s) => s.id === story.linked_sub_program_id);
         if (!sub || !sub.strategic_goal) return false;
-        return goalToCedpArea[sub.strategic_goal] === filter.cedpArea;
+        if (goalToCedpArea[sub.strategic_goal] !== filter.cedpArea) return false;
       }
       // Secondary filter: GLE development sector
-      if (filter.program === "GLE" && filter.gleSector) {
+      if (filter.gleSector) {
         if (!story.linked_gle_sector_id) return false;
         const sector = gleSectors.find((s) => s.id === story.linked_gle_sector_id);
-        return sector?.slug === filter.gleSector;
+        if (sector?.slug !== filter.gleSector) return false;
+      }
+      // Project filter
+      if (filter.project) {
+        if (story.linked_project_id !== filter.project) return false;
       }
       return true;
     });
   }, [allStories, filter, subPrograms, gleSectors]);
 
-  const cards: GridCard[] = visibleStories.map((story, i) => ({
+  // Pagination
+  const totalPages = Math.ceil(visibleStories.length / STORIES_PER_PAGE) || 1;
+  const startIndex = (currentPage - 1) * STORIES_PER_PAGE;
+  const paginatedStories = visibleStories.slice(startIndex, startIndex + STORIES_PER_PAGE);
+
+  const cards: GridCard[] = paginatedStories.map((story) => ({
     title: story.title,
     excerpt:
       story.quote ||
@@ -71,31 +112,84 @@ export function ImpactStoryGrid({
     imageAlt: story.community_voice || story.title,
   }));
 
-  return (
-    <>
-      <ImpactArchiveFilter
-        cedpAreas={cedpAreas}
-        gleSectors={gleSectors}
-        onChange={setFilter}
-      />
+  const goToShowing = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
-      {cards.length ? (
-        <CardGrid
-          eyebrow="Impact stories"
-          title="Verified change on the ground"
-          intro="Stories are published with evidence and consent from the communities where FOSCOD works."
-          items={cards}
-          surface
-        />
-      ) : (
-        <section className="py-16 md:py-24">
-          <div className="container-page text-center">
-            <p className="text-[var(--muted)]">
-              No impact stories match this filter yet. Try adjusting the program or sub-filter.
-            </p>
+  return (
+    <section className="py-16 md:py-24">
+      <div className="container-page">
+        <div className="flex gap-8 md:gap-12">
+          {/* Sidebar filters */}
+          <ImpactArchiveFilter
+            cedpAreas={cedpAreas}
+            gleSectors={gleSectors}
+            projects={projects}
+            onChange={handleFilterChange}
+          />
+
+          {/* Main content: cards + pagination */}
+          <div className="min-w-0 flex-1">
+            {cards.length ? (
+              <>
+                <CardGrid
+                  eyebrow="Impact stories"
+                  title="Verified change on the ground"
+                  intro="Stories are published with evidence and consent from the communities where FOSCOD works."
+                  items={cards}
+                />
+                {visibleStories.length > STORIES_PER_PAGE && (
+                  <p className="mt-4 text-center text-sm text-[var(--muted)]">
+                    Showing {startIndex + 1}–{Math.min(startIndex + STORIES_PER_PAGE, visibleStories.length)} of {visibleStories.length} stories
+                  </p>
+                )}
+              </>
+            ) : (
+              <div className="py-16 text-center">
+                <p className="text-[var(--muted)]">
+                  No impact stories match this filter yet. Try adjusting the program or sub-filter.
+                </p>
+              </div>
+            )}
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="mt-8 flex items-center justify-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => goToShowing(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className={
+                    currentPage === 1
+                      ? "rounded-[var(--radius-md)] border border-[var(--border)] px-3 py-1.5 text-sm font-medium text-[var(--muted)] cursor-not-allowed"
+                      : "rounded-[var(--radius-md)] border border-[var(--border)] px-3 py-1.5 text-sm font-medium text-[var(--ink)] hover:bg-[var(--surface-2)]"
+                  }
+                  aria-label="Previous page"
+                >
+                  ← Prev
+                </button>
+                <span className="font-[family-name:var(--font-mono)] text-xs text-[var(--ink-soft)]">
+                  Page {currentPage} of {totalPages}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => goToShowing(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  className={
+                    currentPage === totalPages
+                      ? "rounded-[var(--radius-md)] border border-[var(--border)] px-3 py-1.5 text-sm font-medium text-[var(--muted)] cursor-not-allowed"
+                      : "rounded-[var(--radius-md)] border border-[var(--border)] px-3 py-1.5 text-sm font-medium text-[var(--ink)] hover:bg-[var(--surface-2)]"
+                  }
+                  aria-label="Next page"
+                >
+                  Next →
+                </button>
+              </div>
+            )}
           </div>
-        </section>
-      )}
-    </>
+        </div>
+      </div>
+    </section>
   );
 }

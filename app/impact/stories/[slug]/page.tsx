@@ -161,9 +161,9 @@ export default async function ImpactStoryPage({ params }: { params: Promise<{ sl
         title="Read more stories of change"
         body="Explore our full collection of impact stories, videos, and community experiences."
         actions={[
-          { href: "/impact", label: "View all impact" },
-          { href: "/stories", label: "Read blog stories", variant: "secondary" },
-          { href: "/donate", label: "Support this work", variant: "ghost" },
+          { href: "/impact/stories", label: "Impact story archive" },
+          { href: "/impact", label: "View all impact", variant: "secondary" },
+          { href: "/stories", label: "Read blog stories", variant: "ghost" },
         ]}
       />
     </>

@@ -9,6 +9,7 @@ import {
   getCedpAreasOfFocus,
   getGleDevelopmentSectors,
   getSubPrograms,
+  getAllProjects,
 } from "@/lib/content";
 
 export const revalidate = 60;
@@ -19,12 +20,13 @@ export const metadata = pageMeta(
 );
 
 export default async function ImpactStoriesPage() {
-  const [slides, stories, cedpAreas, gleSectors, subPrograms] = await Promise.all([
+  const [slides, stories, cedpAreas, gleSectors, subPrograms, projects] = await Promise.all([
     getHeroSlides("impact-stories"),
     getImpactStories(100),
     getCedpAreasOfFocus(),
     getGleDevelopmentSectors(),
     getSubPrograms(),
+    getAllProjects(),
   ]);
 
   return (
@@ -34,17 +36,17 @@ export default async function ImpactStoriesPage() {
 
       {/* 2. Intro */}
       <section className="border-b border-[var(--border)] bg-[var(--surface)] py-12 md:py-16">
-        <div className="container-page max-w-3xl">
+        <div className="container-page max-w-5xl">
           <Eyebrow>Verified stories</Eyebrow>
           <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">
             Community voices, evidence-backed outcomes
           </h2>
-          <p className="mt-4 max-w-2xl text-lg leading-relaxed text-[var(--ink-soft)]">
+          <p className="mt-4 max-w-3xl text-lg leading-relaxed text-[var(--ink-soft)]">
             These stories are published only after consent is recorded and
             outcomes are verified through independent monitoring. Use the
-            filter bar below to explore by program — Community Empowerment
+            filter sidebar to explore by program — Community Empowerment
             and Development Program (CEDP) or Global Learning & Exchange (GLE)
-            — and by thematic area.
+            — and by thematic area, development sector, or project.
           </p>
         </div>
       </section>
@@ -55,6 +57,7 @@ export default async function ImpactStoriesPage() {
         cedpAreas={cedpAreas}
         gleSectors={gleSectors}
         subPrograms={subPrograms}
+        projects={projects}
       />
 
       {/* 4. Closing CTA */}

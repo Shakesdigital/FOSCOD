@@ -46,6 +46,14 @@ export type FeaturedProject = {
   href: string;
 };
 
+export type ProjectListItem = {
+  id: string;
+  slug: string;
+  title: string;
+  theme: string;
+  location: string;
+};
+
 export type ImpactMetric = {
   label: string;
   value: string;
@@ -242,6 +250,14 @@ const featuredProjects: FeaturedProject[] = [
   },
 ];
 
+const projectsListFallback: ProjectListItem[] = [
+  { id: "p-greening-kalagala", slug: "greening-kalagala", title: "Greening Kalagala", theme: "Ecosystem Restoration", location: "Kalagala Parish, Buikwe District" },
+  { id: "p-water-spring", slug: "water-spring-protection-naluvule", title: "Water Spring Protection in Naluvule Community", theme: "WASH", location: "Naluvule, Buikwe District" },
+  { id: "p-solar-water", slug: "solar-powered-water-system-naluvule", title: "Solar-Powered Water System, Naluvule Village", theme: "Clean Energy & WASH", location: "Naluvule, Buikwe District" },
+  { id: "p-coffee-farming", slug: "coffee-farming-mobilization", title: "Coffee Farming Mobilization", theme: "Green Livelihoods", location: "Kalagala Parish, Buikwe District" },
+  { id: "p-carbon-credit", slug: "carbon-credit-project", title: "Carbon Credit Project", theme: "Clean Cooking & Ecosystem Restoration", location: "Kalagala Parish, Buikwe District" },
+];
+
 const impactMetrics: ImpactMetric[] = [
   { label: "Community projects implemented", value: "35", note: "Verified track record, 2022–2024", status: "verified" },
   { label: "Development practitioners trained", value: "42", note: "Verified track record, 2019–2024", status: "verified" },
@@ -428,6 +444,28 @@ export async function getFeaturedProjects(): Promise<FeaturedProject[]> {
     }
   }
   return featuredProjects;
+}
+
+/** Fetch all published projects for the impact story archive filter. */
+export async function getAllProjects(): Promise<ProjectListItem[]> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    const { data } = (await supabase
+      ?.from("projects")
+      .select("id,slug,title,theme,location")
+      .eq("status", "published")
+      .order("order_column", { ascending: true })) ?? { data: null };
+    if (data && data.length) {
+      return data.map((p) => ({
+        id: p.id,
+        slug: p.slug,
+        title: p.title,
+        theme: p.theme ?? "",
+        location: p.location ?? "",
+      }));
+    }
+  }
+  return projectsListFallback;
 }
 
 export async function getImpactMetrics(): Promise<ImpactMetric[]> {
@@ -1091,7 +1129,112 @@ export async function getDownloads(): Promise<DownloadResource[]> {
 }
 
 /* ---------- impact_stories (community voice stories) ---------- */
-const impactStoriesFallback: ImpactStory[] = [];
+const impactStoriesFallback: ImpactStory[] = [
+  {
+    slug: "solar-powered-salon-naluvule",
+    title: "Solar-Powered Salon in Naluvule",
+    community_voice: "Sarah Namubiru, salon owner",
+    quote: "Before solar, I was losing money after 6 p.m. Now I can serve clients until 8 — and the quality of my work is so much better in good light.",
+    hero_image_url: "/images/impact/stories/salon-hero.jpg",
+    narrative: "In the village of Naluvule, evening light used to mean kerosene lamps and a day's work done. Sarah Namubiru, who runs a small hair salon from her home, could only serve a few clients before dark.",
+    linked_program: "CEDP",
+    linked_sub_program_id: "sp-green-skills",
+    linked_project_id: "solar-powered-water-system-naluvule",
+    verified_outcome: "3 households gained reliable evening lighting and new income streams",
+    published_at: "2025-03-15",
+  },
+  {
+    slug: "water-is-life-lubani",
+    title: "Water is Life: a protected spring in Lubani",
+    community_voice: "Mariam N., parent",
+    quote: "My daughter used to miss two days of school every week because she was collecting water. Now she walks there and back in 10 minutes.",
+    hero_image_url: "/images/impact/stories/lubani-hero.jpg",
+    narrative: "Before the spring protection project in Lubani, residents — especially women and children — walked long distances to collect water that often made them sick.",
+    linked_program: "CEDP",
+    linked_sub_program_id: "sp-wash",
+    linked_project_id: "water-spring-protection-naluvule",
+    verified_outcome: "Water access improved for 120 households with 86% sustained use after 12 months",
+    published_at: "2025-02-10",
+  },
+  {
+    slug: "greening-kalagala-regeneration",
+    title: "Greening Kalagala: regenerating degraded land",
+    community_voice: "Grace K., neighbourhood leader",
+    quote: "We used to lose topsoil every rainy season. Now the trees hold the soil, and the community forest is coming back.",
+    hero_image_url: "/images/impact/stories/greening-kalagala.jpg",
+    narrative: "Kalagala Parish faced severe soil erosion and forest degradation. Through community-led tree planting and agroforestry, 50 hectares of land have been restored.",
+    linked_program: "CEDP",
+    linked_sub_program_id: "sp-ecosystem-restoration",
+    linked_project_id: "greening-kalagala",
+    verified_outcome: "0.5 hectares of degraded land restored with 500 biochar units produced",
+    published_at: "2025-01-20",
+  },
+  {
+    slug: "biochar-from-water-hyacinth",
+    title: "Biochar from water hyacinth: turning invasion into soil",
+    community_voice: "Samuel K., Water committee chair",
+    quote: "The invasive water hyacinth used to choke our waterways. Now we make biochar from it — better soil and cleaner cooking.",
+    hero_image_url: "/images/impact/stories/biochar.jpg",
+    narrative: "In the wetlands near Naluvule, water hyacinth was choking waterways. The community began producing biochar from the invasive plant, improving soil health and reducing the need for wood fuel.",
+    linked_program: "CEDP",
+    linked_sub_program_id: "sp-clean-cooking",
+    linked_project_id: "carbon-credit-project",
+    verified_outcome: "500 biochar units produced from invasive species; 30 households adopted cleaner cooking",
+    published_at: "2024-12-05",
+  },
+  {
+    slug: "coffee-farming-mobilization",
+    title: "Coffee farming mobilization: resilient livelihoods",
+    community_voice: "James Ochieng, farmer cooperative leader",
+    quote: "The climate-smart training changed everything. Our yields are up, and we have a direct buyer for our coffee now.",
+    hero_image_url: "/images/impact/stories/coffee-farming.jpg",
+    narrative: "Smallholder coffee farmers in Kalagala Parish faced declining yields due to climate variability. FOSCOD's mobilization program provided climate-smart training and market linkages.",
+    linked_program: "CEDP",
+    linked_sub_program_id: "sp-green-livelihoods",
+    linked_project_id: "coffee-farming-mobilization",
+    verified_outcome: "120 farmers trained; 15% average yield increase after first season",
+    published_at: "2024-11-12",
+  },
+  {
+    slug: "gle-research-methodology",
+    title: "Research methodology exchange with Makerere University",
+    community_voice: "Dr. Aisha Mwanje, FOSCOD programmes lead",
+    quote: "The CBPR framework FOSCOD uses became my north star for every research project after graduation.",
+    hero_image_url: "/images/impact/stories/gle-research.jpg",
+    narrative: "A joint research methodology workshop between FOSCOD and Makerere University brought together community researchers and academic faculty to co-develop participatory research protocols.",
+    linked_program: "GLE",
+    linked_gle_sector_id: "gs-research",
+    linked_project_id: "research-knowledge-exchange",
+    verified_outcome: "8 jointly published protocols; 3 graduate students trained in CBPR methods",
+    published_at: "2025-04-01",
+  },
+  {
+    slug: "gle-health-outreach-kalagala",
+    title: "Community health outreach in Kalagala",
+    community_voice: "Nurse Sarah, Kalagala Health Center",
+    quote: "The mobile clinic and hygiene education reduced our patient load by 30% during the rainy season.",
+    hero_image_url: "/images/impact/stories/gle-health.jpg",
+    narrative: "A team of international public health students partnered with the Kalagala Health Center to deliver hygiene education, basic screenings, and health promotion activities across five villages.",
+    linked_program: "GLE",
+    linked_gle_sector_id: "gs-health",
+    linked_project_id: "health-community-wellbeing",
+    verified_outcome: "180 community members screened; 40 hygiene sessions conducted; 30% reduction in preventable illness cases",
+    published_at: "2025-03-22",
+  },
+  {
+    slug: "gle-leadership-womens-cooperative",
+    title: "Women's cooperative leadership training",
+    community_voice: "Fatima N., cooperative treasurer",
+    quote: "Being trained as a leader meant I could start my own group — and now I train other women too.",
+    hero_image_url: "/images/impact/stories/gle-leadership.jpg",
+    narrative: "An international development studies student partnered with local women's groups in Naluvule to deliver leadership and financial literacy training, supporting the formation of a registered cooperative.",
+    linked_program: "GLE",
+    linked_gle_sector_id: "gs-governance",
+    linked_project_id: "governance-leadership",
+    verified_outcome: "15 women trained in leadership; 3 new cooperatives registered; 5 micro-enterprises launched",
+    published_at: "2025-02-28",
+  },
+];
 
 export async function getImpactStories(limit = 3): Promise<ImpactStory[]> {
   if (isSupabaseConfigured()) {
@@ -1125,9 +1268,12 @@ export async function getImpactStories(limit = 3): Promise<ImpactStory[]> {
 
 /* ---------- impact story archive (all stories with optional filters) ---------- */
 const gleSectorsFallback: GleDevelopmentSector[] = [
-  { slug: "global-learning", title: "Global learning & exchange" },
-  { slug: "community-partnerships", title: "Community partnerships" },
-  { slug: "environmental-stewardship", title: "Environmental stewardship" },
+  { id: "gs-education", slug: "education-capacity-building", title: "Education & Capacity Building" },
+  { id: "gs-health", slug: "health-community-wellbeing", title: "Health & Community Wellbeing" },
+  { id: "gs-environmental", slug: "environmental-stewardship", title: "Environmental Stewardship" },
+  { id: "gs-livelihoods", slug: "livelihoods-economic-opportunity", title: "Livelihoods & Economic Opportunity" },
+  { id: "gs-research", slug: "research-knowledge-exchange", title: "Research & Knowledge Exchange" },
+  { id: "gs-governance", slug: "governance-leadership", title: "Governance & Leadership" },
 ];
 
 export async function getGleDevelopmentSectors(): Promise<GleDevelopmentSector[]> {
@@ -1151,16 +1297,18 @@ export async function getGleDevelopmentSectors(): Promise<GleDevelopmentSector[]
   return gleSectorsFallback;
 }
 
-/** Fetch all published impact stories regardless of program, optionally filtered by program, area, or sector. */
+/** Fetch all published impact stories regardless of program, optionally filtered by program, area, sector, or project. */
 export async function getImpactStoryArchive(params?: {
   program?: "CEDP" | "GLE" | "ORG";
   cedpAreaSlug?: string;
   gleSectorSlug?: string;
+  projectId?: string;
 }): Promise<ImpactStory[]> {
-  const { program, cedpAreaSlug, gleSectorSlug } = params ?? {};
+  const { program, cedpAreaSlug, gleSectorSlug, projectId } = params ?? {};
   if (!isSupabaseConfigured()) {
     return impactStoriesFallback.filter((s) => {
       if (program && s.linked_program !== program) return false;
+      if (projectId && s.linked_project_id !== projectId) return false;
       return true;
     });
   }
@@ -1172,6 +1320,7 @@ export async function getImpactStoryArchive(params?: {
     .eq("status", "published")
     .order("published_at", { ascending: false });
   if (program) query = query.eq("linked_program", program);
+  if (projectId) query = query.eq("linked_project_id", projectId);
   if (cedpAreaSlug) {
     // Resolve the area to its sub_program_ids via cedp_areas → sub_programs
     // We join through cedp_area_projects to projects, but impact_stories link to
@@ -1226,6 +1375,7 @@ export async function getImpactStoryArchive(params?: {
   }
   return impactStoriesFallback.filter((s) => {
     if (program && s.linked_program !== program) return false;
+    if (projectId && s.linked_project_id !== projectId) return false;
     return true;
   });
 }
@@ -1388,12 +1538,12 @@ export async function getAboutContent(): Promise<AboutContent> {
 
 /* ---------- sub_programs (CEDP) ---------- */
 const subProgramsFallback: SubProgram[] = [
-  { slug: "green-skills-renewable-energy", name: "Green Skills & Renewable Energy Education", strategic_goal: 1 },
-  { slug: "clean-cooking-health", name: "Clean Cooking & Health", strategic_goal: 2 },
-  { slug: "water-sanitation-hygiene", name: "Water, Sanitation & Hygiene (WASH)", strategic_goal: 3 },
-  { slug: "green-livelihoods-economic-empowerment", name: "Green Livelihoods & Economic Empowerment", strategic_goal: 4 },
-  { slug: "inclusive-leadership", name: "Inclusive Leadership — Women, Youth & Climate Leadership", strategic_goal: 5 },
-  { slug: "ecosystem-restoration-carbon-offsets", name: "Ecosystem Restoration & Carbon Offsets", strategic_goal: 6 },
+  { id: "sp-green-skills", slug: "green-skills-renewable-energy", name: "Green Skills & Renewable Energy Education", strategic_goal: 1 },
+  { id: "sp-clean-cooking", slug: "clean-cooking-health", name: "Clean Cooking & Health", strategic_goal: 2 },
+  { id: "sp-wash", slug: "water-sanitation-hygiene", name: "Water, Sanitation & Hygiene (WASH)", strategic_goal: 3 },
+  { id: "sp-green-livelihoods", slug: "green-livelihoods-economic-empowerment", name: "Green Livelihoods & Economic Empowerment", strategic_goal: 4 },
+  { id: "sp-inclusive-leadership", slug: "inclusive-leadership", name: "Inclusive Leadership — Women, Youth & Climate Leadership", strategic_goal: 5 },
+  { id: "sp-ecosystem-restoration", slug: "ecosystem-restoration-carbon-offsets", name: "Ecosystem Restoration & Carbon Offsets", strategic_goal: 6 },
 ];
 
 export async function getSubPrograms(): Promise<SubProgram[]> {
