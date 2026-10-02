@@ -126,17 +126,19 @@ export function ImpactStoryGrid({
   return (
     <section className="py-16 md:py-24">
       <div className="container-page">
-        <div className="flex flex-col gap-8 md:flex-row md:gap-12">
-          {/* Sidebar filters */}
-          <ImpactArchiveFilter
-            cedpAreas={cedpAreas}
-            gleSectors={gleSectors}
-            projects={projects}
-            onChange={handleFilterChange}
-          />
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-[288px_1fr]">
+          {/* Sidebar filters — sticky on scroll */}
+          <aside className="md:sticky md:top-24 md:self-start">
+            <ImpactArchiveFilter
+              cedpAreas={cedpAreas}
+              gleSectors={gleSectors}
+              projects={projects}
+              onChange={handleFilterChange}
+            />
+          </aside>
 
           {/* Main content: cards + pagination */}
-          <div className="min-w-0 flex-1">
+          <div className="min-w-0">
             {cards.length ? (
               <>
                 <CardGrid

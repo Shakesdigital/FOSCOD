@@ -2,8 +2,6 @@
 
 import { useMemo, useState } from "react";
 import type { Testimonial, ProjectListItem } from "@/lib/content";
-import type { GridCard } from "@/components/site/blocks";
-import { CardGrid } from "@/components/site/blocks";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
 import { TestimonialArchiveFilter, type TestimonialArchiveFilterValue } from "@/components/site/TestimonialArchiveFilter";
 
@@ -71,7 +69,6 @@ export function TestimonialArchiveGrid({
   const startIndex = (currentPage - 1) * TESTIMONIALS_PER_PAGE;
   const paginatedTestimonials = visibleTestimonials.slice(startIndex, startIndex + TESTIMONIALS_PER_PAGE);
 
-  // Build cards with person's face, name, testimonial, project, and program
   const cards = paginatedTestimonials.map((t, i) => {
     const project = t.linked_project_id ? projects.find((p) => p.slug === t.linked_project_id) : undefined;
     const projectTitle = project?.title ?? t.linked_project_id ?? "—";
@@ -93,15 +90,18 @@ export function TestimonialArchiveGrid({
   return (
     <section className="py-16 md:py-24">
       <div className="container-page">
-        <div className="flex flex-col gap-8 md:flex-row md:gap-12">
-          {/* Sidebar filters */}
-          <TestimonialArchiveFilter
-            testimonials={allTestimonials}
-            onChange={handleFilterChange}
-          />
+        {/* Grid layout: sidebar (sticky) + cards */}
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-[288px_1fr]">
+          {/* Sidebar filters — sticky on scroll */}
+          <aside className="md:sticky md:top-24 md:self-start">
+            <TestimonialArchiveFilter
+              testimonials={allTestimonials}
+              onChange={handleFilterChange}
+            />
+          </aside>
 
           {/* Main content: cards + pagination */}
-          <div className="min-w-0 flex-1">
+          <div className="min-w-0">
             {cards.length ? (
               <>
                 <div className="mb-8">
