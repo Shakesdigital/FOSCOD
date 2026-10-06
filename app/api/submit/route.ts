@@ -49,12 +49,31 @@ export async function POST(request: Request) {
   }
 
   const supabase = await createClient();
-  const { error } = (await supabase
+  const { data: submission, error } = (await supabase
     ?.from("form_submissions")
-    .insert({ type, payload })) ?? { error: { message: "No client" } };
+    .insert({ type, payload })
+    .select("id, type, payload, created_at")
+    .single()) ?? { data: null, error: { message: "No client" } };
 
   if (error) {
     return NextResponse.json({ ok: false, error: "Could not save your submission." }, { status: 500 });
   }
+
+  // --- Notify admin via Edge Function (fire-and-forget) ---
+  // Sends an email via Resend to the address configured in settings.notification_email.
+  // We don't block the response on the notification — log and continue.
+  const functionUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/notify-form-submission`;
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (functionUrl && submission) {
+    fetch(functionUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${anonKey}`,
+      },
+      body: JSON.stringify({ record: submission }),
+    }).catch((e) => console.error("Notification edge function error:", e));
+  }
+
   return NextResponse.json({ ok: true, stored: true });
 }

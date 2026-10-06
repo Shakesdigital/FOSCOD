@@ -149,7 +149,7 @@ export function ProjectCarousel({
         )}
 
         <div className="mt-10 text-center">
-          <Button href="/projects" variant="secondary" size="md">View all projects</Button>
+          <Button href="/projects/archive" variant="secondary" size="md">View all projects</Button>
         </div>
       </div>
     </section>

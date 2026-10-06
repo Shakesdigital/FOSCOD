@@ -19,6 +19,11 @@ export type ProjectDetail = {
   projectBriefUrl?: string;
   relatedActivities?: { slug: string; title: string; status: "planned" | "ongoing" | "completed" }[];
   ctas: { href: string; label: string; variant?: "primary" | "secondary" | "ghost" }[];
+  volunteering?: {
+    intro?: string;
+    activities: { title: string; description: string; skills?: string[] }[];
+    howToApply?: string;
+  };
 };
 
 /* ---------- project detail page: activities & impact cards ---------- */
@@ -123,6 +128,22 @@ export const projectDetails: ProjectDetail[] = [
       { href: "/donate?program=ecosystem", label: "Support ecosystem restoration" },
       { href: "/partners", label: "Partner with FOSCOD", variant: "secondary" },
     ],
+    volunteering: {
+      intro: "Volunteers support tree planting days, seedling nursery care, and community outreach walks that mobilize neighbors around restoration priorities.",
+      activities: [
+        {
+          title: "Community planting days",
+          description: "Join scheduled planting sessions alongside community members — tools and seedlings provided, training on-site.",
+          skills: ["Field work", "Tree planting", "Community engagement"],
+        },
+        {
+          title: "Nursery care support",
+          description: "Help tend native seedlings in the community nursery during the growing season, following the technical schedule.",
+          skills: ["Plant care", "Watering", "Record keeping"],
+        },
+      ],
+      howToApply: "Express interest through the application form and a community coordinator will contact you within one week to confirm the next planting day.",
+    },
   },
   {
     slug: "water-spring-protection-naluvule",
@@ -187,6 +208,22 @@ export const projectDetails: ProjectDetail[] = [
       { href: "/donate?program=wash", label: "Support solar-powered water" },
       { href: "/partners", label: "Partner on clean energy", variant: "secondary" },
     ],
+    volunteering: {
+      intro: "Volunteers can support system monitoring walks, community training sessions, and kiosk maintenance checks led by the water user committee.",
+      activities: [
+        {
+          title: "Monthly system checks",
+          description: "A community-trained volunteer walks the solar array and kiosk points to confirm the system is running and report any issues.",
+          skills: ["Basic observation", "Walk-based reporting", "Water safety"],
+        },
+        {
+          title: "Community training assistant",
+          description: "Support the water user committee when they run hygiene or maintenance mini-workshops for new kiosk users.",
+          skills: ["Group facilitation", "Hygiene awareness", "Local language support"],
+        },
+      ],
+      howToApply: "Sign up via the application form and state your availability for monthly walks — the committee will brief you before the first visit.",
+    },
   },
   {
     slug: "carbon-credit-project",

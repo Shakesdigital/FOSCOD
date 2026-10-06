@@ -447,9 +447,9 @@ on conflict (id) do update set
 
 -- ---------- homepage: how-you-can-get-involved cards ----------
 insert into public.home_involvement_cards (title, body, href, cta_label, icon, visible, order_column) values
-  ('Volunteer intern', 'Join a supervised placement matched to your skills and a community-defined priority — with local support, host families, and structured learning outcomes.', '/apply', 'Explore internships', '🌱', true, 1),
-  ('Partner with us', 'Co-design research, funding, or delivery partnerships around real community priorities — with roles, safeguards, and evidence agreed from the start.', '/partners', 'Partner with FOSCOD', '🤝', true, 2),
-  ('Donate to our project', 'Support a named project or priority with verified need, approved transfer routes, and transparent reporting — starting with a giving inquiry.', '/donate', 'Start a giving inquiry', '💚', true, 3)
+  ('Volunteer intern', 'Join a supervised placement matched to your skills and a community-defined priority — with local support, host families, and structured learning outcomes.', '/apply', 'Explore internships', 'volunteer', true, 1),
+  ('Partner with us', 'Co-design research, funding, or delivery partnerships around real community priorities — with roles, safeguards, and evidence agreed from the start.', '/partners', 'Partner with FOSCOD', 'partner', true, 2),
+  ('Donate to our project', 'Support a named project or priority with verified need, approved transfer routes, and transparent reporting — starting with a giving inquiry.', '/donate', 'Start a giving inquiry', 'donate', true, 3)
 on conflict (id) do update set
   title = excluded.title, body = excluded.body, href = excluded.href,
   cta_label = excluded.cta_label, icon = excluded.icon, visible = excluded.visible, order_column = excluded.order_column;
@@ -534,7 +534,7 @@ insert into public.cedp_areas (slug, title, subtitle, description, hero_image_ur
    'Support clean energy', '/donate?program=green-skills',
    'Explore projects', '/projects?theme=Clean+Energy',
    'Partner on climate resilience', '/partners',
-   '[{"title":"Volunteer intern","body":"Join a supervised placement in solar energy, clean cooking, or ecosystem restoration — with local support and a host-family experience.","href":"/apply","ctaLabel":"Explore internships","icon":"☀️"},{"title":"Partner with us","body":"Co-design clean-energy, climate, or carbon-finance partnerships around real community priorities with agreed roles and evidence.","href":"/partners","ctaLabel":"Partner with FOSCOD","icon":"🤝"},{"title":"Donate to clean energy","body":"Fund solar installations, clean cookstoves, tree planting, and climate-resilience infrastructure with transparent reporting.","href":"/donate?program=green-skills","ctaLabel":"Start a giving inquiry","icon":"💚}"]',
+   '[{"title":"Volunteer intern","body":"Join a supervised placement in solar energy, clean cooking, or ecosystem restoration — with local support and a host-family experience.","href":"/apply","ctaLabel":"Explore internships","icon":"energy"},{"title":"Partner with us","body":"Co-design clean-energy, climate, or carbon-finance partnerships around real community priorities with agreed roles and evidence.","href":"/partners","ctaLabel":"Partner with FOSCOD","icon":"partner"},{"title":"Donate to clean energy","body":"Fund solar installations, clean cookstoves, tree planting, and climate-resilience infrastructure with transparent reporting.","href":"/donate?program=green-skills","ctaLabel":"Start a giving inquiry","icon":"donate}"]',
    1, true,
    'Clean Energy & Climate Resilience | CEDP — FOSCOD',
    'Solar energy, clean cooking, ecosystem restoration, and climate adaptation in Kalagala Parish. Community-led, evidence-verified development.'),
@@ -547,7 +547,7 @@ insert into public.cedp_areas (slug, title, subtitle, description, hero_image_ur
    'Support WASH work', '/donate?program=wash',
    'Explore water projects', '/projects?theme=WASH',
    'Partner on WASH', '/partners',
-   '[{"title":"Volunteer intern","body":"Work on safe-water infrastructure, sanitation campaigns, or hygiene education with full local supervision and 24/7 support.","href":"/apply","ctaLabel":"Explore internships","icon":"🚰"},{"title":"Partner with us","body":"Co-design WASH infrastructure, governance training, or water-quality monitoring partnerships with local committees and technical teams.","href":"/partners","ctaLabel":"Partner with FOSCOD","icon":"🤝"},{"title":"Donate to WASH","body":"Support spring protection, solar-powered water systems, sanitation facilities, or hygiene-promotion campaigns.","href":"/donate?program=wash","ctaLabel":"Start a giving inquiry","icon":"💧}"]',
+   '[{"title":"Volunteer intern","body":"Work on safe-water infrastructure, sanitation campaigns, or hygiene education with full local supervision and 24/7 support.","href":"/apply","ctaLabel":"Explore internships","icon":"water"},{"title":"Partner with us","body":"Co-design WASH infrastructure, governance training, or water-quality monitoring partnerships with local committees and technical teams.","href":"/partners","ctaLabel":"Partner with FOSCOD","icon":"partner"},{"title":"Donate to WASH","body":"Support spring protection, solar-powered water systems, sanitation facilities, or hygiene-promotion campaigns.","href":"/donate?program=wash","ctaLabel":"Start a giving inquiry","icon":"water}"]',
    2, true,
    'Water, Sanitation & Health Communities | CEDP — FOSCOD',
    'Safe water, spring protection, sanitation, and hygiene in Kalagala Parish. Community-owned water infrastructure and health programs.'),
@@ -560,7 +560,7 @@ insert into public.cedp_areas (slug, title, subtitle, description, hero_image_ur
    'Support green livelihoods', '/donate?program=livelihoods',
    'Explore livelihood projects', '/projects?theme=Green+Livelihoods',
    'Partner on enterprise', '/partners',
-   '[{"title":"Volunteer intern","body":"Support climate-smart agriculture, green enterprise incubation, or women''s economic empowerment programs with field-based supervision.","href":"/apply","ctaLabel":"Explore internships","icon":"🌱"},{"title":"Partner with us","body":"Co-design enterprise-development, market-linkage, or financial-inclusion partnerships around community-identified opportunities.","href":"/partners","ctaLabel":"Partner with FOSCOD","icon":"🤝"},{"title":"Donate to livelihoods","body":"Fund seed grants, savings groups, climate-smart agriculture, or green enterprise incubation with transparent community-led oversight.","href":"/donate?program=livelihoods","ctaLabel":"Start a giving inquiry","icon":"💚}"]',
+   '[{"title":"Volunteer intern","body":"Support climate-smart agriculture, green enterprise incubation, or women''s economic empowerment programs with field-based supervision.","href":"/apply","ctaLabel":"Explore internships","icon":"livelihoods"},{"title":"Partner with us","body":"Co-design enterprise-development, market-linkage, or financial-inclusion partnerships around community-identified opportunities.","href":"/partners","ctaLabel":"Partner with FOSCOD","icon":"partner"},{"title":"Donate to livelihoods","body":"Fund seed grants, savings groups, climate-smart agriculture, or green enterprise incubation with transparent community-led oversight.","href":"/donate?program=livelihoods","ctaLabel":"Start a giving inquiry","icon":"donate}"]',
    3, true,
    'Sustainable Livelihoods & Economic Empowerment | CEDP — FOSCOD',
    'Savings groups, women-led enterprises, climate-smart agriculture, and green business incubation in Kalagala Parish.')
@@ -752,12 +752,12 @@ on conflict (project_slug, title) do update set
 -- ---------- GLE development sectors (for impact story archive filter) ----------
 delete from public.gle_development_sectors;
 insert into public.gle_development_sectors (slug, title, description, icon, order_column, visible) values
-  ('education-capacity-building', 'Education & Capacity Building', 'Teacher training, school partnerships, literacy programs, and educational infrastructure development.', '🎓', 1, true),
-  ('health-community-wellbeing', 'Health & Community Wellbeing', 'Community health outreach, hygiene education, mental health support, and public health initiatives.', '🏥', 2, true),
-  ('environmental-stewardship', 'Environmental Stewardship', 'Tree planting, ecosystem restoration, conservation education, and climate resilience projects.', '🌱', 3, true),
-  ('livelihoods-economic-opportunity', 'Livelihoods & Economic Opportunity', 'Enterprise incubation, market linkage research, financial literacy, and income-generation support.', '💼', 4, true),
-  ('research-knowledge-exchange', 'Research & Knowledge Exchange', 'Community-based participatory research, data collection, mapping, and academic knowledge sharing.', '🔬', 5, true),
-  ('governance-leadership', 'Governance & Leadership', 'Leadership training, organizational development, women/youth empowerment, and community mobilization.', '🤝', 6, true)
+  ('education-capacity-building', 'Education & Capacity Building', 'Teacher training, school partnerships, literacy programs, and educational infrastructure development.', 'education', 1, true),
+  ('health-community-wellbeing', 'Health & Community Wellbeing', 'Community health outreach, hygiene education, mental health support, and public health initiatives.', 'health', 2, true),
+  ('environmental-stewardship', 'Environmental Stewardship', 'Tree planting, ecosystem restoration, conservation education, and climate resilience projects.', 'environment', 3, true),
+  ('livelihoods-economic-opportunity', 'Livelihoods & Economic Opportunity', 'Enterprise incubation, market linkage research, financial literacy, and income-generation support.', 'enterprise', 4, true),
+  ('research-knowledge-exchange', 'Research & Knowledge Exchange', 'Community-based participatory research, data collection, mapping, and academic knowledge sharing.', 'research', 5, true),
+  ('governance-leadership', 'Governance & Leadership', 'Leadership training, organizational development, women/youth empowerment, and community mobilization.', 'partner', 6, true)
 on conflict (slug) do update set
   title = excluded.title, description = excluded.description,
   icon = excluded.icon, order_column = excluded.order_column, visible = excluded.visible;

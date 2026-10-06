@@ -1,6 +1,7 @@
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
 import { Button } from "@/components/ui/Button";
+import { CommunityIcon, resolveCommunityIcon } from "@/components/ui/CommunityIcon";
 import type { InvolvementCard } from "@/lib/content";
 
 const tones = ["earth", "water", "forest"] as const;
@@ -46,7 +47,10 @@ export function HowYouCanGetInvolved({
                 />
               ) : (
                 <div className="flex h-36 w-full items-center justify-center border-b border-[var(--border)]">
-                  <span className="text-[4rem]">{card.icon}</span>
+                  <CommunityIcon
+                    name={resolveCommunityIcon(card.icon) ?? "volunteer"}
+                    className="h-12 w-12 text-[var(--accent-600)]"
+                  />
                 </div>
               )}
               <div className="flex flex-1 flex-col p-6">
@@ -54,7 +58,7 @@ export function HowYouCanGetInvolved({
                 <p className="mt-2 flex-1 text-[0.92rem] leading-relaxed text-[var(--muted)]">
                   {card.body}
                 </p>
-                <Button
+                        <Button
                   href={card.href}
                   variant="secondary"
                   size="sm"

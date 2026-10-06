@@ -2,8 +2,9 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { HeroSlider } from "@/components/site/HeroSlider";
-import { type HeroSlide, getProjectActivities, getProjectImpactCards } from "@/lib/content";
+import { type HeroSlide, getProjectActivities, getProjectImpactCards, getInvolvementCards } from "@/lib/content";
 import { SplitSection, Prose, CTABand } from "@/components/site/blocks";
+import { HowYouCanGetInvolved } from "@/components/home/HowYouCanGetInvolved";
 import { ActivityList } from "@/components/site/ActivityList";
 import { ImpactGrid } from "@/components/site/ImpactGrid";
 import { Button } from "@/components/ui/Button";
@@ -301,10 +302,70 @@ export default async function ProjectDetailPage({
         </div>
       </section>
 
-      <CTABand
-        title={`Support ${p.title}`}
-        body={p.funding || "Fund the work, partner on delivery, or join as an intern or volunteer."}
-        actions={p.ctas}
+      {/* VOLUNTEERING */}
+      {p.volunteering && (
+        <section className="py-16 md:py-20">
+          <div className="container-page">
+            <div className="mx-auto max-w-2xl text-center">
+              <Eyebrow>Volunteering</Eyebrow>
+              <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">How to volunteer on this project</h2>
+              {p.volunteering.intro && (
+                <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">{p.volunteering.intro}</p>
+              )}
+            </div>
+
+            <div className="mt-12">
+              <div className="grid gap-8 md:grid-cols-2">
+                {p.volunteering.activities.map((activity, i) => (
+                  <div
+                    key={i}
+                    className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-6"
+                  >
+                    <h3 className="text-lg font-semibold text-[var(--ink)]">{activity.title}</h3>
+                    <p className="mt-2 text-[0.92rem] leading-relaxed text-[var(--muted)]">
+                      {activity.description}
+                    </p>
+                    {activity.skills && activity.skills.length > 0 && (
+                      <ul className="mt-4 flex flex-wrap gap-2">
+                        {activity.skills.map((skill) => (
+                          <span
+                            key={skill}
+                            className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.12em] text-[var(--accent-700)]"
+                          >
+                            {skill}
+                          </span>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {p.volunteering.howToApply && (
+                <div className="mt-10 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-2)] p-8 text-center">
+                  <p className="text-[var(--ink-soft)]">{p.volunteering.howToApply}</p>
+                  <Button
+                    href="/apply"
+                    variant="secondary"
+                    size="md"
+                    className="mt-4"
+                  >
+                    Apply to volunteer
+                  </Button>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* HOW YOU CAN GET INVOLVED — replaces the former Support CTABand */}
+      <HowYouCanGetInvolved
+        cards={await getInvolvementCards()}
+        eyebrow="How you can get involved"
+        title="Your pathway into the work"
+        intro="Whether you bring technical skills, partnership resources, or community presence, there is a role for you in this work."
+        surface
       />
     </>
   );
