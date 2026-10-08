@@ -1,6 +1,6 @@
 ﻿-- ============================================================
 -- FOSCOD CMS — seed data
--- Safe to re-run. Apply every numbered migration through 0011 first.
+-- Apply ALL numbered migrations (0001 through 0025) before running.
 -- ============================================================
 
 -- ---------- settings ----------
