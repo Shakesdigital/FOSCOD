@@ -287,21 +287,6 @@ export default async function ProjectDetailPage({
         </section>
       )}
 
-      {/* BREADCRUMB */}
-      <section className="py-12">
-        <div className="container-page">
-          <nav className="flex items-center gap-2 text-sm text-[var(--muted)]" aria-label="Breadcrumb">
-            <Link href="/" className="hover:text-[var(--ink)]">Home</Link>
-            <span aria-hidden>/</span>
-            <Link href="/projects" className="hover:text-[var(--ink)]">Projects</Link>
-            <span aria-hidden>/</span>
-            <Link href="/projects/archive" className="hover:text-[var(--ink)]">Archive</Link>
-            <span aria-hidden>/</span>
-            <span className="text-[var(--ink)]" aria-current="page">{p.title}</span>
-          </nav>
-        </div>
-      </section>
-
       {/* HOW YOU CAN GET INVOLVED — replaces the former Support CTABand */}
       <HowYouCanGetInvolved
         cards={await getInvolvementCards()}

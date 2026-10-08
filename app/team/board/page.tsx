@@ -46,6 +46,7 @@ export default async function BoardPage() {
           { href: "/programs/global-learning-exchange", label: "Volunteer or Intern" },
           { href: "/partners", label: "Partner with us", variant: "secondary" },
         ]}
+        tightBottom
       />
     </>
   );

@@ -85,8 +85,30 @@ export async function saveContent(formData: FormData) {
     : await supabase.from(collection.table).insert(payload);
 
   if (result.error) redirect(errorHref(collectionKey, result.error.message, id || undefined));
+
+  // Revalidate the CMS admin page
   revalidatePath(`/admin/content/${collectionKey}`);
-  revalidatePath("/", "layout");
+
+  // Revalidate all common frontend paths that may be affected by content changes
+  revalidatePath("/");
+  revalidatePath("/layout");
+  revalidatePath("/about");
+  revalidatePath("/team");
+  revalidatePath("/team/board");
+  revalidatePath("/team/staff");
+  revalidatePath("/impact");
+  revalidatePath("/impact/stories");
+  revalidatePath("/impact/stories/[slug]/full");
+  revalidatePath("/impact/general");
+  revalidatePath("/projects");
+  revalidatePath("/projects/archive");
+  revalidatePath("/projects/[slug]");
+  revalidatePath("/programs");
+  revalidatePath("/programs/global-learning-exchange");
+  revalidatePath("/volunteer");
+  revalidatePath("/testimonials");
+  revalidatePath("/stories");
+
   redirect(`/admin/content/${collectionKey}?saved=1`);
 }
 
@@ -101,7 +123,28 @@ export async function deleteContent(formData: FormData) {
   const { error } = await supabase.from(collection.table).delete().eq("id", id);
   if (error) redirect(errorHref(collectionKey, error.message, id));
 
+  // Revalidate the CMS admin page
   revalidatePath(`/admin/content/${collectionKey}`);
-  revalidatePath("/", "layout");
+
+  // Revalidate all common frontend paths that may be affected by content changes
+  revalidatePath("/");
+  revalidatePath("/layout");
+  revalidatePath("/about");
+  revalidatePath("/team");
+  revalidatePath("/team/board");
+  revalidatePath("/team/staff");
+  revalidatePath("/impact");
+  revalidatePath("/impact/stories");
+  revalidatePath("/impact/stories/[slug]/full");
+  revalidatePath("/impact/general");
+  revalidatePath("/projects");
+  revalidatePath("/projects/archive");
+  revalidatePath("/projects/[slug]");
+  revalidatePath("/programs");
+  revalidatePath("/programs/global-learning-exchange");
+  revalidatePath("/volunteer");
+  revalidatePath("/testimonials");
+  revalidatePath("/stories");
+
   redirect(`/admin/content/${collectionKey}?deleted=1`);
 }

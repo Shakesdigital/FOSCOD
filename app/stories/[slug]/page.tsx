@@ -109,6 +109,7 @@ export default async function StoryPage({
           { href: "/programs/global-learning-exchange", label: "Volunteer or Intern" },
           { href: "/stories", label: "Read more stories", variant: "secondary" },
         ]}
+        tightBottom
       />
     </>
   );

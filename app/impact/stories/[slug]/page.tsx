@@ -142,21 +142,6 @@ export default async function ImpactStoryPage({ params }: { params: Promise<{ sl
         </div>
       </section>
 
-      {/* BREADCRUMB */}
-      <section className="py-12">
-        <div className="container-page">
-          <nav className="flex items-center gap-2 text-sm text-[var(--muted)]" aria-label="Breadcrumb">
-            <Link href="/" className="hover:text-[var(--ink)]">Home</Link>
-            <span aria-hidden>/</span>
-            <Link href="/impact" className="hover:text-[var(--ink)]">Impact</Link>
-            <span aria-hidden>/</span>
-            <Link href="/impact/stories" className="hover:text-[var(--ink)]">Stories</Link>
-            <span aria-hidden>/</span>
-            <span className="text-[var(--ink)]" aria-current="page">{story.title}</span>
-          </nav>
-        </div>
-      </section>
-
       <CTABand
         title="Read more stories of change"
         body="Explore our full collection of impact stories, videos, and community experiences."
@@ -165,6 +150,7 @@ export default async function ImpactStoryPage({ params }: { params: Promise<{ sl
           { href: "/impact/stories", label: "Impact story archive", variant: "secondary" },
           { href: "/stories", label: "Read blog stories", variant: "ghost" },
         ]}
+        tightBottom
       />
     </>
   );

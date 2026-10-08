@@ -50,6 +50,7 @@ export default async function ProjectsArchivePage() {
               { href: "/donate", label: "Support the work" },
               { href: "/partners", label: "Partner with FOSCOD", variant: "secondary" },
             ]}
+            tightBottom
           />
         </div>
       </section>

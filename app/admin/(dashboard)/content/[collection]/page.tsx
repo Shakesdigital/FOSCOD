@@ -15,6 +15,18 @@ function fieldValue(value: unknown, type?: CmsField["type"]) {
 function Field({ field, value }: { field: CmsField; value: unknown }) {
   const id = `field-${field.name}`;
   const common = "mt-2 w-full rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] px-3.5 py-2.5 text-sm text-[var(--ink)] outline-none focus:border-[var(--accent-600)] focus:ring-2 focus:ring-[var(--accent-100)]";
+
+  // image fields render a URL input + media-library guidance
+  if (field.type === "image") {
+    return (
+      <label htmlFor={id} className="block text-sm font-medium text-[var(--ink)]">
+        {field.label}{field.required ? <span className="ml-1 text-[var(--accent-700)]">*</span> : null}
+        <input id={id} name={field.name} required={field.required} defaultValue={fieldValue(value, field.type)} type="url" placeholder="https://… or /images/…" className={common} />
+        <p className="mt-1.5 text-xs text-[var(--muted)]">Paste an image URL or upload via the <Link href="/admin/media" className="text-[var(--accent-700)] underline">Media library</Link> first, then paste the public URL here.</p>
+        {field.help ? <span className="mt-1.5 block text-xs font-normal leading-relaxed text-[var(--muted)]">{field.help}</span> : null}
+      </label>
+    );
+  }
   if (field.type === "boolean") {
     return <label htmlFor={id} className="flex items-center gap-3 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface-2)] px-4 py-3 text-sm"><input id={id} name={field.name} type="checkbox" defaultChecked={Boolean(value)} className="h-4 w-4" />{field.label}</label>;
   }

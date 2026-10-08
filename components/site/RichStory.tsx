@@ -51,13 +51,14 @@ export function RichStory({
   };
 
   const imageMaxWidth = (a?: string) => {
-    // Full width on mobile; constrained width when floated left/right
+    // Full width on mobile; sink-in (constrained width) when floated left/right
     if (a === "center") return "w-full";
-    return "w-full md:max-w-[60%]";
+    if (a === "left" || a === "right") return "md:w-[45%]";
+    return "w-full";
   };
 
   return (
-    <div className="mx-auto max-w-[var(--measure-wide)] space-y-8">
+    <div className="mx-auto max-w-none space-y-6">
       {blocks.map((block, i) => {
         switch (block.type) {
           case "heading":
@@ -79,10 +80,10 @@ export function RichStory({
             );
           case "image":
             return (
-              <figure key={i} className={`${imageAlignClass(block.alignment)} ${imageMaxWidth(block.alignment)}`}>
+              <figure key={i} className={`mt-4 ${imageAlignClass(block.alignment)} ${imageMaxWidth(block.alignment)}`}>
                 <PhotoSlot
                   tone={tone}
-                  ratio="16/9"
+                  ratio="4/3"
                   imageUrl={block.imageUrl}
                   alt={block.imageAlt || block.caption || "Story image"}
                   caption={block.imageAlt || block.caption || "Story image"}
@@ -96,11 +97,13 @@ export function RichStory({
               </figure>
             );
           default:
-            // paragraph
+            // paragraph — wrapped in a container that allows floated images to sink in
             return (
-              <p key={i} className={`leading-relaxed text-[var(--ink-soft)] text-lg ${textAlignClass(block.alignment)}`}>
-                {block.content}
-              </p>
+              <div key={i} className={`relative ${imageAlignClass(block.alignment)} ${imageMaxWidth(block.alignment)}`}>
+                <p className={`leading-relaxed text-[var(--ink-soft)] text-lg ${textAlignClass(block.alignment)}`}>
+                  {block.content}
+                </p>
+              </div>
             );
         }
       })}

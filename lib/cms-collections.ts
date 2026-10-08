@@ -1,7 +1,7 @@
 export type CmsField = {
   name: string;
   label: string;
-  type?: "text" | "textarea" | "wysiwyg" | "number" | "boolean" | "select" | "date" | "datetime" | "json" | "url";
+  type?: "text" | "textarea" | "wysiwyg" | "number" | "boolean" | "select" | "date" | "datetime" | "json" | "url" | "image";
   required?: boolean;
   help?: string;
   options?: { label: string; value: string }[];
@@ -726,6 +726,22 @@ export const cmsCollections: CmsCollection[] = [
       { name: "href", label: "Link URL", required: true },
       { name: "order_column", label: "Display order", type: "number", required: true },
       yesNo("visible", "Visible"),
+    ],
+  },
+  {
+    key: "newsletters",
+    table: "newsletter_subscribers",
+    label: "Newsletter subscribers",
+    singular: "newsletter subscriber",
+    titleField: "email",
+    description: "Email subscribers who have opted in to FOSCOD newsletters. Publicly insertable; staff-managed status updates.",
+    fields: [
+      { name: "email", label: "Email address", required: true, type: "url", help: "Subscriber email address." },
+      { name: "name", label: "Full name" },
+      { name: "source", label: "Signup source", help: "E.g. home-page, footer, impact-stories." },
+      { name: "status", label: "Subscription status", type: "select", options: ["subscribed","unsubscribed","bounced"].map((value) => ({ label: value, value })), required: true },
+      yesNo("consent_given", "Consent confirmed?"),
+      { name: "created_at", label: "Signed up at", type: "datetime" },
     ],
   },
 ];

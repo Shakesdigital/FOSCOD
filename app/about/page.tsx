@@ -157,6 +157,7 @@ export default async function AboutPage() {
             { href: "/donate", label: "Donate to a project", variant: "secondary" },
             { href: "/programs/global-learning-exchange", label: "Volunteer or Intern", variant: "ghost" },
           ]}
+          tightBottom
         />
       </div>
     </>

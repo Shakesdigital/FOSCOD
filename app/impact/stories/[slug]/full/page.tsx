@@ -205,6 +205,7 @@ export default async function ImpactStoryFullPage({ params }: { params: Promise<
               { href: "/impact/stories", label: "Impact story archive", variant: "secondary" },
               { href: "/donate", label: "Donate to a project", variant: "ghost" },
             ]}
+            tightBottom
           />
         </div>
       </section>

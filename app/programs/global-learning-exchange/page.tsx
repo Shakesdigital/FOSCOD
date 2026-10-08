@@ -265,6 +265,7 @@ export default async function GlePage() {
               { href: "/programs/finder", label: "Find a project opportunity fit", variant: "secondary" },
               { href: "/partners", label: "Partner your institution", variant: "ghost" },
             ]}
+            tightBottom
           />
         </div>
       </section>

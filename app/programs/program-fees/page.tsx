@@ -1,9 +1,8 @@
 import { HeroSlider } from "@/components/site/HeroSlider";
-import { CheckList, FAQ, CTABand } from "@/components/site/blocks";
+import { CheckList, FAQ, CTABand, IntroSection } from "@/components/site/blocks";
 import { FeeSelector } from "@/components/programs/FeeSelector";
 import { pageMeta } from "@/lib/seo";
 import { getHeroSlides } from "@/lib/content";
-import { notFound } from "next/navigation";
 
 export const metadata = pageMeta(
   "Program Fees and Costs",
@@ -49,20 +48,31 @@ export default async function FeesPage() {
     <>
       <HeroSlider slides={heroSlides} />
 
+      {/* Intro section — transparent explanation */}
+      <IntroSection
+        eyebrow="Transparent pricing"
+        title="What your program fee covers"
+        body="Every FOSCOD placement is priced transparently. Your fee covers everything you need to participate safely and meaningfully — from arrival to departure. Costs depend on pathway, duration, group size, accommodation, supervision, and field logistics, and are confirmed in writing before payment."
+        align="center"
+        surface
+      />
+
+      {/* Fee selector — request a current quote */}
       <section className="container-page py-12 md:py-16">
         <FeeSelector />
       </section>
 
+      {/* Inclusions & exclusions — side by side */}
       <section className="container-page grid gap-12 pb-8 md:grid-cols-2">
         <div>
-          <h2 className="text-[clamp(1.5rem,2.5vw,2rem)]">What's included in your program fee</h2>
+          <h2 className="text-[clamp(1.5rem,2.5vw,2rem)]">What's included</h2>
           <p className="mt-4 text-[var(--ink-soft)]">
             Your fee covers everything you need to participate safely and meaningfully — from arrival to departure.
           </p>
           <div className="mt-6"><CheckList items={included} tone="accent" /></div>
         </div>
         <div>
-          <h2 className="text-[clamp(1.5rem,2.5vw,2rem)]">Typically arranged separately</h2>
+          <h2 className="text-[clamp(1.5rem,2.5vw,2rem)]">Budget separately</h2>
           <p className="mt-4 text-[var(--ink-soft)]">
             These are outside FOSCOD's program scope but you'll receive guidance on arranging them.
           </p>
@@ -70,6 +80,7 @@ export default async function FeesPage() {
         </div>
       </section>
 
+      {/* Financial planning FAQ */}
       <section className="container-page py-12">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="max-w-xl text-[clamp(1.7rem,3vw,2.3rem)]">Financial planning FAQ</h2>
@@ -84,6 +95,7 @@ export default async function FeesPage() {
           { href: "/programs/refund-policy", label: "Refund policy", variant: "ghost" },
           { href: "/impact/stories", label: "See fee examples", variant: "secondary" },
         ]}
+        tightBottom
       />
     </>
   );

@@ -347,6 +347,7 @@ export default async function SubProgramPage({ params }: { params: Promise<{ sub
           { href: "/partners", label: "Partner on this program", variant: "secondary" },
           { href: "/impact", label: "See all impact", variant: "ghost" },
         ]}
+        tightBottom
       />
     </>
   );

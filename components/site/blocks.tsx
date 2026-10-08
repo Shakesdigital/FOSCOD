@@ -299,13 +299,15 @@ export function CTABand({
   title,
   body,
   actions,
+  tightBottom = false,
 }: {
   title: string;
   body?: string;
   actions: { href: string; label: string; variant?: "primary" | "secondary" | "ghost" }[];
+  tightBottom?: boolean;
 }) {
   return (
-    <section className="container-page py-20">
+    <section className={`container-page py-20 ${tightBottom ? "pb-4 md:pb-6" : ""}`}>
       <div className="relative overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] px-8 py-14 text-center md:px-16">
         <div
           className="pointer-events-none absolute inset-0 -z-10"
@@ -389,8 +391,8 @@ export function ProgramsSection({
 
 /** ApplyBand — the wireframe's full-width green call to action for program engagement. */
 export function ApplyBand({
-  label = "Apply Today",
-  href = "/apply",
+  label = "Volunteer or Intern",
+  href = "/programs/global-learning-exchange",
 }: {
   label?: string;
   href?: string;
@@ -632,13 +634,10 @@ export function QuoteGrid({
               key={t.name + i}
               className="flex flex-col rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-7 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)]"
             >
-              <span className="font-[family-name:var(--font-text)] text-4xl leading-none text-[var(--accent-300)]" aria-hidden>
-                &ldquo;
-              </span>
-              <blockquote className="mt-2 flex-1 text-[1.02rem] leading-relaxed text-[var(--ink-soft)]">
-                {t.quote}
+              <blockquote className="italic text-[1.02rem] leading-relaxed text-[var(--ink-soft)]">
+                &ldquo;{t.quote}&rdquo;
               </blockquote>
-              <figcaption className="mt-5 pt-4">
+              <figcaption className="mt-5 pt-4 border-t border-[var(--border)]">
                 <span className="block font-medium text-[var(--ink)]">{t.name}</span>
                 {(t.program || t.cohort) && (
                   <span className="block font-[family-name:var(--font-text)] text-[0.72rem] uppercase tracking-[0.12em] text-[var(--muted)]">
@@ -859,11 +858,8 @@ export function TestimonialCarousel({
                 key={t.name + startIndex + i}
                 className="flex flex-col rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-7 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)]"
               >
-                <span className="font-[family-name:var(--font-text)] text-4xl leading-none text-[var(--accent-300)]" aria-hidden>
-                  &ldquo;
-                </span>
-                <blockquote className="mt-2 flex-1 text-[1.02rem] leading-relaxed text-[var(--ink-soft)]">
-                  {t.quote}
+                <blockquote className="italic text-[1.02rem] leading-relaxed text-[var(--ink-soft)]">
+                  &ldquo;{t.quote}&rdquo;
                 </blockquote>
                 <figcaption className="mt-5 border-t border-[var(--border)] pt-4">
                   <span className="block font-medium text-[var(--ink)]">{t.name}</span>

@@ -92,6 +92,7 @@ export default async function ProgramsPage() {
           { href: "/partners", label: "Discuss a partnership", variant: "secondary" },
           { href: "/programs/program-fees", label: "Review fees", variant: "ghost" },
         ]}
+        tightBottom
       />
     </>
   );

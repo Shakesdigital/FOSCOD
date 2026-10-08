@@ -195,6 +195,7 @@ export default async function CedpPage() {
               { href: "/donate", label: "Donate to a project", variant: "secondary" },
               { href: "/projects", label: "Explore projects", variant: "ghost" },
             ]}
+            tightBottom
           />
         </div>
       </section>

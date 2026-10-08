@@ -118,6 +118,7 @@ export default async function BlogPage() {
           { href: "/programs/global-learning-exchange", label: "Volunteer or Intern" },
           { href: "/alumni", label: "Share your story", variant: "secondary" },
         ]}
+        tightBottom
       />
     </>
   );

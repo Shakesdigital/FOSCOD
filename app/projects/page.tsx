@@ -72,6 +72,7 @@ export default async function ProjectsPage() {
         actions={[
           { href: "/projects/archive", label: "Projects archive" },
         ]}
+        tightBottom
       />
     </>
   );

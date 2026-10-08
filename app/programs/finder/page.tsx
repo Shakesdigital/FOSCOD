@@ -23,6 +23,7 @@ export default async function FinderPage() {
           { href: "/programs/global-learning-exchange", label: "Volunteer or Intern" },
           { href: "/programs/program-fees", label: "View fees", variant: "secondary" },
         ]}
+        tightBottom
       />
     </>
   );

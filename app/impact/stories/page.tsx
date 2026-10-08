@@ -62,6 +62,7 @@ export default async function ImpactStoriesPage() {
               { href: "/donate", label: "Support the work" },
               { href: "/partners", label: "Partner with FOSCOD", variant: "secondary" },
             ]}
+            tightBottom
           />
         </div>
       </section>

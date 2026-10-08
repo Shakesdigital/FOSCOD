@@ -30,6 +30,7 @@ export default async function HealthPage() {
           { href: "/donate", label: "Support health projects" },
           { href: "/programs/global-learning-exchange", label: "Volunteer or Intern", variant: "secondary" },
         ]}
+        tightBottom
       />
     </>
   );

@@ -42,6 +42,7 @@ export default async function SocialInclusionPage() {
           { href: "/partners", label: "Partner on inclusion" },
           { href: "/volunteer", label: "Volunteer in social inclusion", variant: "secondary" },
         ]}
+        tightBottom
       />
     </>
   );

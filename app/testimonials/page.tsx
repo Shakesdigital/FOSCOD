@@ -53,6 +53,7 @@ export default async function TestimonialsPage() {
               { href: "/alumni", label: "Submit a testimonial" },
               { href: "/programs/global-learning-exchange", label: "Join a project", variant: "secondary" },
             ]}
+            tightBottom
           />
         </div>
       </section>
