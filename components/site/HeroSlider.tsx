@@ -95,7 +95,7 @@ export function HeroSlider({
 
               <div className="container-page flex min-h-[440px] flex-col items-center justify-center py-20 text-center md:min-h-[560px] md:py-28">
                 {slide.eyebrow && (
-                  <span className="font-[family-name:var(--font-mono)] text-[0.7rem] uppercase tracking-[0.18em] text-white/85">
+                  <span className="font-[family-name:var(--font-text)] text-[0.7rem] uppercase tracking-[0.18em] text-white/85">
                     {slide.eyebrow}
                   </span>
                 )}

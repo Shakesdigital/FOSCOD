@@ -33,7 +33,7 @@ export default async function IndividualVolunteerPage() {
         tone="forest"
         imageCaption="Volunteer at work — add photo via CMS"
         body="Tell us your background, goals, and field interests, and we'll match you to a genuine community priority where your contribution counts."
-        cta={{ href: "/apply", label: "More Details" }}
+        cta={{ href: "/programs/global-learning-exchange", label: "Volunteer or Intern" }}
       />
       <FeatureRow
         title="Local supervision and support"
@@ -52,7 +52,7 @@ export default async function IndividualVolunteerPage() {
         cta={{ href: "/programs/program-fees", label: "More Details" }}
       />
 
-      <ApplyBand label="Apply Today" href="/apply" />
+      <ApplyBand label="Volunteer or Intern" href="/programs/global-learning-exchange" />
     </>
   );
 }

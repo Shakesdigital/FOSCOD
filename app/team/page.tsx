@@ -65,7 +65,7 @@ export default async function TeamPage() {
                     caption="Team portrait"
                   />
                   <p className="mt-3 font-medium text-[var(--ink)]">{m.name}</p>
-                  <p className="font-[family-name:var(--font-mono)] text-[0.72rem] uppercase tracking-[0.1em] text-[var(--muted)]">
+                  <p className="font-[family-name:var(--font-text)] text-[0.72rem] uppercase tracking-[0.1em] text-[var(--muted)]">
                     {m.role}
                   </p>
                 </li>
@@ -78,7 +78,7 @@ export default async function TeamPage() {
       <CTABand
         title="Join the work"
         actions={[
-          { href: "/apply", label: "Apply to a program" },
+          { href: "/programs/global-learning-exchange", label: "Volunteer or Intern" },
           { href: "/partners", label: "Partner with us", variant: "secondary" },
         ]}
       />

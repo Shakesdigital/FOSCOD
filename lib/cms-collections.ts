@@ -1,7 +1,7 @@
 export type CmsField = {
   name: string;
   label: string;
-  type?: "text" | "textarea" | "number" | "boolean" | "select" | "date" | "datetime" | "json" | "url";
+  type?: "text" | "textarea" | "wysiwyg" | "number" | "boolean" | "select" | "date" | "datetime" | "json" | "url";
   required?: boolean;
   help?: string;
   options?: { label: string; value: string }[];
@@ -67,7 +67,7 @@ export const cmsCollections: CmsCollection[] = [
       { name: "pillar", label: "Program code", type: "select", options: [{ label: "GLE", value: "GLE" }, { label: "CEDP", value: "CEDP" }], required: true },
       { name: "tagline", label: "Tagline" },
       { name: "summary", label: "Short summary", type: "textarea" },
-      { name: "content", label: "Full description", type: "textarea" },
+      { name: "content", label: "Full description", type: "wysiwyg", help: "Formatted HTML content rendered directly on the page." },
       { name: "goals", label: "Goals", type: "json" },
       { name: "geography", label: "Geography", type: "textarea" },
       { name: "cta_links", label: "Calls to action", type: "json" },
@@ -130,10 +130,10 @@ export const cmsCollections: CmsCollection[] = [
       { name: "theme", label: "Theme" }, { name: "location", label: "Location" },
       { name: "community", label: "Community", type: "select", options: ["kalagala","kyambogo","naluvule","wabusanke","byabuku","nationwide"].map((value) => ({ label: value, value })) },
       { name: "excerpt", label: "Short summary", type: "textarea" },
-      { name: "challenge", label: "The challenge", type: "textarea" },
+      { name: "challenge", label: "The challenge", type: "wysiwyg" },
       { name: "challenge_image_url", label: "Challenge image URL", type: "url" },
       { name: "challenge_image_alt", label: "Challenge image alt text" },
-      { name: "solution", label: "Our approach", type: "textarea" },
+      { name: "solution", label: "Our approach", type: "wysiwyg" },
       { name: "activities", label: "Activity list", type: "json" }, { name: "partners", label: "Partners involved", type: "json" },
       { name: "timeline", label: "Timeline", type: "json" }, { name: "outcomes_structured", label: "Verified outcomes", type: "json" },
       { name: "budget", label: "Budget (optional)" }, { name: "project_brief_url", label: "Project brief URL", type: "url" },
@@ -152,7 +152,7 @@ export const cmsCollections: CmsCollection[] = [
       { name: "community_voice", label: "Community voice name" }, { name: "quote", label: "Consented quotation", type: "textarea" },
       { name: "consent_status", label: "Consent status", type: "select", options: ["not_required","pending","confirmed","anonymized"].map((value) => ({ label: value, value })), required: true },
       { name: "consent_note", label: "Consent record note", type: "textarea" },
-      { name: "narrative", label: "Story narrative", type: "textarea" }, { name: "verified_outcome", label: "Verified outcome" },
+      { name: "narrative", label: "Story narrative", type: "wysiwyg", help: "Full story body rendered as HTML. Use headings, paragraphs, and images for long-form content." }, { name: "verified_outcome", label: "Verified outcome" },
       { name: "linked_program", label: "Linked program", type: "select", options: ["GLE","CEDP","ORG"].map((value) => ({ label: value, value })) },
       { name: "linked_sub_program_id", label: "Linked sub-program ID" }, { name: "linked_project_id", label: "Linked project ID" },
       { name: "hero_image_url", label: "Hero image URL", type: "url" }, { name: "hero_image_alt", label: "Hero image alt text" },

@@ -5,7 +5,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { useState, useEffect, useRef, useCallback } from "react";
 
 /** TestimonialCard — a single testimonial with profile photo, quote, and attribution.
- *  Tone-based border-left accent; profile image center-aligned in carousel context. */
+ *  Tone-based accent; profile image center-aligned in carousel context. */
 export function TestimonialCard({
   quote,
   name,
@@ -23,16 +23,9 @@ export function TestimonialCard({
   tone?: "earth" | "water" | "forest";
   centerImage?: boolean;
 }) {
-  const toneVars: Record<string, string> = {
-    earth: "var(--clay-300)",
-    water: "var(--water-500)",
-    forest: "var(--forest-500)",
-  };
-
   return (
     <div
       className="flex flex-col gap-4 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-8 text-center"
-      style={{ borderLeftColor: toneVars[tone] }}
     >
       {photoUrl ? (
         <img
@@ -53,7 +46,7 @@ export function TestimonialCard({
       </blockquote>
       <figcaption className="mt-auto">
         <span className="block font-medium text-[var(--ink)]">{name}</span>
-        {role && <span className="block font-[family-name:var(--font-mono)] text-xs uppercase tracking-[0.12em] text-[var(--muted)]">{role}</span>}
+        {role && <span className="block font-[family-name:var(--font-text)] text-xs uppercase tracking-[0.12em] text-[var(--muted)]">{role}</span>}
       </figcaption>
     </div>
   );
@@ -61,7 +54,7 @@ export function TestimonialCard({
 
 /** TestimonialCarousel — a clean slider showing one testimonial at a time.
  *  Auto-plays with pause-on-hover, includes dot indicators and prev/next arrows.
- *  Center-aligned profile image with tone-based border-left accent. Optional CTA button below. */
+ *  Center-aligned profile image with tone-based accent. Optional CTA button below. */
 export function TestimonialCarousel({
   eyebrow,
   title,

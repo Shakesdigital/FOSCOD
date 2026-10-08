@@ -88,13 +88,13 @@ export function VideoPlayer({
               </span>
             )}
             {!embedUrl && (
-              <span className="relative z-10 font-[family-name:var(--font-mono)] text-xs uppercase tracking-[0.12em] text-[var(--muted)]">
+              <span className="relative z-10 font-[family-name:var(--font-text)] text-xs uppercase tracking-[0.12em] text-[var(--muted)]">
                 Video coming soon
               </span>
             )}
           </div>
           {caption && (
-            <figcaption className="mt-3 font-[family-name:var(--font-mono)] text-[0.7rem] uppercase tracking-[0.12em] text-[var(--muted)]">
+            <figcaption className="mt-3 font-[family-name:var(--font-text)] text-[0.7rem] uppercase tracking-[0.12em] text-[var(--muted)]">
             {caption}
           </figcaption>
         )}

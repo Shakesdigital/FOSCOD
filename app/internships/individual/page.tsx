@@ -32,7 +32,7 @@ export default async function IndividualInternshipPage() {
         tone="forest"
         imageCaption="Intern at work — add photo via CMS"
         body="Tell us your background, discipline, and career goals, and we'll match you to a genuine community project where your contribution counts."
-        cta={{ href: "/apply", label: "More Details" }}
+        cta={{ href: "/programs/global-learning-exchange", label: "Volunteer or Intern" }}
       />
       <FeatureRow
         title="Local supervision and mentorship"
@@ -51,7 +51,7 @@ export default async function IndividualInternshipPage() {
         cta={{ href: "/programs/program-fees", label: "More Details" }}
       />
 
-      <ApplyBand label="Apply Today" href="/apply" />
+      <ApplyBand label="Volunteer or Intern" href="/programs/global-learning-exchange" />
     </>
   );
 }

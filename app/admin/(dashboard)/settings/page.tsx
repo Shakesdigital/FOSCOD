@@ -16,7 +16,7 @@ export default async function AdminSettings() {
 
   return (
     <div>
-      <p className="font-[family-name:var(--font-mono)] text-[0.7rem] uppercase tracking-[0.16em] text-[var(--accent-700)]">
+      <p className="font-[family-name:var(--font-text)] text-[0.7rem] uppercase tracking-[0.16em] text-[var(--accent-700)]">
         Configuration
       </p>
       <h1 className="mt-3 text-3xl">Settings</h1>

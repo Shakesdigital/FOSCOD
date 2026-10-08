@@ -1,31 +1,10 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
-import { Fraunces, Public_Sans, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { site } from "@/lib/site";
 import { getBrandingStyle } from "@/lib/settings";
-
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  variable: "--font-fraunces",
-  display: "swap",
-  axes: ["opsz", "SOFT"],
-});
-
-const publicSans = Public_Sans({
-  subsets: ["latin"],
-  variable: "--font-public-sans",
-  display: "swap",
-});
-
-const plexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-plex-mono",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? site.url),
@@ -56,10 +35,7 @@ export default async function RootLayout({
   const isAdmin = (headerList.get("x-pathname") ?? "").startsWith("/admin");
 
   return (
-    <html
-      lang="en"
-      className={`${fraunces.variable} ${publicSans.variable} ${plexMono.variable}`}
-    >
+    <html lang="en">
       <body>
         {brandingStyle ? (
           <style dangerouslySetInnerHTML={{ __html: brandingStyle }} />

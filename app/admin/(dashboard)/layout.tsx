@@ -15,7 +15,7 @@ function NotConfigured() {
   return (
     <main className="container-page flex min-h-screen flex-col justify-center py-24">
       <div className="max-w-xl">
-        <p className="font-[family-name:var(--font-mono)] text-[0.7rem] uppercase tracking-[0.16em] text-[var(--accent-700)]">
+        <p className="font-[family-name:var(--font-text)] text-[0.7rem] uppercase tracking-[0.16em] text-[var(--accent-700)]">
           CMS · not connected
         </p>
         <h1 className="mt-4 text-3xl">Connect Supabase to enable the CMS</h1>
@@ -58,8 +58,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <aside className="border-b border-[var(--border)] bg-[var(--surface)] md:w-60 md:border-b-0 md:border-r">
         <div className="flex items-center justify-between p-5">
           <Link href="/admin" className="flex items-baseline gap-2">
-            <span className="font-[family-name:var(--font-display)] text-xl font-semibold">FOSCOD</span>
-            <span className="font-[family-name:var(--font-mono)] text-[0.6rem] uppercase tracking-[0.16em] text-[var(--muted)]">CMS</span>
+            <span className="font-[family-name:var(--font-text)] text-xl font-semibold">FOSCOD</span>
+            <span className="font-[family-name:var(--font-text)] text-[0.6rem] uppercase tracking-[0.16em] text-[var(--muted)]">CMS</span>
           </Link>
         </div>
         <nav className="flex gap-1 overflow-x-auto px-3 pb-3 md:flex-col md:gap-0.5">
@@ -75,7 +75,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         </nav>
         <div className="hidden border-t border-[var(--border)] p-5 md:block">
           <p className="text-sm font-medium text-[var(--ink)]">{profile.full_name ?? "Staff"}</p>
-          <p className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.12em] text-[var(--muted)]">
+          <p className="font-[family-name:var(--font-text)] text-[0.62rem] uppercase tracking-[0.12em] text-[var(--muted)]">
             {profile.role}
           </p>
           <div className="mt-3"><SignOutButton /></div>

@@ -3,8 +3,7 @@ import { TalkingAboutUs } from "@/components/home/TalkingAboutUs";
 import { HowYouCanGetInvolved } from "@/components/home/HowYouCanGetInvolved";
 import { FeaturedImpactStory } from "@/components/home/FeaturedImpactStory";
 import { PartnerLogos } from "@/components/home/PartnerLogos";
-import { Newsletter } from "@/components/home/Newsletter";
-import { CTABand, FeatureGrid, ProgramsSection, Steps } from "@/components/site/blocks";
+import { FeatureGrid, ProgramsSection, Steps } from "@/components/site/blocks";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { getHeroSlides, getPrograms, getFeaturedImpactStory, getPartners, getTalkingAboutUs, getInvolvementCards, getAudiencePaths, getResponsibleEngagement } from "@/lib/content";
 
@@ -100,28 +99,6 @@ export default async function HomePage() {
 
       {/* Partner logos strip */}
       <PartnerLogos partners={partners} />
-
-      {/* Closing CTA with prominent border */}
-      <section className="bg-[var(--surface-2)] border-t border-[var(--border-strong)]">
-        <CTABand
-          title="What would you like to do with FOSCOD?"
-          body="Explore a program first, or tell us your goals and we will help identify the most useful next conversation."
-          actions={[
-            { href: "/programs", label: "Explore programs" },
-            { href: "/partners", label: "Discuss a partnership", variant: "secondary" },
-            { href: "/apply", label: "Check your fit", variant: "ghost" },
-          ]}
-        />
-      </section>
-
-      {/* Newsletter — placed after the CTABand */}
-      <section className="bg-[var(--bg)] py-10">
-        <div className="container-page flex justify-center">
-          <div className="border border-[var(--border)] rounded-[var(--radius-lg)]">
-            <Newsletter />
-          </div>
-        </div>
-      </section>
 
     </>
   );

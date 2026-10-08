@@ -52,17 +52,17 @@ export default async function ImpactStoryPage({ params }: { params: Promise<{ sl
           <div>
             {story.community_voice && (
               <div className="mb-8 p-6 rounded-[var(--radius-lg)] border border-[var(--accent-200)] bg-[var(--accent-50)]">
-                <p className="font-[family-name:var(--font-mono)] text-[0.65rem] uppercase tracking-[0.12em] text-[var(--accent-700)]">Community voice</p>
+                <p className="font-[family-name:var(--font-text)] text-[0.65rem] uppercase tracking-[0.12em] text-[var(--accent-700)]">Community voice</p>
                 <p className="mt-2 font-semibold text-[var(--ink)]">{story.community_voice}</p>
                 {story.quote && (
-                  <blockquote className="mt-4 border-l-4 border-[var(--accent-600)] pl-6 italic text-lg leading-relaxed text-[var(--ink-soft)]">
+                  <blockquote className="mt-4 italic text-lg leading-relaxed text-[var(--ink-soft)]">
                     &ldquo;{story.quote}&rdquo;
                   </blockquote>
                 )}
               </div>
             )}
 
-            <div className="max-w-[var(--measure)] space-y-6 text-[1.05rem] leading-relaxed text-[var(--ink-soft)]">
+            <div className="max-w-[var(--measure-wide)] space-y-6 text-[1.1rem] leading-relaxed text-[var(--ink-soft)]">
               {story.narrative ? (
                 story.narrative.split("\n\n").map((para, i) => <p key={i}>{para}</p>)
               ) : (
@@ -72,7 +72,7 @@ export default async function ImpactStoryPage({ params }: { params: Promise<{ sl
 
             {story.verified_outcome && (
               <div className="mt-10 p-6 rounded-[var(--radius-lg)] border border-[var(--forest-200)] bg-[var(--forest-50)]">
-                <p className="font-[family-name:var(--font-mono)] text-[0.65rem] uppercase tracking-[0.12em] text-[var(--forest-700)]">Verified outcome</p>
+                <p className="font-[family-name:var(--font-text)] text-[0.65rem] uppercase tracking-[0.12em] text-[var(--forest-700)]">Verified outcome</p>
                 <p className="mt-2 font-medium text-[var(--ink)]">{story.verified_outcome}</p>
               </div>
             )}
@@ -134,7 +134,7 @@ export default async function ImpactStoryPage({ params }: { params: Promise<{ sl
             </div>
 
             {dateStr && (
-              <p className="font-[family-name:var(--font-mono)] text-[0.7rem] uppercase tracking-[0.12em] text-[var(--muted)]">
+              <p className="font-[family-name:var(--font-text)] text-[0.7rem] uppercase tracking-[0.12em] text-[var(--muted)]">
                 Published {dateStr}
               </p>
             )}
@@ -161,8 +161,8 @@ export default async function ImpactStoryPage({ params }: { params: Promise<{ sl
         title="Read more stories of change"
         body="Explore our full collection of impact stories, videos, and community experiences."
         actions={[
-          { href: "/impact/stories", label: "Impact story archive" },
-          { href: "/impact", label: "View all impact", variant: "secondary" },
+          { href: "/impact/stories", label: "See all impacts" },
+          { href: "/impact/stories", label: "Impact story archive", variant: "secondary" },
           { href: "/stories", label: "Read blog stories", variant: "ghost" },
         ]}
       />

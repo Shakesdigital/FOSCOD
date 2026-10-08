@@ -20,7 +20,7 @@ export default async function FinderPage() {
       <CTABand
         title="Found your fit?"
         actions={[
-          { href: "/apply", label: "Apply now" },
+          { href: "/programs/global-learning-exchange", label: "Volunteer or Intern" },
           { href: "/programs/program-fees", label: "View fees", variant: "secondary" },
         ]}
       />

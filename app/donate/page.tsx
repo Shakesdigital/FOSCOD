@@ -54,7 +54,7 @@ export default async function DonatePage() {
           <h2 className="mt-4 max-w-2xl text-center text-[clamp(1.7rem,3vw,2.3rem)]">Begin with a verified project conversation</h2>
         </div>
         <div className="mt-10"><FeatureGrid items={priorities} columns={3} /></div>
-        <p className="mt-6 font-[family-name:var(--font-mono)] text-[0.72rem] text-[var(--muted)]">
+        <p className="mt-6 font-[family-name:var(--font-text)] text-[0.72rem] text-[var(--muted)]">
           ◷ Suggested giving amounts tied to concrete uses are added once FOSCOD
           verifies costs — we never publish unverified figures.
         </p>

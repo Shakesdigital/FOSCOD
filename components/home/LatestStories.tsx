@@ -30,14 +30,14 @@ export function LatestStories({ stories }: { stories: Story[] }) {
               className="rounded-none border-0 border-b border-[var(--border)]"
             />
             <div className="flex flex-1 flex-col p-6">
-              <p className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
+              <p className="font-[family-name:var(--font-text)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
                 {s.category}
               </p>
               <h3 className="mt-2 text-xl leading-snug">{s.title}</h3>
               <p className="mt-2 flex-1 text-[0.9rem] leading-relaxed text-[var(--muted)]">
                 {s.excerpt}
               </p>
-              <p className="mt-4 font-[family-name:var(--font-mono)] text-[0.68rem] text-[var(--muted)]">
+              <p className="mt-4 font-[family-name:var(--font-text)] text-[0.68rem] text-[var(--muted)]">
                 {s.date}
               </p>
             </div>

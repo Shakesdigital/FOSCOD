@@ -31,7 +31,7 @@ export function SettingsEditor({ initial }: { initial: Setting[] }) {
     <div className="space-y-10">
       {groups.map((g) => (
         <section key={g}>
-          <h2 className="font-[family-name:var(--font-mono)] text-[0.72rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
+          <h2 className="font-[family-name:var(--font-text)] text-[0.72rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
             {g}
           </h2>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
@@ -42,7 +42,7 @@ export function SettingsEditor({ initial }: { initial: Setting[] }) {
                 const isColor = g === "branding" && str.startsWith("#");
                 return (
                   <div key={r.key} className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-4">
-                    <label className="block font-[family-name:var(--font-mono)] text-[0.68rem] uppercase tracking-[0.08em] text-[var(--muted)]">
+                    <label className="block font-[family-name:var(--font-text)] text-[0.68rem] uppercase tracking-[0.08em] text-[var(--muted)]">
                       {r.key}
                     </label>
                     <div className="mt-2 flex items-center gap-2">

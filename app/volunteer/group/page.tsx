@@ -34,7 +34,7 @@ export default async function GroupVolunteerPage() {
         tone="water"
         imageCaption="Group planning session — add photo via CMS"
         body="We build the project around your cohort's learning objectives, field interests, and timeline — then match it to a genuine community priority."
-        cta={{ href: "/apply", label: "More Details" }}
+        cta={{ href: "/programs/global-learning-exchange", label: "Volunteer or Intern" }}
       />
       <FeatureRow
         title="A shared project, shared responsibility"
@@ -53,7 +53,7 @@ export default async function GroupVolunteerPage() {
         cta={{ href: "/programs/program-fees", label: "More Details" }}
       />
 
-      <ApplyBand label="Apply Today" href="/apply" />
+      <ApplyBand label="Volunteer or Intern" href="/programs/global-learning-exchange" />
     </>
   );
 }

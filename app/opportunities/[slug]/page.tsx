@@ -61,7 +61,7 @@ export default async function OpportunityDetailPage({
     eyebrow: o.category,
     title: o.title,
     intro: o.excerpt,
-    cta: { href: "/apply", label: "Apply Now" },
+    cta: { href: "/programs/global-learning-exchange", label: "Volunteer or Intern" },
     tone: "water",
   }];
 
@@ -130,10 +130,10 @@ export default async function OpportunityDetailPage({
               </div>
               <div className="mt-6 text-center">
                 <Link
-                  href="/apply"
+                  href="/programs/global-learning-exchange"
                   className="inline-flex items-center justify-center rounded-[var(--radius-full)] bg-[var(--accent-600)] px-7 py-3 font-medium text-white transition-colors hover:bg-[var(--accent-700)]"
                 >
-                  Apply Now
+                  Volunteer or Intern
                 </Link>
               </div>
             </div>
@@ -157,10 +157,10 @@ export default async function OpportunityDetailPage({
       <section className="py-12 md:py-16">
         <div className="container-page flex flex-col items-center gap-4 text-center">
           <Link
-            href="/apply"
+            href="/programs/global-learning-exchange"
             className="inline-flex items-center justify-center rounded-[var(--radius-full)] bg-[var(--accent-600)] px-8 py-3.5 text-base font-medium text-white transition-colors hover:bg-[var(--accent-700)]"
           >
-            Apply Now
+            Volunteer or Intern
           </Link>
           <Link href={backHref} className="text-[0.9rem] text-[var(--accent-700)] hover:underline">
             ← Back to all {isVolunteer ? "volunteer" : "internship"} opportunities

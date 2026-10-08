@@ -40,7 +40,7 @@ export default async function StoryPage({
     intro: s.excerpt,
     tone: "water",
     imageUrl: undefined,
-    cta: { href: "/apply", label: "Apply now" },
+    cta: { href: "/programs/global-learning-exchange", label: "Volunteer or Intern" },
   }];
 
   return (
@@ -92,7 +92,7 @@ export default async function StoryPage({
                 {related.map((r) => (
                   <li key={r.slug}>
                     <Link href={r.href} className="group block">
-                      <p className="font-[family-name:var(--font-mono)] text-[0.6rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">{r.category}</p>
+                      <p className="font-[family-name:var(--font-text)] text-[0.6rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">{r.category}</p>
                       <p className="mt-1 text-[0.95rem] leading-snug text-[var(--ink)] transition-colors group-hover:text-[var(--accent-700)]">{r.title}</p>
                     </Link>
                   </li>
@@ -106,7 +106,7 @@ export default async function StoryPage({
       <CTABand
         title="Start your own FOSCOD story"
         actions={[
-          { href: "/apply", label: "Apply now" },
+          { href: "/programs/global-learning-exchange", label: "Volunteer or Intern" },
           { href: "/stories", label: "Read more stories", variant: "secondary" },
         ]}
       />

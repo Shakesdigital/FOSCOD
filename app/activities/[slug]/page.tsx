@@ -86,21 +86,21 @@ export default async function ActivityPage({ params }: { params: Promise<{ slug:
                 <Eyebrow>Timeline & Status</Eyebrow>
                 <div className="mt-3 grid gap-2 sm:grid-cols-2">
                   <div>
-                    <p className="font-[family-name:var(--font-mono)] text-[0.65rem] uppercase tracking-[0.12em] text-[var(--muted)]">Status</p>
+                    <p className="font-[family-name:var(--font-text)] text-[0.65rem] uppercase tracking-[0.12em] text-[var(--muted)]">Status</p>
                     <p className="font-medium" style={{ color: statusInfo.color }}>{statusInfo.label}</p>
                   </div>
                   <div>
-                    <p className="font-[family-name:var(--font-mono)] text-[0.65rem] uppercase tracking-[0.12em] text-[var(--muted)]">Start Date</p>
+                    <p className="font-[family-name:var(--font-text)] text-[0.65rem] uppercase tracking-[0.12em] text-[var(--muted)]">Start Date</p>
                     <p className="font-medium">{new Date(activity.start_date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</p>
                   </div>
                   {activity.end_date && (
                     <div>
-                      <p className="font-[family-name:var(--font-mono)] text-[0.65rem] uppercase tracking-[0.12em] text-[var(--muted)]">End Date</p>
+                      <p className="font-[family-name:var(--font-text)] text-[0.65rem] uppercase tracking-[0.12em] text-[var(--muted)]">End Date</p>
                       <p className="font-medium">{new Date(activity.end_date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</p>
                     </div>
                   )}
                   <div>
-                    <p className="font-[family-name:var(--font-mono)] text-[0.65rem] uppercase tracking-[0.12em] text-[var(--muted)]">Parent Program</p>
+                    <p className="font-[family-name:var(--font-text)] text-[0.65rem] uppercase tracking-[0.12em] text-[var(--muted)]">Parent Program</p>
                     <p className="font-medium">{parentSubProgram?.name || "CEDP"}</p>
                   </div>
                 </div>
@@ -160,7 +160,7 @@ export default async function ActivityPage({ params }: { params: Promise<{ slug:
                 >
                   <PhotoSlot tone={["forest", "water", "earth"][i % 3] as "forest" | "water" | "earth"} ratio="16/9" tag={p.theme} caption={p.title} />
                   <div className="flex flex-1 flex-col p-5">
-                    <p className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
+                    <p className="font-[family-name:var(--font-text)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
                       {p.theme}
                     </p>
                     <h3 className="mt-2 text-lg leading-snug">{p.title}</h3>
@@ -201,7 +201,7 @@ export default async function ActivityPage({ params }: { params: Promise<{ slug:
         actions={[
           { href: "/partners", label: "Partner with us" },
           { href: "/donate", label: "Support our work", variant: "secondary" },
-          { href: "/apply", label: "Volunteer with us", variant: "ghost" },
+          { href: "/programs/global-learning-exchange", label: "Volunteer or Intern", variant: "ghost" },
         ]}
       />
     </>

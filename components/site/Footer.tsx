@@ -26,17 +26,12 @@ export async function Footer() {
     { label: "Community Empowerment and Development", href: "/programs/community-empowerment-development" },
     { label: "Global Learning and Education", href: "/programs/global-learning-exchange" },
     { label: "Impact", href: "/impact/general" },
-    { label: "Get Involved", href: "/apply" },
+    { label: "Volunteer or Intern", href: "/programs/global-learning-exchange" },
     { label: "Blog", href: "/stories" },
   ];
 
   return (
     <footer className="bg-[var(--accent-600)] text-white">
-      {/* thick white divider */}
-      <div className="container-page">
-        <hr className="border-0 border-t-4 border-white" />
-      </div>
-
       <div className="container-page grid gap-12 py-16 md:grid-cols-3">
         {/* ---- Column 1: About Us ---- */}
         <div className="flex flex-col gap-6">
@@ -106,13 +101,13 @@ export async function Footer() {
           </p>
           <div className="flex flex-wrap gap-5">
             <Link href="/partners" className="font-[family-name:var(--font-text)] hover:text-white">
-              Partner With Us
+              Partner with us
             </Link>
-            <Link href="/apply" className="font-[family-name:var(--font-text)] hover:text-white">
-              Apply / Volunteer
+            <Link href="/programs/global-learning-exchange" className="font-[family-name:var(--font-text)] hover:text-white">
+              Volunteer or Intern
             </Link>
             <Link href="/donate" className="font-[family-name:var(--font-text)] hover:text-white">
-              Support Our Work
+              Donate to a project
             </Link>
             <Link href="/programs/refund-policy" className="font-[family-name:var(--font-text)] hover:text-white">
               Refund Policy

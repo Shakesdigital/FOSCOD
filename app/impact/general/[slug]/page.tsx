@@ -128,7 +128,7 @@ export default async function GeneralImpactPage({ params }: { params: Promise<{ 
               {page.exploreTestimonials && page.exploreTestimonials.length > 0 && (
                 <TestimonialCarousel
                   items={page.exploreTestimonials}
-                  cta={page.exploreTestimonialsCta || { href: "/impact", label: "Discover more stories" }}
+                  cta={page.exploreTestimonialsCta || { href: "/impact/stories", label: "Discover more stories" }}
                   surface={false}
                 />
               )}

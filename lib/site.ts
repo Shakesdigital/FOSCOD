@@ -40,7 +40,7 @@ export type NavChild = { label: string; href: string };
 export type NavItem = { label: string; href: string; children?: NavChild[] };
 
 // 5-ITEM MAIN NAVIGATION per spec
-// Persistent CTAs (Partner With Us, Apply / Volunteer, Support Our Work) are handled in Header component
+// Persistent CTAs (Partner with us, Volunteer or Intern, Donate to a project) are handled in Header component
 export const primaryNav: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
@@ -78,7 +78,7 @@ export const footerNav: { heading: string; links: NavChild[] }[] = [
     links: [
       { label: "Impact Overview", href: "/impact/general" },
       { label: "Impact Stories", href: "/impact/stories" },
-      { label: "Projects", href: "/projects" },
+      { label: "Projects", href: "/projects/archive" },
       { label: "Downloads & Reports", href: "/impact#downloads" },
     ],
   },
@@ -94,9 +94,9 @@ export const footerNav: { heading: string; links: NavChild[] }[] = [
   {
     heading: "Get Involved",
     links: [
-      { label: "Partner With Us", href: "/partners" },
-      { label: "Apply / Volunteer", href: "/apply" },
-      { label: "Support Our Work", href: "/donate" },
+      { label: "Partner with us", href: "/partners" },
+      { label: "Volunteer or Intern", href: "/programs/global-learning-exchange" },
+      { label: "Donate to a project", href: "/donate" },
       { label: "Internships", href: "/internships" },
       { label: "Volunteer Programs", href: "/volunteer" },
     ],

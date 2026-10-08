@@ -28,7 +28,7 @@ export default async function HealthPage() {
         title="Strengthen community health"
         actions={[
           { href: "/donate", label: "Support health projects" },
-          { href: "/apply", label: "Apply for a health internship", variant: "secondary" },
+          { href: "/programs/global-learning-exchange", label: "Volunteer or Intern", variant: "secondary" },
         ]}
       />
     </>

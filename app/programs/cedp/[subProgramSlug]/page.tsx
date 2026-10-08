@@ -233,11 +233,11 @@ export default async function SubProgramPage({ params }: { params: Promise<{ sub
             {impactStats.length > 0 ? (
               impactStats.map((m) => (
                 <div key={m.metric_name} className="bg-[var(--surface)] p-6">
-                  <dd className="font-[family-name:var(--font-display)] text-[clamp(2.2rem,4vw,3rem)] leading-none text-[var(--ink)]">
+                  <dd className="font-[family-name:var(--font-text)] text-[clamp(2.2rem,4vw,3rem)] leading-none text-[var(--ink)]">
                     {m.current_value}
                   </dd>
                   <dt className="mt-3 text-[0.95rem] text-[var(--ink-soft)]">{m.metric_name}</dt>
-                  <p className="mt-3 font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.12em]">
+                  <p className="mt-3 font-[family-name:var(--font-text)] text-[0.62rem] uppercase tracking-[0.12em]">
                     {m.as_of_date ? (
                       <span className="text-[var(--muted)]">As of {new Date(m.as_of_date).toLocaleDateString("en-GB", { month: "short", year: "numeric" })}</span>
                     ) : m.status === "verified" ? (
@@ -257,11 +257,11 @@ export default async function SubProgramPage({ params }: { params: Promise<{ sub
                 { label: "Hectares restored", value: "—", note: "Data being updated" },
               ].map((m) => (
                 <div key={m.label} className="bg-[var(--surface)] p-6">
-                  <dd className="font-[family-name:var(--font-display)] text-[clamp(2.2rem,4vw,3rem)] leading-none text-[var(--ink)]">
+                  <dd className="font-[family-name:var(--font-text)] text-[clamp(2.2rem,4vw,3rem)] leading-none text-[var(--ink)]">
                     {m.value}
                   </dd>
                   <dt className="mt-3 text-[0.95rem] text-[var(--ink-soft)]">{m.label}</dt>
-                  <p className="mt-3 font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.12em] text-[var(--gold-700)]">
+                  <p className="mt-3 font-[family-name:var(--font-text)] text-[0.62rem] uppercase tracking-[0.12em] text-[var(--gold-700)]">
                     ◷ {m.note}
                   </p>
                 </div>
@@ -274,21 +274,21 @@ export default async function SubProgramPage({ params }: { params: Promise<{ sub
             <div className="mt-12 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-8">
               <div className="grid gap-8 lg:grid-cols-[1.3fr_0.7fr]">
                 <div>
-                  <p className="font-[family-name:var(--font-mono)] text-[0.65rem] uppercase tracking-[0.12em] text-[var(--accent-700)]">Community voice</p>
+                  <p className="font-[family-name:var(--font-text)] text-[0.65rem] uppercase tracking-[0.12em] text-[var(--accent-700)]">Community voice</p>
                   <h3 className="mt-2 text-xl font-semibold">{impactStories[0].title}</h3>
                   {impactStories[0].quote && (
-                    <blockquote className="mt-4 border-l-4 border-[var(--accent-600)] pl-6 italic text-[var(--ink-soft)]">
+                    <blockquote className="mt-4 italic text-[var(--ink-soft)]">
                       &ldquo;{impactStories[0].quote}&rdquo;
                     </blockquote>
                   )}
                   {impactStories[0].community_voice && (
-                    <p className="mt-3 font-[family-name:var(--font-mono)] text-[0.7rem] uppercase tracking-[0.12em] text-[var(--accent-700)]">
+                    <p className="mt-3 font-[family-name:var(--font-text)] text-[0.7rem] uppercase tracking-[0.12em] text-[var(--accent-700)]">
                       — {impactStories[0].community_voice}
                     </p>
                   )}
                   {impactStories[0].verified_outcome && (
                     <p className="mt-4 font-medium text-[var(--ink)]">
-                      <span className="font-[family-name:var(--font-mono)] text-[0.65rem] uppercase tracking-[0.12em] text-[var(--forest-700)]">Verified outcome: </span>
+                      <span className="font-[family-name:var(--font-text)] text-[0.65rem] uppercase tracking-[0.12em] text-[var(--forest-700)]">Verified outcome: </span>
                       {impactStories[0].verified_outcome}
                     </p>
                   )}
@@ -322,7 +322,7 @@ export default async function SubProgramPage({ params }: { params: Promise<{ sub
                   >
                     <PhotoSlot tone={["forest", "water", "earth"][i % 3] as "forest" | "water" | "earth"} ratio="16/9" tag={p.theme} caption={p.title} />
                     <div className="flex flex-1 flex-col p-5">
-                      <p className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
+                      <p className="font-[family-name:var(--font-text)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
                         {p.theme}
                       </p>
                       <h4 className="mt-2 text-lg leading-snug">{p.title}</h4>

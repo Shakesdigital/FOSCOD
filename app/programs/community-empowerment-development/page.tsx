@@ -148,17 +148,17 @@ export default async function CedpPage() {
           </div>
           <div className="mt-10 grid gap-6 md:grid-cols-3">
             <div className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-8 text-center">
-              <div className="font-[family-name:var(--font-display)] text-4xl font-semibold text-[var(--accent-700)]">25%</div>
+              <div className="font-[family-name:var(--font-text)] text-4xl font-semibold text-[var(--accent-700)]">25%</div>
               <h3 className="mt-2 text-xl">Community Co-contribution</h3>
               <p className="mt-2 text-[var(--ink-soft)]">Labour, materials, or cash — communities invest in every project, ensuring ownership and sustainability.</p>
             </div>
             <div className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-8 text-center">
-              <div className="font-[family-name:var(--font-display)] text-4xl font-semibold text-[var(--accent-700)]">50%</div>
+              <div className="font-[family-name:var(--font-text)] text-4xl font-semibold text-[var(--accent-700)]">50%</div>
               <h3 className="mt-2 text-xl">Women's Participation</h3>
               <p className="mt-2 text-[var(--ink-soft)]">Target across all initiatives — from enterprise leadership to climate ambassador roles to training cohorts.</p>
             </div>
             <div className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-8 text-center">
-              <div className="font-[family-name:var(--font-display)] text-4xl font-semibold text-[var(--accent-700)]">86%</div>
+              <div className="font-[family-name:var(--font-text)] text-4xl font-semibold text-[var(--accent-700)]">86%</div>
               <h3 className="mt-2 text-xl">Sustained Community Benefit</h3>
               <p className="mt-2 text-[var(--ink-soft)]">Verified share of completed projects that continue to benefit communities independently.</p>
             </div>

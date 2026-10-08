@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { cmsCollectionMap, type CmsField } from "@/lib/cms-collections";
 import { createClient } from "@/lib/supabase/server";
 import { deleteContent, saveContent } from "../actions";
+import { WysiwygEditor } from "@/components/admin/WysiwygEditor";
 
 function fieldValue(value: unknown, type?: CmsField["type"]) {
   if (value === null || value === undefined) return "";
@@ -16,6 +17,17 @@ function Field({ field, value }: { field: CmsField; value: unknown }) {
   const common = "mt-2 w-full rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] px-3.5 py-2.5 text-sm text-[var(--ink)] outline-none focus:border-[var(--accent-600)] focus:ring-2 focus:ring-[var(--accent-100)]";
   if (field.type === "boolean") {
     return <label htmlFor={id} className="flex items-center gap-3 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface-2)] px-4 py-3 text-sm"><input id={id} name={field.name} type="checkbox" defaultChecked={Boolean(value)} className="h-4 w-4" />{field.label}</label>;
+  }
+  if (field.type === "wysiwyg") {
+    return (
+      <WysiwygEditor
+        name={field.name}
+        defaultValue={fieldValue(value, field.type)}
+        label={field.label}
+        help={field.help}
+        required={field.required}
+      />
+    );
   }
   return (
     <label htmlFor={id} className="block text-sm font-medium text-[var(--ink)]">
@@ -66,7 +78,7 @@ export default async function CollectionPage({ params, searchParams }: { params:
           <ul className="divide-y divide-[var(--border)]">
             {(rows ?? []).map((row) => (
               <li key={row.id} className="flex items-center justify-between gap-4 px-5 py-4">
-                <div className="min-w-0"><p className="truncate font-medium">{String(row[collection.titleField] ?? "Untitled")}</p><p className="mt-1 truncate font-[family-name:var(--font-mono)] text-xs text-[var(--muted)]">{row.status ?? (row.visible === false ? "hidden" : "visible")} · {row.slug ?? row.id}</p></div>
+                <div className="min-w-0"><p className="truncate font-medium">{String(row[collection.titleField] ?? "Untitled")}</p><p className="mt-1 truncate font-[family-name:var(--font-text)] text-xs text-[var(--muted)]">{row.status ?? (row.visible === false ? "hidden" : "visible")} · {row.slug ?? row.id}</p></div>
                 <div className="flex shrink-0 gap-2">
                   <Link href={`/admin/content/${key}?edit=${row.id}`} className="rounded-full border border-[var(--border)] px-3 py-1.5 text-xs hover:border-[var(--ink)]">Edit</Link>
                   <form action={deleteContent}><input type="hidden" name="collection" value={key} /><input type="hidden" name="id" value={row.id} /><button type="submit" className="rounded-full border border-red-200 px-3 py-1.5 text-xs text-red-700 hover:bg-red-50">Delete</button></form>

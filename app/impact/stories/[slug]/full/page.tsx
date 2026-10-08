@@ -141,6 +141,7 @@ export default async function ImpactStoryFullPage({ params }: { params: Promise<
             intro={detail.testimonialsIntro || "Permissioned reflections from the people behind this impact story."}
             items={detail.testimonials}
             surface
+            cta={{ href: "/testimonials", label: "Read more from the community" }}
           />
         )}
 
@@ -172,12 +173,12 @@ export default async function ImpactStoryFullPage({ params }: { params: Promise<
                       className="rounded-none border-0 border-b border-[var(--border)]"
                     />
                     <div className="flex flex-1 flex-col p-6">
-                      <p className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
+                      <p className="font-[family-name:var(--font-text)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
                         {story.linked_program || "Community story"}
                       </p>
                       <h3 className="mt-2 text-lg leading-snug font-medium">{story.title}</h3>
                       {story.quote && (
-                        <blockquote className="mt-2 border-l-4 border-[var(--accent-600)] pl-3 text-sm italic text-[var(--ink-soft)]">
+                        <blockquote className="mt-2 text-sm italic text-[var(--ink-soft)]">
                           &ldquo;{story.quote}&rdquo;
                         </blockquote>
                       )}
@@ -200,9 +201,9 @@ export default async function ImpactStoryFullPage({ params }: { params: Promise<
             title="Read more stories of change"
             body="Explore our full collection of impact stories, videos, and community experiences — all verified and consent-approved."
             actions={[
-              { href: "/impact", label: "View all impact" },
+              { href: "/impact/stories", label: "See all impacts" },
               { href: "/impact/stories", label: "Impact story archive", variant: "secondary" },
-              { href: "/donate", label: "Support this work", variant: "ghost" },
+              { href: "/donate", label: "Donate to a project", variant: "ghost" },
             ]}
           />
         </div>

@@ -51,7 +51,7 @@ export default async function TestimonialsPage() {
             body="Have you been part of a FOSCOD project or program? We'd love to hear from you — your consented story could appear in our testimonial archive."
             actions={[
               { href: "/alumni", label: "Submit a testimonial" },
-              { href: "/apply", label: "Join a project", variant: "secondary" },
+              { href: "/programs/global-learning-exchange", label: "Join a project", variant: "secondary" },
             ]}
           />
         </div>

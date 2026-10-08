@@ -22,8 +22,8 @@ export function FinalCta() {
           your inquiry and respond using the details you provide.
         </p>
         <div className="mt-9 flex flex-wrap justify-center gap-3">
-          <Button href="/apply" variant="primary" size="lg">
-            Apply now
+          <Button href="/programs/global-learning-exchange" variant="primary" size="lg">
+            Volunteer or Intern
           </Button>
           <Button href="/programs/program-fees" variant="secondary" size="lg">
             View program fees

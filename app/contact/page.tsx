@@ -14,14 +14,14 @@ export const metadata = pageMeta(
 const fields: Field[] = [
   { name: "name", label: "Your name", required: true },
   { name: "email", label: "Email", type: "email", required: true },
-  { name: "reason", label: "Reason for contact", type: "select", required: true, options: ["Apply", "Partner", "Donate", "Media / Research", "Alumni", "Other"] },
+  { name: "reason", label: "Reason for contact", type: "select", required: true, options: ["Volunteer or Intern", "Partner with us", "Donate to a project", "Media / Research", "Alumni", "Other"] },
   { name: "message", label: "Message", type: "textarea", required: true },
 ];
 
 const quick = [
-  { t: "Apply", d: "Internships & volunteering", href: "/apply" },
-  { t: "Partner", d: "Universities, NGOs, funders", href: "/partners" },
-  { t: "Donate", d: "Fund a community project", href: "/donate" },
+  { t: "Volunteer or Intern", d: "Internships & volunteering", href: "/programs/global-learning-exchange" },
+  { t: "Partner with us", d: "Universities, NGOs, funders", href: "/partners" },
+  { t: "Donate to a project", d: "Fund a community project", href: "/donate" },
   { t: "Alumni", d: "Reconnect & mentor", href: "/alumni" },
 ];
 
@@ -48,7 +48,7 @@ export default async function ContactPage() {
           <div className="space-y-8">
             <div>
               <h3 className="text-xl">Reach us</h3>
-              <div className="mt-4 space-y-1 font-[family-name:var(--font-mono)] text-sm text-[var(--ink-soft)]">
+              <div className="mt-4 space-y-1 font-[family-name:var(--font-text)] text-sm text-[var(--ink-soft)]">
                 <p>{site.contact.location}</p>
                 <p>{site.contact.email}</p>
                 <p>{site.contact.phone}</p>

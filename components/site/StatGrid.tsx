@@ -15,13 +15,13 @@ export function StatCard({
 }) {
   return (
     <div className="flex flex-col rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-7 text-center">
-      <dd className="font-[family-name:var(--font-display)] text-[clamp(2.2rem,4vw,3rem)] leading-none text-[var(--ink)]">
+      <dd className="font-[family-name:var(--font-text)] text-[clamp(2.2rem,4vw,3rem)] leading-none text-[var(--ink)]">
         {value}
         {unit && <span className="ml-1 text-[0.6em] text-[var(--muted)] align-super">{unit}</span>}
       </dd>
       <dt className="mt-3 text-[0.95rem] text-[var(--ink-soft)]">{label}</dt>
       {note && (
-        <p className="mt-2 font-[family-name:var(--font-mono)] text-[0.65rem] uppercase tracking-[0.12em] text-[var(--muted)]">
+        <p className="mt-2 font-[family-name:var(--font-text)] text-[0.65rem] uppercase tracking-[0.12em] text-[var(--muted)]">
           {note}
         </p>
       )}

@@ -18,10 +18,10 @@ export function Partners({ partners }: { partners: Partner[] }) {
               key={p.name}
               className="flex flex-col items-center justify-center gap-1 bg-[var(--surface-2)] px-3 py-7 text-center"
             >
-              <span className="font-[family-name:var(--font-display)] text-[0.95rem] text-[var(--ink-soft)]">
+              <span className="font-[family-name:var(--font-text)] text-[0.95rem] text-[var(--ink-soft)]">
                 {p.name}
               </span>
-              <span className="font-[family-name:var(--font-mono)] text-[0.6rem] uppercase tracking-[0.12em] text-[var(--muted)]">
+              <span className="font-[family-name:var(--font-text)] text-[0.6rem] uppercase tracking-[0.12em] text-[var(--muted)]">
                 {p.type}
               </span>
             </li>

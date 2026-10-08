@@ -43,7 +43,7 @@ export function OpportunityCard({ o, index = 0 }: { o: OpportunitySummary; index
       <div className="flex flex-1 flex-col p-5">
         <h3 className="text-[1.05rem] font-medium leading-snug text-[var(--ink)]">{o.title}</h3>
 
-        <div className="mt-2.5 flex flex-wrap gap-x-4 gap-y-1 font-[family-name:var(--font-mono)] text-[0.68rem] text-[var(--muted)]">
+        <div className="mt-2.5 flex flex-wrap gap-x-4 gap-y-1 font-[family-name:var(--font-text)] text-[0.68rem] text-[var(--muted)]">
           {o.location && <span className="inline-flex items-center gap-1.5"><PinIcon />{o.location}</span>}
           {o.duration && <span className="inline-flex items-center gap-1.5"><ClockIcon />{o.duration}</span>}
         </div>

@@ -154,13 +154,13 @@ export default async function ProjectDetailPage({
               {p.timeline.map((t, i) => (
                 <li key={i} className="flex gap-4">
                   <div className="flex flex-col items-center shrink-0">
-                    <span className="font-[family-name:var(--font-mono)] text-sm text-[var(--accent-700)]">
+                    <span className="font-[family-name:var(--font-text)] text-sm text-[var(--accent-700)]">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <div className="w-0.5 h-full bg-[var(--border)] mt-2 flex-1" />
                   </div>
                   <div className="flex-1">
-                    <time className="font-[family-name:var(--font-mono)] text-[0.7rem] uppercase tracking-[0.12em] text-[var(--muted)]">
+                    <time className="font-[family-name:var(--font-text)] text-[0.7rem] uppercase tracking-[0.12em] text-[var(--muted)]">
                       {new Date(t.date).toLocaleDateString("en-GB", { month: "short", year: "numeric" })}
                     </time>
                     <h3 className="mt-1 text-lg font-semibold">{t.milestone}</h3>
@@ -186,11 +186,11 @@ export default async function ProjectDetailPage({
                 {p.outcomes.map((o, i) => (
                   <div key={o.metric + i} className="flex flex-col rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-6">
                     {o.status === "verified" ? (
-                      <span className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--forest-700)]">✓ Verified</span>
+                      <span className="font-[family-name:var(--font-text)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--forest-700)]">✓ Verified</span>
                     ) : (
-                      <span className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--gold-700)]">◷ Being updated</span>
+                      <span className="font-[family-name:var(--font-text)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--gold-700)]">◷ Being updated</span>
                     )}
-                    <p className="mt-2 font-[family-name:var(--font-display)] text-3xl font-semibold text-[var(--ink)]">
+                    <p className="mt-2 font-[family-name:var(--font-text)] text-3xl font-semibold text-[var(--ink)]">
                       {o.value} {o.unit || ""}
                     </p>
                     <p className="mt-1 text-[0.92rem] text-[var(--muted)]">{o.metric}</p>
@@ -213,9 +213,9 @@ export default async function ProjectDetailPage({
               </blockquote>
               {p.communityVoice.name && (
                 <figcaption className="mt-6 flex items-center justify-center gap-3 text-[var(--muted)]">
-                  <span className="font-[family-name:var(--font-mono)] text-[0.7rem] uppercase tracking-[0.12em]">—</span>
+                  <span className="font-[family-name:var(--font-text)] text-[0.7rem] uppercase tracking-[0.12em]">—</span>
                   <span className="font-medium">{p.communityVoice.name}</span>
-                  {p.communityVoice.role && <span className="font-[family-name:var(--font-mono)] text-[0.7rem] uppercase tracking-[0.12em]">{p.communityVoice.role}</span>}
+                  {p.communityVoice.role && <span className="font-[family-name:var(--font-text)] text-[0.7rem] uppercase tracking-[0.12em]">{p.communityVoice.role}</span>}
                 </figcaption>
               )}
             </div>
@@ -241,7 +241,7 @@ export default async function ProjectDetailPage({
                 </svg>
               </div>
               <div>
-                <p className="font-[family-name:var(--font-mono)] text-[0.65rem] uppercase tracking-[0.12em] text-[var(--accent-700)]">Project Brief</p>
+                <p className="font-[family-name:var(--font-text)] text-[0.65rem] uppercase tracking-[0.12em] text-[var(--accent-700)]">Project Brief</p>
                 <p className="font-semibold text-[var(--ink)]">{p.title} — Full Project Brief</p>
                 <p className="text-sm text-[var(--muted)]">PDF download with technical design, budget, and methodology</p>
               </div>
@@ -267,7 +267,7 @@ export default async function ProjectDetailPage({
                 >
                   <PhotoSlot tone={(["forest", "water", "earth"] as const)[i % 3]} ratio="16/9" tag={a.title} caption={a.title} />
                   <div className="flex flex-1 flex-col p-5">
-                    <p className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
+                    <p className="font-[family-name:var(--font-text)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
                       {a.status.charAt(0).toUpperCase() + a.status.slice(1)}
                     </p>
                     <h3 className="mt-2 text-lg leading-snug">{a.title}</h3>
@@ -301,63 +301,6 @@ export default async function ProjectDetailPage({
           </nav>
         </div>
       </section>
-
-      {/* VOLUNTEERING */}
-      {p.volunteering && (
-        <section className="py-16 md:py-20">
-          <div className="container-page">
-            <div className="mx-auto max-w-2xl text-center">
-              <Eyebrow>Volunteering</Eyebrow>
-              <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">How to volunteer on this project</h2>
-              {p.volunteering.intro && (
-                <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">{p.volunteering.intro}</p>
-              )}
-            </div>
-
-            <div className="mt-12">
-              <div className="grid gap-8 md:grid-cols-2">
-                {p.volunteering.activities.map((activity, i) => (
-                  <div
-                    key={i}
-                    className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-6"
-                  >
-                    <h3 className="text-lg font-semibold text-[var(--ink)]">{activity.title}</h3>
-                    <p className="mt-2 text-[0.92rem] leading-relaxed text-[var(--muted)]">
-                      {activity.description}
-                    </p>
-                    {activity.skills && activity.skills.length > 0 && (
-                      <ul className="mt-4 flex flex-wrap gap-2">
-                        {activity.skills.map((skill) => (
-                          <span
-                            key={skill}
-                            className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.12em] text-[var(--accent-700)]"
-                          >
-                            {skill}
-                          </span>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                ))}
-              </div>
-
-              {p.volunteering.howToApply && (
-                <div className="mt-10 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-2)] p-8 text-center">
-                  <p className="text-[var(--ink-soft)]">{p.volunteering.howToApply}</p>
-                  <Button
-                    href="/apply"
-                    variant="secondary"
-                    size="md"
-                    className="mt-4"
-                  >
-                    Apply to volunteer
-                  </Button>
-                </div>
-              )}
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* HOW YOU CAN GET INVOLVED — replaces the former Support CTABand */}
       <HowYouCanGetInvolved

@@ -63,7 +63,7 @@ export function ApplicationForm({
         <h3 className="mt-3 text-xl font-medium text-[var(--ink)]">{successTitle}</h3>
         <p className="mt-2 text-[var(--muted)]">{successBody}</p>
         {message && (
-          <p className="mt-3 font-[family-name:var(--font-mono)] text-[0.72rem] text-[var(--error)]">
+          <p className="mt-3 font-[family-name:var(--font-text)] text-[0.72rem] text-[var(--error)]">
             {message}
           </p>
         )}

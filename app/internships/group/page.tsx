@@ -32,7 +32,7 @@ export default async function GroupInternshipPage() {
         tone="water"
         imageCaption="Cohort planning — add photo via CMS"
         body="We map the project to your program's learning outcomes and timeline, then match it to a genuine community priority under local supervision."
-        cta={{ href: "/apply", label: "More Details" }}
+        cta={{ href: "/programs/global-learning-exchange", label: "Volunteer or Intern" }}
       />
       <FeatureRow
         title="Shared project, shared learning"
@@ -51,7 +51,7 @@ export default async function GroupInternshipPage() {
         cta={{ href: "/programs/program-fees", label: "More Details" }}
       />
 
-      <ApplyBand label="Apply Today" href="/apply" />
+      <ApplyBand label="Volunteer or Intern" href="/programs/global-learning-exchange" />
     </>
   );
 }

@@ -255,7 +255,7 @@ export default function UnifiedApplicationForm() {
 
           <div className="mb-6 flex items-center justify-between">
             <div>
-              <span className="font-[family-name:var(--font-mono)] text-[0.65rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
+              <span className="font-[family-name:var(--font-text)] text-[0.65rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
                 Program type: {programTypes.find((p) => p.value === programType)?.label}
               </span>
             </div>

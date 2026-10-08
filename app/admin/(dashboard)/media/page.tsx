@@ -8,7 +8,7 @@ export default async function MediaPage() {
 
   return (
     <div>
-      <p className="font-[family-name:var(--font-mono)] text-[0.7rem] uppercase tracking-[0.16em] text-[var(--accent-700)]">Accessible media</p>
+      <p className="font-[family-name:var(--font-text)] text-[0.7rem] uppercase tracking-[0.16em] text-[var(--accent-700)]">Accessible media</p>
       <h1 className="mt-3 text-3xl">Media library</h1>
       <p className="mt-2 max-w-2xl text-[var(--muted)]">Upload approved FOSCOD field images, record alt text, and copy the public URL into a content record.</p>
 

@@ -58,11 +58,11 @@ export function PhotoSlot({
         aria-hidden
       />
       {tag && (
-        <span className="absolute left-4 top-4 z-10 rounded-[var(--radius-full)] bg-black/35 px-3 py-1 font-[family-name:var(--font-mono)] text-[0.65rem] uppercase tracking-[0.14em] text-white backdrop-blur-sm">
+        <span className="absolute left-4 top-4 z-10 rounded-[var(--radius-full)] bg-black/35 px-3 py-1 font-[family-name:var(--font-text)] text-[0.65rem] uppercase tracking-[0.14em] text-white backdrop-blur-sm">
           {tag}
         </span>
       )}
-      <figcaption className="absolute inset-x-0 bottom-0 z-10 flex items-center gap-2 bg-gradient-to-t from-black/55 to-transparent p-4 font-[family-name:var(--font-mono)] text-[0.7rem] text-white/90">
+      <figcaption className="absolute inset-x-0 bottom-0 z-10 flex items-center gap-2 bg-gradient-to-t from-black/55 to-transparent p-4 font-[family-name:var(--font-text)] text-[0.7rem] text-white/90">
         <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden className="shrink-0">
           <rect x="1" y="2.5" width="10" height="7.5" rx="1" stroke="currentColor" fill="none" />
           <circle cx="6" cy="6.5" r="2" stroke="currentColor" fill="none" />

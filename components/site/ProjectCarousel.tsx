@@ -109,7 +109,7 @@ export function ProjectCarousel({
                     <div className="flex h-full flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] transition-all duration-200 group-hover:-translate-y-0.5 group-hover:border-[var(--border-strong)] group-hover:shadow-[var(--shadow-md)]">
                       <PhotoSlot tone={tones[(gi * 3 + i) % 3]} ratio="4/3" tag={p.theme} caption={p.title} />
                       <div className="flex flex-1 flex-col p-6">
-                        <p className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.12em] text-[var(--muted)]">
+                        <p className="font-[family-name:var(--font-text)] text-[0.62rem] uppercase tracking-[0.12em] text-[var(--muted)]">
                           {p.location}
                         </p>
                         <h3 className="mt-1.5 text-lg leading-snug">{p.title}</h3>

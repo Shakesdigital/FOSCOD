@@ -111,7 +111,7 @@ export function ImpactCarouselLoop({
                     </div>
                     <div className="flex flex-1 flex-col p-6">
                       {card.verifiedOutcome && (
-                        <p className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
+                        <p className="font-[family-name:var(--font-text)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
                           ✓ {card.verifiedOutcome}
                         </p>
                       )}

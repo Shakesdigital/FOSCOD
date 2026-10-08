@@ -86,7 +86,7 @@ export function OpportunityBrowser({
       </div>
 
       {/* count */}
-      <p className="mt-6 text-center font-[family-name:var(--font-mono)] text-[0.72rem] uppercase tracking-[0.12em] text-[var(--muted)]">
+      <p className="mt-6 text-center font-[family-name:var(--font-text)] text-[0.72rem] uppercase tracking-[0.12em] text-[var(--muted)]">
         Showing {shown.length} of {filtered.length} {noun}
       </p>
 

@@ -49,7 +49,7 @@ export function ProgramFinder() {
         <Filter label="Duration" value={duration} setValue={setDuration} options={filters.duration} />
       </div>
 
-      <p className="mt-6 font-[family-name:var(--font-mono)] text-[0.72rem] uppercase tracking-[0.12em] text-[var(--muted)]">
+      <p className="mt-6 font-[family-name:var(--font-text)] text-[0.72rem] uppercase tracking-[0.12em] text-[var(--muted)]">
         {results.length} program{results.length === 1 ? "" : "s"} found
       </p>
 
@@ -61,7 +61,7 @@ export function ProgramFinder() {
               className="group flex flex-col gap-3 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-5 transition-colors hover:border-[var(--ink)] sm:flex-row sm:items-center sm:justify-between"
             >
               <div>
-                <p className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
+                <p className="font-[family-name:var(--font-text)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
                   {p.type} · {p.sector}
                 </p>
                 <h3 className="mt-1 text-lg leading-snug">{p.title}</h3>
@@ -102,7 +102,7 @@ function Filter({
 }) {
   return (
     <div>
-      <label className="font-[family-name:var(--font-mono)] text-[0.65rem] uppercase tracking-[0.14em] text-[var(--muted)]">
+      <label className="font-[family-name:var(--font-text)] text-[0.65rem] uppercase tracking-[0.14em] text-[var(--muted)]">
         {label}
       </label>
       <div className="mt-2 flex flex-wrap gap-2">

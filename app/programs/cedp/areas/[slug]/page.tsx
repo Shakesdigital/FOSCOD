@@ -115,7 +115,7 @@ export default async function CedpAreaPage({ params }: { params: Promise<{ slug:
                     className="rounded-none border-0 border-b border-[var(--border)]"
                   />
                   <div className="flex flex-1 flex-col p-6">
-                    <p className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
+                    <p className="font-[family-name:var(--font-text)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
                       {p.theme}
                     </p>
                     <h3 className="mt-2 text-xl leading-snug">{p.title}</h3>

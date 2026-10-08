@@ -17,7 +17,7 @@ export function Testimonials({ items }: { items: Testimonial[] }) {
             className="flex flex-col rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-7"
           >
             <span
-              className="font-[family-name:var(--font-display)] text-5xl leading-none text-[var(--accent-300)]"
+              className="font-[family-name:var(--font-text)] text-5xl leading-none text-[var(--accent-300)]"
               aria-hidden
             >
               &ldquo;
@@ -27,7 +27,7 @@ export function Testimonials({ items }: { items: Testimonial[] }) {
             </blockquote>
             <figcaption className="mt-6 border-t border-[var(--border)] pt-4">
               <p className="font-medium text-[var(--ink)]">{t.name}</p>
-              <p className="font-[family-name:var(--font-mono)] text-[0.7rem] uppercase tracking-[0.1em] text-[var(--muted)]">
+              <p className="font-[family-name:var(--font-text)] text-[0.7rem] uppercase tracking-[0.1em] text-[var(--muted)]">
                 {t.program} · {t.cohort}
               </p>
             </figcaption>

@@ -27,7 +27,7 @@ export function ImpactSnapshot({ metrics }: { metrics: ImpactMetric[] }) {
         <dl className="mt-12 grid gap-px overflow-hidden rounded-[var(--radius-lg)] border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
           {metrics.map((m) => (
             <div key={m.label} className="bg-[var(--ink)] p-6">
-              <dd className="font-[family-name:var(--font-display)] text-[clamp(2.4rem,5vw,3.2rem)] leading-none text-[var(--bg)]">
+              <dd className="font-[family-name:var(--font-text)] text-[clamp(2.4rem,5vw,3.2rem)] leading-none text-[var(--bg)]">
                 {m.value}
                 {m.unit && (
                   <span className="ml-1 text-xl text-[var(--accent-300)]">
@@ -38,7 +38,7 @@ export function ImpactSnapshot({ metrics }: { metrics: ImpactMetric[] }) {
               <dt className="mt-3 text-[0.95rem] text-[color-mix(in_srgb,var(--bg)_82%,transparent)]">
                 {m.label}
               </dt>
-              <p className="mt-3 font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.12em] text-[color-mix(in_srgb,var(--bg)_55%,transparent)]">
+              <p className="mt-3 font-[family-name:var(--font-text)] text-[0.62rem] uppercase tracking-[0.12em] text-[color-mix(in_srgb,var(--bg)_55%,transparent)]">
                 {m.status === "draft" ? (
                   <span className="text-[var(--gold-500)]">◷ {m.note}</span>
                 ) : (

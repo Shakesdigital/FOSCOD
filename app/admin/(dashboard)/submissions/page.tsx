@@ -10,7 +10,7 @@ export default async function AdminSubmissions() {
 
   return (
     <div>
-      <p className="font-[family-name:var(--font-mono)] text-[0.7rem] uppercase tracking-[0.16em] text-[var(--accent-700)]">
+      <p className="font-[family-name:var(--font-text)] text-[0.7rem] uppercase tracking-[0.16em] text-[var(--accent-700)]">
         Forms
       </p>
       <h1 className="mt-3 text-3xl">Submissions</h1>
@@ -35,7 +35,7 @@ export default async function AdminSubmissions() {
                   </span>
                   <span className="font-medium text-[var(--ink)]">{String(name) || "—"}</span>
                 </div>
-                <span className="font-[family-name:var(--font-mono)] text-[0.7rem] text-[var(--muted)]">
+                <span className="font-[family-name:var(--font-text)] text-[0.7rem] text-[var(--muted)]">
                   {new Date(s.created_at).toLocaleString()} · {s.status}
                 </span>
               </div>
@@ -44,7 +44,7 @@ export default async function AdminSubmissions() {
                   .filter(([k]) => k !== "company_website")
                   .map(([k, v]) => (
                     <div key={k} className="flex gap-2">
-                      <dt className="font-[family-name:var(--font-mono)] text-[0.7rem] uppercase tracking-[0.08em] text-[var(--muted)]">
+                      <dt className="font-[family-name:var(--font-text)] text-[0.7rem] uppercase tracking-[0.08em] text-[var(--muted)]">
                         {k}
                       </dt>
                       <dd className="text-[var(--ink-soft)]">{String(v)}</dd>

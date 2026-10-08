@@ -136,7 +136,7 @@ export function ProjectArchiveGrid({
                 >
                   ← Prev
                 </button>
-                <span className="font-[family-name:var(--font-mono)] text-xs text-[var(--ink-soft)]">
+                <span className="font-[family-name:var(--font-text)] text-xs text-[var(--ink-soft)]">
                   Page {currentPage} of {totalPages}
                 </span>
                 <button

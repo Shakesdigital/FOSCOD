@@ -84,7 +84,7 @@ export default async function VolunteerPage() {
             Students, graduates, professionals, faculty-led groups, and other applicants may be a fit when their skills and preparation match a current role. Direct community, technical, health-related, research, and child-facing activities require different boundaries and checks.
           </p>
           <div className="mt-7">
-            <Button href="/apply" variant="secondary" size="md">Check your fit</Button>
+            <Button href="/programs/global-learning-exchange" variant="secondary" size="md">Volunteer or Intern</Button>
           </div>
         </div>
       </section>
@@ -158,7 +158,7 @@ export default async function VolunteerPage() {
       </section>
 
       {/* apply today — green band */}
-      <ApplyBand label="Check your fit and apply" href="/apply" />
+      <ApplyBand label="Volunteer or Intern" href="/programs/global-learning-exchange" />
 
       {/* volunteer alumni testimonials — mint */}
       {alumni.length > 0 ? (

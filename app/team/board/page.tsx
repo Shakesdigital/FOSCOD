@@ -30,7 +30,7 @@ export default async function BoardPage() {
                 caption="Portrait"
               />
               <p className="mt-3 font-medium text-[var(--ink)]">{m.name}</p>
-              <p className="font-[family-name:var(--font-mono)] text-[0.72rem] uppercase tracking-[0.1em] text-[var(--muted)]">
+              <p className="font-[family-name:var(--font-text)] text-[0.72rem] uppercase tracking-[0.1em] text-[var(--muted)]">
                 {m.role}
               </p>
               {m.bio && <p className="mt-2 text-sm text-[var(--ink-soft)]">{m.bio}</p>}
@@ -43,7 +43,7 @@ export default async function BoardPage() {
       <CTABand
         title="Join the work"
         actions={[
-          { href: "/apply", label: "Apply to a program" },
+          { href: "/programs/global-learning-exchange", label: "Volunteer or Intern" },
           { href: "/partners", label: "Partner with us", variant: "secondary" },
         ]}
       />

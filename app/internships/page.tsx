@@ -13,7 +13,7 @@ export const metadata = pageMeta(
 const types = [
   { title: "Individual Internship", excerpt: "A one-to-one placement matched to your goals, field, and timeline.", href: "/internships/individual", tone: "water" as const },
   { title: "Group Engage Internship", excerpt: "University cohorts and professional groups on a shared community project.", href: "/internships/group", tone: "forest" as const },
-  { title: "University Cohort Program", excerpt: "Faculty-led cohorts with academic alignment and risk management.", href: "/apply", tone: "earth" as const },
+  { title: "University Cohort Program", excerpt: "Faculty-led cohorts with academic alignment and risk management.", href: "/programs/global-learning-exchange", tone: "earth" as const },
 ];
 
 const reasons = [
@@ -86,7 +86,7 @@ export default async function InternshipsPage() {
             University students, recent graduates, and early-career professionals may be a fit when their preparation matches a current community-defined role. Technical, research, health-related, and direct community work carry different requirements and boundaries.
           </p>
           <div className="mt-7">
-            <Button href="/apply" variant="secondary" size="md">Check your fit</Button>
+            <Button href="/programs/global-learning-exchange" variant="secondary" size="md">Volunteer or Intern</Button>
           </div>
         </div>
       </section>
@@ -159,7 +159,7 @@ export default async function InternshipsPage() {
       </section>
 
       {/* apply today — green band */}
-      <ApplyBand label="Check your fit and apply" href="/apply" />
+      <ApplyBand label="Volunteer or Intern" href="/programs/global-learning-exchange" />
 
       {/* internship alumni testimonials — mint */}
       {alumni.length > 0 ? (

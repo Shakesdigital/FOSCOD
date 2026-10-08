@@ -65,7 +65,7 @@ export function PartnerLogos({
                         height={40}
                       />
                     ) : (
-                      <span className="font-[family-name:var(--font-mono)] text-[0.7rem] uppercase tracking-[0.16em] text-[var(--muted)]">
+                      <span className="font-[family-name:var(--font-text)] text-[0.7rem] uppercase tracking-[0.16em] text-[var(--muted)]">
                         {p.name}
                       </span>
                     )}
@@ -74,7 +74,7 @@ export function PartnerLogos({
               : (displaySet as string[]).map((name, i) => (
                   <span
                     key={i}
-                    className="font-[family-name:var(--font-mono)] text-[0.7rem] uppercase tracking-[0.16em] text-[var(--muted)]"
+                    className="font-[family-name:var(--font-text)] text-[0.7rem] uppercase tracking-[0.16em] text-[var(--muted)]"
                   >
                     {name}
                   </span>

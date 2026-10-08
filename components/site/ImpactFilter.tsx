@@ -21,7 +21,7 @@ export function ImpactFilter({ stats, subPrograms }: { stats: ImpactStat[]; subP
         </div>
         {subProgram !== "ALL" ? <p className="mb-5 text-sm text-[var(--muted)]">Sub-program figures appear after editors link verified statistics to this sub-program in the CMS.</p> : null}
         <dl className="grid gap-px overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--border)] sm:grid-cols-2 lg:grid-cols-4">
-          {visibleStats.map((item) => <div key={item.metric_name} className="bg-[var(--surface)] p-6"><dd className="font-[family-name:var(--font-display)] text-4xl">{item.current_value}{item.unit ? <span className="ml-1 text-xl text-[var(--accent-700)]">{item.unit}</span> : null}</dd><dt className="mt-3 text-[var(--ink-soft)]">{item.metric_name}</dt><p className="mt-3 text-xs text-[var(--muted)]">{item.as_of_date ? `As of ${new Date(item.as_of_date).toLocaleDateString("en-GB", { month: "short", year: "numeric" })}` : item.source_note}</p></div>)}
+          {visibleStats.map((item) => <div key={item.metric_name} className="bg-[var(--surface)] p-6"><dd className="font-[family-name:var(--font-text)] text-4xl">{item.current_value}{item.unit ? <span className="ml-1 text-xl text-[var(--accent-700)]">{item.unit}</span> : null}</dd><dt className="mt-3 text-[var(--ink-soft)]">{item.metric_name}</dt><p className="mt-3 text-xs text-[var(--muted)]">{item.as_of_date ? `As of ${new Date(item.as_of_date).toLocaleDateString("en-GB", { month: "short", year: "numeric" })}` : item.source_note}</p></div>)}
           {!visibleStats.length ? <div className="col-span-full bg-[var(--surface)] p-10 text-center text-sm text-[var(--muted)]">No verified figures match this filter yet.</div> : null}
         </dl>
       </div>

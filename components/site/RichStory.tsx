@@ -68,10 +68,10 @@ export function RichStory({
             );
           case "quote":
             return (
-              <blockquote key={i} className={`border-l-4 border-[var(--accent-600)] pl-6 italic text-[var(--ink-soft)] ${textAlignClass(block.alignment)}`}>
+              <blockquote key={i} className={`rounded-[var(--radius-md)] bg-[var(--surface-2)] px-4 py-3 italic text-[var(--ink-soft)] ${textAlignClass(block.alignment)}`}>
                 &ldquo;{block.content}&rdquo;
                 {block.attribution && (
-                  <cite className="mt-2 block font-[family-name:var(--font-mono)] text-xs uppercase tracking-[0.12em] text-[var(--muted)] not-italic">
+                  <cite className="mt-2 block font-[family-name:var(--font-text)] text-xs uppercase tracking-[0.12em] text-[var(--muted)] not-italic">
                     — {block.attribution}
                   </cite>
                 )}
@@ -89,7 +89,7 @@ export function RichStory({
                   className="shadow-[var(--shadow-sm)]"
                 />
                 {block.caption && (
-                  <figcaption className="mt-2 font-[family-name:var(--font-mono)] text-center text-xs uppercase tracking-[0.12em] text-[var(--muted)]">
+                  <figcaption className="mt-2 font-[family-name:var(--font-text)] text-center text-xs uppercase tracking-[0.12em] text-[var(--muted)]">
                     {block.caption}
                   </figcaption>
                 )}

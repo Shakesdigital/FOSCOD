@@ -51,7 +51,7 @@ export function TestimonialArchiveFilter({
   return (
     <aside className="w-full border-b border-[var(--border)] bg-[var(--surface)] md:border-r md:border-b-0 md:w-72 md:flex-shrink-0 md:overflow-y-auto">
       <div className="flex flex-col items-center gap-6 py-6 md:py-8 md:px-6">
-        <h3 className="font-[family-name:var(--font-mono)] text-xs uppercase tracking-wider text-[var(--ink-soft)]">
+        <h3 className="font-[family-name:var(--font-text)] text-xs uppercase tracking-wider text-[var(--ink-soft)]">
           Filter testimonials
         </h3>
 

@@ -35,10 +35,10 @@ export default function AdminLogin() {
     <main className="flex min-h-screen items-center justify-center bg-[var(--bg)] px-6">
       <div className="w-full max-w-sm">
         <div className="flex items-baseline gap-2">
-          <span className="font-[family-name:var(--font-display)] text-2xl font-semibold text-[var(--ink)]">
+          <span className="font-[family-name:var(--font-text)] text-2xl font-semibold text-[var(--ink)]">
             FOSCOD
           </span>
-          <span className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.18em] text-[var(--muted)]">
+          <span className="font-[family-name:var(--font-text)] text-[0.62rem] uppercase tracking-[0.18em] text-[var(--muted)]">
             CMS
           </span>
         </div>

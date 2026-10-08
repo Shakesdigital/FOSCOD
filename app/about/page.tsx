@@ -100,7 +100,7 @@ export default async function AboutPage() {
                     />
                   )}
                   <p className="mt-3 text-[0.95rem] leading-relaxed text-[var(--ink-soft)]">{v.body}</p>
-                  <p className="mt-4 font-[family-name:var(--font-mono)] text-[0.65rem] uppercase tracking-[0.12em] text-[var(--accent-700)]">
+                  <p className="mt-4 font-[family-name:var(--font-text)] text-[0.65rem] uppercase tracking-[0.12em] text-[var(--accent-700)]">
                     Benchmark: {v.benchmark}
                   </p>
                 </div>
@@ -153,9 +153,9 @@ export default async function AboutPage() {
           title="Want to work with us?"
           body="Whether you're a university, a funder, a community organization, or an individual — there's a path to partnership."
           actions={[
-            { href: "/partners", label: "Partner with FOSCOD" },
-            { href: "/donate", label: "Support our work", variant: "secondary" },
-            { href: "/apply", label: "Apply for a program", variant: "ghost" },
+            { href: "/partners", label: "Partner with us" },
+            { href: "/donate", label: "Donate to a project", variant: "secondary" },
+            { href: "/programs/global-learning-exchange", label: "Volunteer or Intern", variant: "ghost" },
           ]}
         />
       </div>

@@ -27,26 +27,26 @@ export function FeaturedImpactStory({
             <Eyebrow>{eyebrow}</Eyebrow>
             <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)] leading-snug">{story.title}</h2>
             {dateStr && (
-              <p className="mt-3 font-[family-name:var(--font-mono)] text-[0.72rem] uppercase tracking-[0.12em] text-[var(--muted)]">
+              <p className="mt-3 font-[family-name:var(--font-text)] text-[0.72rem] uppercase tracking-[0.12em] text-[var(--muted)]">
                 Published {dateStr}
               </p>
             )}
 
             {story.quote && (
-              <blockquote className="mt-6 border-l-4 border-[var(--accent-600)] pl-6 italic text-lg leading-relaxed text-[var(--ink-soft)]">
+              <blockquote className="mt-6 italic text-lg leading-relaxed text-[var(--ink-soft)]">
                 &ldquo;{story.quote}&rdquo;
               </blockquote>
             )}
 
             {story.community_voice && (
-              <p className="mt-4 font-[family-name:var(--font-mono)] text-[0.7rem] uppercase tracking-[0.12em] text-[var(--accent-700)]">
+              <p className="mt-4 font-[family-name:var(--font-text)] text-[0.7rem] uppercase tracking-[0.12em] text-[var(--accent-700)]">
                 — {story.community_voice}
               </p>
             )}
 
             {story.verified_outcome && (
               <p className="mt-6 font-medium text-[var(--ink)]">
-                <span className="font-[family-name:var(--font-mono)] text-[0.65rem] uppercase tracking-[0.12em] text-[var(--forest-700)]">Verified outcome: </span>
+                <span className="font-[family-name:var(--font-text)] text-[0.65rem] uppercase tracking-[0.12em] text-[var(--forest-700)]">Verified outcome: </span>
                 {story.verified_outcome}
               </p>
             )}

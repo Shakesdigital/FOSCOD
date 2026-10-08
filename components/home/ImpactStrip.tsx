@@ -21,12 +21,12 @@ export function ImpactStrip({
         <dl className="mt-8 grid gap-px overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--border)] sm:grid-cols-2 lg:grid-cols-4">
           {stats.map((m) => (
             <div key={m.metric_name} className="bg-[var(--surface)] p-6">
-              <dd className="font-[family-name:var(--font-display)] text-[clamp(2.2rem,4vw,3rem)] leading-none text-[var(--ink)]">
+              <dd className="font-[family-name:var(--font-text)] text-[clamp(2.2rem,4vw,3rem)] leading-none text-[var(--ink)]">
                 {m.current_value}
                 {m.unit && <span className="ml-1 text-xl text-[var(--accent-600)]">{m.unit}</span>}
               </dd>
               <dt className="mt-3 text-[0.95rem] text-[var(--ink-soft)]">{m.metric_name}</dt>
-              <p className="mt-3 font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.12em]">
+              <p className="mt-3 font-[family-name:var(--font-text)] text-[0.62rem] uppercase tracking-[0.12em]">
                 {m.as_of_date && (
                   <span className="text-[var(--muted)]">As of {new Date(m.as_of_date).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</span>
                 )}

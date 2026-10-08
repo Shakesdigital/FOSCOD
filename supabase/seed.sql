@@ -135,13 +135,13 @@ on conflict (slug) do nothing;
 insert into public.hero_slides (page_slug, eyebrow, title, intro, cta_label, cta_href, cta2_label, cta2_href, tone, order_column, visible) values
   ('home', 'Registered Ugandan NGO · Buikwe District', 'Communities leading environmental innovation and clean energy adoption',
     'FOSCOD empowers underserved communities through ethical, sustainable development and global knowledge exchange.',
-    'Partner', '/partners', 'Apply', '/apply', 'earth', 1, true),
+    'Partner with us', '/partners', 'Volunteer or Intern', '/programs/global-learning-exchange', 'earth', 1, true),
   ('home', 'Global Learning & Exchange', 'Learn in the field, alongside the community',
     'Internships, volunteering, group programs, and research placements with real local supervision — and a host-family experience that turns a placement into a relationship.',
     'Explore programs', '/programs/global-learning-exchange', null, null, 'water', 2, true),
   ('home', 'Community Empowerment & Development', 'Invest in change that communities sustain',
     'Fund and partner on locally owned solutions in renewable energy, environment, water, livelihoods, and inclusion — designed and delivered by the communities that lead them.',
-    'Support our work', '/donate', 'Explore projects', '/projects', 'forest', 3, true),
+    'Donate to a project', '/donate', 'Explore projects', '/projects/archive', 'forest', 3, true),
   ('about', 'Who we are', 'A Ugandan NGO with local roots and global partnerships',
     'We work with rural and underserved communities to design sustainable, ethical, and locally owned development — combining community-led practice with global knowledge exchange.',
     'Meet the team', '/team', null, null, 'forest', 1, true),
@@ -150,7 +150,7 @@ insert into public.hero_slides (page_slug, eyebrow, title, intro, cta_label, cta
     'Our programs', '/programs', null, null, 'earth', 2, true),
   ('programs', 'Our programs', 'Two pillars, one mission',
     'FOSCOD advances community-led development and connects global learners to real field work — so local innovation and global knowledge strengthen each other.',
-    'Find your program', '/programs/finder', null, null, 'water', 1, true),
+    'Find a project opportunity fit', '/programs/finder', null, null, 'water', 1, true),
   ('programs', 'Global Service Learning', 'Structured, supervised field experience in Uganda',
     'Internships, volunteering, group programs, and research across clean energy, WASH, livelihoods, health, and the environment.',
     'Learn more', '/programs/global-learning-exchange', null, null, 'forest', 2, true),
@@ -162,13 +162,13 @@ insert into public.hero_slides (page_slug, eyebrow, title, intro, cta_label, cta
     'Grow verified impact', '/donate', null, null, 'water', 2, true),
   ('contact', 'Contact', 'Get in touch with FOSCOD',
     'Questions about programs, partnerships, donations, or community projects? Tell us a little about you and we''ll reply soon.',
-    'Apply now', '/apply', 'Partner with us', '/partners', 'forest', 1, true),
+    'Volunteer or Intern', '/programs/global-learning-exchange', null, null, 'forest', 1, true),
   ('contact', 'We''re in Jinja', 'Let''s build something lasting, together',
     'Reach our team by email or phone, or stop by the office — we''d love to hear what you''re working on.',
     'Explore partnership', '/partners', null, null, 'water', 2, true),
   ('stories', 'Blog · stories from the field', 'Stories from the communities we serve',
     'Project updates, impact reports, alumni reflections, and host-family stories — straight from FOSCOD''s work across Uganda.',
-    'Apply to a program', '/apply', null, null, 'earth', 1, true),
+    'Volunteer or Intern', '/programs/global-learning-exchange', null, null, 'earth', 1, true),
   ('stories', 'From the field', 'Real people, real change',
     'Read how community-led projects in clean energy, water, and livelihoods are taking shape — and the people behind them.',
     'See our impact', '/impact', null, null, 'forest', 2, true),
@@ -177,43 +177,43 @@ insert into public.hero_slides (page_slug, eyebrow, title, intro, cta_label, cta
     'Start your application', '#application-forms', 'View fees', '/programs/program-fees', 'water', 1, true),
   ('apply', 'Structured & supported', 'Field experience that means something',
     'Supervised placements, host families, and a clear application path — for students, professionals, and university groups.',
-    'Find your program', '/programs/finder', null, null, 'earth', 2, true),
+    'Find a project opportunity fit', '/programs/finder', null, null, 'earth', 2, true),
   ('global-learning-exchange', 'Global Learning & Exchange', 'Global Service Learning in Uganda',
     'Internships, volunteering, and global service trips that pair real community projects with structured, supervised field learning.',
-    'Apply now', '/apply', 'Find your program', '/programs/finder', 'water', 1, true),
+    'Volunteer or Intern', '/programs/global-learning-exchange', 'Find a project opportunity fit', '/programs/finder', 'water', 1, true),
   ('global-learning-exchange', 'Learn by doing', 'Contribute to genuine community priorities',
     'Work alongside FOSCOD, host families, and local leaders on clean energy, WASH, livelihoods, health, and research.',
     'View fees', '/programs/program-fees', null, null, 'forest', 2, true),
   ('volunteer', 'Volunteer', 'Volunteer in Uganda with FOSCOD',
     'Work with communities — not just in communities — through structured volunteer programs that support local priorities and lasting impact.',
-    'Apply to volunteer', '/apply', 'View fees', '/programs/program-fees', 'forest', 1, true),
+    'Volunteer or Intern', '/programs/global-learning-exchange', null, null, 'water', 1, true),
   ('volunteer', 'Individual or group', 'Give your time where it lasts',
     'Join as an individual or bring a group — every placement is supervised, supported, and tied to a real community priority.',
     'Group volunteering', '/volunteer/group', 'Individual volunteering', '/volunteer/individual', 'water', 2, true),
   ('volunteer-group', 'Group volunteer program', 'Bring your team to the field',
     'University cohorts, faculty-led groups, and professional teams working a shared community project — with logistics and risk management handled.',
-    'Apply today', '/apply', null, null, 'water', 1, true),
+    'Volunteer or Intern', '/programs/global-learning-exchange', null, null, 'water', 1, true),
   ('volunteer-individual', 'Individual volunteer program', 'A placement matched to you',
     'One-to-one placements matched to your skills and the community''s needs, with local supervision and 24/7 support.',
-    'Apply today', '/apply', null, null, 'forest', 1, true),
+    'Volunteer or Intern', '/programs/global-learning-exchange', null, null, 'forest', 1, true),
   ('internships', 'Internships', 'Sustainable development internships in Uganda',
     'Build real-world skills through supervised community projects across public health, clean energy, livelihoods, research, communications, and enterprise.',
-    'Apply for an internship', '/apply', 'View fees', '/programs/program-fees', 'water', 1, true),
+    'Volunteer or Intern', '/programs/global-learning-exchange', 'View fees', '/programs/program-fees', 'water', 1, true),
   ('internships', 'Hands-on & supervised', 'Turn theory into real contribution',
     'Individual placements, group engage internships, and university cohorts — all matched to your goals and supervised on the ground.',
     'Browse opportunities', '/internships/opportunities', null, null, 'earth', 2, true),
   ('internship-group', 'Group internship program', 'Bring your cohort to the field',
     'University cohorts and professional groups working a shared community project — with academic alignment, supervision, and safety handled.',
-    'Apply today', '/apply', null, null, 'water', 1, true),
+    'Volunteer or Intern', '/programs/global-learning-exchange', null, null, 'water', 1, true),
   ('internship-individual', 'Individual internship program', 'A placement matched to your goals',
     'One-to-one internships matched to your field, timeline, and career goals, with local supervision and a host-family experience.',
-    'Apply today', '/apply', null, null, 'forest', 1, true),
+    'Volunteer or Intern', '/programs/global-learning-exchange', null, null, 'forest', 1, true),
   ('internships-opportunities', 'Internship opportunities', 'FOSCOD internship opportunities',
     'Browse live internship projects across WASH, health, nutrition, energy, agroforestry, research, ICT, communications, and more — and find the one that fits you.',
-    'Apply now', '/apply', null, null, 'water', 1, true),
+    'Volunteer or Intern', '/programs/global-learning-exchange', null, null, 'water', 1, true),
   ('volunteer-opportunities', 'Volunteer opportunities', 'FOSCOD volunteer opportunities',
     'Find a volunteer project where your time and skills make a real difference — across health, empowerment, education, and the environment.',
-    'Apply now', '/apply', null, null, 'forest', 1, true)
+    'Volunteer or Intern', '/programs/global-learning-exchange', null, null, 'forest', 1, true)
 on conflict (page_slug, order_column) do update set
   eyebrow = excluded.eyebrow, title = excluded.title, intro = excluded.intro,
   cta_label = excluded.cta_label, cta_href = excluded.cta_href,
@@ -221,7 +221,7 @@ on conflict (page_slug, order_column) do update set
   tone = excluded.tone, visible = excluded.visible;
 
 update public.hero_slides
-set cta3_label = 'Support', cta3_href = '/donate'
+set cta3_label = 'Donate to a project', cta3_href = '/donate'
 where page_slug = 'home' and order_column = 1;
 
 update public.hero_slides
@@ -280,12 +280,12 @@ insert into public.about_content (key, config, visible) values
   ('leadership', '{
     "board": {
       "description": "A six-member Board of Directors provides strategic oversight, approves organizational strategy, and ensures accountability to the communities we serve.",
-      "href": "/team#board",
+      "href": "/team/board",
       "cta": "View the board"
     },
     "team": {
       "description": "Our core staff team in Jinja designs, implements, and monitors programs across clean energy, WASH, livelihoods, health, and the environment.",
-      "href": "/team#staff",
+      "href": "/team/staff",
       "cta": "Meet the team"
     }
   }', true)
@@ -447,7 +447,7 @@ on conflict (id) do update set
 
 -- ---------- homepage: how-you-can-get-involved cards ----------
 insert into public.home_involvement_cards (title, body, href, cta_label, icon, visible, order_column) values
-  ('Volunteer intern', 'Join a supervised placement matched to your skills and a community-defined priority — with local support, host families, and structured learning outcomes.', '/apply', 'Explore internships', 'volunteer', true, 1),
+  ('Volunteer intern', 'Join a supervised placement matched to your skills and a community-defined priority — with local support, host families, and structured learning outcomes.', '/programs/global-learning-exchange', 'Explore internships', 'volunteer', true, 1),
   ('Partner with us', 'Co-design research, funding, or delivery partnerships around real community priorities — with roles, safeguards, and evidence agreed from the start.', '/partners', 'Partner with FOSCOD', 'partner', true, 2),
   ('Donate to our project', 'Support a named project or priority with verified need, approved transfer routes, and transparent reporting — starting with a giving inquiry.', '/donate', 'Start a giving inquiry', 'donate', true, 3)
 on conflict (id) do update set
@@ -534,7 +534,7 @@ insert into public.cedp_areas (slug, title, subtitle, description, hero_image_ur
    'Support clean energy', '/donate?program=green-skills',
    'Explore projects', '/projects?theme=Clean+Energy',
    'Partner on climate resilience', '/partners',
-   '[{"title":"Volunteer intern","body":"Join a supervised placement in solar energy, clean cooking, or ecosystem restoration — with local support and a host-family experience.","href":"/apply","ctaLabel":"Explore internships","icon":"energy"},{"title":"Partner with us","body":"Co-design clean-energy, climate, or carbon-finance partnerships around real community priorities with agreed roles and evidence.","href":"/partners","ctaLabel":"Partner with FOSCOD","icon":"partner"},{"title":"Donate to clean energy","body":"Fund solar installations, clean cookstoves, tree planting, and climate-resilience infrastructure with transparent reporting.","href":"/donate?program=green-skills","ctaLabel":"Start a giving inquiry","icon":"donate}"]',
+   '[{"title":"Volunteer intern","body":"Join a supervised placement in solar energy, clean cooking, or ecosystem restoration — with local support and a host-family experience.","href":"/programs/global-learning-exchange","ctaLabel":"Explore internships","icon":"energy"},{"title":"Partner with us","body":"Co-design clean-energy, climate, or carbon-finance partnerships around real community priorities with agreed roles and evidence.","href":"/partners","ctaLabel":"Partner with FOSCOD","icon":"partner"},{"title":"Donate to clean energy","body":"Fund solar installations, clean cookstoves, tree planting, and climate-resilience infrastructure with transparent reporting.","href":"/donate?program=green-skills","ctaLabel":"Start a giving inquiry","icon":"donate}"]',
    1, true,
    'Clean Energy & Climate Resilience | CEDP — FOSCOD',
    'Solar energy, clean cooking, ecosystem restoration, and climate adaptation in Kalagala Parish. Community-led, evidence-verified development.'),
@@ -547,7 +547,7 @@ insert into public.cedp_areas (slug, title, subtitle, description, hero_image_ur
    'Support WASH work', '/donate?program=wash',
    'Explore water projects', '/projects?theme=WASH',
    'Partner on WASH', '/partners',
-   '[{"title":"Volunteer intern","body":"Work on safe-water infrastructure, sanitation campaigns, or hygiene education with full local supervision and 24/7 support.","href":"/apply","ctaLabel":"Explore internships","icon":"water"},{"title":"Partner with us","body":"Co-design WASH infrastructure, governance training, or water-quality monitoring partnerships with local committees and technical teams.","href":"/partners","ctaLabel":"Partner with FOSCOD","icon":"partner"},{"title":"Donate to WASH","body":"Support spring protection, solar-powered water systems, sanitation facilities, or hygiene-promotion campaigns.","href":"/donate?program=wash","ctaLabel":"Start a giving inquiry","icon":"water}"]',
+   '[{"title":"Volunteer intern","body":"Work on safe-water infrastructure, sanitation campaigns, or hygiene education with full local supervision and 24/7 support.","href":"/programs/global-learning-exchange","ctaLabel":"Explore internships","icon":"water"},{"title":"Partner with us","body":"Co-design WASH infrastructure, governance training, or water-quality monitoring partnerships with local committees and technical teams.","href":"/partners","ctaLabel":"Partner with FOSCOD","icon":"partner"},{"title":"Donate to WASH","body":"Support spring protection, solar-powered water systems, sanitation facilities, or hygiene-promotion campaigns.","href":"/donate?program=wash","ctaLabel":"Start a giving inquiry","icon":"water}"]',
    2, true,
    'Water, Sanitation & Health Communities | CEDP — FOSCOD',
    'Safe water, spring protection, sanitation, and hygiene in Kalagala Parish. Community-owned water infrastructure and health programs.'),
@@ -560,7 +560,7 @@ insert into public.cedp_areas (slug, title, subtitle, description, hero_image_ur
    'Support green livelihoods', '/donate?program=livelihoods',
    'Explore livelihood projects', '/projects?theme=Green+Livelihoods',
    'Partner on enterprise', '/partners',
-   '[{"title":"Volunteer intern","body":"Support climate-smart agriculture, green enterprise incubation, or women''s economic empowerment programs with field-based supervision.","href":"/apply","ctaLabel":"Explore internships","icon":"livelihoods"},{"title":"Partner with us","body":"Co-design enterprise-development, market-linkage, or financial-inclusion partnerships around community-identified opportunities.","href":"/partners","ctaLabel":"Partner with FOSCOD","icon":"partner"},{"title":"Donate to livelihoods","body":"Fund seed grants, savings groups, climate-smart agriculture, or green enterprise incubation with transparent community-led oversight.","href":"/donate?program=livelihoods","ctaLabel":"Start a giving inquiry","icon":"donate}"]',
+   '[{"title":"Volunteer intern","body":"Support climate-smart agriculture, green enterprise incubation, or women''s economic empowerment programs with field-based supervision.","href":"/programs/global-learning-exchange","ctaLabel":"Explore internships","icon":"livelihoods"},{"title":"Partner with us","body":"Co-design enterprise-development, market-linkage, or financial-inclusion partnerships around community-identified opportunities.","href":"/partners","ctaLabel":"Partner with FOSCOD","icon":"partner"},{"title":"Donate to livelihoods","body":"Fund seed grants, savings groups, climate-smart agriculture, or green enterprise incubation with transparent community-led oversight.","href":"/donate?program=livelihoods","ctaLabel":"Start a giving inquiry","icon":"donate}"]',
    3, true,
    'Sustainable Livelihoods & Economic Empowerment | CEDP — FOSCOD',
    'Savings groups, women-led enterprises, climate-smart agriculture, and green business incubation in Kalagala Parish.')
@@ -786,9 +786,9 @@ insert into public.footer_nav (column_key, label, href, order_column, visible) v
   ('quick-links', 'Impact Stories', '/impact/stories', 4, true),
   ('quick-links', 'Projects', '/projects', 5, true),
   ('quick-links', 'Downloads & Reports', '/impact#downloads', 6, true),
-  ('quick-links', 'Partner With Us', '/partners', 7, true),
-  ('quick-links', 'Apply / Volunteer', '/apply', 8, true),
-  ('quick-links', 'Support Our Work', '/donate', 9, true),
+  ('quick-links', 'Partner with us', '/partners', 7, true),
+  ('quick-links', 'Volunteer or Intern', '/programs/global-learning-exchange', 8, true),
+  ('quick-links', 'Donate to a project', '/donate', 9, true),
   ('quick-links', 'Stories from the Field', '/stories', 10, true),
   ('quick-links', 'Project Updates', '/stories?category=Project+Updates', 11, true),
   ('quick-links', 'Impact Reports', '/stories?category=Impact+Reports', 12, true)

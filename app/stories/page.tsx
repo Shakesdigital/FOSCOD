@@ -53,10 +53,10 @@ export default async function BlogPage() {
                 >
                   <PhotoSlot tone={(["forest", "water", "earth"] as const)[i % 3]} ratio="16/10" caption={`${s.title} — story image`} className="rounded-none border-0 border-b border-[var(--border)]" />
                   <div className="flex flex-1 flex-col p-6">
-                    <p className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">{s.category}</p>
+                    <p className="font-[family-name:var(--font-text)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">{s.category}</p>
                     <h3 className="mt-2 text-lg leading-snug">{s.title}</h3>
                     <p className="mt-2 flex-1 text-[0.9rem] leading-relaxed text-[var(--muted)]">{s.excerpt}</p>
-                    <p className="mt-4 font-[family-name:var(--font-mono)] text-[0.68rem] text-[var(--muted)]">{s.date}</p>
+                    <p className="mt-4 font-[family-name:var(--font-text)] text-[0.68rem] text-[var(--muted)]">{s.date}</p>
                   </div>
                 </Link>
               </li>
@@ -68,7 +68,7 @@ export default async function BlogPage() {
             {featured && (
               <div className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
                 <div className="border-b border-[var(--border)] bg-[var(--accent-600)] px-5 py-3">
-                  <p className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.16em] text-white">Featured</p>
+                  <p className="font-[family-name:var(--font-text)] text-[0.62rem] uppercase tracking-[0.16em] text-white">Featured</p>
                 </div>
                 <div className="p-5">
                   <h3 className="text-lg leading-snug">{featured.title}</h3>
@@ -115,7 +115,7 @@ export default async function BlogPage() {
       <CTABand
         title="Be part of the next story"
         actions={[
-          { href: "/apply", label: "Apply to a program" },
+          { href: "/programs/global-learning-exchange", label: "Volunteer or Intern" },
           { href: "/alumni", label: "Share your story", variant: "secondary" },
         ]}
       />

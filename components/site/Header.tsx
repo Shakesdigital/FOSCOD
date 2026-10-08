@@ -15,10 +15,10 @@ export function Header() {
       <div className="container-page flex h-16 items-center justify-between gap-6 md:h-20">
         {/* Wordmark — swap for logo asset via CMS branding settings */}
         <Link href="/" className="flex items-baseline gap-2 shrink-0" aria-label="FOSCOD home">
-          <span className="font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight text-[var(--ink)]">
+          <span className="font-[family-name:var(--font-text)] text-2xl font-semibold tracking-tight text-[var(--ink)]">
             FOSCOD
           </span>
-          <span className="hidden font-[family-name:var(--font-mono)] text-[0.65rem] uppercase tracking-[0.18em] text-[var(--muted)] sm:inline">
+          <span className="hidden font-[family-name:var(--font-text)] text-[0.65rem] uppercase tracking-[0.18em] text-[var(--muted)] sm:inline">
             Uganda
           </span>
         </Link>
@@ -120,7 +120,7 @@ export function Header() {
             ))}
 
 
-            <p className="mt-4 font-[family-name:var(--font-mono)] text-xs text-[var(--muted)]">
+            <p className="mt-4 font-[family-name:var(--font-text)] text-xs text-[var(--muted)]">
               {site.contact.location}
             </p>
           </nav>

@@ -184,7 +184,7 @@ export default async function ApplyPage() {
           </div>
           <div className="mt-8 text-center">
             <Button href="/apply/form" variant="primary" size="lg">
-              Apply Now
+              Volunteer or Intern
             </Button>
           </div>
         </div>

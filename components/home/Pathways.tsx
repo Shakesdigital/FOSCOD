@@ -33,7 +33,7 @@ export function Pathways({ pathways }: { pathways: Pathway[] }) {
                 style={{ background: accentVar }}
                 aria-hidden
               />
-              <p className="font-[family-name:var(--font-mono)] text-[0.68rem] uppercase tracking-[0.14em] text-[var(--muted)]">
+              <p className="font-[family-name:var(--font-text)] text-[0.68rem] uppercase tracking-[0.14em] text-[var(--muted)]">
                 {p.kicker}
               </p>
               <h3 className="mt-3 text-2xl">{p.title}</h3>

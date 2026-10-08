@@ -105,7 +105,7 @@ export function TestimonialArchiveGrid({
             {cards.length ? (
               <>
                 <div className="mb-8">
-                  <p className="font-[family-name:var(--font-mono)] text-xs uppercase tracking-wider text-[var(--ink-soft)]">
+                  <p className="font-[family-name:var(--font-text)] text-xs uppercase tracking-wider text-[var(--ink-soft)]">
                     Permissioned testimonials
                   </p>
                 </div>
@@ -133,7 +133,7 @@ export function TestimonialArchiveGrid({
                         )}
                       </div>
                       <div className="flex flex-1 flex-col p-6">
-                        <p className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
+                        <p className="font-[family-name:var(--font-text)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
                           {card.testimonial.cohort || "FOSCOD participant"}
                         </p>
                         <h3 className="mt-2 text-lg font-semibold leading-snug text-[var(--ink)]">
@@ -184,7 +184,7 @@ export function TestimonialArchiveGrid({
                 >
                   ← Prev
                 </button>
-                <span className="font-[family-name:var(--font-mono)] text-xs text-[var(--ink-soft)]">
+                <span className="font-[family-name:var(--font-text)] text-xs text-[var(--ink-soft)]">
                   Page {currentPage} of {totalPages}
                 </span>
                 <button

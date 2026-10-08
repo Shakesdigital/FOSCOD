@@ -76,7 +76,7 @@ export function HowWeWork({
           {steps.map((s, i) => (
             <li key={s} className="flex items-center gap-3 md:flex-1 md:min-w-[200px]">
               <div className="flex h-full flex-1 items-start gap-3 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-4">
-                <span className="font-[family-name:var(--font-mono)] text-sm text-[var(--accent-700)]">
+                <span className="font-[family-name:var(--font-text)] text-sm text-[var(--accent-700)]">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <span className="text-[0.92rem] leading-snug text-[var(--ink-soft)]">{s}</span>
@@ -183,7 +183,7 @@ export function FeatureGrid({
           ) : null}
           <div className="p-6">
             {it.kicker && (
-              <p className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
+              <p className="font-[family-name:var(--font-text)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
                 {it.kicker}
               </p>
             )}
@@ -249,13 +249,13 @@ export function Steps({ steps }: { steps: { title: string; body?: string; imageU
                 <img src={s.imageUrl} alt={s.imageAlt || s.title} className="h-full w-full object-cover" width={80} height={80} loading="lazy" />
               </div>
             ) : (
-              <span className="font-[family-name:var(--font-mono)] text-sm text-[var(--accent-700)]">
+              <span className="font-[family-name:var(--font-text)] text-sm text-[var(--accent-700)]">
                 {String(i + 1).padStart(2, "0")}
               </span>
             )}
             <div className="flex-1">
               {s.imageUrl ? (
-                <span className="font-[family-name:var(--font-mono)] text-sm text-[var(--accent-700)]">
+                <span className="font-[family-name:var(--font-text)] text-sm text-[var(--accent-700)]">
                   {String(i + 1).padStart(2, "0")}
                 </span>
               ) : null}
@@ -369,7 +369,7 @@ export function ProgramsSection({
               <PhotoSlot tone={p.tone} ratio="16/9" caption={`${p.title} — add photo via CMS`} />
               <div className="flex flex-1 flex-col p-7 md:p-8">
                 {p.pillar && (
-                  <p className="font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
+                  <p className="font-[family-name:var(--font-text)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
                     {p.pillar}
                   </p>
                 )}
@@ -387,7 +387,7 @@ export function ProgramsSection({
   );
 }
 
-/** ApplyBand — the wireframe's full-width green "Apply Today" call to action. */
+/** ApplyBand — the wireframe's full-width green call to action for program engagement. */
 export function ApplyBand({
   label = "Apply Today",
   href = "/apply",
@@ -556,7 +556,7 @@ export function CardGrid({
                 )}
                 <div className="flex flex-1 flex-col p-6">
                   {c.kicker && (
-                    <p className="mb-1 font-[family-name:var(--font-mono)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
+                    <p className="mb-1 font-[family-name:var(--font-text)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
                       {c.kicker}
                     </p>
                   )}
@@ -632,16 +632,16 @@ export function QuoteGrid({
               key={t.name + i}
               className="flex flex-col rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-7 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)]"
             >
-              <span className="font-[family-name:var(--font-display)] text-4xl leading-none text-[var(--accent-300)]" aria-hidden>
+              <span className="font-[family-name:var(--font-text)] text-4xl leading-none text-[var(--accent-300)]" aria-hidden>
                 &ldquo;
               </span>
               <blockquote className="mt-2 flex-1 text-[1.02rem] leading-relaxed text-[var(--ink-soft)]">
                 {t.quote}
               </blockquote>
-              <figcaption className="mt-5 border-t border-[var(--border)] pt-4">
+              <figcaption className="mt-5 pt-4">
                 <span className="block font-medium text-[var(--ink)]">{t.name}</span>
                 {(t.program || t.cohort) && (
-                  <span className="block font-[family-name:var(--font-mono)] text-[0.72rem] uppercase tracking-[0.12em] text-[var(--muted)]">
+                  <span className="block font-[family-name:var(--font-text)] text-[0.72rem] uppercase tracking-[0.12em] text-[var(--muted)]">
                     {[t.program, t.cohort].filter(Boolean).join(" · ")}
                   </span>
                 )}
@@ -859,7 +859,7 @@ export function TestimonialCarousel({
                 key={t.name + startIndex + i}
                 className="flex flex-col rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-7 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)]"
               >
-                <span className="font-[family-name:var(--font-display)] text-4xl leading-none text-[var(--accent-300)]" aria-hidden>
+                <span className="font-[family-name:var(--font-text)] text-4xl leading-none text-[var(--accent-300)]" aria-hidden>
                   &ldquo;
                 </span>
                 <blockquote className="mt-2 flex-1 text-[1.02rem] leading-relaxed text-[var(--ink-soft)]">
@@ -868,7 +868,7 @@ export function TestimonialCarousel({
                 <figcaption className="mt-5 border-t border-[var(--border)] pt-4">
                   <span className="block font-medium text-[var(--ink)]">{t.name}</span>
                   {(t.program || t.cohort) && (
-                    <span className="block font-[family-name:var(--font-mono)] text-[0.72rem] uppercase tracking-[0.12em] text-[var(--muted)]">
+                    <span className="block font-[family-name:var(--font-text)] text-[0.72rem] uppercase tracking-[0.12em] text-[var(--muted)]">
                       {[t.program, t.cohort].filter(Boolean).join(" · ")}
                     </span>
                   )}
@@ -1014,20 +1014,20 @@ export function LocationBlock({
             <h3 className="text-xl">Location details</h3>
             <dl className="mt-5 space-y-4 text-[0.95rem]">
               <div>
-                <dt className="font-[family-name:var(--font-mono)] text-[0.65rem] uppercase tracking-[0.14em] text-[var(--muted)]">Address</dt>
+                <dt className="font-[family-name:var(--font-text)] text-[0.65rem] uppercase tracking-[0.14em] text-[var(--muted)]">Address</dt>
                 <dd className="mt-1 text-[var(--ink-soft)]">{address}</dd>
               </div>
               <div>
-                <dt className="font-[family-name:var(--font-mono)] text-[0.65rem] uppercase tracking-[0.14em] text-[var(--muted)]">Email</dt>
+                <dt className="font-[family-name:var(--font-text)] text-[0.65rem] uppercase tracking-[0.14em] text-[var(--muted)]">Email</dt>
                 <dd className="mt-1"><a href={`mailto:${email}`} className="text-[var(--accent-700)] hover:underline">{email}</a></dd>
               </div>
               <div>
-                <dt className="font-[family-name:var(--font-mono)] text-[0.65rem] uppercase tracking-[0.14em] text-[var(--muted)]">Phone</dt>
+                <dt className="font-[family-name:var(--font-text)] text-[0.65rem] uppercase tracking-[0.14em] text-[var(--muted)]">Phone</dt>
                 <dd className="mt-1"><a href={`tel:${phone.replace(/\s/g, "")}`} className="text-[var(--accent-700)] hover:underline">{phone}</a></dd>
               </div>
               {hours && (
                 <div>
-                  <dt className="font-[family-name:var(--font-mono)] text-[0.65rem] uppercase tracking-[0.14em] text-[var(--muted)]">Hours</dt>
+                  <dt className="font-[family-name:var(--font-text)] text-[0.65rem] uppercase tracking-[0.14em] text-[var(--muted)]">Hours</dt>
                   <dd className="mt-1 text-[var(--ink-soft)]">{hours}</dd>
                 </div>
               )}

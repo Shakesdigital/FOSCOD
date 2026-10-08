@@ -221,7 +221,7 @@ export default async function GlePage() {
                   />
                 ) : (
                   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--accent-100)]">
-                    <span className="font-[family-name:var(--font-mono)] text-[0.6rem] uppercase tracking-[0.12em] text-[var(--accent-700)]">
+                    <span className="font-[family-name:var(--font-text)] text-[0.6rem] uppercase tracking-[0.12em] text-[var(--accent-700)]">
                       {p.name.split(" ")[0].charAt(0)}
                     </span>
                   </div>
@@ -261,8 +261,8 @@ export default async function GlePage() {
             title="Ready to check your fit?"
             body="Compare pathways, review the current role details, then send an application for the FOSCOD team to assess. Institutions can request a co-design conversation."
             actions={[
-              { href: "/apply", label: "Apply today" },
-              { href: "/programs/finder", label: "Find your program", variant: "secondary" },
+              { href: "/programs/global-learning-exchange", label: "Volunteer or Intern" },
+              { href: "/programs/finder", label: "Find a project opportunity fit", variant: "secondary" },
               { href: "/partners", label: "Partner your institution", variant: "ghost" },
             ]}
           />

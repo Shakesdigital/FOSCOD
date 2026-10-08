@@ -58,23 +58,23 @@ export default async function ProgramsPage() {
             </p>
             <div className="flex flex-wrap items-center gap-3 text-sm font-medium text-[var(--accent-700)]">
               <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[var(--accent-50)] border border-[var(--accent-200)]">
-                <span className="font-[family-name:var(--font-mono)] text-[0.65rem]">1</span> Inputs
+                <span className="font-[family-name:var(--font-text)] text-[0.65rem]">1</span> Inputs
               </span>
               <span aria-hidden>→</span>
               <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[var(--accent-50)] border border-[var(--accent-200)]">
-                <span className="font-[family-name:var(--font-mono)] text-[0.65rem]">2</span> Activities
+                <span className="font-[family-name:var(--font-text)] text-[0.65rem]">2</span> Activities
               </span>
               <span aria-hidden>→</span>
               <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[var(--accent-50)] border border-[var(--accent-200)]">
-                <span className="font-[family-name:var(--font-mono)] text-[0.65rem]">3</span> Outputs
+                <span className="font-[family-name:var(--font-text)] text-[0.65rem]">3</span> Outputs
               </span>
               <span aria-hidden>→</span>
               <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[var(--accent-50)] border border-[var(--accent-200)]">
-                <span className="font-[family-name:var(--font-mono)] text-[0.65rem]">4</span> Outcomes
+                <span className="font-[family-name:var(--font-text)] text-[0.65rem]">4</span> Outcomes
               </span>
               <span aria-hidden>→</span>
               <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[var(--accent-600)] text-white">
-                <span className="font-[family-name:var(--font-mono)] text-[0.65rem]">5</span> Impact
+                <span className="font-[family-name:var(--font-text)] text-[0.65rem]">5</span> Impact
               </span>
             </div>
             <p className="mt-4 text-[var(--ink-soft)]">

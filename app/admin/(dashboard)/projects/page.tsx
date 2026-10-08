@@ -11,7 +11,7 @@ export default async function AdminProjects() {
     <div>
       <div className="flex items-center justify-between">
         <div>
-          <p className="font-[family-name:var(--font-mono)] text-[0.7rem] uppercase tracking-[0.16em] text-[var(--accent-700)]">
+          <p className="font-[family-name:var(--font-text)] text-[0.7rem] uppercase tracking-[0.16em] text-[var(--accent-700)]">
             Content
           </p>
           <h1 className="mt-3 text-3xl">Projects</h1>
@@ -58,7 +58,7 @@ export default async function AdminProjects() {
         </table>
       </div>
 
-      <p className="mt-4 font-[family-name:var(--font-mono)] text-[0.72rem] text-[var(--muted)]">
+      <p className="mt-4 font-[family-name:var(--font-text)] text-[0.72rem] text-[var(--muted)]">
         Full create/edit forms (rich text, gallery, SEO, ordering) extend from this
         list — the schema and RLS are already in place.
       </p>

@@ -26,7 +26,7 @@ export default async function AdminDashboard() {
 
   return (
     <div>
-      <p className="font-[family-name:var(--font-mono)] text-[0.7rem] uppercase tracking-[0.16em] text-[var(--accent-700)]">
+      <p className="font-[family-name:var(--font-text)] text-[0.7rem] uppercase tracking-[0.16em] text-[var(--accent-700)]">
         Overview
       </p>
       <h1 className="mt-3 text-3xl">Dashboard</h1>
@@ -39,7 +39,7 @@ export default async function AdminDashboard() {
             href={c.href}
             className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-6 transition-colors hover:border-[var(--ink)]"
           >
-            <p className="font-[family-name:var(--font-display)] text-4xl text-[var(--ink)]">{c.value}</p>
+            <p className="font-[family-name:var(--font-text)] text-4xl text-[var(--ink)]">{c.value}</p>
             <p className="mt-1 text-sm text-[var(--muted)]">{c.label}</p>
           </Link>
         ))}
