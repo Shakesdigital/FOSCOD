@@ -17,7 +17,7 @@ export default function AdminLogin() {
     e.preventDefault();
     setError("");
     if (!supabase) {
-      setError("Supabase is not configured yet. Add your env vars to enable login.");
+      setError("Supabase is not configured yet. Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY to your environment variables.");
       return;
     }
     setLoading(true);
