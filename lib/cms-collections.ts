@@ -565,7 +565,7 @@ export const cmsCollections: CmsCollection[] = [
   },
   {
     key: "impact-stories-full",
-    table: "impact_stories_full",
+    table: "impact_story_details",
     label: "Full impact story landing pages",
     singular: "full impact story page",
     titleField: "title",

@@ -6,5 +6,5 @@
 -- ============================================================
 
 alter table public.projects
-  add if not exists challenge_image_url text,
-  add if not exists challenge_image_alt text;
+  add column if not exists challenge_image_url text,
+  add column if not exists challenge_image_alt text;
