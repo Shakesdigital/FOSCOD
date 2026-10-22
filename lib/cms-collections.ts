@@ -559,6 +559,8 @@ export const cmsCollections: CmsCollection[] = [
       { name: "testimonials_title", label: "Testimonials section title" },
       { name: "testimonials_intro", label: "Testimonials section intro", type: "textarea" },
       { name: "testimonials", label: "Testimonial items", type: "json", help: "Array of {quote, name, role, program, photoUrl, photoAlt, tone} objects." },
+      { name: "testimonials_cta_label", label: "Testimonials CTA button label", help: 'Defaults to "Read more from the community".' },
+      { name: "testimonials_cta_href", label: "Testimonials CTA link", type: "url", help: "Defaults to /testimonials." },
       { name: "status", label: "Publishing status", type: "select", options: statusOptions, required: true },
       ...seoFields,
     ],

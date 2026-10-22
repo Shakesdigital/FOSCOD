@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { HeroSlider } from "@/components/site/HeroSlider";
 import { type HeroSlide } from "@/lib/content";
-import { Prose, CTABand } from "@/components/site/blocks";
+import { CTABand } from "@/components/site/blocks";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
 import { getStory, getLatestStories } from "@/lib/content";
@@ -51,7 +51,7 @@ export default async function StoryPage({
       <section className="py-14 md:py-20">
         <div className="container-page grid gap-12 lg:grid-cols-[1fr_300px]">
           <article>
-            <Prose>
+            <div className="max-w-[var(--measure-wide)] space-y-6 text-[1.1rem] leading-relaxed text-[var(--ink-soft)]">
               <p className="text-xl text-[var(--ink)]">{s.excerpt}</p>
               {s.body ? (
                 s.body.split("\n\n").map((para, i) => <p key={i}>{para}</p>)
@@ -72,7 +72,7 @@ export default async function StoryPage({
                   </p>
                 </>
               )}
-            </Prose>
+            </div>
 
             <div className="mt-10">
               <PhotoSlot tone="forest" ratio="16/9" caption={`${s.title} — in-article image`} />

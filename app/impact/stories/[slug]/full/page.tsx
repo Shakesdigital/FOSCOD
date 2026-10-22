@@ -141,7 +141,7 @@ export default async function ImpactStoryFullPage({ params }: { params: Promise<
             intro={detail.testimonialsIntro || "Permissioned reflections from the people behind this impact story."}
             items={detail.testimonials}
             surface
-            cta={{ href: "/testimonials", label: "Read more from the community" }}
+            cta={detail.testimonialsCta || { href: "/testimonials", label: "Read more from the community" }}
           />
         )}
 

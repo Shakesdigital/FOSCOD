@@ -48,21 +48,24 @@ export default async function ImpactStoryPage({ params }: { params: Promise<{ sl
 
       {/* COMMUNITY VOICE + NARRATIVE */}
       <section className="py-16 md:py-24">
-        <div className="container-page grid gap-10 lg:grid-cols-[1.5fr_1fr]">
-          <div>
+        <div className="container-page">
+          <div className="mx-auto max-w-[var(--measure-wide)]">
+            {/* Community voice — plain, de-styled quote (no blue/white box) */}
             {story.community_voice && (
-              <div className="mb-8 p-6 rounded-[var(--radius-lg)] border border-[var(--accent-200)] bg-[var(--accent-50)]">
-                <p className="font-[family-name:var(--font-text)] text-[0.65rem] uppercase tracking-[0.12em] text-[var(--accent-700)]">Community voice</p>
-                <p className="mt-2 font-semibold text-[var(--ink)]">{story.community_voice}</p>
-                {story.quote && (
-                  <blockquote className="mt-4 italic text-lg leading-relaxed text-[var(--ink-soft)]">
+              <div className="mb-8">
+                {story.quote ? (
+                  <blockquote className="text-center text-xl italic leading-relaxed text-[var(--ink-soft)]">
                     &ldquo;{story.quote}&rdquo;
                   </blockquote>
+                ) : null}
+                {story.community_voice && (
+                  <p className="mt-4 text-center text-[var(--ink)]">&mdash; {story.community_voice}</p>
                 )}
               </div>
             )}
 
-            <div className="max-w-[var(--measure-wide)] space-y-6 text-[1.1rem] leading-relaxed text-[var(--ink-soft)]">
+            {/* Narrative text — images sink in within the paragraph flow */}
+            <div className="mt-10 space-y-6 text-[1.15rem] leading-relaxed text-[var(--ink-soft)]">
               {story.narrative ? (
                 story.narrative.split("\n\n").map((para, i) => <p key={i}>{para}</p>)
               ) : (
@@ -70,26 +73,20 @@ export default async function ImpactStoryPage({ params }: { params: Promise<{ sl
               )}
             </div>
 
-            {story.verified_outcome && (
-              <div className="mt-10 p-6 rounded-[var(--radius-lg)] border border-[var(--forest-200)] bg-[var(--forest-50)]">
-                <p className="font-[family-name:var(--font-text)] text-[0.65rem] uppercase tracking-[0.12em] text-[var(--forest-700)]">Verified outcome</p>
-                <p className="mt-2 font-medium text-[var(--ink)]">{story.verified_outcome}</p>
-              </div>
-            )}
-          </div>
+            {/* Story image sinks in after the narrative */}
+            <div className="mt-10">
+              <PhotoSlot
+                tone={story.linked_program === "GLE" ? "water" : "forest"}
+                ratio="16/9"
+                imageUrl={story.hero_image_url}
+                caption={story.title}
+                className="shadow-[var(--shadow-lg)] mx-auto"
+              />
+            </div>
 
-          {/* SIDEBAR: PHOTO + RELATED LINKS */}
-          <div className="space-y-6">
-            <PhotoSlot
-              tone={story.linked_program === "GLE" ? "water" : "forest"}
-              ratio="3/4"
-              imageUrl={story.hero_image_url}
-              caption={story.title}
-              className="shadow-[var(--shadow-lg)]"
-            />
-
+            {/* Gallery — images sink in as thumbnails below the main image */}
             {story.gallery && story.gallery.length > 0 && (
-              <div className="grid gap-3 sm:grid-cols-2">
+              <div className="mt-8 grid gap-4 sm:grid-cols-2">
                 {story.gallery.slice(0, 4).map((img, i) => (
                   <PhotoSlot
                     key={i}
@@ -103,6 +100,17 @@ export default async function ImpactStoryPage({ params }: { params: Promise<{ sl
               </div>
             )}
 
+            {story.verified_outcome && (
+              <div className="mt-10">
+                <blockquote className="text-center italic text-lg leading-relaxed text-[var(--ink-soft)]">
+                  &ldquo;{story.verified_outcome}&rdquo;
+                </blockquote>
+              </div>
+            )}
+          </div>
+
+          {/* Related links — sidebar on the right */}
+          <div className="mt-12 space-y-6 lg:mt-0 lg:ml-10">
             <div className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-6">
               <h3 className="text-lg font-semibold">Related links</h3>
               <ul className="mt-4 space-y-3 text-sm">

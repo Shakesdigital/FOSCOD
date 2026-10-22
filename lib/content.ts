@@ -2828,6 +2828,7 @@ export type ImpactStoryDetail = {
   testimonialsTitle?: string;
   testimonialsIntro?: string;
   testimonials: StoryTestimonial[];
+  testimonialsCta?: { href: string; label: string };
   metaTitle?: string;
   metaDescription?: string;
   metaImageUrl?: string;
@@ -2907,6 +2908,7 @@ const impactStoryDetailsFallback: Record<string, ImpactStoryDetail> = {
       { quote: "My daughter used to miss two days of school every week because she was collecting water. Now she walks there and back in 10 minutes.", name: "Mariam N.", role: "Parent", tone: "water" },
       { quote: "The committee makes sure the spring stays protected. We all contribute, and everyone benefits.", name: "Samuel K.", role: "Water committee chair", tone: "earth" },
     ],
+    testimonialsCta: { href: "/testimonials", label: "Read more from the community" },
   },
 };
 
@@ -2916,7 +2918,7 @@ export async function getImpactStoryDetail(slug: string): Promise<ImpactStoryDet
     if (!supabase) return impactStoryDetailsFallback[slug] ?? null;
     const { data } = (await supabase
       ?.from("impact_story_details")
-      .select("slug,title,eyebrow,hero_image_url,hero_image_alt,hero_intro,tone,hero_cta_label,hero_cta_href,story_body,stats_eyebrow,stats_title,stats_intro,stats_items,video_eyebrow,video_title,video_description,video_url,video_thumbnail_url,video_thumbnail_alt,testimonials_eyebrow,testimonials_title,testimonials_intro,testimonials,meta_title,meta_description,meta_image_url,status")
+      .select("slug,title,eyebrow,hero_image_url,hero_image_alt,hero_intro,tone,hero_cta_label,hero_cta_href,story_body,stats_eyebrow,stats_title,stats_intro,stats_items,video_eyebrow,video_title,video_description,video_url,video_thumbnail_url,video_thumbnail_alt,testimonials_eyebrow,testimonials_title,testimonials_intro,testimonials,testimonials_cta_label,testimonials_cta_href,meta_title,meta_description,meta_image_url,status")
       .eq("slug", slug)
       .eq("status", "published")
       .maybeSingle()) ?? { data: null };
@@ -2945,6 +2947,7 @@ export async function getImpactStoryDetail(slug: string): Promise<ImpactStoryDet
         testimonialsTitle: data.testimonials_title ?? undefined,
         testimonialsIntro: data.testimonials_intro ?? undefined,
         testimonials: (data.testimonials as StoryTestimonial[]) ?? [],
+        testimonialsCta: data.testimonials_cta_label && data.testimonials_cta_href ? { href: data.testimonials_cta_href, label: data.testimonials_cta_label } : undefined,
         metaTitle: data.meta_title ?? undefined,
         metaDescription: data.meta_description ?? undefined,
         metaImageUrl: data.meta_image_url ?? undefined,
