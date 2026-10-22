@@ -444,41 +444,27 @@ insert into public.home_talking_about_us (eyebrow, title, intro, cta_label, cta_
   ('Who we are', 'FOSCOD in context',
     'FOSCOD is a registered Ugandan NGO working alongside communities in Buikwe District and beyond. We bridge locally led development with ethical global learning and exchange — on clean energy, water, livelihoods, health, and the environment.',
     'Read our story', '/about', true)
-on conflict (id) do update set
-  eyebrow = excluded.eyebrow, title = excluded.title, intro = excluded.intro,
-  cta_label = excluded.cta_label, cta_href = excluded.cta_href, visible = excluded.visible;
+on conflict do nothing;
 
 -- ---------- homepage: how-you-can-get-involved cards ----------
 insert into public.home_involvement_cards (title, body, href, cta_label, icon, visible, order_column) values
   ('Volunteer intern', 'Join a supervised placement matched to your skills and a community-defined priority — with local support, host families, and structured learning outcomes.', '/programs/global-learning-exchange', 'Explore internships', 'volunteer', true, 1),
-  ('Partner with us', 'Co-design research, funding, or delivery partnerships around real community priorities — with roles, safeguards, and evidence agreed from the start.', '/partners', 'Partner with FOSCOD', 'partner', true, 2),
-  ('Donate to our project', 'Support a named project or priority with verified need, approved transfer routes, and transparent reporting — starting with a giving inquiry.', '/donate', 'Start a giving inquiry', 'donate', true, 3)
-on conflict (id) do update set
-  title = excluded.title, body = excluded.body, href = excluded.href,
-  cta_label = excluded.cta_label, icon = excluded.icon, visible = excluded.visible, order_column = excluded.order_column;
+  ('Partner with us', 'Co-design research, funding, or delivery partnerships around real community priorities — with roles, safeguards, and evidence agreed from the start.', '/partners', 'Partner with FOSCOD', 'partner', true, 2)
+on conflict do nothing;
 
 -- ---------- homepage: audience-paths cards ("Find your way into the work") ----------
 insert into public.home_audience_paths (title, body, href, cta, kicker, image_url, image_alt, visible, order_column) values
   ('Students & early-career professionals', 'Build practical experience through a supervised internship or volunteer placement connected to a community-defined priority.', '/internships', 'Explore internships', 'Your pathway', '/images/audience/students.jpg', 'Interns in the field', true, 1),
   ('Universities & research teams', 'Co-design field learning, faculty-led programs, or community-based research around academic outcomes and local value.', '/partners', 'Discuss an academic partnership', 'Your pathway', '/images/audience/universities.jpg', 'University partnership in action', true, 2),
-  ('Funders & technical partners', 'Support a defined program or project with agreed outcomes, evidence requirements, roles, and reporting milestones.', '/partners', 'Explore partnership options', 'Your pathway', '/images/audience/funders.jpg', 'Partnership planning session', true, 3),
-  ('Community & public-sector partners', 'Bring local priorities, implementation knowledge, coordination, and accountability into a shared program design.', '/contact', 'Start a local conversation', 'Your pathway', '/images/audience/community.jpg', 'Community co-design meeting', true, 4)
-on conflict (id) do update set
-  title = excluded.title, body = excluded.body, href = excluded.href,
-  cta = excluded.cta, kicker = excluded.kicker,
-  image_url = excluded.image_url, image_alt = excluded.image_alt,
-  visible = excluded.visible, order_column = excluded.order_column;
+  ('Funders & technical partners', 'Support a defined program or project with agreed outcomes, evidence requirements, roles, and reporting milestones.', '/partners', 'Explore partnership options', 'Your pathway', '/images/audience/funders.jpg', 'Partnership planning session', true, 3)
+on conflict do nothing;
 
 -- ---------- homepage: responsible-engagement steps ("What responsible collaboration means here") ----------
 insert into public.home_responsible_engagement (title, body, image_url, image_alt, visible, order_column) values
   ('Community direction', 'Priorities are identified with communities and local partners before participant or funder activity is designed.', '/images/responsible/community-direction.jpg', 'Community priority-setting workshop', true, 1),
   ('Right role, right support', 'People are matched to work that fits their skills, preparation, safeguarding requirements, and the supervision available.', '/images/responsible/roles.jpg', 'Matching volunteers with local roles', true, 2),
-  ('Useful work and shared learning', 'Each engagement should produce value for the community as well as learning for the participant or institution.', '/images/responsible/shared-learning.jpg', 'Community and participant sharing insights', true, 3),
-  ('Evidence with consent', 'FOSCOD separates verified results from future targets and publishes personal stories only when consent is recorded.', '/images/responsible/evidence.jpg', 'Reviewing impact data with consent forms', true, 4)
-on conflict (id) do update set
-  title = excluded.title, body = excluded.body,
-  image_url = excluded.image_url, image_alt = excluded.image_alt,
-  visible = excluded.visible, order_column = excluded.order_column;
+  ('Useful work and shared learning', 'Each engagement should produce value for the community as well as learning for the participant or institution.', '/images/responsible/shared-learning.jpg', 'Community and participant sharing insights', true, 3)
+on conflict do nothing;
 
 -- ---------- CEDP landing page: areas of focus ----------
 delete from public.cedp_areas_of_focus;
@@ -486,46 +472,34 @@ insert into public.cedp_areas_of_focus (slug, title, description, image_url, ima
   ('clean-energy-climate-resilience', 'Clean energy and climate resilience', 'Clean cooking, solar energy, e-mobility, environment conservation, climate adaptation, and related climate initiatives that build community resilience.', '/images/cedp/clean-energy.jpg', 'Solar panels and clean cookstoves in a rural Ugandan homestead', 'Explore clean energy projects', '/programs/cedp/areas/clean-energy-climate-resilience', true, 1),
   ('water-sanitation-health-communities', 'Water sanitation and healthy communities', 'Safe water, spring protection, sanitation, hygiene, water systems, and related community health and environment practices.', '/images/cedp/water.jpg', 'Community members protecting a natural water spring', 'Explore water projects', '/programs/cedp/areas/water-sanitation-health-communities', true, 2),
   ('sustainable-livelihoods-economic-empowerment', 'Sustainable livelihoods and economic empowerment', 'VSLAs, women enterprises, climate-smart agriculture, kitchen gardens, green businesses, and other livelihood opportunities.', '/images/cedp/livelihoods.jpg', 'Women''s savings group meeting with green enterprise training', 'Explore livelihoods projects', '/programs/cedp/areas/sustainable-livelihoods-economic-empowerment', true, 3)
-on conflict (id) do update set
+on conflict (slug) do update set
   slug = excluded.slug, title = excluded.title, description = excluded.description,
   image_url = excluded.image_url, image_alt = excluded.image_alt,
   cta_label = excluded.cta_label, cta_href = excluded.cta_href,
   visible = excluded.visible, order_column = excluded.order_column;
 
 -- ---------- CEDP landing page: process steps ("From priority to ownership") ----------
+delete from public.cedp_process_steps;
 insert into public.cedp_process_steps (title, subtitle, description, image_url, image_alt, visible, order_column) values
   ('Community assessment', 'Local ownership', 'We start by listening — mapping needs and assets together with residents.', '/images/cedp/community-assessment.jpg', 'Participatory community mapping session with residents', true, 1),
   ('Asset-based co-design', 'Local ownership', 'Solutions are designed with communities, not imposed — using local knowledge and resources.', '/images/cedp/co-design.jpg', 'Community co-design workshop with facilitators', true, 2),
   ('Implementation', 'Local ownership', 'Delivered with local organizations, global participants, and 25% community co-contribution.', '/images/cedp/implementation.jpg', 'Community and volunteers building a solar-powered water system together', true, 3)
-on conflict (id) do update set
-  title = excluded.title, subtitle = excluded.subtitle,
-  description = excluded.description, image_url = excluded.image_url,
-  image_alt = excluded.image_alt, visible = excluded.visible,
-  order_column = excluded.order_column;
+on conflict do nothing;
 
 -- ---------- CEDP landing page: impact story cards ("Impacts" section) ----------
+delete from public.cedp_impact_stories;
 insert into public.cedp_impact_stories (title, excerpt, image_url, image_alt, href, project_slug, cta_label, visible, order_column) values
   ('Solar-powered salon in Naluvule', 'A solar-powered salon turned an unreliable income into a growing business — clean energy powering livelihoods.', '/images/cedp/impacts/solar-salon.jpg', 'Solar-powered hair salon in Naluvule village', '/projects/solar-powered-water-system-naluvule', 'solar-powered-water-system-naluvule', 'Read the story', true, 1),
   ('Greening Kalagala, one tree at a time', 'Agroforestry and tree-planting restore soil, grow local income, and protect the forest edge.', '/images/cedp/impacts/greening-kalagala.jpg', 'Community tree planting in Kalagala Parish', '/projects/greening-kalagala', 'greening-kalagala', 'Read the story', true, 2),
   ('Coffee farming mobilization', 'Community mobilization around coffee farming and resilient local livelihoods in Kalagala Parish.', '/images/cedp/impacts/coffee.jpg', 'Farmers sorting and processing coffee in Kalagala', '/projects/coffee-farming-mobilization', 'coffee-farming-mobilization', 'Read the story', true, 3)
-on conflict (id) do update set
-  title = excluded.title, excerpt = excluded.excerpt,
-  image_url = excluded.image_url, image_alt = excluded.image_alt,
-  href = excluded.href, project_slug = excluded.project_slug,
-  cta_label = excluded.cta_label, visible = excluded.visible,
-  order_column = excluded.order_column;
+on conflict do nothing;
 
 -- ---------- CEDP landing page: impact cards (replacing figures/stats) ----------
 insert into public.cedp_impact_cards (title, excerpt, image_url, image_alt, href, project_slug, cta_label, verified_outcome, visible, order_column) values
   ('Clean energy that powers a livelihood', 'In Naluvule, a solar-powered salon turned an unreliable income into a growing business.', '/images/cedp/impacts/solar-salon.jpg', 'Solar-powered hair salon in Naluvule village', '/projects/solar-powered-water-system-naluvule', 'solar-powered-water-system-naluvule', 'Read the story', '3 households gained reliable evening lighting and new income streams', true, 1),
   ('Protected springs and hygiene education', 'Across Busoga, protected water springs and hygiene education are reducing illness and restoring dignity.', '/images/cedp/impacts/protected-spring.jpg', 'Community members protecting a natural water spring', '/projects/water-spring-protection-naluvule', 'water-spring-protection-naluvule', 'Read the story', 'Water access improved for 120 households with 86% sustained use after 12 months', true, 2),
   ('Regenerating land with biochar', 'In Kalagala Parish, invasive water hyacinth becomes biochar — healthier soil, cleaner cooking, and new income.', '/images/cedp/impacts/biochar.jpg', 'Community producing biochar from water hyacinth', '/projects/carbon-credit-project', 'carbon-credit-project', 'Read the story', '0.5 hectares of degraded land restored with 500 biochar units produced', true, 3)
-on conflict (id) do update set
-  title = excluded.title, excerpt = excluded.excerpt,
-  image_url = excluded.image_url, image_alt = excluded.image_alt,
-  href = excluded.href, project_slug = excluded.project_slug,
-  cta_label = excluded.cta_label, verified_outcome = excluded.verified_outcome,
-  visible = excluded.visible, order_column = excluded.order_column;
+on conflict do nothing;
 
 -- ---------- CEDP sub-program area landing pages ----------
 insert into public.cedp_areas (slug, title, subtitle, description, hero_image_url, hero_image_alt, tone, hero_cta_1_label, hero_cta_1_href, hero_cta_2_label, hero_cta_2_href, hero_cta_3_label, hero_cta_3_href, get_involved_cards, order_column, visible, meta_title, meta_description) values
@@ -775,9 +749,7 @@ insert into public.hero_slides (page_slug, eyebrow, title, intro, cta_label, cta
    'Browse CEDP', '/impact/stories?program=CEDP',
    'Browse GLE', '/impact/stories?program=GLE',
    'earth', 1, true)
-on conflict (page_slug, eyebrow, title) do update set
-  intro = excluded.intro, cta_label = excluded.cta_label, cta_href = excluded.cta_href,
-  cta2_label = excluded.cta2_label, cta2_href = excluded.cta2_href, tone = excluded.tone;
+on conflict do nothing;
 
 -- ---------- footer navigation (CMS-managed three-column footer) ----------
 -- All Quick Links go under column_key 'quick-links' so they group under the
@@ -795,8 +767,7 @@ insert into public.footer_nav (column_key, label, href, order_column, visible) v
   ('quick-links', 'Stories from the Field', '/stories', 10, true),
   ('quick-links', 'Project Updates', '/stories?category=Project+Updates', 11, true),
   ('quick-links', 'Impact Reports', '/stories?category=Impact+Reports', 12, true)
-on conflict (column_key, label) do update set
-  href = excluded.href, order_column = excluded.order_column, visible = excluded.visible;
+on conflict do nothing;
 
 -- ---------- footer_columns (CMS-managed three-column footer headings) ----------
 insert into public.footer_columns (key, title, position, visible) values

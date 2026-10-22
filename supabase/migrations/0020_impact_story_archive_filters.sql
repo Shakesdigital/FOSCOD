@@ -52,7 +52,7 @@ create index if not exists idx_impact_stories_gle_sector on public.impact_storie
 alter table if exists public.cedp_areas_of_focus
   add column if not exists slug text;
 
-create index if not exists idx_cedp_areas_of_focus_slug on public.cedp_areas_of_focus (slug, visible);
+create unique index if not exists idx_cedp_areas_of_focus_slug on public.cedp_areas_of_focus (slug);
 
 -- Backfill slug from cta_href for existing rows
 update public.cedp_areas_of_focus

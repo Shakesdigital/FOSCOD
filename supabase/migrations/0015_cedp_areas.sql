@@ -58,7 +58,8 @@ create table if not exists public.cedp_area_projects (
   project_id uuid not null references public.projects(id) on delete cascade,
   custom_cta_label text,
   order_column int not null default 0,
-  created_at timestamptz not null default now()
+  created_at timestamptz not null default now(),
+  unique (area_id, project_id)
 );
 
 create index if not exists idx_cedp_area_projects_area on public.cedp_area_projects (area_id, order_column);
@@ -80,7 +81,8 @@ create table if not exists public.cedp_area_impacts (
   order_column int not null default 0,
   visible boolean not null default true,
   created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
+  updated_at timestamptz not null default now(),
+  unique (area_id, title)
 );
 
 drop trigger if exists trg_cedp_area_impacts_updated on public.cedp_area_impacts;

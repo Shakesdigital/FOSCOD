@@ -17,7 +17,8 @@ create table if not exists public.project_activities (
   order_column int not null default 0,
   visible boolean not null default true,
   created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
+  updated_at timestamptz not null default now(),
+  unique (project_slug, title)
 );
 
 drop trigger if exists trg_project_activities_updated on public.project_activities;
@@ -50,7 +51,8 @@ create table if not exists public.project_impacts (
   order_column int not null default 0,
   visible boolean not null default true,
   created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
+  updated_at timestamptz not null default now(),
+  unique (project_slug, title)
 );
 
 drop trigger if exists trg_project_impacts_updated on public.project_impacts;
