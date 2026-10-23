@@ -10,6 +10,7 @@ import { InlineImageUpload } from "@/components/admin/InlineImageUpload";
 function fieldValue(value: unknown, type?: CmsField["type"]) {
   if (value === null || value === undefined) return "";
   if (type === "datetime") return new Date(String(value)).toISOString().slice(0, 16);
+  if (typeof value === "object") return JSON.stringify(value, null, 2);
   return String(value);
 }
 
@@ -68,11 +69,11 @@ function Field({ field, value }: { field: CmsField; value: unknown }) {
 export function ContentForm({
   collection,
   current,
-  key,
+  collectionKey,
 }: {
   collection: CmsCollection;
   current?: Record<string, unknown> | undefined;
-  key: string;
+  collectionKey: string;
 }) {
   const [isSaving, setIsSaving] = useState(false);
 
@@ -82,7 +83,12 @@ export function ContentForm({
       onSubmit={() => setIsSaving(true)}
       className="mt-6 space-y-5"
     >
-      <input type="hidden" name="collection" value={key} />
+      {isSaving && (
+        <div className="fixed top-0 left-0 right-0 h-1 bg-[var(--border)]">
+          <div className="h-full w-2/3 animate-pulse bg-[var(--accent-600)]" />
+        </div>
+      )}
+      <input type="hidden" name="collection" value={collectionKey} />
       <input type="hidden" name="id" value={String(current?.id ?? "")} />
       {collection.fields.map((field) => <Field key={field.name} field={field} value={current?.[field.name]} />)}
 
@@ -113,7 +119,7 @@ export function ContentForm({
 
         {current ? (
           <Link
-            href={`/admin/content/${key}`}
+            href={`/admin/content/${collectionKey}`}
             className="rounded-full border border-[var(--border)] px-5 py-2.5 text-sm"
           >
             Cancel

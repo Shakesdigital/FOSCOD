@@ -50,7 +50,7 @@ export default async function CollectionPage({ params, searchParams }: { params:
         <section className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-6 xl:sticky xl:top-8 xl:self-start">
           <h2 className="text-xl">{current ? `Edit ${collection.singular}` : `Add ${collection.singular}`}</h2>
           <p className="mt-2 text-sm text-[var(--muted)]">Fields marked * are required. Save as draft until facts, consent, images, and evidence are ready.</p>
-          <ContentForm collection={collection} current={current ?? undefined} key={key} />
+          <ContentForm collection={collection} current={current ?? undefined} collectionKey={key} />
         </section>
       </div>
     </div>
