@@ -54,7 +54,10 @@ export default async function StoryPage({
             <div className="max-w-[var(--measure-wide)] space-y-6 text-[1.1rem] leading-relaxed text-[var(--ink-soft)]">
               <p className="text-xl text-[var(--ink)]">{s.excerpt}</p>
               {s.body ? (
-                s.body.split("\n\n").map((para, i) => <p key={i}>{para}</p>)
+                <div
+                  className="wysiwyg-body"
+                  dangerouslySetInnerHTML={{ __html: s.body }}
+                />
               ) : (
                 <>
                   <p>

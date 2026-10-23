@@ -108,6 +108,7 @@ export async function saveContent(formData: FormData) {
   revalidatePath("/volunteer");
   revalidatePath("/testimonials");
   revalidatePath("/stories");
+  revalidatePath("/stories/[slug]");
 
   redirect(`/admin/content/${collectionKey}?saved=1`);
 }
@@ -145,6 +146,7 @@ export async function deleteContent(formData: FormData) {
   revalidatePath("/volunteer");
   revalidatePath("/testimonials");
   revalidatePath("/stories");
+  revalidatePath("/stories/[slug]");
 
   redirect(`/admin/content/${collectionKey}?deleted=1`);
 }

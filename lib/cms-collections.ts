@@ -15,6 +15,20 @@ export type CmsCollection = {
   description: string;
   titleField: string;
   fields: CmsField[];
+  /** Cluster grouping for the admin content hub — keeps related collections together. */
+  cluster?: "pages" | "settings" | "articles" | "programs" | "projects" | "people" | "opportunities" | "forms";
+};
+
+/** Human-readable cluster labels used in the admin content hub. */
+export const cmsClusters: Record<string, { label: string; description: string }> = {
+  pages:       { label: "Pages & Navigation", description: "Landing pages, editable sections, hero slides, and page-module ordering." },
+  settings:    { label: "Website Settings",   description: "Site-wide content blocks, footer, and program-level landing configuration." },
+  articles:    { label: "Content Articles",   description: "Blog posts, impact stories, and full-detail story pages." },
+  programs:    { label: "Programs",          description: "GLE and CEDP program pages, sub-programs, activities, and area landing pages." },
+  projects:    { label: "Projects",          description: "Named projects with challenges, solutions, activities, and impact cards." },
+  people:      { label: "People & Partners", description: "Board, staff, advisors, and partner organisations." },
+  opportunities:{ label: "Opportunities",     description: "Internships, volunteering, and open opportunities." },
+  forms:       { label: "Forms & Resources",  description: "FAQs, downloads, testimonials, and newsletter subscribers." },
 };
 
 const statusOptions = ["draft", "published", "archived"].map((value) => ({ label: value[0].toUpperCase() + value.slice(1), value }));
@@ -22,12 +36,13 @@ const yesNo = (name: string, label: string): CmsField => ({ name, label, type: "
 const seoFields: CmsField[] = [
   { name: "meta_title", label: "SEO title", help: "Write a unique, human-readable search title." },
   { name: "meta_description", label: "SEO description", type: "textarea", help: "Summarize this page accurately in about 150-160 characters." },
-  { name: "meta_image_url", label: "Social sharing image URL", type: "url" },
+  { name: "meta_image_url", label: "Social sharing image URL", type: "image" },
 ];
 
 export const cmsCollections: CmsCollection[] = [
   {
     key: "pages", table: "pages", label: "Pages", singular: "page", titleField: "title",
+    cluster: "pages",
     description: "Static pages and their ordered CMS sections.",
     fields: [
       { name: "title", label: "Page title", required: true },
@@ -40,6 +55,7 @@ export const cmsCollections: CmsCollection[] = [
   },
   {
     key: "modules", table: "modules", label: "Page modules", singular: "module", titleField: "name",
+    cluster: "pages",
     description: "Reusable hero, text, gallery, cards, CTA, stats, testimonial, FAQ, feature-grid, and form sections.",
     fields: [
       { name: "name", label: "Internal module name", required: true },
@@ -50,6 +66,7 @@ export const cmsCollections: CmsCollection[] = [
   },
   {
     key: "page-modules", table: "page_modules", label: "Page module order", singular: "page module link", titleField: "region",
+    cluster: "pages",
     description: "Attach reusable modules to pages and control their order within each page region.",
     fields: [
       { name: "page_id", label: "Page ID", required: true, help: "Copy the ID from the Pages collection." },
@@ -60,6 +77,7 @@ export const cmsCollections: CmsCollection[] = [
   },
   {
     key: "programs", table: "programs", label: "Programs", singular: "program", titleField: "title",
+    cluster: "programs",
     description: "The two public flagship programs: GLE and CEDP.",
     fields: [
       { name: "title", label: "Program name", required: true },
@@ -71,7 +89,7 @@ export const cmsCollections: CmsCollection[] = [
       { name: "goals", label: "Goals", type: "json" },
       { name: "geography", label: "Geography", type: "textarea" },
       { name: "cta_links", label: "Calls to action", type: "json" },
-      { name: "featured_image_url", label: "Hero image URL", type: "url" },
+      { name: "featured_image_url", label: "Hero image URL", type: "image" },
       { name: "featured_image_alt", label: "Hero image alt text", help: "Required whenever a hero image is supplied." },
       { name: "hero_video_url", label: "Hero video URL", type: "url" },
       { name: "status", label: "Publishing status", type: "select", options: statusOptions, required: true },
@@ -82,6 +100,7 @@ export const cmsCollections: CmsCollection[] = [
   },
   {
     key: "sub-programs", table: "sub_programs", label: "CEDP sub-programs", singular: "sub-program", titleField: "name",
+    cluster: "programs",
     description: "The six CEDP sub-programs mapped to Strategic Goals 1-6.",
     fields: [
       { name: "name", label: "Sub-program name", required: true },
@@ -93,7 +112,7 @@ export const cmsCollections: CmsCollection[] = [
       { name: "target_2030", label: "2030 targets", type: "json" },
       { name: "key_stats", label: "Key statistics", type: "json" },
       { name: "cta_links", label: "Calls to action", type: "json" },
-      { name: "hero_image_url", label: "Hero image URL", type: "url" },
+      { name: "hero_image_url", label: "Hero image URL", type: "image" },
       { name: "hero_image_alt", label: "Hero image alt text" },
       { name: "icon", label: "Icon key" },
       { name: "status", label: "Publishing status", type: "select", options: statusOptions, required: true },
@@ -103,6 +122,7 @@ export const cmsCollections: CmsCollection[] = [
   },
   {
     key: "activities", table: "activities", label: "Activities", singular: "activity", titleField: "title",
+    cluster: "programs",
     description: "Repeatable activities linked to a CEDP sub-program or GLE.",
     fields: [
       { name: "title", label: "Activity title", required: true },
@@ -115,7 +135,7 @@ export const cmsCollections: CmsCollection[] = [
       { name: "status", label: "Activity status", type: "select", options: ["planned","ongoing","completed"].map((value) => ({ label: value, value })), required: true },
       { name: "start_date", label: "Start date", type: "date" },
       { name: "end_date", label: "End date", type: "date" },
-      { name: "hero_image_url", label: "Hero image URL", type: "url" },
+      { name: "hero_image_url", label: "Hero image URL", type: "image" },
       { name: "hero_image_alt", label: "Hero image alt text" },
       { name: "gallery", label: "Gallery", type: "json", help: "Each image requires url and alt fields." },
       { name: "order_column", label: "Display order", type: "number" },
@@ -124,6 +144,7 @@ export const cmsCollections: CmsCollection[] = [
   },
   {
     key: "projects", table: "projects", label: "Projects", singular: "project", titleField: "title",
+    cluster: "projects",
     description: "Named projects, locations, evidence, linked activities, and downloadable briefs.",
     fields: [
       { name: "title", label: "Project title", required: true }, { name: "slug", label: "URL slug", required: true },
@@ -131,14 +152,14 @@ export const cmsCollections: CmsCollection[] = [
       { name: "community", label: "Community", type: "select", options: ["kalagala","kyambogo","naluvule","wabusanke","byabuku","nationwide"].map((value) => ({ label: value, value })) },
       { name: "excerpt", label: "Short summary", type: "textarea" },
       { name: "challenge", label: "The challenge", type: "wysiwyg" },
-      { name: "challenge_image_url", label: "Challenge image URL", type: "url" },
+      { name: "challenge_image_url", label: "Challenge image URL", type: "image" },
       { name: "challenge_image_alt", label: "Challenge image alt text" },
       { name: "solution", label: "Our approach", type: "wysiwyg" },
       { name: "activities", label: "Activity list", type: "json" }, { name: "partners", label: "Partners involved", type: "json" },
       { name: "timeline", label: "Timeline", type: "json" }, { name: "outcomes_structured", label: "Verified outcomes", type: "json" },
       { name: "budget", label: "Budget (optional)" }, { name: "project_brief_url", label: "Project brief URL", type: "url" },
       { name: "gallery", label: "Gallery", type: "json", help: "Each image requires url and alt fields; use beforeAfter for paired images." },
-      { name: "featured_image_url", label: "Hero image URL", type: "url" }, { name: "featured_image_alt", label: "Hero image alt text" },
+      { name: "featured_image_url", label: "Hero image URL", type: "image" }, { name: "featured_image_alt", label: "Hero image alt text" },
       { name: "linked_program", label: "Linked program", type: "select", options: ["GLE","CEDP","ORG"].map((value) => ({ label: value, value })) },
       { name: "status", label: "Publishing status", type: "select", options: statusOptions, required: true }, yesNo("featured", "Featured"),
       { name: "order_column", label: "Display order", type: "number" }, ...seoFields,
@@ -146,22 +167,24 @@ export const cmsCollections: CmsCollection[] = [
   },
   {
     key: "impact-stories", table: "impact_stories", label: "Impact stories", singular: "impact story", titleField: "title",
+    cluster: "articles",
     description: "Community voice stories with consent, evidence, and program or project links.",
     fields: [
       { name: "title", label: "Story title", required: true }, { name: "slug", label: "URL slug", required: true },
       { name: "community_voice", label: "Community voice name" }, { name: "quote", label: "Consented quotation", type: "textarea" },
       { name: "consent_status", label: "Consent status", type: "select", options: ["not_required","pending","confirmed","anonymized"].map((value) => ({ label: value, value })), required: true },
       { name: "consent_note", label: "Consent record note", type: "textarea" },
-      { name: "narrative", label: "Story narrative", type: "wysiwyg", help: "Full story body rendered as HTML. Use headings, paragraphs, and images for long-form content." }, { name: "verified_outcome", label: "Verified outcome" },
+      { name: "narrative", label: "Story narrative", type: "wysiwyg", help: "Full story body rendered as HTML. Use headings, paragraphs, lists, and images for long-form content." }, { name: "verified_outcome", label: "Verified outcome" },
       { name: "linked_program", label: "Linked program", type: "select", options: ["GLE","CEDP","ORG"].map((value) => ({ label: value, value })) },
       { name: "linked_sub_program_id", label: "Linked sub-program ID" }, { name: "linked_project_id", label: "Linked project ID" },
-      { name: "hero_image_url", label: "Hero image URL", type: "url" }, { name: "hero_image_alt", label: "Hero image alt text" },
+      { name: "hero_image_url", label: "Hero image URL", type: "image" }, { name: "hero_image_alt", label: "Hero image alt text" },
       { name: "gallery", label: "Gallery", type: "json" }, { name: "published_at", label: "Publish date and time", type: "datetime" },
       { name: "status", label: "Publishing status", type: "select", options: statusOptions, required: true }, ...seoFields,
     ],
   },
   {
     key: "impact-stats", table: "impact_stats", label: "Impact stats", singular: "impact statistic", titleField: "metric_name",
+    cluster: "articles",
     description: "The only approved source for counters and current-versus-target figures.",
     fields: [
       { name: "metric_name", label: "Metric name", required: true }, { name: "current_value", label: "Current verified value" },
@@ -175,40 +198,44 @@ export const cmsCollections: CmsCollection[] = [
   },
   {
     key: "team", table: "team_members", label: "Team & governance", singular: "team member", titleField: "name",
+    cluster: "people",
     description: "Board, staff, advisors, and their approved biographies.",
     fields: [
       { name: "name", label: "Name", required: true }, { name: "role", label: "Role" },
       { name: "category", label: "Category", type: "select", options: ["board","staff","advisor","field","alumni"].map((value) => ({ label: value, value })) },
-      { name: "program_affiliation", label: "Program affiliation" }, { name: "short_bio", label: "Short biography", type: "textarea" },
-      { name: "photo_url", label: "Photo URL", type: "url" }, { name: "photo_alt", label: "Photo alt text" },
+      { name: "program_affiliation", label: "Program affiliation" }, { name: "short_bio", label: "Short biography", type: "wysiwyg" },
+      { name: "photo_url", label: "Photo URL", type: "image" }, { name: "photo_alt", label: "Photo alt text" },
       yesNo("visible", "Visible"), { name: "order_column", label: "Display order", type: "number" },
     ],
   },
   {
     key: "partners", table: "partners", label: "Partners", singular: "partner", titleField: "name",
+    cluster: "people",
     description: "Approved partner names, logos, types, links, and partnership descriptions.",
     fields: [
       { name: "name", label: "Partner name", required: true }, { name: "type", label: "Partner type" },
       { name: "description", label: "Partnership description", type: "textarea" }, { name: "website", label: "Website", type: "url" },
-      { name: "logo_url", label: "Logo URL", type: "url" }, { name: "logo_alt", label: "Logo alt text" },
+      { name: "logo_url", label: "Logo URL", type: "image" }, { name: "logo_alt", label: "Logo alt text" },
       yesNo("visible", "Visible"), { name: "order_column", label: "Display order", type: "number" },
     ],
   },
   {
     key: "testimonials", table: "testimonials", label: "Testimonials", singular: "testimonial", titleField: "name",
+    cluster: "forms",
     description: "Permissioned testimonials only.",
     fields: [
       { name: "name", label: "Name", required: true }, { name: "quote", label: "Quotation", type: "textarea", required: true },
       { name: "cohort", label: "Cohort" }, { name: "program", label: "Program or affiliation" },
       { name: "linked_program", label: "Linked program", type: "select", options: ["GLE","CEDP","ORG"].map((value) => ({ label: value, value })) },
       { name: "linked_project_id", label: "Linked project ID (slug)" },
-      yesNo("permission", "Permission confirmed"), { name: "photo_url", label: "Photo URL", type: "url" },
+      yesNo("permission", "Permission confirmed"), { name: "photo_url", label: "Photo URL", type: "image" },
       { name: "photo_alt", label: "Photo alt text" },
       { name: "status", label: "Publishing status", type: "select", options: statusOptions, required: true }, { name: "order_column", label: "Display order", type: "number" },
     ],
   },
   {
     key: "downloads", table: "downloads", label: "Downloads & resources", singular: "resource", titleField: "title",
+    cluster: "forms",
     description: "Project briefs, annual reports, MEL summaries, and public resources.",
     fields: [
       { name: "title", label: "Title", required: true }, { name: "description", label: "Description", type: "textarea" },
@@ -220,6 +247,7 @@ export const cmsCollections: CmsCollection[] = [
   },
   {
     key: "faqs", table: "faqs", label: "FAQs", singular: "FAQ", titleField: "question",
+    cluster: "forms",
     description: "Questions grouped for interns, donors, partners, communities, and general visitors.",
     fields: [
       { name: "question", label: "Question", required: true }, { name: "answer", label: "Answer", type: "textarea", required: true },
@@ -230,6 +258,7 @@ export const cmsCollections: CmsCollection[] = [
   },
   {
     key: "hero-slides", table: "hero_slides", label: "Page heroes", singular: "hero", titleField: "title",
+    cluster: "pages",
     description: "CMS-managed page headlines, imagery, alt text, and calls to action.",
     fields: [
       { name: "page_slug", label: "Page key", required: true }, { name: "eyebrow", label: "Eyebrow" },
@@ -238,12 +267,13 @@ export const cmsCollections: CmsCollection[] = [
       { name: "cta2_label", label: "Second CTA label" }, { name: "cta2_href", label: "Second CTA link" },
       { name: "cta3_label", label: "Third CTA label" }, { name: "cta3_href", label: "Third CTA link" },
       { name: "tone", label: "Fallback color tone", type: "select", options: ["earth","water","forest"].map((value) => ({ label: value, value })) },
-      { name: "image_url", label: "Image URL", type: "url" }, { name: "image_alt", label: "Image alt text" },
+      { name: "image_url", label: "Image URL", type: "image" }, { name: "image_alt", label: "Image alt text" },
       yesNo("visible", "Visible"), { name: "order_column", label: "Display order", type: "number" },
     ],
   },
   {
     key: "opportunities", table: "opportunities", label: "Open opportunities", singular: "opportunity", titleField: "title",
+    cluster: "opportunities",
     description: "Only verified and currently open internship or volunteer opportunities should be published.",
     fields: [
       { name: "title", label: "Opportunity title", required: true }, { name: "slug", label: "URL slug", required: true },
@@ -251,12 +281,33 @@ export const cmsCollections: CmsCollection[] = [
       { name: "category", label: "Category" }, { name: "location", label: "Location" }, { name: "duration", label: "Duration" },
       { name: "excerpt", label: "Short summary", type: "textarea" }, { name: "about", label: "Full description", type: "textarea" },
       { name: "highlights", label: "Activities", type: "json" }, { name: "requirements", label: "Requirements", type: "json" },
-      { name: "featured_image_url", label: "Image URL", type: "url" },
+      { name: "featured_image_url", label: "Image URL", type: "image" },
       { name: "status", label: "Publishing status", type: "select", options: statusOptions, required: true }, { name: "order_column", label: "Display order", type: "number" }, ...seoFields,
     ],
   },
   {
+    key: "stories", table: "stories", label: "Stories (blog)", singular: "story", titleField: "title",
+    cluster: "articles",
+    description: "Field posts, impact reports, alumni reflections, and news articles. WYSIWYG body renders directly on the story page.",
+    fields: [
+      { name: "title", label: "Story title", required: true },
+      { name: "slug", label: "URL slug", required: true, help: "Lowercase words separated by hyphens, e.g. solar-powered-salon-naluvule." },
+      { name: "category", label: "Category", help: "E.g. Project updates, Impact reports, Alumni reflections, Host family stories, Research & learning, News." },
+      { name: "author", label: "Author" },
+      { name: "excerpt", label: "Short summary", type: "textarea", help: "One or two lines shown in the story grid and SEO preview." },
+      { name: "body", label: "Full story body", type: "wysiwyg", help: "Rich-formatted article text rendered directly on the story page. Use headings, paragraphs, lists, links, and images." },
+      { name: "location", label: "Location" },
+      { name: "theme", label: "Theme" },
+      { name: "featured_image_url", label: "Featured image URL", type: "image", help: "Hero image for the story." },
+      { name: "featured_image_alt", label: "Featured image alt text" },
+      { name: "published_at", label: "Publish date and time", type: "datetime" },
+      { name: "status", label: "Publishing status", type: "select", options: statusOptions, required: true },
+      ...seoFields,
+    ],
+  },
+  {
     key: "media-assets", table: "media_assets", label: "Media records", singular: "media record", titleField: "alt_text",
+    cluster: "pages",
     description: "Accessible image records uploaded through the media library. Upload new files from the Media screen.",
     fields: [
       { name: "bucket", label: "Storage bucket", required: true },
@@ -275,6 +326,7 @@ export const cmsCollections: CmsCollection[] = [
     table: "home_talking_about_us",
     label: "Homepage: Talking About Us",
     singular: "talking-about-us",
+    cluster: "settings",
     description: "The brief editorial section that appears after the hero on the homepage.",
     titleField: "title",
     fields: [
@@ -291,6 +343,7 @@ export const cmsCollections: CmsCollection[] = [
     table: "home_involvement_cards",
     label: "Homepage: How You Can Get Involved",
     singular: "involvement card",
+    cluster: "settings",
     description: "The three pathway cards (Volunteer intern, Partner with us, Donate to our project) on the homepage.",
     titleField: "title",
     fields: [
@@ -299,7 +352,7 @@ export const cmsCollections: CmsCollection[] = [
       { name: "href", label: "Link URL", type: "url", required: true },
       { name: "cta_label", label: "CTA label", required: true },
       { name: "icon", label: "Icon (emoji)" },
-      { name: "image_url", label: "Featured image URL", type: "url" },
+      { name: "image_url", label: "Featured image URL", type: "image" },
       { name: "image_alt", label: "Image alt text" },
       yesNo("visible", "Visible"),
       { name: "order_column", label: "Display order", type: "number" },
@@ -310,6 +363,7 @@ export const cmsCollections: CmsCollection[] = [
     table: "home_audience_paths",
     label: "Homepage: Find Your Way Into the Work",
     singular: "audience path",
+    cluster: "settings",
     description: "The four pathway cards under 'Find your way into the work' with optional feature images.",
     titleField: "title",
     fields: [
@@ -318,7 +372,7 @@ export const cmsCollections: CmsCollection[] = [
       { name: "href", label: "Link URL", type: "url", required: true },
       { name: "cta", label: "CTA label", required: true },
       { name: "kicker", label: "Kicker label" },
-      { name: "image_url", label: "Feature image URL", type: "url" },
+      { name: "image_url", label: "Feature image URL", type: "image" },
       { name: "image_alt", label: "Image alt text" },
       yesNo("visible", "Visible"),
       { name: "order_column", label: "Display order", type: "number" },
@@ -329,12 +383,13 @@ export const cmsCollections: CmsCollection[] = [
     table: "home_responsible_engagement",
     label: "Homepage: Responsible Collaboration",
     singular: "engagement principle",
+    cluster: "settings",
     description: "The four numbered steps under 'What responsible collaboration means here' with optional feature images.",
     titleField: "title",
     fields: [
       { name: "title", label: "Step title", required: true },
       { name: "body", label: "Description", type: "textarea" },
-      { name: "image_url", label: "Feature image URL", type: "url" },
+      { name: "image_url", label: "Feature image URL", type: "image" },
       { name: "image_alt", label: "Image alt text" },
       yesNo("visible", "Visible"),
       { name: "order_column", label: "Display order", type: "number" },
@@ -342,6 +397,7 @@ export const cmsCollections: CmsCollection[] = [
   },
   {
     key: "about-content", table: "about_content", label: "About page content", singular: "about content", titleField: "key",
+    cluster: "settings",
     description: "Mission, vision, values, and leadership descriptions for the About Us page. Each row is one section (key: mission, vision, values, leadership).",
     fields: [
       { name: "key", label: "Content key", required: true, type: "text", help: "E.g. mission, vision, values, leadership." },
@@ -356,11 +412,12 @@ export const cmsCollections: CmsCollection[] = [
     label: "CEDP: Areas of focus",
     singular: "area of focus",
     titleField: "title",
+    cluster: "programs",
     description: "The three thematic areas (clean energy & climate resilience, water & healthy communities, sustainable livelihoods) shown on the CEDP landing page.",
     fields: [
       { name: "title", label: "Card title", required: true },
       { name: "description", label: "Description", type: "textarea", required: true },
-      { name: "image_url", label: "Image URL", type: "url" },
+      { name: "image_url", label: "Image URL", type: "image" },
       { name: "image_alt", label: "Image alt text" },
       { name: "cta_label", label: "CTA button label" },
       { name: "cta_href", label: "CTA link", type: "url" },
@@ -374,12 +431,13 @@ export const cmsCollections: CmsCollection[] = [
     label: "CEDP: Process steps",
     singular: "process step",
     titleField: "title",
+    cluster: "programs",
     description: "The 'From priority to ownership' sequence cards (community assessment, asset-based co-design, implementation) with images on the CEDP landing page.",
     fields: [
       { name: "title", label: "Step title", required: true },
       { name: "subtitle", label: "Subtitle (e.g. Local ownership)" },
       { name: "description", label: "Description", type: "textarea" },
-      { name: "image_url", label: "Image URL", type: "url" },
+      { name: "image_url", label: "Image URL", type: "image" },
       { name: "image_alt", label: "Image alt text" },
       yesNo("visible", "Visible"),
       { name: "order_column", label: "Display order", type: "number" },
@@ -391,11 +449,12 @@ export const cmsCollections: CmsCollection[] = [
     label: "CEDP: Impact stories",
     singular: "impact story card",
     titleField: "title",
+    cluster: "articles",
     description: "Impact story cards for the 'Impacts' section on the CEDP landing page — featuring stories from different projects that have been implemented.",
     fields: [
       { name: "title", label: "Story title", required: true },
       { name: "excerpt", label: "Short summary", type: "textarea" },
-      { name: "image_url", label: "Image URL", type: "url" },
+      { name: "image_url", label: "Image URL", type: "image" },
       { name: "image_alt", label: "Image alt text" },
       { name: "href", label: "Link URL", type: "url" },
       { name: "project_slug", label: "Related project slug (for reference)" },
@@ -411,11 +470,12 @@ export const cmsCollections: CmsCollection[] = [
     label: "CEDP: Impact cards",
     singular: "impact card",
     titleField: "title",
+    cluster: "articles",
     description: "Impact cards for the 'CEDP impact' section — stories of impact from different projects, replacing the former figures/stats display.",
     fields: [
       { name: "title", label: "Card title", required: true },
       { name: "excerpt", label: "Short summary", type: "textarea" },
-      { name: "image_url", label: "Image URL", type: "url" },
+      { name: "image_url", label: "Image URL", type: "image" },
       { name: "image_alt", label: "Image alt text" },
       { name: "href", label: "Link URL", type: "url" },
       { name: "project_slug", label: "Related project slug (for reference)" },
@@ -431,6 +491,7 @@ export const cmsCollections: CmsCollection[] = [
     label: "CEDP: Area landing pages",
     singular: "area page",
     titleField: "title",
+    cluster: "programs",
     description: "The three sub-program area landing pages (clean energy, water, livelihoods) with hero, description, projects, impact, and get-involved content.",
     fields: [
       { name: "slug", label: "URL slug", required: true, help: "e.g. clean-energy-climate-resilience" },
@@ -438,7 +499,7 @@ export const cmsCollections: CmsCollection[] = [
       { name: "subtitle", label: "Subtitle (strategic goal reference)" },
       { name: "eyebrow", label: "Hero eyebrow" },
       { name: "description", label: "Description body", type: "textarea", help: "Shown in the description section below the hero." },
-      { name: "hero_image_url", label: "Hero image URL", type: "url" },
+      { name: "hero_image_url", label: "Hero image URL", type: "image" },
       { name: "hero_image_alt", label: "Hero image alt text" },
       { name: "tone", label: "Fallback color tone", type: "select", options: ["earth","water","forest"].map((value) => ({ label: value, value })) },
       { name: "hero_cta_1_label", label: "Primary CTA label" },
@@ -459,6 +520,7 @@ export const cmsCollections: CmsCollection[] = [
     label: "CEDP: Area projects",
     singular: "area project link",
     titleField: "order_column",
+    cluster: "projects",
     description: "Links projects to an area landing page. Each entry attaches one project to one area with its display order and optional custom CTA label.",
     fields: [
       { name: "area_id", label: "Area page ID", required: true, help: "Copy the ID from the CEDP: Area landing pages collection." },
@@ -473,12 +535,13 @@ export const cmsCollections: CmsCollection[] = [
     label: "CEDP: Area impact cards",
     singular: "area impact card",
     titleField: "title",
+    cluster: "articles",
     description: "Impact carousel cards shown on each area landing page — with image, story text, verified outcome, and CTA.",
     fields: [
       { name: "area_id", label: "Area page ID", required: true, help: "Copy the ID from the CEDP: Area landing pages collection." },
       { name: "title", label: "Card title", required: true },
       { name: "excerpt", label: "Short summary", type: "textarea" },
-      { name: "image_url", label: "Image URL", type: "url" },
+      { name: "image_url", label: "Image URL", type: "image" },
       { name: "image_alt", label: "Image alt text" },
       { name: "story", label: "Impact story", type: "textarea", help: "Brief narrative text shown in the carousel." },
       { name: "href", label: "Link URL", type: "url" },
@@ -495,12 +558,13 @@ export const cmsCollections: CmsCollection[] = [
     label: "Project activities",
     singular: "project activity",
     titleField: "title",
+    cluster: "projects",
     description: "Activities on a project detail page — title, full description, optional image, with a CMS-controlled display order.",
     fields: [
       { name: "project_slug", label: "Project slug", required: true, help: "The slug from the Projects collection this activity belongs to." },
       { name: "title", label: "Activity title", required: true },
       { name: "description", label: "Full description", type: "textarea", required: true, help: "Shown in full detail on the project page. Use paragraphs for long descriptions." },
-      { name: "image_url", label: "Image URL", type: "url" },
+      { name: "image_url", label: "Image URL", type: "image" },
       { name: "image_alt", label: "Image alt text", help: "Required for accessibility whenever an image is supplied." },
       { name: "order_column", label: "Display order", type: "number", help: "Lower numbers appear first." },
       yesNo("visible", "Visible"),
@@ -512,6 +576,7 @@ export const cmsCollections: CmsCollection[] = [
     label: "Project impacts",
     singular: "project impact card",
     titleField: "title",
+    cluster: "projects",
     description: "Impact cards shown in the looping carousel on the project detail page — each with a CTA button routing to a full impact story.",
     fields: [
       { name: "project_slug", label: "Project slug", required: true, help: "The slug from the Projects collection this impact belongs to." },
@@ -520,7 +585,7 @@ export const cmsCollections: CmsCollection[] = [
       { name: "verified_outcome", label: "Verified outcome", type: "textarea", help: "One concrete data point tied to this impact." },
       { name: "story_slug", label: "Impact story slug", help: "Links to /impact/stories/[slug] for the full detail page." },
       { name: "cta_label", label: "CTA button label", help: "Defaults to 'Read the impact story'." },
-      { name: "image_url", label: "Image URL", type: "url" },
+      { name: "image_url", label: "Image URL", type: "image" },
       { name: "image_alt", label: "Image alt text", help: "Required for accessibility whenever an image is supplied." },
       { name: "order_column", label: "Display order", type: "number", help: "Lower numbers appear first." },
       yesNo("visible", "Visible"),
@@ -533,18 +598,19 @@ export const cmsCollections: CmsCollection[] = [
     label: "Impact story detail pages",
     singular: "impact story detail",
     titleField: "title",
+    cluster: "articles",
     description: "Full-detail impact story pages with a hero, rich-text story body with inline images, statistics, video, and community testimonials — all managed in the Visual Editor.",
     fields: [
       { name: "slug", label: "URL slug", required: true, help: "e.g. solar-powered-salon-naluvule-full — must match an impact_stories slug for the base story." },
       { name: "title", label: "Story title", required: true },
       { name: "eyebrow", label: "Hero eyebrow" },
-      { name: "hero_image_url", label: "Hero image URL", type: "url" },
+      { name: "hero_image_url", label: "Hero image URL", type: "image" },
       { name: "hero_image_alt", label: "Hero image alt text", help: "Required whenever a hero image is supplied." },
       { name: "hero_intro", label: "Hero introduction", type: "textarea", help: "Short intro text shown below the hero title." },
       { name: "tone", label: "Fallback color tone", type: "select", options: ["earth","water","forest"].map((v) => ({ label: v, value: v })) },
       { name: "hero_cta_label", label: "Hero CTA label" },
       { name: "hero_cta_href", label: "Hero CTA link", type: "url" },
-      { name: "story_body", label: "Full story body", type: "json", help: "Visual Editor content: an array of {type:'paragraph'|'image'|'heading'|'quote', content, imageUrl, imageAlt, caption, alignment} blocks allowing images anywhere in the story." },
+      { name: "story_body", label: "Full story body", type: "wysiwyg", help: "Rich-formatted story text rendered directly on the detail page. Use headings, paragraphs, lists, links, and inline images." },
       { name: "stats_eyebrow", label: "Statistics section eyebrow" },
       { name: "stats_title", label: "Statistics section title" },
       { name: "stats_intro", label: "Statistics section intro", type: "textarea" },
@@ -553,7 +619,7 @@ export const cmsCollections: CmsCollection[] = [
       { name: "video_title", label: "Video section title" },
       { name: "video_description", label: "Video description (right column)", type: "textarea" },
       { name: "video_url", label: "Video URL", type: "url", help: "YouTube or Vimeo embed URL." },
-      { name: "video_thumbnail_url", label: "Video thumbnail URL", type: "url" },
+      { name: "video_thumbnail_url", label: "Video thumbnail URL", type: "image" },
       { name: "video_thumbnail_alt", label: "Video thumbnail alt text" },
       { name: "testimonials_eyebrow", label: "Testimonials section eyebrow" },
       { name: "testimonials_title", label: "Testimonials section title" },
@@ -571,6 +637,7 @@ export const cmsCollections: CmsCollection[] = [
     label: "Full impact story landing pages",
     singular: "full impact story page",
     titleField: "title",
+    cluster: "articles",
     description: "CMS-managed full-impact-story pages. Each is built on an impact_story but extends it with a hero, story body, statistics, video, and testimonials. Attach to the base story via the impact story slug.",
     fields: [
       { name: "story_slug", label: "Base impact story slug", required: true, help: "The slug from the Impact stories collection this page extends." },
@@ -578,7 +645,7 @@ export const cmsCollections: CmsCollection[] = [
       { name: "title", label: "Page title (headline)", required: true },
       { name: "meta_title", label: "SEO title" },
       { name: "meta_description", label: "SEO description", type: "textarea", help: "Summarize this page accurately in about 150-160 characters." },
-      { name: "meta_image_url", label: "Social sharing image URL", type: "url" },
+      { name: "meta_image_url", label: "Social sharing image URL", type: "image" },
       { name: "visible", label: "Visible", type: "boolean" },
     ],
   },
@@ -588,13 +655,14 @@ export const cmsCollections: CmsCollection[] = [
     label: "General impact pages",
     singular: "general impact page",
     titleField: "title",
+    cluster: "pages",
     description: "The general impact landing page for a program (e.g. CEDP, GLE) — hero, description, featured story sections, explore-more testimonials & videos, and get-involved cards.",
     fields: [
       { name: "slug", label: "URL slug", required: true, help: "e.g. cedp or gle." },
       { name: "program", label: "Program", type: "select", options: [{ label: "CEDP", value: "CEDP" }, { label: "GLE", value: "GLE" }], required: true },
       { name: "title", label: "Page title (hero headline)", required: true },
       { name: "eyebrow", label: "Hero eyebrow" },
-      { name: "hero_image_url", label: "Hero image URL", type: "url" },
+      { name: "hero_image_url", label: "Hero image URL", type: "image" },
       { name: "hero_image_alt", label: "Hero image alt text" },
       { name: "tone", label: "Fallback color tone", type: "select", options: ["earth","water","forest"].map((v) => ({ label: v, value: v })) },
       { name: "hero_cta_label", label: "Hero CTA label" },
@@ -635,6 +703,7 @@ export const cmsCollections: CmsCollection[] = [
     table: "gle_pathways",
     label: "GLE: Pathway cards",
     singular: "pathway card",
+    cluster: "programs",
     description: "The four 'Find your pathway' cards on the Global Learning & Exchange landing page — Internships, Responsible Volunteering, Faculty-led Programs, and Community-Based Research. Each card now supports an optional featured image.",
     titleField: "title",
     fields: [
@@ -643,7 +712,7 @@ export const cmsCollections: CmsCollection[] = [
       { name: "href", label: "Link URL", type: "url", required: true },
       { name: "cta", label: "CTA button label" },
       { name: "kicker", label: "Audience label", help: "Short tag, e.g. 'Individuals', 'Universities'" },
-      { name: "image_url", label: "Featured image URL", type: "url" },
+      { name: "image_url", label: "Featured image URL", type: "image" },
       { name: "image_alt", label: "Image alt text" },
       yesNo("visible", "Visible"),
       { name: "order_column", label: "Display order", type: "number" },
@@ -654,13 +723,14 @@ export const cmsCollections: CmsCollection[] = [
     table: "gle_introduction",
     label: "GLE: Introduction section",
     singular: "introduction section",
+    cluster: "programs",
     description: "The introduction section on the GLE landing page — rendered with the title on top, an image on the left, and body text on the right.",
     titleField: "title",
     fields: [
       { name: "title", label: "Section title", required: true },
       { name: "eyebrow", label: "Eyebrow label" },
       { name: "body", label: "Introduction body", type: "textarea", required: true, help: "Full paragraph text describing the GLE program." },
-      { name: "image_url", label: "Image URL (left side)", type: "url" },
+      { name: "image_url", label: "Image URL (left side)", type: "image" },
       { name: "image_alt", label: "Image alt text" },
       { name: "cta_label", label: "CTA button label" },
       { name: "cta_href", label: "CTA link", type: "url" },
@@ -672,13 +742,14 @@ export const cmsCollections: CmsCollection[] = [
     table: "gle_apply_section",
     label: "GLE: Apply section",
     singular: "apply section",
+    cluster: "programs",
     description: "The Apply section on the GLE landing page — title, image on the left, brief statement on the right, with a CTA apply button.",
     titleField: "title",
     fields: [
       { name: "title", label: "Section title", required: true },
       { name: "eyebrow", label: "Eyebrow label" },
       { name: "body", label: "Apply statement", type: "textarea", required: true, help: "Brief text describing the application process." },
-      { name: "image_url", label: "Image URL (left side)", type: "url" },
+      { name: "image_url", label: "Image URL (left side)", type: "image" },
       { name: "image_alt", label: "Image alt text" },
       { name: "cta_label", label: "CTA button label", required: true },
       { name: "cta_href", label: "CTA link", type: "url", required: true },
@@ -690,6 +761,7 @@ export const cmsCollections: CmsCollection[] = [
     table: "gle_development_sectors",
     label: "GLE: Development sectors",
     singular: "development sector",
+    cluster: "programs",
     description: "The thematic development sectors GLE participants work in across Uganda — used to filter impact stories on the archive page (/impact/stories).",
     titleField: "title",
     fields: [
@@ -707,6 +779,7 @@ export const cmsCollections: CmsCollection[] = [
     label: "Footer columns",
     singular: "footer column",
     titleField: "title",
+    cluster: "settings",
     description: "The three footer column headings: About Us, Quick Links, and Contacts.",
     fields: [
       { name: "key", label: "Column key", required: true, help: "e.g. 'about', 'quick-links', 'contact'." },
@@ -721,6 +794,7 @@ export const cmsCollections: CmsCollection[] = [
     label: "Footer quick links",
     singular: "footer link",
     titleField: "label",
+    cluster: "settings",
     description: "Individual links shown under the Quick Links column. Set column_key to 'quick-links' for all entries.",
     fields: [
       { name: "column_key", label: "Column key", required: true, help: "Currently always 'quick-links'." },
@@ -736,6 +810,7 @@ export const cmsCollections: CmsCollection[] = [
     label: "Newsletter subscribers",
     singular: "newsletter subscriber",
     titleField: "email",
+    cluster: "forms",
     description: "Email subscribers who have opted in to FOSCOD newsletters. Publicly insertable; staff-managed status updates.",
     fields: [
       { name: "email", label: "Email address", required: true, type: "url", help: "Subscriber email address." },

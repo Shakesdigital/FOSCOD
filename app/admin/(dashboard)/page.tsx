@@ -10,8 +10,9 @@ async function count(table: string) {
 }
 
 export default async function AdminDashboard() {
-  const [projects, stories, submissions, partners] = await Promise.all([
+  const [projects, stories, blogStories, submissions, partners] = await Promise.all([
     count("projects"),
+    count("impact_stories"),
     count("stories"),
     count("form_submissions"),
     count("partners"),
@@ -19,7 +20,8 @@ export default async function AdminDashboard() {
 
   const cards = [
     { label: "Projects", value: projects, href: "/admin/content/projects" },
-    { label: "Stories", value: stories, href: "/admin/content/impact-stories" },
+    { label: "Impact stories", value: stories, href: "/admin/content/impact-stories" },
+    { label: "Blog stories", value: blogStories, href: "/admin/content/stories" },
     { label: "Submissions", value: submissions, href: "/admin/submissions" },
     { label: "Partners", value: partners, href: "/admin/content/partners" },
   ];
