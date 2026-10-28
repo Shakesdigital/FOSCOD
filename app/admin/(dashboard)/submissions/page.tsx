@@ -4,7 +4,7 @@ export default async function AdminSubmissions() {
   const supabase = await createClient();
   const { data: submissions } = (await supabase
     ?.from("form_submissions")
-    .select("id,type,payload,status,created_at")
+    .select("id,type,form_category,payload,status,created_at")
     .order("created_at", { ascending: false })
     .limit(100)) ?? { data: [] };
 
@@ -30,6 +30,11 @@ export default async function AdminSubmissions() {
             <div key={s.id} className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-5">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div className="flex items-center gap-3">
+                  {s.form_category ? (
+                    <span className="rounded-full bg-[var(--accent-50)] px-2.5 py-0.5 text-xs uppercase tracking-[0.08em] text-[var(--accent-700)]">
+                      {s.form_category}
+                    </span>
+                  ) : null}
                   <span className="rounded-full bg-[var(--accent-50)] px-2.5 py-0.5 text-xs text-[var(--accent-700)]">
                     {s.type}
                   </span>

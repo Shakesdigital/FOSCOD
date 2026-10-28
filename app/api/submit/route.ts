@@ -13,6 +13,18 @@ const ALLOWED = new Set([
   "newsletter",
 ]);
 
+// Map form types to their broader category for CMS grouping
+const TYPE_TO_CATEGORY: Record<string, string> = {
+  application: "application",
+  internship: "application",
+  volunteer: "application",
+  group: "application",
+  partner: "partnership",
+  donor: "donation",
+  contact: "partnership",
+  newsletter: "newsletter",
+};
+
 export async function POST(request: Request) {
   let body: { type?: string; payload?: Record<string, unknown> };
   try {
@@ -51,8 +63,8 @@ export async function POST(request: Request) {
   const supabase = await createClient();
   const { data: submission, error } = (await supabase
     ?.from("form_submissions")
-    .insert({ type, payload })
-    .select("id, type, payload, created_at")
+    .insert({ type, form_category: TYPE_TO_CATEGORY[type] ?? null, payload })
+    .select("id, type, form_category, payload, created_at")
     .single()) ?? { data: null, error: { message: "No client" } };
 
   if (error) {

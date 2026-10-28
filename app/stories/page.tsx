@@ -13,8 +13,7 @@ export const metadata = pageMeta(
 );
 
 const categories = [
-  "Project updates", "Impact reports", "Alumni reflections",
-  "Host family stories", "Research & learning", "News",
+  "Blog", "Program", "Insight", "Impact Stories",
 ];
 
 export default async function BlogPage() {

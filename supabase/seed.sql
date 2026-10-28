@@ -972,3 +972,26 @@ insert into public.general_impact_pages (
   get_involved_title = excluded.get_involved_title, get_involved_intro = excluded.get_involved_intro,
   get_involved_cards = excluded.get_involved_cards, visible = excluded.visible;
 
+
+-- ---------- article_categories ----------
+insert into public.article_categories (slug, name, parent_id, description, visible, order_column) values
+  ('blog', 'Blog', NULL, 'Field posts, news, and updates from the FOSCOD blog.', true, 1),
+  ('program', 'Program', NULL, 'Stories about the GLE or CEDP programs.', true, 2),
+  ('insight', 'Insight', NULL, 'Data-driven insights, impact measurements, and research findings.', true, 3),
+  ('impact-stories', 'Impact Stories', NULL, 'Community voice stories with verified outcomes.', true, 4),
+  ('impact-stories-clean-energy', 'Clean Energy', (select id from public.article_categories where slug = 'impact-stories'), 'Impact stories tagged under clean energy and climate resilience.', true, 5),
+  ('impact-stories-water', 'Water', (select id from public.article_categories where slug = 'impact-stories'), 'Impact stories tagged under water, sanitation, and health.', true, 6),
+  ('impact-stories-livelihoods', 'Livelihoods', (select id from public.article_categories where slug = 'impact-stories'), 'Impact stories tagged under sustainable livelihoods and economic empowerment.', true, 7)
+on conflict (slug) do update set
+  name = excluded.name, parent_id = excluded.parent_id, description = excluded.description,
+  visible = excluded.visible, order_column = excluded.order_column;
+
+-- ---------- form_categories ----------
+insert into public.form_categories (slug, name, description, form_type, visible, order_column) values
+  ('application', 'Application', 'Internship, volunteer, and group program applications.', 'application', true, 1),
+  ('donation', 'Donation', 'Donor inquiry and donation forms.', 'donation', true, 2),
+  ('partnership', 'Partnership & Collaboration', 'Partnership, collaboration, and research inquiry forms.', 'partnership', true, 3),
+  ('newsletter', 'Newsletter', 'Newsletter signup and subscription management.', 'newsletter', true, 4)
+on conflict (slug) do update set
+  name = excluded.name, description = excluded.description, form_type = excluded.form_type,
+  visible = excluded.visible, order_column = excluded.order_column;
