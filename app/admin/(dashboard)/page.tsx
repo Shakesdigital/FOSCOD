@@ -3,27 +3,35 @@ import { createClient } from "@/lib/supabase/server";
 
 async function count(table: string) {
   const supabase = await createClient();
-  const { count } = (await supabase
+  const { count: value } = (await supabase
     ?.from(table)
     .select("*", { count: "exact", head: true })) ?? { count: 0 };
-  return count ?? 0;
+  return value ?? 0;
 }
 
+const sections = [
+  { href: "/admin/pages", label: "Pages", description: "Every landing page, edited as one unit — sections top-to-bottom." },
+  { href: "/admin/articles", label: "Articles", description: "Stories and impact stories in categories." },
+  { href: "/admin/components", label: "Components", description: "Reusable page sections: heroes, cards, carousels." },
+  { href: "/admin/settings", label: "Website settings", description: "Colors, fonts, logos, menus, technical config." },
+  { href: "/admin/forms", label: "Forms", description: "Application, donation, partnership and newsletter forms with submissions." },
+];
+
 export default async function AdminDashboard() {
-  const [projects, stories, blogStories, submissions, partners] = await Promise.all([
-    count("projects"),
-    count("impact_stories"),
+  const [pages, stories, impactStories, submissions, subscribers] = await Promise.all([
+    count("pages"),
     count("stories"),
+    count("impact_stories"),
     count("form_submissions"),
-    count("partners"),
+    count("newsletter_subscribers"),
   ]);
 
   const cards = [
-    { label: "Projects", value: projects, href: "/admin/content/projects" },
-    { label: "Impact stories", value: stories, href: "/admin/content/impact-stories" },
-    { label: "Blog stories", value: blogStories, href: "/admin/content/stories" },
-    { label: "Submissions", value: submissions, href: "/admin/submissions" },
-    { label: "Partners", value: partners, href: "/admin/content/partners" },
+    { label: "Landing pages", value: pages, href: "/admin/pages" },
+    { label: "Blog stories", value: stories, href: "/admin/content/stories" },
+    { label: "Impact stories", value: impactStories, href: "/admin/content/impact-stories" },
+    { label: "Form submissions", value: submissions, href: "/admin/forms" },
+    { label: "Newsletter subscribers", value: subscribers, href: "/admin/forms/newsletter" },
   ];
 
   return (
@@ -31,10 +39,10 @@ export default async function AdminDashboard() {
       <p className="font-[family-name:var(--font-text)] text-[0.7rem] uppercase tracking-[0.16em] text-[var(--accent-700)]">
         Overview
       </p>
-      <h1 className="mt-3 text-3xl">Dashboard</h1>
-      <p className="mt-2 text-[var(--muted)]">Manage FOSCOD content, submissions, and settings.</p>
+      <h1 className="mt-3 text-3xl">FOSCOD CMS</h1>
+      <p className="mt-2 text-[var(--muted)]">Manage the website: pages, articles, components, settings, and forms.</p>
 
-      <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
         {cards.map((c) => (
           <Link
             key={c.label}
@@ -47,13 +55,17 @@ export default async function AdminDashboard() {
         ))}
       </div>
 
-      <div className="mt-10 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-2)] p-6">
-        <h2 className="text-lg">Publishing checklist</h2>
-        <ul className="mt-3 list-inside list-disc space-y-1 text-[0.95rem] text-[var(--ink-soft)]">
-          <li>Add real impact metrics and switch their status to <strong>verified</strong>.</li>
-          <li>Upload field photography to the media library and attach to projects/stories.</li>
-          <li>Invite editors and assign roles in the profiles table.</li>
-        </ul>
+      <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        {sections.map((s) => (
+          <Link
+            key={s.href}
+            href={s.href}
+            className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-5 transition-colors hover:border-[var(--ink)]"
+          >
+            <p className="text-lg font-medium">{s.label}</p>
+            <p className="mt-2 text-sm text-[var(--ink-soft)]">{s.description}</p>
+          </Link>
+        ))}
       </div>
     </div>
   );

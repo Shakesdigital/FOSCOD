@@ -4,11 +4,12 @@ import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
 import { SignOutButton } from "@/components/admin/SignOutButton";
 
 const nav = [
-  { href: "/admin", label: "Dashboard" },
-  { href: "/admin/content", label: "Content" },
-  { href: "/admin/media", label: "Media" },
-  { href: "/admin/submissions", label: "Submissions" },
-  { href: "/admin/settings", label: "Settings" },
+  { href: "/admin", label: "Overview" },
+  { href: "/admin/pages", label: "Pages" },
+  { href: "/admin/articles", label: "Articles" },
+  { href: "/admin/components", label: "Components" },
+  { href: "/admin/settings", label: "Website settings" },
+  { href: "/admin/forms", label: "Forms" },
 ];
 
 function NotConfigured() {

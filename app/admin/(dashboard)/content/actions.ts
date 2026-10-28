@@ -11,15 +11,22 @@ function collectionOrThrow(key: string) {
   return collection;
 }
 
-function errorHref(collection: string, message: string, id?: string) {
+function errorHref(base: string, message: string, id?: string) {
   const params = new URLSearchParams({ error: message });
   if (id) params.set("edit", id);
-  return `/admin/content/${collection}?${params.toString()}`;
+  return `${base}?${params.toString()}`;
+}
+
+/** Page-centric editors pass a returnTo path; default to the collection page. */
+function returnBase(formData: FormData, collectionKey: string) {
+  const rt = String(formData.get("returnTo") ?? "");
+  return rt.startsWith("/") && !rt.startsWith("//") ? rt : `/admin/content/${collectionKey}`;
 }
 
 export async function saveContent(formData: FormData) {
   const collectionKey = String(formData.get("collection") ?? "");
   const id = String(formData.get("id") ?? "");
+  const base = returnBase(formData, collectionKey);
   const collection = collectionOrThrow(collectionKey);
   const payload: Record<string, unknown> = {};
 
@@ -31,14 +38,14 @@ export async function saveContent(formData: FormData) {
       payload[field.name] = raw === "on" || raw === "true";
       continue;
     }
-    if (field.required && !text) redirect(errorHref(collectionKey, `${field.label} is required.`, id || undefined));
+    if (field.required && !text) redirect(errorHref(base, `${field.label} is required.`, id || undefined));
     if (!text) {
       payload[field.name] = null;
       continue;
     }
     if (field.type === "number") {
       const value = Number(text);
-      if (!Number.isFinite(value)) redirect(errorHref(collectionKey, `${field.label} must be a number.`, id || undefined));
+      if (!Number.isFinite(value)) redirect(errorHref(base, `${field.label} must be a number.`, id || undefined));
       payload[field.name] = value;
       continue;
     }
@@ -46,13 +53,13 @@ export async function saveContent(formData: FormData) {
       try {
         payload[field.name] = JSON.parse(text);
       } catch {
-        redirect(errorHref(collectionKey, `${field.label} contains invalid structured data.`, id || undefined));
+        redirect(errorHref(base, `${field.label} contains invalid structured data.`, id || undefined));
       }
       continue;
     }
     if (field.type === "datetime") {
       const date = new Date(text);
-      if (Number.isNaN(date.getTime())) redirect(errorHref(collectionKey, `${field.label} is not a valid date.`, id || undefined));
+      if (Number.isNaN(date.getTime())) redirect(errorHref(base, `${field.label} is not a valid date.`, id || undefined));
       payload[field.name] = date.toISOString();
       continue;
     }
@@ -64,29 +71,30 @@ export async function saveContent(formData: FormData) {
     ["image_url", "image_alt"], ["photo_url", "photo_alt"], ["logo_url", "logo_alt"],
   ];
   for (const [urlField, altField] of imagePairs) {
-    if (payload[urlField] && !payload[altField]) redirect(errorHref(collectionKey, "Alt text is required for every image.", id || undefined));
+    if (payload[urlField] && !payload[altField]) redirect(errorHref(base, "Alt text is required for every image.", id || undefined));
   }
 
   if (collectionKey === "testimonials" && payload.status === "published" && payload.permission !== true) {
-    redirect(errorHref(collectionKey, "Confirm permission before publishing a testimonial.", id || undefined));
+    redirect(errorHref(base, "Confirm permission before publishing a testimonial.", id || undefined));
   }
   if (collectionKey === "impact-stories" && payload.status === "published" && payload.quote && !["confirmed", "anonymized"].includes(String(payload.consent_status))) {
-    redirect(errorHref(collectionKey, "Confirm or anonymize consent before publishing a community quotation.", id || undefined));
+    redirect(errorHref(base, "Confirm or anonymize consent before publishing a community quotation.", id || undefined));
   }
   if (collectionKey === "impact-stats" && payload.status === "verified" && (!payload.as_of_date || !payload.source_note)) {
-    redirect(errorHref(collectionKey, "Verified statistics require an as-of date and source note.", id || undefined));
+    redirect(errorHref(base, "Verified statistics require an as-of date and source note.", id || undefined));
   }
 
   const supabase = await createClient();
-  if (!supabase) redirect(errorHref(collectionKey, "Supabase is not connected.", id || undefined));
+  if (!supabase) redirect(errorHref(base, "Supabase is not connected.", id || undefined));
 
   const result = id
     ? await supabase.from(collection.table).update(payload).eq("id", id)
     : await supabase.from(collection.table).insert(payload);
 
-  if (result.error) redirect(errorHref(collectionKey, result.error.message, id || undefined));
+  if (result.error) redirect(errorHref(base, result.error.message, id || undefined));
 
-  // Revalidate the CMS admin page
+  // Revalidate the CMS admin page (page editor or collection page)
+  revalidatePath(base);
   revalidatePath(`/admin/content/${collectionKey}`);
 
   // Revalidate all common frontend paths that may be affected by content changes
@@ -110,21 +118,23 @@ export async function saveContent(formData: FormData) {
   revalidatePath("/stories");
   revalidatePath("/stories/[slug]");
 
-  redirect(`/admin/content/${collectionKey}?saved=1`);
+  redirect(`${base}?saved=1`);
 }
 
 export async function deleteContent(formData: FormData) {
   const collectionKey = String(formData.get("collection") ?? "");
   const id = String(formData.get("id") ?? "");
+  const base = returnBase(formData, collectionKey);
   const collection = collectionOrThrow(collectionKey);
-  if (!id) redirect(errorHref(collectionKey, "Missing record ID."));
+  if (!id) redirect(errorHref(base, "Missing record ID."));
 
   const supabase = await createClient();
-  if (!supabase) redirect(errorHref(collectionKey, "Supabase is not connected."));
+  if (!supabase) redirect(errorHref(base, "Supabase is not connected."));
   const { error } = await supabase.from(collection.table).delete().eq("id", id);
-  if (error) redirect(errorHref(collectionKey, error.message, id));
+  if (error) redirect(errorHref(base, error.message, id));
 
-  // Revalidate the CMS admin page
+  // Revalidate the CMS admin page (page editor or collection page)
+  revalidatePath(base);
   revalidatePath(`/admin/content/${collectionKey}`);
 
   // Revalidate all common frontend paths that may be affected by content changes
@@ -148,5 +158,5 @@ export async function deleteContent(formData: FormData) {
   revalidatePath("/stories");
   revalidatePath("/stories/[slug]");
 
-  redirect(`/admin/content/${collectionKey}?deleted=1`);
+  redirect(`${base}?deleted=1`);
 }

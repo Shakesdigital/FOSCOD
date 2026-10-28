@@ -70,10 +70,16 @@ export function ContentForm({
   collection,
   current,
   collectionKey,
+  presets,
+  returnTo,
 }: {
   collection: CmsCollection;
   current?: Record<string, unknown> | undefined;
   collectionKey: string;
+  /** Values preset on "Add" — e.g. page_slug so new rows land on this page. */
+  presets?: Record<string, string>;
+  /** Admin path to return to after save (defaults to the collection page). */
+  returnTo?: string;
 }) {
   const [isSaving, setIsSaving] = useState(false);
 
@@ -90,7 +96,8 @@ export function ContentForm({
       )}
       <input type="hidden" name="collection" value={collectionKey} />
       <input type="hidden" name="id" value={String(current?.id ?? "")} />
-      {collection.fields.map((field) => <Field key={field.name} field={field} value={current?.[field.name]} />)}
+      {returnTo ? <input type="hidden" name="returnTo" value={returnTo} /> : null}
+      {collection.fields.map((field) => <Field key={field.name} field={field} value={current?.[field.name] ?? presets?.[field.name]} />)}
 
       <div className="flex flex-wrap items-center gap-3 border-t border-[var(--border)] pt-5">
         <button
