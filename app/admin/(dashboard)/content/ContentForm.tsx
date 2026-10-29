@@ -17,17 +17,22 @@ function fieldValue(value: unknown, type?: CmsField["type"]) {
 function Field({ field, value }: { field: CmsField; value: unknown }) {
   const id = `field-${field.name}`;
   const common = "mt-2 w-full rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] px-3.5 py-2.5 text-sm text-[var(--ink)] outline-none focus:border-[var(--accent-600)] focus:ring-2 focus:ring-[var(--accent-100)]";
+  // Image fields are controlled so the URL set by InlineImageUpload (or typed
+  // directly) is reliably captured by FormData on save. An uncontrolled input
+  // updated only via DOM manipulation can be lost when the server action reads
+  // the form, causing the uploaded image to disappear after Save.
+  const [imageUrl, setImageUrl] = useState<string>(field.type === "image" ? fieldValue(value, field.type) : "");
 
   if (field.type === "image") {
     return (
       <label htmlFor={id} className="block text-sm font-medium text-[var(--ink)]">
         {field.label}{field.required ? <span className="ml-1 text-[var(--accent-700)]">*</span> : null}
-        <input id={id} name={field.name} required={field.required} defaultValue={fieldValue(value, field.type)} type="url" placeholder="https://… or paste from Media library" className={common} />
+        <input id={id} name={field.name} required={field.required} value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} type="url" placeholder="https://… or paste from Media library" className={common} />
         <p className="mt-1.5 text-xs text-[var(--muted)]">
           Paste an image URL from the <Link href="/admin/media" className="text-[var(--accent-700)] underline">Media library</Link>,
           or upload directly from your device below.
         </p>
-        <InlineImageUpload fieldName={field.name} initialValue={fieldValue(value, field.type)} />
+        <InlineImageUpload fieldName={field.name} initialValue={imageUrl} onUpload={setImageUrl} />
         {field.help ? <span className="mt-1.5 block text-xs font-normal leading-relaxed text-[var(--muted)]">{field.help}</span> : null}
       </label>
     );

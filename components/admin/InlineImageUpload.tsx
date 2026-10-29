@@ -9,9 +9,11 @@ import { createClient } from "@/lib/supabase/client";
 export function InlineImageUpload({
   fieldName,
   initialValue = "",
+  onUpload,
 }: {
   fieldName: string;
   initialValue?: string;
+  onUpload?: (url: string) => void;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string>(initialValue);
@@ -68,6 +70,9 @@ export function InlineImageUpload({
     setPreview(publicUrl);
     const input = document.getElementById(targetId) as HTMLInputElement | null;
     if (input) input.value = publicUrl;
+    // Notify the parent so the controlled input value (and FormData on save)
+    // captures the uploaded URL instead of losing it.
+    onUpload?.(publicUrl);
 
     setUploading(false);
   }
