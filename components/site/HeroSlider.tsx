@@ -88,7 +88,7 @@ export function HeroSlider({
                 className="absolute inset-0 -z-10"
                 style={{
                   background:
-                    "linear-gradient(180deg, rgba(13,32,30,.45) 0%, rgba(13,32,30,.30) 40%, rgba(13,32,30,.62) 100%)",
+                    "linear-gradient(180deg, rgba(13,32,30,.25) 0%, rgba(13,32,30,.15) 40%, rgba(13,32,30,.40) 100%)",
                 }}
                 aria-hidden
               />
