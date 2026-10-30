@@ -11,7 +11,7 @@ export const metadata = pageMeta(
 );
 
 export default async function ApplyFormPage() {
-  const heroSlides = await getHeroSlides("apply");
+  const heroSlides = await getHeroSlides("apply-form");
 
   return (
     <>

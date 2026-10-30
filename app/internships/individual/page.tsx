@@ -2,7 +2,7 @@ import { HeroSlider } from "@/components/site/HeroSlider";
 import { FeatureRow, ApplyBand } from "@/components/site/blocks";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { pageMeta } from "@/lib/seo";
-import { getHeroSlides } from "@/lib/content";
+import { getHeroSlides, getAboutContent } from "@/lib/content";
 
 export const metadata = pageMeta(
   "Individual Internship Program",
@@ -10,7 +10,8 @@ export const metadata = pageMeta(
 );
 
 export default async function IndividualInternshipPage() {
-  const heroSlides = await getHeroSlides("internship-individual");
+  const [heroSlides, about] = await Promise.all([getHeroSlides("internship-individual"), getAboutContent()]);
+  const sectionImages = about.landing_section_images["internship-individual"] ?? [];
   return (
     <>
       <HeroSlider slides={heroSlides} />
@@ -31,6 +32,8 @@ export default async function IndividualInternshipPage() {
         title="Matched to your field and goals"
         tone="forest"
         imageCaption="Intern at work — add photo via CMS"
+        imageUrl={sectionImages[0]?.image_url}
+        imageAlt={sectionImages[0]?.image_alt}
         body="Tell us your background, discipline, and career goals, and we'll match you to a genuine community project where your contribution counts."
         cta={{ href: "/programs/global-learning-exchange", label: "Volunteer or Intern" }}
       />
@@ -40,6 +43,8 @@ export default async function IndividualInternshipPage() {
         surface
         tone="water"
         imageCaption="Supervisor & intern — add photo via CMS"
+        imageUrl={sectionImages[1]?.image_url}
+        imageAlt={sectionImages[1]?.image_alt}
         body="The current role brief confirms your supervisor, orientation, check-ins, emergency contact, and the support FOSCOD can provide for that intake."
         cta={{ href: "/impact", label: "More Details" }}
       />
@@ -47,6 +52,8 @@ export default async function IndividualInternshipPage() {
         title="Accommodation and cultural learning"
         tone="earth"
         imageCaption="Host family — add photo via CMS"
+        imageUrl={sectionImages[2]?.image_url}
+        imageAlt={sectionImages[2]?.image_alt}
         body="FOSCOD confirms the approved accommodation arrangement, cultural preparation, conduct expectations, and practical responsibilities before you accept a place."
         cta={{ href: "/programs/program-fees", label: "More Details" }}
       />

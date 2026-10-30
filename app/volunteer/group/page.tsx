@@ -2,7 +2,7 @@ import { HeroSlider } from "@/components/site/HeroSlider";
 import { FeatureRow, ApplyBand } from "@/components/site/blocks";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { pageMeta } from "@/lib/seo";
-import { getHeroSlides } from "@/lib/content";
+import { getHeroSlides, getAboutContent } from "@/lib/content";
 
 export const metadata = pageMeta(
   "Group Volunteer Program",
@@ -10,7 +10,8 @@ export const metadata = pageMeta(
 );
 
 export default async function GroupVolunteerPage() {
-  const heroSlides = await getHeroSlides("volunteer-group");
+  const [heroSlides, about] = await Promise.all([getHeroSlides("volunteer-group"), getAboutContent()]);
+  const sectionImages = about.landing_section_images["volunteer-group"] ?? [];
   return (
     <>
       <HeroSlider slides={heroSlides} />
@@ -33,6 +34,8 @@ export default async function GroupVolunteerPage() {
         title="Planned around your group's goals"
         tone="water"
         imageCaption="Group planning session — add photo via CMS"
+        imageUrl={sectionImages[0]?.image_url}
+        imageAlt={sectionImages[0]?.image_alt}
         body="We build the project around your cohort's learning objectives, field interests, and timeline — then match it to a genuine community priority."
         cta={{ href: "/programs/global-learning-exchange", label: "Volunteer or Intern" }}
       />
@@ -42,6 +45,8 @@ export default async function GroupVolunteerPage() {
         surface
         tone="forest"
         imageCaption="Team at work — add photo via CMS"
+        imageUrl={sectionImages[1]?.image_url}
+        imageAlt={sectionImages[1]?.image_alt}
         body="Your team contributes under local supervision to a project the community leads, then documents outputs, unfinished work, and feedback for continuity."
         cta={{ href: "/impact", label: "More Details" }}
       />
@@ -49,6 +54,8 @@ export default async function GroupVolunteerPage() {
         title="Responsibilities and support agreed"
         tone="earth"
         imageCaption="Orientation & support — add photo via CMS"
+        imageUrl={sectionImages[2]?.image_url}
+        imageAlt={sectionImages[2]?.image_alt}
         body="The group brief assigns accommodation, orientation, transport, accessibility, insurance, safeguarding, emergency, and risk-management responsibilities between FOSCOD, the sending organization, and participants."
         cta={{ href: "/programs/program-fees", label: "More Details" }}
       />

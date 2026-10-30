@@ -17,6 +17,8 @@ export function FeatureRow({
   reverse = false,
   tone = "water",
   imageCaption = "Field photo — add via CMS",
+  imageUrl,
+  imageAlt,
   surface = false,
 }: {
   eyebrow?: string;
@@ -26,6 +28,8 @@ export function FeatureRow({
   reverse?: boolean;
   tone?: "earth" | "water" | "forest";
   imageCaption?: string;
+  imageUrl?: string;
+  imageAlt?: string;
   surface?: boolean;
 }) {
   return (
@@ -46,7 +50,7 @@ export function FeatureRow({
           )}
         </div>
         <div className={reverse ? "md:order-1" : ""}>
-          <PhotoSlot tone={tone} ratio="4/3" caption={imageCaption} className="shadow-[var(--shadow-sm)]" />
+          <PhotoSlot tone={tone} ratio="4/3" caption={imageCaption} imageUrl={imageUrl} alt={imageAlt} className="shadow-[var(--shadow-sm)]" />
         </div>
       </div>
     </section>
@@ -348,7 +352,7 @@ export function ProgramsSection({
   eyebrow: string;
   title: string;
   intro?: string;
-  items: { slug: string; title: string; summary: string; href: string; tone: "earth" | "water" | "forest"; pillar?: string }[];
+  items: { slug: string; title: string; summary: string; href: string; tone: "earth" | "water" | "forest"; pillar?: string; featured_image_url?: string | null; featured_image_alt?: string | null }[];
   surface?: boolean;
   ctaLabel?: string;
 }) {
@@ -368,7 +372,13 @@ export function ProgramsSection({
               key={p.slug}
               className="flex flex-col overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)]"
             >
-              <PhotoSlot tone={p.tone} ratio="16/9" caption={`${p.title} — add photo via CMS`} />
+              <PhotoSlot
+                tone={p.tone}
+                ratio="16/9"
+                caption={p.title}
+                imageUrl={p.featured_image_url ?? undefined}
+                alt={p.featured_image_alt ?? p.title}
+              />
               <div className="flex flex-1 flex-col p-7 md:p-8">
                 {p.pillar && (
                   <p className="font-[family-name:var(--font-text)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">

@@ -26,6 +26,8 @@ export type ProgramCard = {
   href: string;
   tone: "earth" | "water" | "forest";
   pillar?: string;
+  featured_image_url?: string | null;
+  featured_image_alt?: string | null;
 };
 
 export type Pathway = {
@@ -86,6 +88,10 @@ export type AboutValue = {
 };
 
 export type AboutContent = {
+  story: { image_url?: string; image_alt?: string };
+  programs_index_images: Record<string, { image_url?: string; image_alt?: string }>;
+  programs_audience_images: Record<string, { image_url?: string; image_alt?: string }>;
+  landing_section_images: Record<string, { image_url?: string; image_alt?: string }[]>;
   mission: { title: string; image_url?: string; image_alt?: string; description: string };
   vision: { title: string; image_url?: string; image_alt?: string; description: string };
   values: AboutValue[];
@@ -443,7 +449,7 @@ export async function getPrograms(): Promise<ProgramCard[]> {
     const supabase = await createClient();
     const { data } = (await supabase
       ?.from("programs")
-      .select("slug,pillar,title,summary,order_column")
+      .select("slug,pillar,title,summary,featured_image_url,featured_image_alt,order_column")
       .eq("status", "published")
       .order("order_column", { ascending: true })) ?? { data: null };
     if (data && data.length) {
@@ -454,6 +460,8 @@ export async function getPrograms(): Promise<ProgramCard[]> {
         href: `/programs/${p.slug}`,
         tone: p.pillar === "GLE" ? "water" : p.pillar === "CEDP" ? "forest" : (["water", "forest", "earth"] as const)[i % 3],
         pillar: p.pillar ?? undefined,
+        featured_image_url: p.featured_image_url ?? null,
+        featured_image_alt: p.featured_image_alt ?? null,
       }));
     }
   }
@@ -1497,6 +1505,10 @@ export async function getPartners(): Promise<Partner[]> {
 /* ---------- about page content (mission, vision, values, leadership) ---------- */
 
 const aboutContentFallback: AboutContent = {
+  story: {},
+  programs_index_images: {},
+  programs_audience_images: {},
+  landing_section_images: {},
   mission: {
     title: "Mission",
     image_url: undefined,
@@ -1574,6 +1586,15 @@ export async function getAboutContent(): Promise<AboutContent> {
     if (data && data.length) {
       const byKey = Object.fromEntries(data.map((row: { key: string; config: Record<string, unknown> }) => [row.key, row.config]));
       const result: AboutContent = {
+        programs_index_images: (byKey.programs_index_images as AboutContent["programs_index_images"]) ?? {},
+        programs_audience_images: (byKey.programs_audience_images as AboutContent["programs_audience_images"]) ?? {},
+        landing_section_images: (byKey.landing_section_images as AboutContent["landing_section_images"]) ?? {},
+        story: byKey.story
+          ? {
+              image_url: (byKey.story as { image_url?: string }).image_url,
+              image_alt: (byKey.story as { image_alt?: string }).image_alt,
+            }
+          : aboutContentFallback.story,
         mission: byKey.mission
           ? {
               title: (byKey.mission as { title?: string }).title ?? "Mission",
@@ -3141,7 +3162,7 @@ export async function getGeneralImpactPage(slug: string): Promise<GeneralImpactP
     if (!supabase) return generalImpactPagesFallback[slug] ?? null;
     const { data } = (await supabase
       ?.from("general_impact_pages")
-      .select("slug,program,title,eyebrow,hero_image_url,hero_image_alt,tone,hero_cta_1_label,hero_cta_1_href,hero_cta_2_label,hero_cta_2_href,hero_cta_3_label,hero_cta_3_href,description_title,description_body,cd_stories_eyebrow,cd_stories_title,cd_stories_intro,cd_story_cards,gle_stories_eyebrow,gle_stories_title,gle_stories_intro,gle_story_cards,explore_eyebrow,explore_title,explore_intro,explore_testimonials,explore_testimonials_cta_label,explore_testimonials_cta_href,explore_videos,explore_videos_cta_label,explore_videos_cta_href,get_involved_eyebrow,get_involved_title,get_involved_intro,get_involved_cards,visible,meta_title,meta_description,meta_image_url")
+      .select("slug,program,title,eyebrow,hero_image_url,hero_image_alt,tone,hero_cta_label,hero_cta_href,hero_cta2_label,hero_cta2_href,hero_cta3_label,hero_cta3_href,description_title,description_body,cd_stories_eyebrow,cd_stories_title,cd_stories_intro,cd_story_cards,gle_stories_eyebrow,gle_stories_title,gle_stories_intro,gle_story_cards,explore_eyebrow,explore_title,explore_intro,explore_testimonials,explore_testimonials_cta_label,explore_testimonials_cta_href,explore_videos,explore_videos_cta_label,explore_videos_cta_href,get_involved_eyebrow,get_involved_title,get_involved_intro,get_involved_cards,visible,meta_title,meta_description,meta_image_url")
       .eq("slug", slug)
       .eq("visible", true)
       .maybeSingle()) ?? { data: null };
@@ -3154,9 +3175,9 @@ export async function getGeneralImpactPage(slug: string): Promise<GeneralImpactP
         heroImageUrl: data.hero_image_url ?? undefined,
         heroImageAlt: data.hero_image_alt ?? undefined,
         tone: (data.tone as GeneralImpactPage["tone"]) ?? "forest",
-        heroCta1: data.hero_cta_1_label && data.hero_cta_1_href ? { href: data.hero_cta_1_href, label: data.hero_cta_1_label } : undefined,
-        heroCta2: data.hero_cta_2_label && data.hero_cta_2_href ? { href: data.hero_cta_2_href, label: data.hero_cta_2_label } : undefined,
-        heroCta3: data.hero_cta_3_label && data.hero_cta_3_href ? { href: data.hero_cta_3_href, label: data.hero_cta_3_label } : undefined,
+        heroCta1: data.hero_cta_label && data.hero_cta_href ? { href: data.hero_cta_href, label: data.hero_cta_label } : undefined,
+        heroCta2: data.hero_cta2_label && data.hero_cta2_href ? { href: data.hero_cta2_href, label: data.hero_cta2_label } : undefined,
+        heroCta3: data.hero_cta3_label && data.hero_cta3_href ? { href: data.hero_cta3_href, label: data.hero_cta3_label } : undefined,
         descriptionTitle: data.description_title ?? undefined,
         descriptionBody: data.description_body ?? undefined,
         cdStoriesEyebrow: data.cd_stories_eyebrow ?? undefined,

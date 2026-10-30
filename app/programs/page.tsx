@@ -2,7 +2,7 @@ import { HeroSlider } from "@/components/site/HeroSlider";
 import { ProgramsSection, FeatureRow, CTABand, FeatureGrid } from "@/components/site/blocks";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { pageMeta } from "@/lib/seo";
-import { getHeroSlides, getPrograms, getAudiencePaths } from "@/lib/content";
+import { getHeroSlides, getPrograms, getAudiencePaths, getAboutContent } from "@/lib/content";
 
 export const metadata = pageMeta(
   "Our Programs",
@@ -10,11 +10,20 @@ export const metadata = pageMeta(
 );
 
 export default async function ProgramsPage() {
-  const [heroSlides, programs, audiencePathsData] = await Promise.all([
+  const [heroSlides, programs, audiencePathsData, about] = await Promise.all([
     getHeroSlides("programs"),
     getPrograms(),
     getAudiencePaths(),
+    getAboutContent(),
   ]);
+  const programIndexItems = programs.map((program) => {
+    const image = about.programs_index_images[program.slug];
+    return image ? { ...program, featured_image_url: image.image_url, featured_image_alt: image.image_alt } : program;
+  });
+  const audienceItems = audiencePathsData.map((path) => {
+    const image = about.programs_audience_images[path.title];
+    return image ? { ...path, imageUrl: image.image_url, imageAlt: image.image_alt } : path;
+  });
 
   return (
     <>
@@ -25,7 +34,7 @@ export default async function ProgramsPage() {
         eyebrow="About our programs"
         title="Choose the path that fits you"
         intro="Every FOSCOD program is rooted in the same belief: communities lead, and we build alongside them. Come to learn, or invest in the work."
-        items={programs}
+        items={programIndexItems}
       />
 
       <section className="bg-[var(--surface-2)] py-14 md:py-20">
@@ -38,7 +47,7 @@ export default async function ProgramsPage() {
             </p>
           </div>
           <div className="mt-10">
-            <FeatureGrid columns={4} items={audiencePathsData.map((path) => ({ ...path, kicker: path.kicker ?? "Start here", imageUrl: path.imageUrl, imageAlt: path.imageAlt }))} />
+            <FeatureGrid columns={4} items={audienceItems.map((path) => ({ ...path, kicker: path.kicker ?? "Start here", imageUrl: path.imageUrl, imageAlt: path.imageAlt }))} />
           </div>
         </div>
       </section>

@@ -50,6 +50,8 @@ export default async function AboutPage() {
               ratio="4/5"
               tag="FOSCOD team with community members"
               caption="Our story — team and community in Kalagala Parish"
+              imageUrl={about.story.image_url}
+              alt={about.story.image_alt ?? "FOSCOD team with community members in Kalagala Parish"}
               className="shadow-[var(--shadow-lg)]"
             />
           </div>

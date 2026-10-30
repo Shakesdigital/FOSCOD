@@ -2,7 +2,7 @@ import { HeroSlider } from "@/components/site/HeroSlider";
 import { FeatureRow, ApplyBand } from "@/components/site/blocks";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { pageMeta } from "@/lib/seo";
-import { getHeroSlides } from "@/lib/content";
+import { getHeroSlides, getAboutContent } from "@/lib/content";
 
 export const metadata = pageMeta(
   "Individual Volunteer Program",
@@ -10,7 +10,8 @@ export const metadata = pageMeta(
 );
 
 export default async function IndividualVolunteerPage() {
-  const heroSlides = await getHeroSlides("volunteer-individual");
+  const [heroSlides, about] = await Promise.all([getHeroSlides("volunteer-individual"), getAboutContent()]);
+  const sectionImages = about.landing_section_images["volunteer-individual"] ?? [];
   return (
     <>
       <HeroSlider slides={heroSlides} />
@@ -32,6 +33,8 @@ export default async function IndividualVolunteerPage() {
         title="A placement matched to your skills"
         tone="forest"
         imageCaption="Volunteer at work — add photo via CMS"
+        imageUrl={sectionImages[0]?.image_url}
+        imageAlt={sectionImages[0]?.image_alt}
         body="Tell us your background, goals, and field interests, and we'll match you to a genuine community priority where your contribution counts."
         cta={{ href: "/programs/global-learning-exchange", label: "Volunteer or Intern" }}
       />
@@ -41,6 +44,8 @@ export default async function IndividualVolunteerPage() {
         surface
         tone="water"
         imageCaption="Supervisor & volunteer — add photo via CMS"
+        imageUrl={sectionImages[1]?.image_url}
+        imageAlt={sectionImages[1]?.image_alt}
         body="You're supported by FOSCOD staff and community leaders throughout — with orientation, guidance, and round-the-clock in-country support."
         cta={{ href: "/impact", label: "More Details" }}
       />
@@ -48,6 +53,8 @@ export default async function IndividualVolunteerPage() {
         title="Accommodation and cultural learning"
         tone="earth"
         imageCaption="Host family — add photo via CMS"
+        imageUrl={sectionImages[2]?.image_url}
+        imageAlt={sectionImages[2]?.image_alt}
         body="The current brief confirms the approved accommodation arrangement, cultural preparation, conduct expectations, and what each participant is responsible for."
         cta={{ href: "/programs/program-fees", label: "More Details" }}
       />
