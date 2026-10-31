@@ -196,6 +196,8 @@ export type Story = {
   excerpt: string;
   date: string;
   href: string;
+  imageUrl?: string;
+  imageAlt?: string;
 };
 
 const pathways: Pathway[] = [
@@ -575,7 +577,7 @@ export async function getLatestStories(): Promise<Story[]> {
     const supabase = await createClient();
     const { data } = (await supabase
       ?.from("stories")
-      .select("slug,title,category,excerpt,published_at")
+      .select("slug,title,category,excerpt,published_at,featured_image_url,featured_image_alt")
       .eq("status", "published")
       .not("category", "in", `(${SYSTEM_STORY_CATEGORIES.map((c) => `"${c}"`).join(",")})`)
       .order("published_at", { ascending: false })
@@ -588,6 +590,8 @@ export async function getLatestStories(): Promise<Story[]> {
         excerpt: s.excerpt ?? "",
         date: s.published_at ? new Date(s.published_at).getFullYear().toString() : "",
         href: `/stories/${s.slug}`,
+        imageUrl: s.featured_image_url ?? undefined,
+        imageAlt: s.featured_image_alt ?? undefined,
       }));
     }
   }
@@ -599,7 +603,7 @@ export async function getStory(slug: string): Promise<(Story & { body?: string }
     const supabase = await createClient();
     const { data } = (await supabase
       ?.from("stories")
-      .select("slug,title,category,excerpt,body,published_at")
+      .select("slug,title,category,excerpt,body,published_at,featured_image_url,featured_image_alt")
       .eq("slug", slug)
       .eq("status", "published")
       .maybeSingle()) ?? { data: null };
@@ -612,6 +616,8 @@ export async function getStory(slug: string): Promise<(Story & { body?: string }
         date: data.published_at ? new Date(data.published_at).getFullYear().toString() : "",
         href: `/stories/${data.slug}`,
         body: data.body ?? undefined,
+        imageUrl: data.featured_image_url ?? undefined,
+        imageAlt: data.featured_image_alt ?? undefined,
       };
     }
   }
@@ -644,18 +650,18 @@ export async function getProgramDates(): Promise<ProgramDate[]> {
 
 /* ---------- GLE streams, volunteer opportunities, program highlights ---------- */
 const gleStreamsFallback: ImpactCard[] = [
-  { title: "Volunteer", excerpt: "Give your time and skills to community-led projects, with full local support.", href: "/volunteer" },
-  { title: "Internship", excerpt: "Supervised, credit-friendly field experience in your area of study or career.", href: "/internships" },
-  { title: "Global Service Trip", excerpt: "Faculty-led group programs and service trips with risk management built in.", href: "/programs/finder" },
+  { title: "Volunteer", excerpt: "Give your time and skills to community-led projects, with full local support.", href: "/volunteer", tone: "earth" },
+  { title: "Internship", excerpt: "Supervised, credit-friendly field experience in your area of study or career.", href: "/internships", tone: "water" },
+  { title: "Global Service Trip", excerpt: "Faculty-led group programs and service trips with risk management built in.", href: "/programs/finder", tone: "forest" },
 ];
 
 const volunteerOpportunitiesFallback: ImpactCard[] = [
-  { title: "WASH", excerpt: "Community-led work in safe water, sanitation, and hygiene.", href: "/programs/cedp/water-sanitation-hygiene" },
-  { title: "Green skills & renewable energy", excerpt: "Learning linked to renewable energy education and practical green skills.", href: "/programs/cedp/green-skills-renewable-energy" },
-  { title: "Green livelihoods", excerpt: "Community enterprise, agriculture, and resilient livelihoods.", href: "/programs/cedp/green-livelihoods-economic-empowerment" },
-  { title: "Inclusive leadership", excerpt: "Women, youth, and climate leadership grounded in community priorities.", href: "/programs/cedp/inclusive-leadership" },
-  { title: "Ecosystem restoration", excerpt: "Restoration and carbon-offset work designed with communities.", href: "/programs/cedp/ecosystem-restoration-carbon-offsets" },
-  { title: "Research & data", excerpt: "Baseline surveys, monitoring, and ethical research partnerships.", href: "/programs/finder" },
+  { title: "WASH", excerpt: "Community-led work in safe water, sanitation, and hygiene.", href: "/programs/cedp/water-sanitation-hygiene", tone: "water" },
+  { title: "Green skills & renewable energy", excerpt: "Learning linked to renewable energy education and practical green skills.", href: "/programs/cedp/green-skills-renewable-energy", tone: "earth" },
+  { title: "Green livelihoods", excerpt: "Community enterprise, agriculture, and resilient livelihoods.", href: "/programs/cedp/green-livelihoods-economic-empowerment", tone: "forest" },
+  { title: "Inclusive leadership", excerpt: "Women, youth, and climate leadership grounded in community priorities.", href: "/programs/cedp/inclusive-leadership", tone: "earth" },
+  { title: "Ecosystem restoration", excerpt: "Restoration and carbon-offset work designed with communities.", href: "/programs/cedp/ecosystem-restoration-carbon-offsets", tone: "forest" },
+  { title: "Research & data", excerpt: "Baseline surveys, monitoring, and ethical research partnerships.", href: "/programs/finder", tone: "water" },
 ];
 
 const programHighlightsFallback: ImpactCard[] = [
@@ -695,6 +701,13 @@ export type ImpactCard = {
   href?: string;
   video?: boolean;
   media?: boolean;
+  imageUrl?: string | null;
+  imageAlt?: string | null;
+  tag?: string;
+  kicker?: string;
+  tone?: "earth" | "water" | "forest";
+  ctaLabel?: string;
+  icon?: string;
 };
 
 const team: TeamMember[] = [
@@ -707,29 +720,32 @@ const impactStories: ImpactCard[] = [
     title: "Clean energy that powers a livelihood",
     excerpt: "In Naluvule, a solar-powered salon turned an unreliable income into a growing business.",
     href: "/stories/solar-powered-salon-naluvule",
+    tone: "earth",
   },
   {
     title: "Water, dignity, and resilience",
     excerpt: "Protected springs and hygiene education across Busoga are reducing illness and restoring dignity.",
     href: "/projects/wash",
+    tone: "water",
   },
   {
     title: "Regenerating land with biochar",
     excerpt: "In Kalagala Parish, invasive water hyacinth becomes biochar — healthier soil, cleaner cooking, income for women and youth.",
     href: "/projects/biochar-uganda",
+    tone: "forest",
   },
 ];
 
 const impactVideos: ImpactCard[] = [
-  { title: "Meet our host families", excerpt: "A short film on the families who open their homes to every cohort.", video: true, href: "/stories/celebrating-our-host-families" },
-  { title: "A project handover", excerpt: "What it looks like when a community takes full ownership of its work.", video: true, href: "/stories" },
-  { title: "Cohort debrief 2025", excerpt: "This year's interns on what they built and learned across four districts.", video: true, href: "/stories/internship-debrief-2025" },
+  { title: "Meet our host families", excerpt: "A short film on the families who open their homes to every cohort.", video: true, href: "/stories/celebrating-our-host-families", tone: "earth" },
+  { title: "A project handover", excerpt: "What it looks like when a community takes full ownership of its work.", video: true, href: "/stories", tone: "water" },
+  { title: "Cohort debrief 2025", excerpt: "This year's interns on what they built and learned across four districts.", video: true, href: "/stories/internship-debrief-2025", tone: "forest" },
 ];
 
 const communityExperiences: ImpactCard[] = [
-  { title: "Opening our home", excerpt: "A host family on what welcoming international learners has meant for them.", href: "/stories/celebrating-our-host-families" },
-  { title: "What the savings group changed", excerpt: "Members of a VSLA on building income and resilience together.", href: "/stories" },
-  { title: "Co-designing a project", excerpt: "A local leader on setting the priorities — and seeing them delivered.", href: "/stories" },
+  { title: "Opening our home", excerpt: "A host family on what welcoming international learners has meant for them.", href: "/stories/celebrating-our-host-families", tone: "earth" },
+  { title: "What the savings group changed", excerpt: "Members of a VSLA on building income and resilience together.", href: "/stories", tone: "water" },
+  { title: "Co-designing a project", excerpt: "A local leader on setting the priorities — and seeing them delivered.", href: "/stories", tone: "forest" },
 ];
 
 export async function getTeam(category?: string): Promise<TeamMember[]> {
@@ -759,7 +775,7 @@ async function getStoryCards(category: string, fallback: ImpactCard[]): Promise<
     const supabase = await createClient();
     const { data } = (await supabase
       ?.from("stories")
-      .select("slug,title,excerpt,video_url")
+      .select("slug,title,excerpt,video_url,featured_image_url,featured_image_alt")
       .eq("status", "published")
       .eq("category", category)
       .order("published_at", { ascending: false })
@@ -770,6 +786,8 @@ async function getStoryCards(category: string, fallback: ImpactCard[]): Promise<
         excerpt: s.excerpt ?? "",
         href: `/stories/${s.slug}`,
         video: Boolean(s.video_url),
+        imageUrl: s.featured_image_url ?? undefined,
+        imageAlt: s.featured_image_alt ?? undefined,
       }));
     }
   }
@@ -1883,6 +1901,8 @@ export type InvolvementCard = {
   icon?: string;
   imageUrl?: string;
   imageAlt?: string;
+  tone?: "earth" | "water" | "forest";
+  tag?: string;
 };
 
 const involvementCardsFallback: InvolvementCard[] = [
@@ -1942,6 +1962,9 @@ export type AudiencePathData = {
   kicker?: string;
   imageUrl?: string;
   imageAlt?: string;
+  icon?: string;
+  tone?: "earth" | "water" | "forest";
+  tag?: string;
 };
 
 const audiencePathsFallback: AudiencePathData[] = [
@@ -1985,7 +2008,7 @@ export async function getAudiencePaths(): Promise<AudiencePathData[]> {
     if (!supabase) return audiencePathsFallback;
     const { data } = (await supabase
       ?.from("home_audience_paths")
-      .select("title,body,href,cta,kicker,image_url,image_alt")
+      .select("title,body,href,cta,kicker,image_url,image_alt,icon,tone,tag")
       .eq("visible", true)
       .order("order_column", { ascending: true })) ?? { data: null };
     if (data && data.length) {
@@ -1997,6 +2020,9 @@ export async function getAudiencePaths(): Promise<AudiencePathData[]> {
         kicker: c.kicker ?? undefined,
         imageUrl: c.image_url ?? undefined,
         imageAlt: c.image_alt ?? undefined,
+        icon: c.icon ?? undefined,
+        tone: c.tone ?? undefined,
+        tag: c.tag ?? undefined,
       }));
     }
   }
@@ -2009,6 +2035,9 @@ export type ResponsibleEngagementData = {
   body: string;
   imageUrl?: string;
   imageAlt?: string;
+  icon?: string;
+  tone?: "earth" | "water" | "forest";
+  tag?: string;
 };
 
 const responsibleEngagementFallback: ResponsibleEngagementData[] = [
@@ -2044,7 +2073,7 @@ export async function getResponsibleEngagement(): Promise<ResponsibleEngagementD
     if (!supabase) return responsibleEngagementFallback;
     const { data } = (await supabase
       ?.from("home_responsible_engagement")
-      .select("title,body,image_url,image_alt")
+      .select("title,body,image_url,image_alt,icon,tone,tag")
       .eq("visible", true)
       .order("order_column", { ascending: true })) ?? { data: null };
     if (data && data.length) {
@@ -2053,6 +2082,9 @@ export async function getResponsibleEngagement(): Promise<ResponsibleEngagementD
         body: c.body ?? "",
         imageUrl: c.image_url ?? undefined,
         imageAlt: c.image_alt ?? undefined,
+        icon: c.icon ?? undefined,
+        tone: c.tone ?? undefined,
+        tag: c.tag ?? undefined,
       }));
     }
   }
@@ -2068,6 +2100,9 @@ export type CedpAreaOfFocus = {
   description: string;
   imageUrl?: string;
   imageAlt?: string;
+  icon?: string;
+  tone?: "earth" | "water" | "forest";
+  tag?: string;
   ctaLabel?: string;
   ctaHref?: string;
 };
@@ -2079,6 +2114,9 @@ export type CedpProcessStep = {
   description?: string;
   imageUrl?: string;
   imageAlt?: string;
+  icon?: string;
+  tone?: "earth" | "water" | "forest";
+  tag?: string;
 };
 
 export type CedpImpactStoryCard = {
@@ -2087,6 +2125,10 @@ export type CedpImpactStoryCard = {
   excerpt?: string;
   imageUrl?: string;
   imageAlt?: string;
+  icon?: string;
+  tone?: "earth" | "water" | "forest";
+  tag?: string;
+  kicker?: string;
   href?: string;
   projectSlug?: string;
   storySlug?: string;
@@ -2099,6 +2141,10 @@ export type CedpImpactCard = {
   excerpt?: string;
   imageUrl?: string;
   imageAlt?: string;
+  icon?: string;
+  tone?: "earth" | "water" | "forest";
+  tag?: string;
+  kicker?: string;
   href?: string;
   projectSlug?: string;
   storySlug?: string;
@@ -2112,6 +2158,8 @@ const cedpAreasOfFocusFallback: CedpAreaOfFocus[] = [
     title: "Clean energy and climate resilience",
     description:
       "Clean cooking, solar energy, e-mobility, environment conservation, climate adaptation, and related climate initiatives that build community resilience.",
+    icon: "🔥",
+    tone: "earth",
     ctaLabel: "Explore clean energy projects",
     ctaHref: "/programs/cedp/areas/clean-energy-climate-resilience",
   },
@@ -2120,6 +2168,8 @@ const cedpAreasOfFocusFallback: CedpAreaOfFocus[] = [
     title: "Water sanitation and healthy communities",
     description:
       "Safe water, spring protection, sanitation, hygiene, water systems, and related community health and environment practices.",
+    icon: "💧",
+    tone: "water",
     ctaLabel: "Explore water projects",
     ctaHref: "/programs/cedp/areas/water-sanitation-health-communities",
   },
@@ -2128,6 +2178,8 @@ const cedpAreasOfFocusFallback: CedpAreaOfFocus[] = [
     title: "Sustainable livelihoods and economic empowerment",
     description:
       "VSLAs, women enterprises, climate-smart agriculture, kitchen gardens, green businesses, and other livelihood opportunities.",
+    icon: "🌱",
+    tone: "forest",
     ctaLabel: "Explore livelihood projects",
     ctaHref: "/programs/cedp/areas/sustainable-livelihoods-economic-empowerment",
   },
@@ -2138,16 +2190,22 @@ const cedpProcessStepsFallback: CedpProcessStep[] = [
     title: "Community assessment",
     subtitle: "Local ownership",
     description: "We start by listening — mapping needs and assets together with residents.",
+    icon: "👂",
+    tone: "earth",
   },
   {
     title: "Asset-based co-design",
     subtitle: "Local ownership",
     description: "Solutions are designed with communities, not imposed — using local knowledge and resources.",
+    icon: "✏️",
+    tone: "water",
   },
   {
     title: "Implementation",
     subtitle: "Local ownership",
     description: "Delivered with local organizations, global participants, and 25% community co-contribution.",
+    icon: "🛠️",
+    tone: "forest",
   },
 ];
 
@@ -2217,7 +2275,7 @@ export async function getCedpAreasOfFocus(): Promise<CedpAreaOfFocus[]> {
     if (!supabase) return cedpAreasOfFocusFallback;
     const { data } = (await supabase
       ?.from("cedp_areas_of_focus")
-      .select("title,description,image_url,image_alt,cta_label,cta_href,slug")
+      .select("title,description,image_url,image_alt,icon,tone,tag,cta_label,cta_href,slug")
       .eq("visible", true)
       .order("order_column", { ascending: true })) ?? { data: null };
     if (data && data.length) {
@@ -2235,6 +2293,9 @@ export async function getCedpAreasOfFocus(): Promise<CedpAreaOfFocus[]> {
           description: c.description ?? "",
           imageUrl: c.image_url ?? undefined,
           imageAlt: c.image_alt ?? undefined,
+          icon: c.icon ?? undefined,
+          tone: c.tone ?? undefined,
+          tag: c.tag ?? undefined,
           ctaLabel: c.cta_label ?? undefined,
           ctaHref: c.cta_href ?? undefined,
         };
@@ -2250,7 +2311,7 @@ export async function getCedpProcessSteps(): Promise<CedpProcessStep[]> {
     if (!supabase) return cedpProcessStepsFallback;
     const { data } = (await supabase
       ?.from("cedp_process_steps")
-      .select("title,subtitle,description,image_url,image_alt")
+      .select("title,subtitle,description,image_url,image_alt,icon,tone,tag")
       .eq("visible", true)
       .order("order_column", { ascending: true })) ?? { data: null };
     if (data && data.length) {
@@ -2260,6 +2321,9 @@ export async function getCedpProcessSteps(): Promise<CedpProcessStep[]> {
         description: c.description ?? undefined,
         imageUrl: c.image_url ?? undefined,
         imageAlt: c.image_alt ?? undefined,
+        icon: c.icon ?? undefined,
+        tone: c.tone ?? undefined,
+        tag: c.tag ?? undefined,
       }));
     }
   }
@@ -2272,7 +2336,7 @@ export async function getCedpImpactStoryCards(): Promise<CedpImpactStoryCard[]> 
     if (!supabase) return cedpImpactStoryCardsFallback;
     const { data } = (await supabase
       ?.from("cedp_impact_stories")
-      .select("title,excerpt,image_url,image_alt,href,project_slug,story_slug,cta_label")
+      .select("title,excerpt,image_url,image_alt,icon,tone,tag,kicker,href,project_slug,story_slug,cta_label")
       .eq("visible", true)
       .order("order_column", { ascending: true })) ?? { data: null };
     if (data && data.length) {
@@ -2281,6 +2345,10 @@ export async function getCedpImpactStoryCards(): Promise<CedpImpactStoryCard[]> 
         excerpt: c.excerpt ?? undefined,
         imageUrl: c.image_url ?? undefined,
         imageAlt: c.image_alt ?? undefined,
+        icon: c.icon ?? undefined,
+        tone: c.tone ?? undefined,
+        tag: c.tag ?? undefined,
+        kicker: c.kicker ?? undefined,
         href: c.story_slug ? `/impact/stories/${c.story_slug}/full` : c.href ?? undefined,
         projectSlug: c.project_slug ?? undefined,
         storySlug: c.story_slug ?? undefined,
@@ -2297,7 +2365,7 @@ export async function getCedpImpactCards(): Promise<CedpImpactCard[]> {
     if (!supabase) return cedpImpactCardsFallback;
     const { data } = (await supabase
       ?.from("cedp_impact_cards")
-      .select("title,excerpt,image_url,image_alt,href,project_slug,story_slug,cta_label,verified_outcome")
+      .select("title,excerpt,image_url,image_alt,icon,tone,tag,kicker,href,project_slug,story_slug,cta_label,verified_outcome")
       .eq("visible", true)
       .order("order_column", { ascending: true })) ?? { data: null };
     if (data && data.length) {
@@ -2306,6 +2374,10 @@ export async function getCedpImpactCards(): Promise<CedpImpactCard[]> {
         excerpt: c.excerpt ?? undefined,
         imageUrl: c.image_url ?? undefined,
         imageAlt: c.image_alt ?? undefined,
+        icon: c.icon ?? undefined,
+        tone: c.tone ?? undefined,
+        tag: c.tag ?? undefined,
+        kicker: c.kicker ?? undefined,
         href: c.story_slug ? `/impact/stories/${c.story_slug}/full` : c.href ?? undefined,
         projectSlug: c.project_slug ?? undefined,
         storySlug: c.story_slug ?? undefined,
@@ -2371,6 +2443,10 @@ export type CedpAreaImpact = {
   excerpt?: string;
   imageUrl?: string;
   imageAlt?: string;
+  icon?: string;
+  tone?: "earth" | "water" | "forest";
+  tag?: string;
+  kicker?: string;
   story?: string;
   href?: string;
   storySlug?: string;
@@ -2717,7 +2793,7 @@ export async function getCedpAreaImpacts(areaSlug: string): Promise<CedpAreaImpa
     if (area?.id) {
       const { data } = (await supabase
         .from("cedp_area_impacts")
-        .select("title,excerpt,image_url,image_alt,story,href,story_slug,cta_label,verified_outcome")
+        .select("title,excerpt,image_url,image_alt,icon,tone,tag,kicker,story,href,story_slug,cta_label,verified_outcome")
         .eq("area_id", area.id)
         .eq("visible", true)
         .order("order_column", { ascending: true })) ?? { data: null };
@@ -2727,6 +2803,10 @@ export async function getCedpAreaImpacts(areaSlug: string): Promise<CedpAreaImpa
           excerpt: c.excerpt ?? undefined,
           imageUrl: c.image_url ?? undefined,
           imageAlt: c.image_alt ?? undefined,
+          icon: c.icon ?? undefined,
+          tone: c.tone ?? undefined,
+          tag: c.tag ?? undefined,
+          kicker: c.kicker ?? undefined,
           story: c.story ?? undefined,
           href: c.story_slug ? `/impact/stories/${c.story_slug}/full` : c.href ?? undefined,
           storySlug: c.story_slug ?? undefined,
@@ -3000,6 +3080,9 @@ export type GeneralImpactStoryCard = {
   excerpt?: string;
   imageUrl?: string;
   imageAlt?: string;
+  icon?: string;
+  tone?: "earth" | "water" | "forest";
+  tag?: string;
   href?: string;
   ctaLabel?: string;
   verifiedOutcome?: string;
@@ -3236,6 +3319,9 @@ export type GlePathwayCard = {
   kicker?: string;
   imageUrl?: string;
   imageAlt?: string;
+  icon?: string;
+  tone?: "earth" | "water" | "forest";
+  tag?: string;
 };
 
 export type GleIntroduction = {
@@ -3322,7 +3408,7 @@ export async function getGlePathways(): Promise<GlePathwayCard[]> {
     const supabase = await createClient();
     const { data } = (await supabase
       ?.from("gle_pathways")
-      .select("title,body,href,cta,kicker,image_url,image_alt")
+      .select("title,body,href,cta,kicker,image_url,image_alt,icon,tone,tag")
       .eq("visible", true)
       .order("order_column", { ascending: true })) ?? { data: null };
     if (data && data.length) {
@@ -3334,6 +3420,9 @@ export async function getGlePathways(): Promise<GlePathwayCard[]> {
         kicker: p.kicker ?? undefined,
         imageUrl: p.image_url ?? undefined,
         imageAlt: p.image_alt ?? undefined,
+        icon: p.icon ?? undefined,
+        tone: p.tone ?? undefined,
+        tag: p.tag ?? undefined,
       }));
     }
   }

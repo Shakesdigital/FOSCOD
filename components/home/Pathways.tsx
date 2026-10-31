@@ -1,7 +1,6 @@
-import Link from "next/link";
 import { Section } from "@/components/site/Section";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import { Button } from "@/components/ui/Button";
+import { ContentCard } from "@/components/ui/ContentCard";
 import type { Pathway } from "@/lib/content";
 
 export function Pathways({ pathways }: { pathways: Pathway[] }) {
@@ -21,36 +20,20 @@ export function Pathways({ pathways }: { pathways: Pathway[] }) {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
-        {pathways.map((p) => {
-          const accentVar = p.tone === "accent" ? "var(--clay-600)" : "var(--accent-600)";
-          return (
-            <div
-              key={p.key}
-              className="group relative flex flex-col overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-8 transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)] md:p-10"
-            >
-              <span
-                className="absolute inset-x-0 top-0 h-1"
-                style={{ background: accentVar }}
-                aria-hidden
-              />
-              <p className="font-[family-name:var(--font-text)] text-[0.68rem] uppercase tracking-[0.14em] text-[var(--muted)]">
-                {p.kicker}
-              </p>
-              <h3 className="mt-3 text-2xl">{p.title}</h3>
-              <p className="mt-4 flex-1 leading-relaxed text-[var(--ink-soft)]">
-                {p.body}
-              </p>
-              <Button
-                href={p.href}
-                variant="secondary"
-                size="sm"
-                className="mt-4 self-start"
-              >
-                {p.cta}
-              </Button>
-            </div>
-          );
-        })}
+        {pathways.map((p) => (
+          <div key={p.key} className="group h-full">
+            <ContentCard
+              title={p.title}
+              excerpt={p.body}
+              href={p.href}
+              ctaLabel={p.cta}
+              kicker={p.kicker}
+              imageRatio="16/9"
+              tone={p.tone === "accent" ? undefined : p.tone}
+              asLink={true}
+            />
+          </div>
+        ))}
       </div>
     </Section>
   );

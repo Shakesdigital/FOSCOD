@@ -2,8 +2,7 @@ import { HeroSlider } from "@/components/site/HeroSlider";
 import { SplitSection, Prose, Steps, CardGrid, CTABand } from "@/components/site/blocks";
 import { Section, SectionHeader } from "@/components/site/Section";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import { PhotoSlot } from "@/components/ui/PhotoSlot";
-import { Button } from "@/components/ui/Button";
+import { ContentCard } from "@/components/ui/ContentCard";
 import { pageMeta } from "@/lib/seo";
 import { getCedpAreasOfFocus, getCedpImpactCards, getCedpHeroSlides } from "@/lib/content";
 
@@ -67,29 +66,22 @@ export default async function CedpPage() {
           intro="Energy affects health and enterprise. Water affects time, dignity, and livelihoods. Inclusion affects whose priorities shape every decision. CEDP keeps those connections visible while each area of focus has its own outcomes and evidence."
           align="center"
         />
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {areasOfFocus.map((card) => (
-            <div
-              key={card.title}
-              className="flex flex-col rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-6"
-            >
-              <PhotoSlot
-                tone="forest"
-                ratio="16/9"
-                caption={card.imageAlt || card.title}
+            <div key={card.title} className="group h-full">
+              <ContentCard
+                title={card.title}
+                excerpt={card.description}
+                href={card.ctaHref}
+                ctaLabel={card.ctaLabel}
+                imageRatio="16/9"
+                tone={card.tone ?? "forest"}
                 imageUrl={card.imageUrl}
-                alt={card.imageAlt}
-                className="mb-4"
+                imageAlt={card.imageAlt}
+                icon={card.icon}
+                tag={card.tag}
+                asLink={Boolean(card.ctaHref)}
               />
-              <h3 className="text-xl leading-snug">{card.title}</h3>
-              <p className="mt-3 flex-1 text-[0.92rem] leading-relaxed text-[var(--muted)]">
-                {card.description}
-              </p>
-              {card.ctaHref && card.ctaLabel && (
-                <Button href={card.ctaHref} variant="secondary" size="sm" className="mt-4">
-                  {card.ctaLabel}
-                </Button>
-              )}
             </div>
           ))}
         </div>
@@ -176,10 +168,12 @@ export default async function CedpPage() {
           title: c.title,
           excerpt: c.excerpt,
           href: c.href,
-          tone: "water" as const,
+          tone: c.tone ?? ("water" as const),
           kicker: c.verifiedOutcome,
           imageUrl: c.imageUrl,
           imageAlt: c.imageAlt,
+          icon: c.icon,
+          tag: c.tag,
           ctaLabel: c.ctaLabel,
         }))}
       />

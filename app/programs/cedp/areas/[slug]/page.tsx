@@ -2,8 +2,7 @@ import { HeroSlider } from "@/components/site/HeroSlider";
 import { CardGrid, Prose, SplitSection } from "@/components/site/blocks";
 import { HowYouCanGetInvolved } from "@/components/home/HowYouCanGetInvolved";
 import { Section, SectionHeader } from "@/components/site/Section";
-import { Button } from "@/components/ui/Button";
-import { PhotoSlot } from "@/components/ui/PhotoSlot";
+import { ContentCard } from "@/components/ui/ContentCard";
 import { pageMeta } from "@/lib/seo";
 import {
   getCedpArea,
@@ -72,6 +71,8 @@ export default async function CedpAreaPage({ params }: { params: Promise<{ slug:
     tone: area.tone,
     imageUrl: c.imageUrl,
     imageAlt: c.imageAlt,
+    icon: c.icon,
+    tag: c.tag,
     kicker: c.verifiedOutcome,
     ctaLabel: c.ctaLabel,
   }));
@@ -103,35 +104,20 @@ export default async function CedpAreaPage({ params }: { params: Promise<{ slug:
         />
 
         {areaProjects.length > 0 ? (
-          <ul className="mt-10 grid gap-6 md:grid-cols-3">
+          <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {areaProjects.map((p, i) => (
-              <li key={p.slug} className="group">
-                <div className="flex h-full flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] transition-[transform,box-shadow,border-color] duration-200 group-hover:-translate-y-0.5 group-hover:border-[var(--border-strong)] group-hover:shadow-[var(--shadow-md)]">
-                  <PhotoSlot
-                    tone={(["forest", "water", "earth"] as const)[i % 3]}
-                    ratio="16/10"
-                    tag={p.theme}
-                    caption={p.title}
-                    className="rounded-none border-0 border-b border-[var(--border)]"
-                  />
-                  <div className="flex flex-1 flex-col p-6">
-                    <p className="font-[family-name:var(--font-text)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
-                      {p.theme}
-                    </p>
-                    <h3 className="mt-2 text-xl leading-snug">{p.title}</h3>
-                    <p className="mt-2 flex-1 text-[0.9rem] leading-relaxed text-[var(--muted)]">
-                      {p.summary}
-                    </p>
-                    <Button
-                      href={p.href}
-                      variant="secondary"
-                      size="sm"
-                      className="mt-4"
-                    >
-                      {p.customCtaLabel || "Read more about the project"}
-                    </Button>
-                  </div>
-                </div>
+              <li key={p.slug} className="group h-full">
+                <ContentCard
+                  title={p.title}
+                  excerpt={p.summary}
+                  href={p.href}
+                  ctaLabel={p.customCtaLabel || "Read more about the project"}
+                  kicker={p.theme}
+                  imageRatio="16/10"
+                  tone={(["forest", "water", "earth"] as const)[i % 3]}
+                  tag={p.theme}
+                  asLink={true}
+                />
               </li>
             ))}
           </ul>

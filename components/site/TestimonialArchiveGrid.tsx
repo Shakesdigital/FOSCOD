@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type { Testimonial, ProjectListItem } from "@/lib/content";
-import { PhotoSlot } from "@/components/ui/PhotoSlot";
+import { ContentCard } from "@/components/ui/ContentCard";
 import { TestimonialArchiveFilter, type TestimonialArchiveFilterValue } from "@/components/site/TestimonialArchiveFilter";
 
 const TESTIMONIALS_PER_PAGE = 8;
@@ -111,38 +111,17 @@ export function TestimonialArchiveGrid({
                 </div>
                 <ul className="grid gap-6 md:grid-cols-2">
                   {cards.map((card) => (
-                    <li
-                      key={card.key}
-                      className="group flex h-full flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[var(--border-strong)] hover:shadow-[var(--shadow-md)]"
-                    >
-                      <div className="relative">
-                        {card.photoUrl ? (
-                          <img
-                            src={card.photoUrl}
-                            alt={card.testimonial.name}
-                            className="h-48 w-full object-cover"
-                            loading="lazy"
-                          />
-                        ) : (
-                          <PhotoSlot
-                            tone={card.tone}
-                            ratio="16/9"
-                            caption={card.testimonial.name}
-                            className="h-48 border-0 shadow-none"
-                          />
-                        )}
-                      </div>
-                      <div className="flex flex-1 flex-col p-6">
-                        <p className="font-[family-name:var(--font-text)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
-                          {card.testimonial.cohort || "FOSCOD participant"}
-                        </p>
-                        <h3 className="mt-2 text-lg font-semibold leading-snug text-[var(--ink)]">
-                          {card.testimonial.name}
-                        </h3>
-                        <p className="mt-2 flex-1 text-[0.92rem] leading-relaxed text-[var(--ink-soft)]">
-                          {card.testimonial.quote}
-                        </p>
-                        <div className="mt-4 border-t border-[var(--border)] pt-3">
+                    <li key={card.key} className="group h-full">
+                      <ContentCard
+                        title={card.testimonial.name}
+                        excerpt={card.testimonial.quote}
+                        kicker={card.testimonial.cohort || "FOSCOD participant"}
+                        imageRatio="4/3"
+                        tone={card.tone}
+                        imageUrl={card.photoUrl}
+                        imageAlt={card.testimonial.name}
+                      >
+                        <div className="mt-4 border-t border-[var(--border)] pt-3 space-y-1">
                           <p className="text-xs text-[var(--muted)]">
                             <span className="font-medium">Project:</span> {card.projectTitle}
                           </p>
@@ -150,7 +129,7 @@ export function TestimonialArchiveGrid({
                             <span className="font-medium">Program:</span> {card.testimonial.program || card.testimonial.linked_program || "—"}
                           </p>
                         </div>
-                      </div>
+                      </ContentCard>
                     </li>
                   ))}
                 </ul>

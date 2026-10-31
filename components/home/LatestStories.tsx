@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { Section, SectionHeader } from "@/components/site/Section";
-import { PhotoSlot } from "@/components/ui/PhotoSlot";
+import { ContentCard } from "@/components/ui/ContentCard";
 import type { Story } from "@/lib/content";
 
 export function LatestStories({ stories }: { stories: Story[] }) {
+  if (!stories.length) return null;
   return (
     <Section>
       <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
@@ -16,32 +17,24 @@ export function LatestStories({ stories }: { stories: Story[] }) {
         </Link>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {stories.map((s, i) => (
-          <Link
-            key={s.slug}
-            href={s.href}
-            className="group flex flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)]"
-          >
-            <PhotoSlot
+          <div key={s.slug} className="group h-full">
+            <ContentCard
+              title={s.title}
+              excerpt={s.excerpt}
+              href={s.href}
+              ctaLabel="Read more"
+              kicker={s.category}
+              imageRatio="16/10"
               tone={i % 2 === 0 ? "forest" : "water"}
-              ratio="16/10"
-              caption={`${s.title} — story image`}
-              className="rounded-none border-0 border-b border-[var(--border)]"
+              imageUrl={s.imageUrl}
+              imageAlt={s.imageAlt}
+              tag={s.date}
+              meta={s.date}
+              asLink={true}
             />
-            <div className="flex flex-1 flex-col p-6">
-              <p className="font-[family-name:var(--font-text)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
-                {s.category}
-              </p>
-              <h3 className="mt-2 text-xl leading-snug">{s.title}</h3>
-              <p className="mt-2 flex-1 text-[0.9rem] leading-relaxed text-[var(--muted)]">
-                {s.excerpt}
-              </p>
-              <p className="mt-4 font-[family-name:var(--font-text)] text-[0.68rem] text-[var(--muted)]">
-                {s.date}
-              </p>
-            </div>
-          </Link>
+          </div>
         ))}
       </div>
     </Section>

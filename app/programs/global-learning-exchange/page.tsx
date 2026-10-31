@@ -110,6 +110,9 @@ export default async function GlePage() {
                 kicker: p.kicker,
                 imageUrl: p.imageUrl,
                 imageAlt: p.imageAlt,
+                icon: p.icon,
+                tone: p.tone,
+                tag: p.tag,
               }))}
             />
           </div>

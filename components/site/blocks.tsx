@@ -5,6 +5,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
+import { CommunityIcon, resolveCommunityIcon } from "@/components/ui/CommunityIcon";
+import { ContentCard } from "@/components/ui/ContentCard";
 import { useState, useEffect, useRef, useCallback } from "react";
 
 /** FeatureRow — alternating text + image block with an optional CTA.
@@ -165,7 +167,7 @@ export function FeatureGrid({
   items,
   columns = 3,
 }: {
-  items: { title: string; body: string; kicker?: string; href?: string; cta?: string; imageUrl?: string; imageAlt?: string }[];
+  items: { title: string; body: string; kicker?: string; href?: string; cta?: string; imageUrl?: string; imageAlt?: string; icon?: string; tone?: "earth" | "water" | "forest"; tag?: string }[];
   columns?: 2 | 3 | 4;
 }) {
   const cols = {
@@ -176,31 +178,21 @@ export function FeatureGrid({
   return (
     <ul className={`grid gap-5 ${cols}`}>
       {items.map((it) => (
-        <li
-          key={it.title}
-          className="flex flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]"
-        >
-          {it.imageUrl ? (
-            <div className="border-b border-[var(--border)]">
-              <img src={it.imageUrl} alt={it.imageAlt || it.title} className="h-32 w-full object-cover" loading="lazy" width={320} height={128} />
-            </div>
-          ) : null}
-          <div className="p-6">
-            {it.kicker && (
-              <p className="font-[family-name:var(--font-text)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
-                {it.kicker}
-              </p>
-            )}
-            <h3 className="mt-2 text-lg leading-snug">{it.title}</h3>
-            <p className="mt-2 text-[0.92rem] leading-relaxed text-[var(--muted)]">
-              {it.body}
-            </p>
-            {it.href && (
-              <Button href={it.href} variant="ghost" size="sm" className="mt-4">
-                {it.cta ?? "Learn more"}
-              </Button>
-            )}
-          </div>
+        <li key={it.title} className="group h-full">
+          <ContentCard
+            title={it.title}
+            excerpt={it.body}
+            href={it.href}
+            ctaLabel={it.cta ?? "Learn more"}
+            kicker={it.kicker}
+            tag={it.tag}
+            imageRatio="16/9"
+            tone={it.tone}
+            imageUrl={it.imageUrl}
+            imageAlt={it.imageAlt}
+            icon={it.icon}
+            asLink={Boolean(it.href)}
+          />
         </li>
       ))}
     </ul>
@@ -238,7 +230,7 @@ export function CheckList({
 
 /** Numbered steps — a 3-up card grid. The last item is centered to sit alone
  *  when the grid has an odd count, visually balancing the row. */
-export function Steps({ steps }: { steps: { title: string; body?: string; imageUrl?: string; imageAlt?: string }[] }) {
+export function Steps({ steps }: { steps: { title: string; body?: string; imageUrl?: string; imageAlt?: string; icon?: string }[] }) {
   return (
     <ol className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {steps.map((s, i) => {
@@ -253,16 +245,17 @@ export function Steps({ steps }: { steps: { title: string; body?: string; imageU
                 <img src={s.imageUrl} alt={s.imageAlt || s.title} className="h-full w-full object-cover" width={80} height={80} loading="lazy" />
               </div>
             ) : (
-              <span className="font-[family-name:var(--font-text)] text-sm text-[var(--accent-700)]">
-                {String(i + 1).padStart(2, "0")}
+              <span className="flex h-20 w-20 shrink-0 items-center justify-center rounded-[var(--radius-md)] border border-[var(--border)]">
+                <CommunityIcon
+                  name={resolveCommunityIcon(s.icon) ?? "volunteer"}
+                  className="h-10 w-10 text-[var(--accent-600)]"
+                />
               </span>
             )}
             <div className="flex-1">
-              {s.imageUrl ? (
-                <span className="font-[family-name:var(--font-text)] text-sm text-[var(--accent-700)]">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-              ) : null}
+              <span className="font-[family-name:var(--font-text)] text-sm text-[var(--accent-700)]">
+                {String(i + 1).padStart(2, "0")}
+              </span>
               <h3 className={`mt-${s.imageUrl ? "-1" : "2"} text-lg leading-snug font-medium text-[var(--ink)]`}>{s.title}</h3>
               {s.body && (
                 <p className="mt-2 text-[0.92rem] leading-relaxed text-[var(--muted)]">
@@ -498,8 +491,9 @@ export type GridCard = {
   ctaLabel?: string;
   tone?: "earth" | "water" | "forest";
   tag?: string;
-  imageUrl?: string;
-  imageAlt?: string;
+  imageUrl?: string | null;
+  imageAlt?: string | null;
+  icon?: string;
   /** show a PhotoSlot thumbnail (default true) */
   media?: boolean;
   /** mark as a video card → adds a play affordance over the thumbnail */
@@ -526,7 +520,6 @@ export function CardGrid({
   columns?: 2 | 3;
 }) {
   if (!items.length) return null;
-  const tones = ["forest", "water", "earth"] as const;
   return (
     <section className={`py-14 md:py-20 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
       <div className="container-page">
@@ -539,64 +532,25 @@ export function CardGrid({
         </div>
 
         <ul className={`mt-10 grid gap-6 md:grid-cols-${columns}`}>
-          {items.map((c, i) => {
-            const Card = (
-              <div className="flex h-full flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] transition-all duration-200 group-hover:-translate-y-0.5 group-hover:border-[var(--border-strong)] group-hover:shadow-[var(--shadow-md)]">
-                {c.media !== false && (
-                  <div className="relative">
-                    <PhotoSlot
-                      tone={c.tone ?? tones[i % 3]}
-                      ratio="4/3"
-                      tag={c.tag}
-                      caption={c.title}
-                      imageUrl={c.imageUrl}
-                      alt={c.imageAlt}
-                    />
-                    {c.video && (
-                      <span
-                        className="absolute inset-0 z-20 flex items-center justify-center"
-                        aria-hidden
-                      >
-                        <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 text-[var(--accent-700)] shadow-[var(--shadow-md)] transition-transform group-hover:scale-105">
-                          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M6 4l10 6-10 6V4z" />
-                          </svg>
-                        </span>
-                      </span>
-                    )}
-                  </div>
-                )}
-                <div className="flex flex-1 flex-col p-6">
-                  {c.kicker && (
-                    <p className="mb-1 font-[family-name:var(--font-text)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
-                      {c.kicker}
-                    </p>
-                  )}
-                  <h3 className="mt-2 text-lg leading-snug">{c.title}</h3>
-                  {c.excerpt && (
-                    <p className="mt-2 flex-1 text-[0.92rem] leading-relaxed text-[var(--muted)]">
-                      {c.excerpt}
-                    </p>
-                  )}
-                  {c.href && (
-                    <Button
-                      href={c.href}
-                      variant="secondary"
-                      size="sm"
-                      className="mt-4"
-                    >
-                      {c.ctaLabel || "Read more"}
-                    </Button>
-                  )}
-                </div>
-              </div>
-            );
-            return (
-              <li key={c.title + i} className="group h-full">
-                {Card}
-              </li>
-            );
-          })}
+          {items.map((c) => (
+            <li key={c.title + c.href} className="group h-full">
+              <ContentCard
+                title={c.title}
+                excerpt={c.excerpt}
+                href={c.href}
+                ctaLabel={c.ctaLabel || "Read more"}
+                kicker={c.kicker}
+                tag={c.tag}
+                imageRatio="4/3"
+                tone={c.tone}
+                imageUrl={c.media !== false ? c.imageUrl : undefined}
+                imageAlt={c.imageAlt}
+                icon={c.icon}
+                video={c.video}
+                asLink={Boolean(c.href)}
+              />
+            </li>
+          ))}
         </ul>
 
         {more && (
@@ -947,7 +901,7 @@ export function TeamPreview({
   eyebrow?: string;
   title?: string;
   intro?: string;
-  cards: { label: string; body: string; href: string; cta: string; tone?: "earth" | "water" | "forest" }[];
+  cards: { label: string; body: string; href: string; cta: string; tone?: "earth" | "water" | "forest"; icon?: string; imageUrl?: string; imageAlt?: string }[];
   surface?: boolean;
 }) {
   return (
@@ -962,20 +916,21 @@ export function TeamPreview({
             )}
           </div>
         )}
-        <div className="mt-10 grid gap-6 md:grid-cols-2">
+        <div className="mt-10 grid gap-6 sm:grid-cols-2">
           {cards.map((c) => (
-            <div
-              key={c.label}
-              className="flex flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]"
-            >
-              <PhotoSlot tone={c.tone ?? "forest"} ratio="16/9" caption={c.label} />
-              <div className="flex flex-1 flex-col p-7">
-                <h3 className="text-xl">{c.label}</h3>
-                <p className="mt-2 flex-1 text-[0.95rem] leading-relaxed text-[var(--muted)]">{c.body}</p>
-                <div className="mt-5">
-                  <Button href={c.href} variant="secondary" size="md">{c.cta}</Button>
-                </div>
-              </div>
+            <div key={c.label} className="group h-full">
+              <ContentCard
+                title={c.label}
+                excerpt={c.body}
+                href={c.href}
+                ctaLabel={c.cta}
+                imageRatio="16/9"
+                tone={c.tone ?? "forest"}
+                imageUrl={c.imageUrl}
+                imageAlt={c.imageAlt}
+                icon={c.icon}
+                asLink={true}
+              />
             </div>
           ))}
         </div>

@@ -55,6 +55,8 @@ export default async function GeneralImpactPage({ params }: { params: Promise<{ 
     tone: page.tone,
     imageUrl: c.imageUrl,
     imageAlt: c.imageAlt || c.title,
+    icon: c.icon,
+    tag: c.tag,
     kicker: c.verifiedOutcome,
   }));
 
@@ -66,6 +68,8 @@ export default async function GeneralImpactPage({ params }: { params: Promise<{ 
     tone: page.tone,
     imageUrl: c.imageUrl,
     imageAlt: c.imageAlt || c.title,
+    icon: c.icon,
+    tag: c.tag,
     kicker: c.verifiedOutcome,
   }));
 
