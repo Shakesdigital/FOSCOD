@@ -113,7 +113,7 @@ export async function saveContent(formData: FormData) {
   revalidatePath("/projects/[slug]");
   revalidatePath("/programs");
   revalidatePath("/programs/global-learning-exchange");
-  revalidatePath("/volunteer");
+  revalidatePath("/opportunities");
   revalidatePath("/testimonials");
   revalidatePath("/stories");
   revalidatePath("/stories/[slug]");
@@ -153,7 +153,7 @@ export async function deleteContent(formData: FormData) {
   revalidatePath("/projects/[slug]");
   revalidatePath("/programs");
   revalidatePath("/programs/global-learning-exchange");
-  revalidatePath("/volunteer");
+  revalidatePath("/opportunities");
   revalidatePath("/testimonials");
   revalidatePath("/stories");
   revalidatePath("/stories/[slug]");

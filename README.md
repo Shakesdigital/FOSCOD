@@ -22,7 +22,7 @@ The public site has conservative source-grounded fallbacks, so it can be reviewe
    - `SUPABASE_SERVICE_ROLE_KEY` (server-only)
    - `NEXT_PUBLIC_SITE_URL`
    - `RESEND_API_KEY` (see [Form submission notifications](#form-submission-notifications))
-3. Apply every SQL file in `supabase/migrations` in numeric order (`0001` through `0024`).
+3. Apply every SQL file in `supabase/migrations` in numeric order (`0001` through `0035`).
 4. Run `supabase/seed.sql` once the migrations finish.
 5. Deploy the Edge Function: `supabase functions deploy notify-form-submission`.
 6. Restart the development server.

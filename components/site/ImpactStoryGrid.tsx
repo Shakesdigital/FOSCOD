@@ -56,6 +56,7 @@ export function ImpactStoryGrid({
     setFilter(next);
     setCurrentPage(1);
 
+    if (typeof window === "undefined") return;
     const params = new URLSearchParams();
     if (next.program !== "ALL") params.set("program", next.program);
     if (next.cedpArea) params.set("area", next.cedpArea);

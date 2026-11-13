@@ -6,7 +6,7 @@ const CATEGORIES = [
     slug: "application",
     title: "Application forms",
     description: "Program applications, internship and volunteer applications, and group bookings.",
-    forms: ["Apply form (/apply/form)", "Internship form (/internships)", "Volunteer form (/volunteer)", "Group form (/volunteer/group)"],
+    forms: ["GLE application (/apply)", "Guidance request (/apply?type=guidance)", "Group & trip enquiries (/apply)"],
   },
   {
     slug: "donation",
@@ -19,6 +19,12 @@ const CATEGORIES = [
     title: "Partnership & collaboration forms",
     description: "Partner applications, collaboration proposals, and general contact enquiries.",
     forms: ["Partner form (/partners)", "Contact form (/contact)"],
+  },
+  {
+    slug: "alumni",
+    title: "Alumni & community submissions",
+    description: "Alumni network joins, testimonials, project reflections and Insights proposals — reviewed before anything is published.",
+    forms: ["Alumni submission form (/alumni)"],
   },
   {
     slug: "newsletter",

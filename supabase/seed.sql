@@ -1,4 +1,4 @@
-﻿-- ============================================================
+-- ============================================================
 -- FOSCOD CMS — seed data
 -- Apply ALL numbered migrations (0001 through 0025) before running.
 -- ============================================================
@@ -135,13 +135,13 @@ on conflict (slug) do nothing;
 insert into public.hero_slides (page_slug, eyebrow, title, intro, cta_label, cta_href, cta2_label, cta2_href, tone, order_column, visible) values
   ('home', 'Registered Ugandan NGO · Buikwe District', 'Communities leading environmental innovation and clean energy adoption',
     'FOSCOD empowers underserved communities through ethical, sustainable development and global knowledge exchange.',
-    'Partner with us', '/partners', 'Volunteer or Intern', '/programs/global-learning-exchange', 'earth', 1, true),
+    'Partner with us', '/partners', 'Explore opportunities', '/programs/global-learning-exchange', 'earth', 1, true),
   ('home', 'Global Learning & Exchange', 'Learn in the field, alongside the community',
     'Internships, volunteering, group programs, and research placements with real local supervision — and a host-family experience that turns a placement into a relationship.',
     'Explore programs', '/programs/global-learning-exchange', null, null, 'water', 2, true),
   ('home', 'Community Empowerment & Development', 'Invest in change that communities sustain',
     'Fund and partner on locally owned solutions in renewable energy, environment, water, livelihoods, and inclusion — designed and delivered by the communities that lead them.',
-    'Donate to a project', '/donate', 'Explore projects', '/projects/archive', 'forest', 3, true),
+    'Support community work', '/donate', 'Explore projects', '/projects/archive', 'forest', 3, true),
   ('about', 'Who we are', 'A Ugandan NGO with local roots and global partnerships',
     'We work with rural and underserved communities to design sustainable, ethical, and locally owned development — combining community-led practice with global knowledge exchange.',
     'Meet the team', '/team', null, null, 'forest', 1, true),
@@ -150,7 +150,7 @@ insert into public.hero_slides (page_slug, eyebrow, title, intro, cta_label, cta
     'Our programs', '/programs', null, null, 'earth', 2, true),
   ('programs', 'Our programs', 'Two pillars, one mission',
     'FOSCOD advances community-led development and connects global learners to real field work — so local innovation and global knowledge strengthen each other.',
-    'Find a project opportunity fit', '/programs/finder', null, null, 'water', 1, true),
+    'Request placement guidance', '/apply?type=guidance', null, null, 'water', 1, true),
   ('programs', 'Global Service Learning', 'Structured, supervised field experience in Uganda',
     'Internships, volunteering, group programs, and research across clean energy, WASH, livelihoods, health, and the environment.',
     'Learn more', '/programs/global-learning-exchange', null, null, 'forest', 2, true),
@@ -162,13 +162,13 @@ insert into public.hero_slides (page_slug, eyebrow, title, intro, cta_label, cta
     'Grow verified impact', '/donate', null, null, 'water', 2, true),
   ('contact', 'Contact', 'Get in touch with FOSCOD',
     'Questions about programs, partnerships, donations, or community projects? Tell us a little about you and we''ll reply soon.',
-    'Volunteer or Intern', '/programs/global-learning-exchange', null, null, 'forest', 1, true),
+    'Explore opportunities', '/programs/global-learning-exchange', null, null, 'forest', 1, true),
   ('contact', 'We''re in Jinja', 'Let''s build something lasting, together',
     'Reach our team by email or phone, or stop by the office — we''d love to hear what you''re working on.',
     'Explore partnership', '/partners', null, null, 'water', 2, true),
   ('stories', 'Blog · stories from the field', 'Stories from the communities we serve',
     'Project updates, impact reports, alumni reflections, and host-family stories — straight from FOSCOD''s work across Uganda.',
-    'Volunteer or Intern', '/programs/global-learning-exchange', null, null, 'earth', 1, true),
+    'Explore opportunities', '/programs/global-learning-exchange', null, null, 'earth', 1, true),
   ('stories', 'From the field', 'Real people, real change',
     'Read how community-led projects in clean energy, water, and livelihoods are taking shape — and the people behind them.',
     'See our impact', '/impact', null, null, 'forest', 2, true),
@@ -177,43 +177,43 @@ insert into public.hero_slides (page_slug, eyebrow, title, intro, cta_label, cta
     'Start your application', '#application-forms', 'View fees', '/programs/program-fees', 'water', 1, true),
   ('apply', 'Structured & supported', 'Field experience that means something',
     'Supervised placements, host families, and a clear application path — for students, professionals, and university groups.',
-    'Find a project opportunity fit', '/programs/finder', null, null, 'earth', 2, true),
+    'Request placement guidance', '/apply?type=guidance', null, null, 'earth', 2, true),
   ('global-learning-exchange', 'Global Learning & Exchange', 'Global Service Learning in Uganda',
     'Internships, volunteering, and global service trips that pair real community projects with structured, supervised field learning.',
-    'Volunteer or Intern', '/programs/global-learning-exchange', 'Find a project opportunity fit', '/programs/finder', 'water', 1, true),
+    'Explore opportunities', '/programs/global-learning-exchange', 'Request placement guidance', '/apply?type=guidance', 'water', 1, true),
   ('global-learning-exchange', 'Learn by doing', 'Contribute to genuine community priorities',
     'Work alongside FOSCOD, host families, and local leaders on clean energy, WASH, livelihoods, health, and research.',
     'View fees', '/programs/program-fees', null, null, 'forest', 2, true),
   ('volunteer', 'Volunteer', 'Volunteer in Uganda with FOSCOD',
     'Work with communities — not just in communities — through structured volunteer programs that support local priorities and lasting impact.',
-    'Volunteer or Intern', '/programs/global-learning-exchange', null, null, 'water', 1, true),
+    'Explore opportunities', '/programs/global-learning-exchange', null, null, 'water', 1, true),
   ('volunteer', 'Individual or group', 'Give your time where it lasts',
     'Join as an individual or bring a group — every placement is supervised, supported, and tied to a real community priority.',
     'Group volunteering', '/volunteer/group', 'Individual volunteering', '/volunteer/individual', 'water', 2, true),
   ('volunteer-group', 'Group volunteer program', 'Bring your team to the field',
     'University cohorts, faculty-led groups, and professional teams working a shared community project — with logistics and risk management handled.',
-    'Volunteer or Intern', '/programs/global-learning-exchange', null, null, 'water', 1, true),
+    'Explore opportunities', '/programs/global-learning-exchange', null, null, 'water', 1, true),
   ('volunteer-individual', 'Individual volunteer program', 'A placement matched to you',
     'One-to-one placements matched to your skills and the community''s needs, with local supervision and 24/7 support.',
-    'Volunteer or Intern', '/programs/global-learning-exchange', null, null, 'forest', 1, true),
+    'Explore opportunities', '/programs/global-learning-exchange', null, null, 'forest', 1, true),
   ('internships', 'Internships', 'Sustainable development internships in Uganda',
     'Build real-world skills through supervised community projects across public health, clean energy, livelihoods, research, communications, and enterprise.',
-    'Volunteer or Intern', '/programs/global-learning-exchange', 'View fees', '/programs/program-fees', 'water', 1, true),
+    'Explore opportunities', '/programs/global-learning-exchange', 'View fees', '/programs/program-fees', 'water', 1, true),
   ('internships', 'Hands-on & supervised', 'Turn theory into real contribution',
     'Individual placements, group engage internships, and university cohorts — all matched to your goals and supervised on the ground.',
     'Browse opportunities', '/internships/opportunities', null, null, 'earth', 2, true),
   ('internship-group', 'Group internship program', 'Bring your cohort to the field',
     'University cohorts and professional groups working a shared community project — with academic alignment, supervision, and safety handled.',
-    'Volunteer or Intern', '/programs/global-learning-exchange', null, null, 'water', 1, true),
+    'Explore opportunities', '/programs/global-learning-exchange', null, null, 'water', 1, true),
   ('internship-individual', 'Individual internship program', 'A placement matched to your goals',
     'One-to-one internships matched to your field, timeline, and career goals, with local supervision and a host-family experience.',
-    'Volunteer or Intern', '/programs/global-learning-exchange', null, null, 'forest', 1, true),
+    'Explore opportunities', '/programs/global-learning-exchange', null, null, 'forest', 1, true),
   ('internships-opportunities', 'Internship opportunities', 'FOSCOD internship opportunities',
     'Browse live internship projects across WASH, health, nutrition, energy, agroforestry, research, ICT, communications, and more — and find the one that fits you.',
-    'Volunteer or Intern', '/programs/global-learning-exchange', null, null, 'water', 1, true),
+    'Explore opportunities', '/programs/global-learning-exchange', null, null, 'water', 1, true),
   ('volunteer-opportunities', 'Volunteer opportunities', 'FOSCOD volunteer opportunities',
     'Find a volunteer project where your time and skills make a real difference — across health, empowerment, education, and the environment.',
-    'Volunteer or Intern', '/programs/global-learning-exchange', null, null, 'forest', 1, true),
+    'Explore opportunities', '/programs/global-learning-exchange', null, null, 'forest', 1, true),
   ('program-fees', 'Transparent pricing', 'What your program fee covers',
     'Program fees are confirmed in writing before any payment. Every placement is tailored — costs depend on pathway, duration, group size, accommodation, supervision, and field logistics. Your fee covers airport pickup, orientation, host-family stay, midterm retreats, transport, meals, and project support.',
     null, null, 'Request a quote', '/programs/global-learning-exchange#application-forms', 'forest', 1, true)
@@ -224,7 +224,7 @@ on conflict (page_slug, order_column) do update set
   tone = excluded.tone, visible = excluded.visible;
 
 update public.hero_slides
-set cta3_label = 'Donate to a project', cta3_href = '/donate'
+set cta3_label = 'Support community work', cta3_href = '/donate'
 where page_slug = 'home' and order_column = 1;
 
 update public.hero_slides
@@ -515,12 +515,9 @@ insert into public.cedp_impact_stories (title, excerpt, image_url, image_alt, hr
   ('Coffee farming mobilization', 'Community mobilization around coffee farming and resilient local livelihoods in Kalagala Parish.', '/images/cedp/impacts/coffee.jpg', 'Farmers sorting and processing coffee in Kalagala', '/projects/coffee-farming-mobilization', 'coffee-farming-mobilization', 'Read the story', true, 3)
 on conflict do nothing;
 
--- ---------- CEDP landing page: impact cards (replacing figures/stats) ----------
-insert into public.cedp_impact_cards (title, excerpt, image_url, image_alt, href, project_slug, cta_label, verified_outcome, visible, order_column) values
-  ('Clean energy that powers a livelihood', 'In Naluvule, a solar-powered salon turned an unreliable income into a growing business.', '/images/cedp/impacts/solar-salon.jpg', 'Solar-powered hair salon in Naluvule village', '/projects/solar-powered-water-system-naluvule', 'solar-powered-water-system-naluvule', 'Read the story', '3 households gained reliable evening lighting and new income streams', true, 1),
-  ('Protected springs and hygiene education', 'Across Busoga, protected water springs and hygiene education are reducing illness and restoring dignity.', '/images/cedp/impacts/protected-spring.jpg', 'Community members protecting a natural water spring', '/projects/water-spring-protection-naluvule', 'water-spring-protection-naluvule', 'Read the story', 'Water access improved for 120 households with 86% sustained use after 12 months', true, 2),
-  ('Regenerating land with biochar', 'In Kalagala Parish, invasive water hyacinth becomes biochar — healthier soil, cleaner cooking, and new income.', '/images/cedp/impacts/biochar.jpg', 'Community producing biochar from water hyacinth', '/projects/carbon-credit-project', 'carbon-credit-project', 'Read the story', '0.5 hectares of degraded land restored with 500 biochar units produced', true, 3)
-on conflict do nothing;
+-- ---------- CEDP impact cards ----------
+-- Content owned by migration 0033_cedp_evidence_model.sql (budget-brief evidence).
+
 
 -- ---------- CEDP sub-program area landing pages ----------
 insert into public.cedp_areas (slug, title, subtitle, description, hero_image_url, hero_image_alt, tone, hero_cta_1_label, hero_cta_1_href, hero_cta_2_label, hero_cta_2_href, hero_cta_3_label, hero_cta_3_href, get_involved_cards, order_column, visible, meta_title, meta_description) values
@@ -747,48 +744,20 @@ on conflict (project_slug, title) do update set
   verified_outcome = excluded.verified_outcome, story_slug = excluded.story_slug,
   cta_label = excluded.cta_label, order_column = excluded.order_column, visible = excluded.visible;
 
--- ---------- GLE development sectors (for impact story archive filter) ----------
-delete from public.gle_development_sectors;
-insert into public.gle_development_sectors (slug, title, description, icon, order_column, visible) values
-  ('education-capacity-building', 'Education & Capacity Building', 'Teacher training, school partnerships, literacy programs, and educational infrastructure development.', 'education', 1, true),
-  ('health-community-wellbeing', 'Health & Community Wellbeing', 'Community health outreach, hygiene education, mental health support, and public health initiatives.', 'health', 2, true),
-  ('environmental-stewardship', 'Environmental Stewardship', 'Tree planting, ecosystem restoration, conservation education, and climate resilience projects.', 'environment', 3, true),
-  ('livelihoods-economic-opportunity', 'Livelihoods & Economic Opportunity', 'Enterprise incubation, market linkage research, financial literacy, and income-generation support.', 'enterprise', 4, true),
-  ('research-knowledge-exchange', 'Research & Knowledge Exchange', 'Community-based participatory research, data collection, mapping, and academic knowledge sharing.', 'research', 5, true),
-  ('governance-leadership', 'Governance & Leadership', 'Leadership training, organizational development, women/youth empowerment, and community mobilization.', 'partner', 6, true)
-on conflict (slug) do update set
-  title = excluded.title, description = excluded.description,
-  icon = excluded.icon, order_column = excluded.order_column, visible = excluded.visible;
+-- ---------- GLE thematic sectors ----------
+-- Content owned by migration 0031_gle_experience_model.sql (CEDP areas + partner sectors).
 
--- ---------- hero slides: impact story archive ----------
-delete from public.hero_slides where page_slug = 'impact-stories';
-insert into public.hero_slides (page_slug, eyebrow, title, intro, cta_label, cta_href, cta2_label, cta2_href, tone, order_column, visible) values
-  ('impact-stories',
-   'Verified stories',
-   'Impact stories from communities we serve',
-   'Every story is published with evidence and consent. Filter by CEDP or GLE to explore verified community-led change across Uganda.',
-   'Browse CEDP', '/impact/stories?program=CEDP',
-   'Browse GLE', '/impact/stories?program=GLE',
-   'earth', 1, true)
-on conflict do nothing;
 
 -- ---------- footer navigation (CMS-managed three-column footer) ----------
--- All Quick Links go under column_key 'quick-links' so they group under the
--- "Quick Links" footer_columns row that matches the 3-column layout.
+-- All Quick Links go under column_key 'quick-links'; content also owned by
+-- migration 0036_simplified_navigation.sql.
+delete from public.footer_nav where column_key = 'quick-links';
 insert into public.footer_nav (column_key, label, href, order_column, visible) values
-  ('quick-links', 'Global Learning Exchange', '/programs/global-learning-exchange', 1, true),
-  ('quick-links', 'Community Empowerment & Development', '/programs/community-empowerment-development', 2, true),
-  ('quick-links', 'Impact Overview', '/impact/general', 3, true),
-  ('quick-links', 'Impact Stories', '/impact/stories', 4, true),
-  ('quick-links', 'Projects', '/projects', 5, true),
-  ('quick-links', 'Downloads & Reports', '/impact#downloads', 6, true),
-  ('quick-links', 'Partner with us', '/partners', 7, true),
-  ('quick-links', 'Volunteer or Intern', '/programs/global-learning-exchange', 8, true),
-  ('quick-links', 'Donate to a project', '/donate', 9, true),
-  ('quick-links', 'Stories from the Field', '/stories', 10, true),
-  ('quick-links', 'Project Updates', '/stories?category=Project+Updates', 11, true),
-  ('quick-links', 'Impact Reports', '/stories?category=Impact+Reports', 12, true)
-on conflict do nothing;
+  ('quick-links', 'Global Learning Exchange Program', '/programs/global-learning-exchange', 1, true),
+  ('quick-links', 'Community Empowerment and Development Program', '/programs/community-empowerment-development', 2, true),
+  ('quick-links', 'Impact', '/impact/general', 3, true),
+  ('quick-links', 'Blog', '/stories', 4, true),
+  ('quick-links', 'Support community work', '/donate', 5, true);
 
 -- ---------- footer_columns (CMS-managed three-column footer headings) ----------
 insert into public.footer_columns (key, title, position, visible) values
@@ -875,7 +844,7 @@ insert into public.general_impact_pages (
    '/images/impact/general/cedp-hero.jpg',
    'Community members working on a solar-powered water system',
    'forest',
-   'Donate to a project', '/donate',
+   'Support community work', '/donate',
    'See all impacts', '/impact/stories',
    'Partner with us', '/partners',
    'Community-led impact, verified and shared',
@@ -944,7 +913,7 @@ insert into public.general_impact_pages (
    '/images/impact/general/gle-hero.jpg',
    'Global learners working with community members on a water project',
    'water',
-   'Volunteer or Intern', '/programs/global-learning-exchange',
+   'Explore opportunities', '/programs/global-learning-exchange',
    'See all impacts', '/impact/stories',
    'Partner with us', '/partners',
    'Global learning, verified impact',
@@ -1039,43 +1008,43 @@ on conflict do nothing;
 -- Mirrors the fallback in getSubPrograms() so the CEDP area detail pages
 -- have their sub-program definitions available from the CMS.
 delete from public.sub_programs;
-insert into public.sub_programs (slug, name, strategic_goal, hero_image_url, description, icon, key_stats, order_column, status, featured, meta_title, meta_description) values
-  ('green-skills-renewable-energy', 'Green Skills & Renewable Energy Education', 1, '/images/cedp/clean-energy.jpg',
+insert into public.sub_programs (slug, name, strategic_goal, hero_image_url, hero_image_alt, description, icon, key_stats, order_column, status, featured, meta_title, meta_description) values
+  ('green-skills-renewable-energy', 'Green Skills & Renewable Energy Education', 1, '/images/cedp/clean-energy.jpg', 'Youth training in solar installation and clean cooking',
     'Training youth and women in solar installation, clean cooking, and e-mobility — with certification pathways and green-enterprise incubation.',
     'energy',
     '[{"label":"Trainees certified","value":"86","note":"in solar PV, cookstoves, and e-mobility"},{"label":"Green enterprises launched","value":"12","note":"from incubation program"}]',
     1, 'published', true,
     'Green Skills & Renewable Energy Education | CEDP — FOSCOD',
     'Training in solar installation, clean cooking, and e-mobility — with certification and green-enterprise incubation in Kalagala Parish.'),
-  ('clean-cooking-health', 'Clean Cooking & Health', 2, '/images/cedp/cooking.jpg',
+  ('clean-cooking-health', 'Clean Cooking & Health', 2, '/images/cedp/cooking.jpg', 'Improved cookstove demonstration in a community kitchen',
     'Improved cookstoves, fuel-efficient alternatives, and indoor air quality monitoring to reduce health risks and deforestation.',
     'health',
     '[{"label":"Households with improved stoves","value":"320","note":"reduction in smoke exposure"}]',
     2, 'published', true,
     'Clean Cooking & Health | CEDP — FOSCOD',
     'Improved cookstoves and indoor air quality monitoring in Kalagala Parish communities.'),
-  ('water-sanitation-hygiene', 'Water, Sanitation & Hygiene (WASH)', 3, '/images/cedp/water.jpg',
+  ('water-sanitation-hygiene', 'Water, Sanitation & Hygiene (WASH)', 3, '/images/cedp/water.jpg', 'Community members protecting a natural water spring',
     'Community-owned water infrastructure, spring protection, and hygiene education to improve health outcomes.',
     'water',
     '[{"label":"Households with clean water","value":"120","note":"86% sustained use after 12 months"}]',
     3, 'published', true,
     'Water, Sanitation & Hygiene | CEDP — FOSCOD',
     'Safe water, spring protection, sanitation, and hygiene education in Kalagala Parish.'),
-  ('green-livelihoods-economic-empowerment', 'Green Livelihoods & Economic Empowerment', 4, '/images/cedp/livelihoods.jpg',
+  ('green-livelihoods-economic-empowerment', 'Green Livelihoods & Economic Empowerment', 4, '/images/cedp/livelihoods.jpg', 'Women''s savings group meeting with green enterprise training',
     'VSLAs, women-led enterprises, climate-smart agriculture, and green business incubation to grow inclusive local economies.',
     'enterprise',
     '[{"label":"Households in savings groups","value":"45","note":"across 5 villages"}]',
     4, 'published', true,
     'Green Livelihoods & Economic Empowerment | CEDP — FOSCOD',
     'Savings groups, women-led enterprises, climate-smart agriculture, and green business incubation in Kalagala Parish.'),
-  ('inclusive-leadership', 'Inclusive Leadership — Women, Youth & Climate Leadership', 5, '/images/cedp/leadership.jpg',
+  ('inclusive-leadership', 'Inclusive Leadership — Women, Youth & Climate Leadership', 5, '/images/cedp/leadership.jpg', 'Women and youth leaders in a community decision-making meeting',
     'Capacity-building for women, youth, and marginalized groups to take leadership roles in community decision-making and climate resilience.',
     'partner',
     '[{"label":"Women leaders trained","value":"38","note":"in cooperative and governance skills"}]',
     5, 'published', true,
     'Inclusive Leadership — Women, Youth & Climate | CEDP — FOSCOD',
     'Leadership training for women, youth, and marginalized groups in Kalagala Parish communities.'),
-  ('ecosystem-restoration-carbon-offsets', 'Ecosystem Restoration & Carbon Offsets', 6, '/images/cedp/forest.jpg',
+  ('ecosystem-restoration-carbon-offsets', 'Ecosystem Restoration & Carbon Offsets', 6, '/images/cedp/forest.jpg', 'Community tree planting along the Mabira Forest edge',
     'Reforestation, biochar production, and carbon-credit projects that restore degraded land while creating sustainable income.',
     'environment',
     '[{"label":"Trees planted","value":"2000+","note":"native species across 5 hectares"}]',
@@ -1089,96 +1058,69 @@ on conflict (slug) do update set
   order_column = excluded.order_column, status = excluded.status, featured = excluded.featured,
   meta_title = excluded.meta_title, meta_description = excluded.meta_description;
 
--- ---------- gle_pathways (4 Find your pathway cards) ----------
-delete from public.gle_pathways;
-insert into public.gle_pathways (title, body, href, cta, kicker, image_url, image_alt, order_column, visible) values
-  ('Internships', 'A role matched to your discipline, learning goals, demonstrated skills, and the supervision available.', '/internships', 'Explore internships', 'Individuals', '/images/gle/internships.jpg', 'Intern working on a solar installation with local technicians', 1, true),
-  ('Responsible volunteering', 'A defined contribution to ongoing work, with role boundaries, preparation, local guidance, and handover.', '/volunteer', 'Explore volunteering', 'Individuals & groups', '/images/gle/volunteering.jpg', 'Volunteer teaching hygiene practices in a community setting', 2, true),
-  ('Faculty-led programs', 'Co-designed group learning connected to course outcomes, field activities, reflection, and community value.', '/partners', 'Plan a faculty program', 'Universities', '/images/gle/faculty-led.jpg', 'University faculty and students collaborating with community leaders', 3, true),
-  ('Community-based research', 'Research shaped with local partners, including ethics, data, authorship, dissemination, and return-of-findings agreements.', '/partners', 'Discuss research', 'Researchers', '/images/gle/research.jpg', 'Researchers collecting water quality data with community members', 4, true)
-on conflict do nothing;
+-- ---------- gle_pathways / gle_introduction / gle_apply_section ----------
+-- Content owned by migration 0031_gle_experience_model.sql.
 
--- ---------- gle_introduction (GLE landing page intro section) ----------
-delete from public.gle_introduction;
-insert into public.gle_introduction (title, eyebrow, body, image_url, image_alt, cta_label, cta_href, order_column, visible) values
-  ('Learn ethical development through real projects', 'About Global Learning & Exchange',
-    'FOSCOD''s Global Learning & Exchange (GLE) program connects students, professionals, researchers, and university groups with structured, supervised field learning in Uganda.
-
-Participants work alongside FOSCOD, community organizations, host families, and local leaders across clean energy, WASH, livelihoods, health, and environmental sustainability. You contribute to genuine community priorities under local supervision — not manufactured tasks.
-
-Whether you come for academic learning, career experience, service, or community-based participatory research (CBPR), the structure is the same: prepare, contribute within a defined role, reflect, and complete a useful handover.',
-    '/images/gle/introduction.jpg', 'Global learning participants working with a community on solar installation',
-    'Volunteer or Intern', '/programs/global-learning-exchange', 1, true)
-on conflict do nothing;
-
--- ---------- gle_apply_section (GLE apply call-to-action) ----------
-delete from public.gle_apply_section;
-insert into public.gle_apply_section (title, eyebrow, body, image_url, image_alt, cta_label, cta_href, order_column, visible) values
-  ('Apply to join GLE', 'Get involved',
-    'Start your application to join a supervised, ethical field-learning placement in Uganda. We''ll match your skills, study background, and timeline to an active community priority — with local supervision, host-family support, and clear role boundaries from day one.',
-    '/images/gle/apply.jpg', 'Application documents and a pen beside a community project site',
-    'Start your application', '/apply', 1, true)
-on conflict do nothing;
 
 -- ---------- impact_stories (community voice stories, mirrors fallback) ----------
 -- These power the Impact Stories archive and the CEDP area impact carousels.
 delete from public.impact_stories;
-insert into public.impact_stories (slug, title, community_voice, quote, hero_image_url, gallery, narrative, linked_program, linked_sub_program_id, linked_project_id, verified_outcome, published_at, status) values
+insert into public.impact_stories (slug, title, community_voice, quote, hero_image_url, hero_image_alt, gallery, narrative, linked_program, linked_sub_program_id, linked_project_id, verified_outcome, published_at, status) values
   ('solar-powered-salon-naluvule', 'Solar-Powered Salon in Naluvule',
     'Sarah Namubiru, salon owner',
     'Before solar, I was losing money after 6 p.m. Now I can serve clients until 8 — and the quality of my work is so much better in good light.',
-    '/images/impact/stories/salon-hero.jpg', '[]',
+    '/images/impact/stories/salon-hero.jpg', 'Solar-powered hair salon in Naluvule village at evening opening hours', '[]',
     'In the village of Naluvule, evening light used to mean kerosene lamps and a day''s work done. Sarah Namubiru, who runs a small hair salon from her home, could only serve a few clients before dark. When FOSCOD partnered with the community to install a shared solar microgrid, Sarah was among the first to connect. Reliable evening electricity opened evenings for clients and enabled a small fridge for beauty products. Within a year, the salon doubled its customer base and the owner hired two apprentices.',
-    'CEDP', (select id from public.sub_programs where slug = 'green-skills-renewable-energy'), 'solar-powered-water-system-naluvule',
+    'CEDP', (select id from public.sub_programs where slug = 'green-skills-renewable-energy'), (select id from public.projects where slug = 'solar-powered-water-system-naluvule'),
     '3 households gained reliable evening lighting and new income streams', '2025-03-15', 'published'),
   ('water-is-life-lubani', 'Water is Life: a protected spring in Lubani',
     'Mariam N., parent',
     'My daughter used to miss two days of school every week because she was collecting water. Now she walks there and back in 10 minutes.',
-    '/images/impact/stories/lubani-hero.jpg', '[]',
+    '/images/impact/stories/lubani-hero.jpg', 'Protected community water spring with collection chamber', '[]',
     'Before the spring protection project in Lubani, residents — especially women and children — walked long distances to collect water that often made them sick. The spring was open to cattle and runoff, and waterborne illness was common. Through FOSCOD''s WASH program, the community fenced the spring, built a collection chamber, and established a water user committee. Within six months, water-quality tests showed a 90% reduction in E. coli. Children no longer miss school to fetch water.',
-    'CEDP', (select id from public.sub_programs where slug = 'water-sanitation-hygiene'), 'water-spring-protection-naluvule',
+    'CEDP', (select id from public.sub_programs where slug = 'water-sanitation-hygiene'), (select id from public.projects where slug = 'water-spring-protection-naluvule'),
     'Water access improved for 120 households with 86% sustained use after 12 months', '2025-02-10', 'published'),
   ('greening-kalagala-regeneration', 'Greening Kalagala: regenerating degraded land',
     'Grace K., neighbourhood leader',
     'We used to lose topsoil every rainy season. Now the trees hold the soil, and the community forest is coming back.',
-    '/images/impact/stories/greening-kalagala.jpg', '[]',
+    '/images/impact/stories/greening-kalagala.jpg', 'Community members planting native trees along the Mabira Forest edge', '[]',
     'Kalagala Parish faced severe soil erosion and forest degradation. Through community-led tree planting and agroforestry, 50 hectares of land have been restored. Seedlings are maintained by village conservation groups with monitoring led by local youth.',
-    'CEDP', (select id from public.sub_programs where slug = 'ecosystem-restoration-carbon-offsets'), 'greening-kalagala',
+    'CEDP', (select id from public.sub_programs where slug = 'ecosystem-restoration-carbon-offsets'), (select id from public.projects where slug = 'greening-kalagala'),
     '2,000+ native trees planted across 5 hectares of forest edge', '2025-01-20', 'published'),
   ('biochar-from-water-hyacinth', 'Biochar from water hyacinth: turning invasion into soil',
     'Samuel K., Water committee chair',
     'The invasive water hyacinth used to choke our waterways. Now we make biochar from it — better soil and cleaner cooking.',
-    '/images/impact/stories/biochar.jpg', '[]',
+    '/images/impact/stories/biochar.jpg', 'Women''s group producing biochar from water hyacinth', '[]',
     'In the wetlands near Naluvule, water hyacinth was choking waterways. The community began producing biochar from the invasive plant, improving soil health and reducing the need for wood fuel. Women''s groups now produce 500 biochar units per month for local sale.',
-    'CEDP', (select id from public.sub_programs where slug = 'clean-cooking-health'), 'carbon-credit-project',
+    'CEDP', (select id from public.sub_programs where slug = 'clean-cooking-health'), (select id from public.projects where slug = 'carbon-credit-project'),
     '500 biochar units produced from invasive species; 30 households adopted cleaner cooking', '2024-12-05', 'published'),
   ('coffee-farming-mobilization', 'Coffee farming mobilization: resilient livelihoods',
     'James Ochieng, farmer cooperative leader',
     'The climate-smart training changed everything. Our yields are up, and we have a direct buyer for our coffee now.',
-    '/images/impact/stories/coffee-farming.jpg', '[]',
+    '/images/impact/stories/coffee-farming.jpg', 'Coffee farmers during climate-smart agriculture training', '[]',
     'Smallholder coffee farmers in Kalagala Parish faced declining yields due to climate variability. FOSCOD''s mobilization program provided climate-smart training and market linkages. Average yields rose 22% in the first season.',
-    'CEDP', (select id from public.sub_programs where slug = 'green-livelihoods-economic-empowerment'), 'coffee-farming-mobilization',
+    'CEDP', (select id from public.sub_programs where slug = 'green-livelihoods-economic-empowerment'), (select id from public.projects where slug = 'coffee-farming-mobilization'),
     '120 farmers trained; 15% average yield increase reported', '2024-11-12', 'published'),
   ('gle-research-methodology', 'Research methodology exchange with Makerere University',
     'Dr. Aisha Mwanje, FOSCOD programmes lead',
     'The CBPR framework FOSCOD uses became my north star for every research project after graduation.',
-    '/images/impact/stories/gle-research.jpg', '[]',
+    '/images/impact/stories/gle-research.jpg', 'Joint FOSCOD and Makerere University research methodology workshop', '[]',
     'A joint research methodology workshop between FOSCOD and Makerere University brought together community researchers and academic faculty to co-develop participatory research protocols. The protocols are now used across three departments at Makerere.',
-    'GLE', null, 'research-knowledge-exchange',
+    'GLE', null, (select id from public.projects where slug = 'research-knowledge-exchange'),
     '8 jointly published protocols; 3 graduate students trained in CBPR methods', '2025-04-01', 'published'),
   ('gle-health-outreach-kalagala', 'Community health outreach in Kalagala',
     'Nurse Sarah, Kalagala Health Center',
     'The mobile clinic and hygiene education reduced our patient load by 30% during the rainy season.',
-    '/images/impact/stories/gle-health.jpg', '[]',
+    '/images/impact/stories/gle-health.jpg', 'Community health outreach session at Kalagala Health Center', '[]',
     'A team of international public health students partnered with the Kalagala Health Center to deliver hygiene education, basic screenings, and health promotion activities across five villages. Community members received health education and basic medical screening.',
-    'GLE', null, 'health-community-wellbeing',
+    'GLE', null, null,
     '180 community members screened; 40 hygiene sessions conducted; 30% reduction in preventable illness cases', '2025-03-22', 'published'),
   ('gle-leadership-womens-cooperative', 'Women''s cooperative leadership training',
     'Fatima N., cooperative treasurer',
     'Being trained as a leader meant I could start my own group — and now I train other women too.',
-    '/images/impact/stories/gle-leadership.jpg', '[]',
+    '/images/impact/stories/gle-leadership.jpg', 'Women''s cooperative leadership and financial literacy training session', '[]',
     'An international development studies student partnered with local women''s groups in Naluvule to deliver leadership and financial literacy training, supporting the formation of a registered cooperative. The cooperative now has 15 members and three micro-enterprises.',
-    'GLE', null, 'governance-leadership',
+    'GLE', null, null,
     '15 women trained in leadership; 3 new cooperatives registered; 5 micro-enterprises launched', '2025-02-28', 'published')
 on conflict (slug) do update set
   title = excluded.title, community_voice = excluded.community_voice, quote = excluded.quote,

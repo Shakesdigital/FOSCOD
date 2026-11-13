@@ -11,8 +11,8 @@ export const audiencePaths: AudiencePath[] = [
   {
     title: "Students & early-career professionals",
     body: "Build practical experience through a supervised internship or volunteer placement connected to a community-defined priority.",
-    href: "/internships",
-    cta: "Explore internships",
+    href: "/opportunities",
+    cta: "Explore opportunities",
     imageUrl: "/images/audience/students.jpg",
     imageAlt: "Interns in the field",
   },

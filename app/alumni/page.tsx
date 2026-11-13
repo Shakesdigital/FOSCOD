@@ -22,7 +22,9 @@ const fields: Field[] = [
   { name: "email", label: "Email", type: "email", required: true },
   { name: "cohort", label: "Cohort / year" },
   { name: "program", label: "Program you joined" },
-  { name: "review", label: "Your review or message", type: "textarea", required: true },
+  { name: "contributionType", label: "What would you like to share?", type: "select", required: true, options: ["Join the alumni network", "Testimonial", "Project reflection", "Blog / Insights proposal"] },
+  { name: "review", label: "Your testimonial, reflection or proposal", type: "textarea", required: true },
+  { name: "publishPermission", label: "May we publish this on the website (with your name as given)?", type: "select", required: true, options: ["Yes, with my name", "Yes, anonymized", "No — internal use only"] },
 ];
 
 export default async function AlumniPage() {
@@ -40,7 +42,7 @@ export default async function AlumniPage() {
         <div className="grid gap-10 lg:grid-cols-[0.7fr_1.3fr]">
           <div>
             <div className="text-center">
-              <h2 className="text-[clamp(1.5rem,2.5vw,2rem)]">Join or write a review</h2>
+              <h2 className="text-[clamp(1.5rem,2.5vw,2rem)]">Share your experience</h2>
             </div>
             <p className="mt-3 text-[var(--muted)]">
               Reviews appear on the site once approved in the CMS, with your
@@ -50,9 +52,9 @@ export default async function AlumniPage() {
           <SubmitForm
             formType="alumni"
             fields={fields}
-            submitLabel="Join the network"
-            successTitle="Welcome back"
-            successBody="Thanks for staying connected — we'll be in touch."
+            submitLabel="Share with the network"
+            successTitle="Thank you"
+            successBody="Thanks for staying connected. Submissions are reviewed by FOSCOD staff — nothing is published automatically, and we will confirm permissions with you first."
           />
         </div>
       </section>

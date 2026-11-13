@@ -128,7 +128,15 @@ export type GleDevelopmentSector = {
   title: string;
   description?: string;
   icon?: string;
+  category?: "cedp" | "partner";
 };
+
+export type GleTaxonomyItem = {
+  slug: string;
+  title: string;
+  description: string;
+};
+
 
 export type ImpactStory = {
   slug: string;
@@ -650,9 +658,9 @@ export async function getProgramDates(): Promise<ProgramDate[]> {
 
 /* ---------- GLE streams, volunteer opportunities, program highlights ---------- */
 const gleStreamsFallback: ImpactCard[] = [
-  { title: "Volunteer", excerpt: "Give your time and skills to community-led projects, with full local support.", href: "/volunteer", tone: "earth" },
-  { title: "Internship", excerpt: "Supervised, credit-friendly field experience in your area of study or career.", href: "/internships", tone: "water" },
-  { title: "Global Service Trip", excerpt: "Faculty-led group programs and service trips with risk management built in.", href: "/programs/finder", tone: "forest" },
+  { title: "Volunteer", excerpt: "Give your time and skills to community-led projects, with full local support.", href: "/programs/global-learning-exchange", tone: "earth" },
+  { title: "Internship", excerpt: "Supervised, credit-friendly field experience in your area of study or career.", href: "/opportunities", tone: "water" },
+  { title: "Global Service Trip", excerpt: "Faculty-led group programs and service trips with risk management built in.", href: "/opportunities", tone: "forest" },
 ];
 
 const volunteerOpportunitiesFallback: ImpactCard[] = [
@@ -661,7 +669,7 @@ const volunteerOpportunitiesFallback: ImpactCard[] = [
   { title: "Green livelihoods", excerpt: "Community enterprise, agriculture, and resilient livelihoods.", href: "/programs/cedp/green-livelihoods-economic-empowerment", tone: "forest" },
   { title: "Inclusive leadership", excerpt: "Women, youth, and climate leadership grounded in community priorities.", href: "/programs/cedp/inclusive-leadership", tone: "earth" },
   { title: "Ecosystem restoration", excerpt: "Restoration and carbon-offset work designed with communities.", href: "/programs/cedp/ecosystem-restoration-carbon-offsets", tone: "forest" },
-  { title: "Research & data", excerpt: "Baseline surveys, monitoring, and ethical research partnerships.", href: "/programs/finder", tone: "water" },
+  { title: "Research & data", excerpt: "Baseline surveys, monitoring, and ethical research partnerships.", href: "/opportunities", tone: "water" },
 ];
 
 const programHighlightsFallback: ImpactCard[] = [
@@ -840,7 +848,7 @@ const heroSlides: Record<string, HeroSlide[]> = {
       eyebrow: "Our programs",
       title: "Two pillars, one mission",
       intro: "FOSCOD advances community-led development and connects global learners to real field work — so local innovation and global knowledge strengthen each other.",
-      cta: { href: "/programs/finder", label: "Find a project opportunity fit" },
+      cta: { href: "/opportunities", label: "Find a project opportunity fit" },
       tone: "water",
     },
     {
@@ -899,7 +907,7 @@ const heroSlides: Record<string, HeroSlide[]> = {
       eyebrow: "Structured & supported",
       title: "Field experience that means something",
       intro: "Supervised placements, host families, and a clear application path — for students, professionals, and university groups.",
-      cta: { href: "/programs/finder", label: "Find a project opportunity fit" },
+      cta: { href: "/opportunities", label: "Find a project opportunity fit" },
       tone: "earth",
     },
   ],
@@ -909,7 +917,7 @@ const heroSlides: Record<string, HeroSlide[]> = {
       title: "Global Service Learning in Uganda",
       intro: "Internships, volunteering, and global service trips that pair real community projects with structured, supervised field learning.",
       cta: { href: "/programs/global-learning-exchange", label: "Volunteer or Intern" },
-      cta2: { href: "/programs/finder", label: "Find a project opportunity fit" },
+      cta2: { href: "/opportunities", label: "Find a project opportunity fit" },
       tone: "water",
     },
     {
@@ -933,8 +941,8 @@ const heroSlides: Record<string, HeroSlide[]> = {
       eyebrow: "Individual or group",
       title: "Give your time where it lasts",
       intro: "Join as an individual or bring a group — every placement is supervised, supported, and tied to a real community priority.",
-      cta: { href: "/volunteer/group", label: "Group volunteering" },
-      cta2: { href: "/volunteer/individual", label: "Individual volunteering" },
+      cta: { href: "/apply?type=group-project", label: "Group volunteering" },
+      cta2: { href: "/opportunities", label: "Individual volunteering" },
       tone: "water",
     },
   ],
@@ -969,7 +977,7 @@ const heroSlides: Record<string, HeroSlide[]> = {
       eyebrow: "Hands-on & supervised",
       title: "Turn theory into real contribution",
       intro: "Individual placements, group engage internships, and university cohorts — all matched to your goals and supervised on the ground.",
-      cta: { href: "/internships/opportunities", label: "Browse opportunities" },
+      cta: { href: "/opportunities", label: "Browse opportunities" },
       tone: "earth",
     },
   ],
@@ -1378,12 +1386,30 @@ export async function getImpactStories(limit = 3): Promise<ImpactStory[]> {
 
 /* ---------- impact story archive (all stories with optional filters) ---------- */
 const gleSectorsFallback: GleDevelopmentSector[] = [
-  { id: "gs-education", slug: "education-capacity-building", title: "Education & Capacity Building" },
-  { id: "gs-health", slug: "health-community-wellbeing", title: "Health & Community Wellbeing" },
-  { id: "gs-environmental", slug: "environmental-stewardship", title: "Environmental Stewardship" },
-  { id: "gs-livelihoods", slug: "livelihoods-economic-opportunity", title: "Livelihoods & Economic Opportunity" },
-  { id: "gs-research", slug: "research-knowledge-exchange", title: "Research & Knowledge Exchange" },
-  { id: "gs-governance", slug: "governance-leadership", title: "Governance & Leadership" },
+  { id: "gs-1", slug: "clean-energy-climate-resilience", title: "Clean Energy & Climate Resilience", description: "Clean energy, climate adaptation, afforestation, ecosystem restoration and sustainable environmental practices.", category: "cedp" },
+  { id: "gs-2", slug: "water-sanitation-community-health", title: "Water, Sanitation & Community Health", description: "Access to safe water, sanitation and hygiene, community health awareness, disease prevention and appropriate referrals.", category: "cedp" },
+  { id: "gs-3", slug: "sustainable-livelihoods-skills-economic-empowerment", title: "Sustainable Livelihoods, Skills & Economic Empowerment", description: "Skills development, agroecology, agroforestry, food security, savings, entrepreneurship and income generation.", category: "cedp" },
+  { id: "gs-4", slug: "womens-empowerment-gender-equality", title: "Women's Empowerment & Gender Equality", category: "partner" },
+  { id: "gs-5", slug: "health", title: "Health", category: "partner" },
+  { id: "gs-6", slug: "ict", title: "Information & Communication Technology (ICT)", category: "partner" },
+  { id: "gs-7", slug: "microenterprise-microfinance", title: "Microenterprise & Microfinance", category: "partner" },
+  { id: "gs-8", slug: "environment-conservation", title: "Environment & Conservation", category: "partner" },
+  { id: "gs-9", slug: "community-development", title: "Community Development", category: "partner" },
+  { id: "gs-10", slug: "human-rights", title: "Human Rights", category: "partner" },
+  { id: "gs-11", slug: "education-youth-development", title: "Education & Youth Development", category: "partner" },
+  { id: "gs-12", slug: "art-history-culture", title: "Art, History & Culture — Visual and Performing Arts", category: "partner" },
+  { id: "gs-13", slug: "engineering", title: "Engineering — Civil, Solar Energy and Water Systems", category: "partner" },
+];
+
+const gleEngagementApproachesFallback: GleTaxonomyItem[] = [
+  { slug: "community-based-development-projects", title: "Community-Based Development Projects", description: "Participants collaborate with communities and local partners to identify priorities, plan, implement and monitor development initiatives. The approach emphasizes practical engagement, locally driven solutions and experiential learning." },
+  { slug: "community-based-participatory-research", title: "Community-Based Participatory Research (CBPR)", description: "Participants work collaboratively with communities and local partners to investigate locally identified issues, generate relevant knowledge and explore evidence-informed solutions. Research findings are shared with community partners to inform practical action." },
+  { slug: "integrated-development-and-research", title: "Integrated Community Development & Participatory Research", description: "Combines participatory research and practical development activities within a coordinated learning experience — research informs development action while practical experience generates knowledge for future improvements." },
+];
+
+const gleParticipationFormatsFallback: GleTaxonomyItem[] = [
+  { slug: "in-person-uganda", title: "In-Person Participation — Uganda", description: "Participants engage directly with FOSCOD, local partner organizations and communities through structured placements and learning activities in Uganda, combining practical experience, professional supervision, community engagement, cultural immersion and guided reflection." },
+  { slug: "virtual-remote", title: "Virtual Participation — Remote", description: "Participants engage remotely through structured online placements, supervised projects, collaborative research and other agreed activities. Considered for suitable individual and group internships or volunteer placements; service-learning trips and study tours are primarily in-person." },
 ];
 
 export async function getGleDevelopmentSectors(): Promise<GleDevelopmentSector[]> {
@@ -1391,7 +1417,7 @@ export async function getGleDevelopmentSectors(): Promise<GleDevelopmentSector[]
     const supabase = await createClient();
     const { data } = (await supabase
       ?.from("gle_development_sectors")
-      .select("id,slug,title,description,icon")
+      .select("id,slug,title,description,icon,category")
       .eq("visible", true)
       .order("order_column", { ascending: true })) ?? { data: null };
     if (data && data.length) {
@@ -1401,10 +1427,39 @@ export async function getGleDevelopmentSectors(): Promise<GleDevelopmentSector[]
         title: s.title,
         description: s.description ?? undefined,
         icon: s.icon ?? undefined,
+        category: s.category ?? "partner",
       }));
     }
   }
   return gleSectorsFallback;
+}
+
+/* ---------- GLE selection-dimension taxonomies (engagement approaches + participation formats) ---------- */
+
+export async function getGleEngagementApproaches(): Promise<GleTaxonomyItem[]> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    const { data } = (await supabase
+      ?.from("gle_engagement_approaches")
+      .select("slug,title,description")
+      .eq("visible", true)
+      .order("order_column", { ascending: true })) ?? { data: null };
+    if (data && data.length) return data;
+  }
+  return gleEngagementApproachesFallback;
+}
+
+export async function getGleParticipationFormats(): Promise<GleTaxonomyItem[]> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    const { data } = (await supabase
+      ?.from("gle_participation_formats")
+      .select("slug,title,description")
+      .eq("visible", true)
+      .order("order_column", { ascending: true })) ?? { data: null };
+    if (data && data.length) return data;
+  }
+  return gleParticipationFormatsFallback;
 }
 
 /** Fetch all published impact stories regardless of program, optionally filtered by program, area, sector, or project. */
@@ -1910,7 +1965,7 @@ const involvementCardsFallback: InvolvementCard[] = [
     title: "Volunteer intern",
     body: "Join a supervised placement matched to your skills and a community-defined priority — with local support, host families, and structured learning outcomes.",
     href: "/programs/global-learning-exchange",
-    ctaLabel: "Explore internships",
+    ctaLabel: "Explore opportunities",
     icon: "volunteer",
   },
   {
@@ -1971,8 +2026,8 @@ const audiencePathsFallback: AudiencePathData[] = [
   {
     title: "Students & early-career professionals",
     body: "Build practical experience through a supervised internship or volunteer placement connected to a community-defined priority.",
-    href: "/internships",
-    cta: "Explore internships",
+    href: "/opportunities",
+    cta: "Explore opportunities",
     imageUrl: "/images/audience/students.jpg",
     imageAlt: "Interns in the field",
   },
@@ -2393,6 +2448,42 @@ export async function getCedpHeroSlides(): Promise<HeroSlide[]> {
   return getHeroSlides("community-empowerment-development");
 }
 
+/* ---------- CEDP accomplishments (budget-brief evidence) ---------- */
+
+export type CedpAccomplishment = {
+  areaSlug: string | null;
+  title: string;
+  description: string;
+  attribution?: string;
+  period?: string;
+  kind: "output" | "continuing" | "future";
+};
+
+const cedpAccomplishmentsFallback: CedpAccomplishment[] = [];
+
+export async function getCedpAccomplishments(): Promise<CedpAccomplishment[]> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    if (!supabase) return cedpAccomplishmentsFallback;
+    const { data } = (await supabase
+      ?.from("cedp_accomplishments")
+      .select("area_slug,title,description,attribution,period,kind")
+      .eq("visible", true)
+      .order("order_column", { ascending: true })) ?? { data: null };
+    if (data && data.length) {
+      return data.map((a) => ({
+        areaSlug: a.area_slug ?? null,
+        title: a.title,
+        description: a.description ?? "",
+        attribution: a.attribution ?? undefined,
+        period: a.period ?? undefined,
+        kind: (a.kind as CedpAccomplishment["kind"]) ?? "output",
+      }));
+    }
+  }
+  return cedpAccomplishmentsFallback;
+}
+
 /* ============================================================
    CEDP sub-program area landing pages
    Each getter is Supabase-first with a built-in fallback so the
@@ -2475,7 +2566,7 @@ const cedpAreasFallback: CedpArea[] = [
         title: "Volunteer intern",
         body: "Join a supervised placement in solar energy, clean cooking, or ecosystem restoration — with local support and a host-family experience.",
         href: "/programs/global-learning-exchange",
-        ctaLabel: "Explore internships",
+        ctaLabel: "Explore opportunities",
         icon: "energy",
       },
       {
@@ -2512,7 +2603,7 @@ const cedpAreasFallback: CedpArea[] = [
         title: "Volunteer intern",
         body: "Work on safe-water infrastructure, sanitation campaigns, or hygiene education with full local supervision and 24/7 support.",
         href: "/programs/global-learning-exchange",
-        ctaLabel: "Explore internships",
+        ctaLabel: "Explore opportunities",
         icon: "water",
       },
       {
@@ -2549,7 +2640,7 @@ const cedpAreasFallback: CedpArea[] = [
         title: "Volunteer intern",
         body: "Support climate-smart agriculture, green enterprise incubation, or women's economic empowerment programs with field-based supervision.",
         href: "/programs/global-learning-exchange",
-        ctaLabel: "Explore internships",
+        ctaLabel: "Explore opportunities",
         icon: "livelihoods",
       },
       {
@@ -3229,7 +3320,7 @@ const generalImpactPagesFallback: Record<string, GeneralImpactPage> = {
     getInvolvedTitle: "Your pathway into the work",
     getInvolvedIntro: "Join, partner, or support — every contribution is tied to a community-defined priority with clear evidence and consent.",
     getInvolvedCards: [
-      { title: "Volunteer intern", body: "Join a supervised placement matched to your skills and a community-defined priority.", href: "/programs/global-learning-exchange", ctaLabel: "Explore internships", icon: "volunteer" },
+      { title: "Volunteer intern", body: "Join a supervised placement matched to your skills and a community-defined priority.", href: "/programs/global-learning-exchange", ctaLabel: "Explore opportunities", icon: "volunteer" },
       { title: "Partner with us", body: "Co-design clean-energy, WASH, livelihoods, or research partnerships around real community priorities.", href: "/partners", ctaLabel: "Partner with FOSCOD", icon: "partner" },
       { title: "Donate to a cause", body: "Fund a named project or priority with transparent, community-led reporting.", href: "/donate", ctaLabel: "Start a giving inquiry", icon: "donate" },
     ],
@@ -3346,40 +3437,54 @@ export type GleApplySection = {
 
 const glePathwaysFallback: GlePathwayCard[] = [
   {
-    title: "Internships",
-    body: "A role matched to your discipline, learning goals, demonstrated skills, and the supervision available.",
-    href: "/internships",
-    cta: "Explore internships",
-    kicker: "Individuals",
+    title: "Individual Internship or Volunteer Placement",
+    body: "A structured placement for students, graduates, professionals and volunteers seeking practical experience in community-based development, with professional supervision, guided reflection and cultural learning.",
+    href: "/opportunities",
+    cta: "Browse placements",
+    kicker: "Individuals & graduates",
+    tag: "Internship or volunteering",
     imageUrl: "/images/gle/internships.jpg",
     imageAlt: "Intern working on a solar installation with local technicians",
   },
   {
-    title: "Responsible volunteering",
-    body: "A defined contribution to ongoing work, with role boundaries, preparation, local guidance, and handover.",
-    href: "/volunteer",
-    cta: "Explore volunteering",
-    kicker: "Individuals & groups",
-    imageUrl: "/images/gle/volunteering.jpg",
-    imageAlt: "Volunteer teaching hygiene practices in a community setting",
-  },
-  {
-    title: "Faculty-led programs",
-    body: "Co-designed group learning connected to course outcomes, field activities, reflection, and community value.",
-    href: "/partners",
-    cta: "Plan a faculty program",
-    kicker: "Universities",
+    title: "Group Project Placement",
+    body: "Participants from the same university or institution work together with a host organization on a shared community development project or research initiative.",
+    href: "/apply?type=group-project",
+    cta: "Enquire as a group",
+    kicker: "University & institution groups",
+    tag: "One shared project",
     imageUrl: "/images/gle/faculty-led.jpg",
-    imageAlt: "University faculty and students collaborating with community leaders",
+    imageAlt: "University group working with a community on a shared project",
   },
   {
-    title: "Community-based research",
-    body: "Research shaped with local partners, including ethics, data, authorship, dissemination, and return-of-findings agreements.",
-    href: "/partners",
-    cta: "Discuss research",
-    kicker: "Researchers",
+    title: "Coordinated Group Placement",
+    body: "Participants from one institution are placed across different local partner organizations according to their interests and learning objectives, with coordinated learning activities and shared reflection.",
+    href: "/apply?type=coordinated-group",
+    cta: "Enquire as a group",
+    kicker: "University & institution groups",
+    tag: "Placements across hosts",
+    imageUrl: "/images/gle/volunteering.jpg",
+    imageAlt: "Coordinated group placements across local partner organizations",
+  },
+  {
+    title: "Service-Learning Trip",
+    body: "A short-term program, typically 1–4 weeks, integrating meaningful community engagement with structured learning, guided reflection and cultural immersion for student and professional groups.",
+    href: "/apply?type=service-learning-trip",
+    cta: "Plan a trip",
+    kicker: "Student & professional groups",
+    tag: "1–4 weeks",
     imageUrl: "/images/gle/research.jpg",
-    imageAlt: "Researchers collecting water quality data with community members",
+    imageAlt: "A service-learning group engaging with a community project",
+  },
+  {
+    title: "Study Tour Program",
+    body: "A customized educational experience for schools and university groups, lasting at least eight days — lectures, community engagement, organizational visits, discussions, guided reflection and cultural excursions.",
+    href: "/apply?type=study-tour",
+    cta: "Plan a study tour",
+    kicker: "Schools & universities",
+    tag: "8+ days",
+    imageUrl: "/images/gle/introduction.jpg",
+    imageAlt: "A study tour group visiting a community organization",
   },
 ];
 

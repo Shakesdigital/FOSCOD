@@ -43,16 +43,18 @@ export type NavItem = { label: string; href: string; children?: NavChild[] };
 // Persistent CTAs (Partner with us, Volunteer or Intern, Donate to a project) are handled in Header component
 export const primaryNav: NavItem[] = [
   { label: "Home", href: "/" },
-  { label: "About Us", href: "/about" },
   {
     label: "Programs",
     href: "/programs",
     children: [
-      { label: "Global Learning Exchange (GLE)", href: "/programs/global-learning-exchange" },
-      { label: "Community Empowerment & Development (CEDP)", href: "/programs/community-empowerment-development" },
+      { label: "Global Learning Exchange Program (GLE)", href: "/programs/global-learning-exchange" },
+      { label: "Community Empowerment & Development Program (CEDP)", href: "/programs/community-empowerment-development" },
     ],
   },
+  { label: "Opportunities", href: "/opportunities" },
+  { label: "Apply", href: "/apply" },
   { label: "Impact", href: "/impact/general" },
+  { label: "About Us", href: "/about" },
   { label: "Contact Us", href: "/contact" },
 ];
 
@@ -60,17 +62,30 @@ export const footerNav: { heading: string; links: NavChild[] }[] = [
   {
     heading: "Programs",
     links: [
-      { label: "Global Learning Exchange (GLE)", href: "/programs/global-learning-exchange" },
-      { label: "Community Empowerment & Development (CEDP)", href: "/programs/community-empowerment-development" },
-      { label: "Green Skills & Renewable Energy", href: "/programs/cedp/green-skills-renewable-energy" },
-      { label: "Clean Cooking & Health", href: "/programs/cedp/clean-cooking-health" },
-      { label: "Water, Sanitation & Hygiene (WASH)", href: "/programs/cedp/water-sanitation-hygiene" },
-      { label: "Green Livelihoods & Economic Empowerment", href: "/programs/cedp/green-livelihoods-economic-empowerment" },
-      { label: "Inclusive Leadership", href: "/programs/cedp/inclusive-leadership" },
-      { label: "Ecosystem Restoration & Carbon Offsets", href: "/programs/cedp/ecosystem-restoration-carbon-offsets" },
+      { label: "Global Learning Exchange Program (GLE)", href: "/programs/global-learning-exchange" },
+      { label: "Community Empowerment and Development Program (CEDP)", href: "/programs/community-empowerment-development" },
       { label: "Clean Energy & Climate Resilience", href: "/programs/cedp/areas/clean-energy-climate-resilience" },
       { label: "Water, Sanitation & Health Communities", href: "/programs/cedp/areas/water-sanitation-health-communities" },
       { label: "Sustainable Livelihoods & Economic Empowerment", href: "/programs/cedp/areas/sustainable-livelihoods-economic-empowerment" },
+    ],
+  },
+  {
+    heading: "Take part",
+    links: [
+      { label: "Explore opportunities", href: "/opportunities" },
+      { label: "Plan your experience / Apply", href: "/apply" },
+      { label: "Fees & practical information", href: "/programs/program-fees" },
+      { label: "Partner with us", href: "/partners" },
+      { label: "Support community work", href: "/donate" },
+    ],
+  },
+  {
+    heading: "Organization",
+    links: [
+      { label: "About Us", href: "/about" },
+      { label: "Our Team", href: "/team" },
+      { label: "Blog", href: "/stories" },
+      { label: "Contact Us", href: "/contact" },
     ],
   },
   {
@@ -80,25 +95,6 @@ export const footerNav: { heading: string; links: NavChild[] }[] = [
       { label: "Impact Stories", href: "/impact/stories" },
       { label: "Projects", href: "/projects/archive" },
       { label: "Downloads & Reports", href: "/impact#downloads" },
-    ],
-  },
-  {
-    heading: "Organization",
-    links: [
-      { label: "About Us", href: "/about" },
-      { label: "Our Team", href: "/team" },
-      { label: "Partners", href: "/partners" },
-      { label: "Contact Us", href: "/contact" },
-    ],
-  },
-  {
-    heading: "Get Involved",
-    links: [
-      { label: "Partner with us", href: "/partners" },
-      { label: "Volunteer or Intern", href: "/programs/global-learning-exchange" },
-      { label: "Donate to a project", href: "/donate" },
-      { label: "Internships", href: "/internships" },
-      { label: "Volunteer Programs", href: "/volunteer" },
     ],
   },
 ];

@@ -4,7 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { site } from "@/lib/site";
-import { getBrandingStyle } from "@/lib/settings";
+import { getBrandingStyle, getPrimaryNav } from "@/lib/settings";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? site.url),
@@ -28,8 +28,9 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [brandingStyle, headerList] = await Promise.all([
+  const [brandingStyle, primaryNav, headerList] = await Promise.all([
     getBrandingStyle(),
+    getPrimaryNav(),
     headers(),
   ]);
   const isAdmin = (headerList.get("x-pathname") ?? "").startsWith("/admin");
@@ -50,7 +51,7 @@ export default async function RootLayout({
             >
               Skip to content
             </a>
-            <Header />
+            <Header items={primaryNav} />
             <main id="main">{children}</main>
             <Footer />
           </>

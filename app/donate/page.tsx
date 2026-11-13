@@ -21,10 +21,11 @@ const priorities = [
 
 const faqs = [
   { q: "How are funds used?", a: "Before a contribution is finalized, FOSCOD should confirm the project or purpose, current budget basis, restrictions, transfer route, acknowledgement, and reporting arrangement. Approved support is then recorded through the organization's governance and monitoring processes." },
-  { q: "Can I support a specific project?", a: "Yes. Choose a named project or priority area and FOSCOD will confirm its current status, funding need, and what can be responsibly reported before accepting restricted support." },
+  { q: "Can I give once or regularly?", a: "Both are possible. One-time and recurring support can be arranged once a transfer route is confirmed; recurring support is reviewed together so it always matches a current, verified priority." },
+  { q: "Can I support a specific project?", a: "Yes. Choose a named project or campaign and FOSCOD will confirm its current status, funding need, and what can be responsibly reported before accepting restricted support. You can also give as general support where most needed." },
   { q: "What proof can I review?", a: "Start with FOSCOD's Ugandan registration, physical address, leadership, Buikwe Local Government MoU, verified 2019–2024 figures, and approved project records. Current financial or policy documents are provided only after the team verifies the latest approved versions." },
   { q: "Can I claim a carbon offset by supporting the planned carbon project?", a: "No. The project is planned. An offset claim would require an eligible methodology, authorization where applicable, validation, monitoring, independent verification, issuance, transfer, and retirement of credits under the relevant rules." },
-  { q: "Is online payment available now?", a: "The current website begins with a giving inquiry. FOSCOD will confirm an approved transfer method directly; do not send money through an unverified link or account." },
+  { q: "Is online payment available now?", a: "Not yet. Online giving requires FOSCOD's payment provider account and credentials to be confirmed. Until then, the website records a giving enquiry and FOSCOD confirms an approved transfer method directly — do not send money through an unverified link or account." },
 ];
 
 const stewardship = [
@@ -35,10 +36,17 @@ const stewardship = [
   { title: "Report honestly", body: "Separate completed activities, verified outcomes, limitations, and future targets." },
 ];
 
+const givingFaqs = [
+  { q: "Can I give once or regularly?", a: "Both are possible. One-time and recurring support can be arranged once a transfer route is confirmed; recurring support is reviewed together so it always matches a current, verified priority." },
+  { q: "Can I support a specific project?", a: "Yes. Choose a named project or campaign and FOSCOD will confirm its current status, funding need, and what can be responsibly reported before accepting restricted support. You can also give as general support." },
+  { q: "When will online payment be available?", a: "Online giving is being set up and requires FOSCOD's payment provider account and credentials to be confirmed. Until then, use the giving enquiry and FOSCOD will confirm an approved transfer method directly — never send money through an unverified link or account." },
+];
+
 const fields: Field[] = [
   { name: "name", label: "Your name", required: true },
   { name: "email", label: "Email", type: "email", required: true },
-  { name: "interest", label: "Project or priority you'd like to support", type: "select", options: ["Water Spring Protection — Naluvule", "Solar-Powered Water System — Naluvule", "Greening Kalagala", "Coffee Farming Mobilization", "Planned Carbon Credit Project", "Where most needed"] },
+  { name: "frequency", label: "Giving frequency", type: "select", required: true, options: ["One-time", "Recurring (e.g. monthly)"] },
+  { name: "interest", label: "What would you like to support?", type: "select", required: true, options: ["Where most needed", "Water Spring Protection — Naluvule", "Solar-Powered Water System — Naluvule", "Greening Kalagala", "Coffee Farming Mobilization", "Planned Carbon Credit Project"] },
   { name: "message", label: "Message (optional)", type: "textarea" },
 ];
 
@@ -80,8 +88,8 @@ export default async function DonatePage() {
           <div className="text-center">
             <h2 className="text-[clamp(1.5rem,2.5vw,2rem)]">Talk to us about giving</h2>
             <p className="mt-3 text-[var(--muted)]">
-              A payment link / gateway is wired in the CMS. Meanwhile, tell us how
-              you'd like to give and we'll follow up.
+              Tell us what you would like to support and how — one-time or recurring — and FOSCOD will
+              confirm the purpose, transfer route and reporting arrangement before any funds move.
             </p>
             <div className="mt-6">
               <SubmitForm

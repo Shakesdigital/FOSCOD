@@ -4,7 +4,7 @@ import { Section, SectionHeader } from "@/components/site/Section";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { ContentCard } from "@/components/ui/ContentCard";
 import { pageMeta } from "@/lib/seo";
-import { getCedpAreasOfFocus, getCedpImpactCards, getCedpHeroSlides } from "@/lib/content";
+import { getCedpAreasOfFocus, getCedpImpactCards, getCedpHeroSlides, getCedpAccomplishments, type CedpAccomplishment } from "@/lib/content";
 
 const approach = [
   { title: "Community assessment", body: "We start by listening — mapping needs and assets together with residents." },
@@ -15,8 +15,8 @@ const approach = [
 ];
 
 export const metadata = pageMeta(
-  "Community Empowerment & Development Program (CEDP)",
-  "CEDP supports underserved communities in Uganda to lead practical solutions in clean energy, environment, livelihoods, health, WASH, and inclusion."
+  "Community Empowerment and Development Program (CEDP)",
+  "CEDP is FOSCOD's place-based development program that supports underserved communities to identify their priorities, strengthen local capacities and lead collaborative solutions in Kalagala Parish, Buikwe District."
 );
 
 const kalagalaCommunities = [
@@ -27,13 +27,31 @@ const kalagalaCommunities = [
   { name: "Byabuku", description: "Peri-urban, forest-edge community" },
 ];
 
+function AccomplishmentItem({ a }: { a: CedpAccomplishment }) {
+  return (
+    <li className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-5">
+      <p className="font-semibold">{a.title}</p>
+      <p className="mt-2 text-sm leading-relaxed text-[var(--ink-soft)]">{a.description}</p>
+      <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[0.72rem] text-[var(--muted)]">
+        {a.period && <span>{a.period}</span>}
+        {a.attribution && <span>{a.attribution}</span>}
+      </div>
+    </li>
+  );
+}
+
 export default async function CedpPage() {
-  const [heroSlides, areasOfFocus, impactCards] =
+  const [heroSlides, areasOfFocus, impactCards, accomplishments] =
     await Promise.all([
       getCedpHeroSlides(),
       getCedpAreasOfFocus(),
       getCedpImpactCards(),
+      getCedpAccomplishments(),
     ]);
+
+  const delivered = accomplishments.filter((a) => a.kind === "output");
+  const continuing = accomplishments.filter((a) => a.kind === "continuing");
+  const future = accomplishments.filter((a) => a.kind === "future");
 
   /* ------------------------------------------------------------------ */
   /* Section backgrounds alternate: white → mint → white → mint → etc.  */
@@ -50,10 +68,10 @@ export default async function CedpPage() {
       <SplitSection eyebrow="The model" title="An integrated development approach anchored in place">
         <Prose>
           <p>
-            Launched in 2022, CEDP expanded FOSCOD's community work into an integrated development model where environmental sustainability and renewable energy sit at the center of local transformation.
+            CEDP is FOSCOD&apos;s place-based development program that supports underserved communities to identify their priorities, strengthen local capacities and lead collaborative solutions to development challenges.
           </p>
           <p>
-            The program works across six interlinked sub-programs — each corresponding to a Strategic Goal in the 2026–2030 plan — across <strong>Kalagala Parish's five communities</strong>: Kalagala, Kyambogo, Naluvule, Wabusanke, and Byabuku. These communities sit in a peri-urban zone bordering Mabira Forest, where rural and urban service delivery gaps overlap.
+            Grounded in ethical community engagement, local leadership and environmental sustainability, the program promotes lasting improvements in community well-being and livelihoods through <strong>three integrated focus areas</strong> across <strong>Kalagala Parish&apos;s five communities</strong> in Wakisi Division, Njeru Municipality, Buikwe District: Kalagala, Kyambogo, Naluvule, Wabusanke, and Byabuku — a peri-urban zone bordering Mabira Forest where rural and municipal service-delivery gaps overlap.
           </p>
         </Prose>
       </SplitSection>
@@ -87,17 +105,60 @@ export default async function CedpPage() {
         </div>
       </Section>
 
-      {/* 4. From priority to ownership — white */}
+      {/* 4. Accomplishments — white */}
       <section className="py-16 md:py-24">
         <div className="container-page">
           <div className="mx-auto max-w-2xl text-center">
-            <Eyebrow>From priority to ownership</Eyebrow>
-            <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">How a community-led project should move</h2>
+            <Eyebrow>Evidence</Eyebrow>
+            <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">
+              What communities have achieved with FOSCOD&apos;s support
+            </h2>
             <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
-              The sequence keeps local knowledge, delivery roles, evidence, and long-term responsibility in the same conversation.
+              Reported accomplishments in Kalagala Parish, 2022 – October 2026. Outputs are reported
+              separately from measured changes in health, income or the environment; community and partner
+              contributions are credited throughout. Source: FOSCOD contribution to the Wakisi Division budget
+              conference, submitted by the Executive Director, November 2026.
             </p>
           </div>
-          <div className="mt-10"><Steps steps={approach} /></div>
+          <div className="mt-12 space-y-10">
+            {delivered.length > 0 && (
+              <div>
+                <h3 className="text-xl font-semibold">Delivered</h3>
+                <ul className="mt-5 grid gap-4 md:grid-cols-2">
+                  {delivered.map((a) => (
+                    <AccomplishmentItem key={a.title} a={a} />
+                  ))}
+                </ul>
+              </div>
+            )}
+            {continuing.length > 0 && (
+              <div>
+                <h3 className="text-xl font-semibold">Continuing</h3>
+                <ul className="mt-5 grid gap-4 md:grid-cols-2">
+                  {continuing.map((a) => (
+                    <AccomplishmentItem key={a.title} a={a} />
+                  ))}
+                </ul>
+              </div>
+            )}
+            {future.length > 0 && (
+              <div className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-2)] p-6">
+                <h3 className="text-lg font-semibold">Future priorities (indicative)</h3>
+                <div className="mt-3 space-y-3">
+                  {future.map((a) => (
+                    <p key={a.title} className="text-sm leading-relaxed text-[var(--ink-soft)]">
+                      <span className="font-medium text-[var(--ink)]">{a.title}. </span>
+                      {a.description}
+                    </p>
+                  ))}
+                </div>
+                <p className="mt-4 text-xs text-[var(--muted)]">
+                  FY 2027/28 priorities are indicative and subject to funding, community participation,
+                  technical feasibility, partner commitments and applicable approvals.
+                </p>
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
@@ -130,35 +191,7 @@ export default async function CedpPage() {
         </div>
       </section>
 
-      {/* 6. Cross-cutting commitments — white (swapped from mint to avoid
-          mint→mint adjacency with Geography above) */}
-      <section className="py-16 md:py-24">
-        <div className="container-page">
-          <div className="mx-auto max-w-2xl text-center">
-            <Eyebrow>Cross-cutting commitments</Eyebrow>
-            <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">Principles that apply to every sub-program</h2>
-          </div>
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            <div className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-8 text-center">
-              <div className="font-[family-name:var(--font-text)] text-4xl font-semibold text-[var(--accent-700)]">25%</div>
-              <h3 className="mt-2 text-xl">Community Co-contribution</h3>
-              <p className="mt-2 text-[var(--ink-soft)]">Labour, materials, or cash — communities invest in every project, ensuring ownership and sustainability.</p>
-            </div>
-            <div className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-8 text-center">
-              <div className="font-[family-name:var(--font-text)] text-4xl font-semibold text-[var(--accent-700)]">50%</div>
-              <h3 className="mt-2 text-xl">Women's Participation</h3>
-              <p className="mt-2 text-[var(--ink-soft)]">Target across all initiatives — from enterprise leadership to climate ambassador roles to training cohorts.</p>
-            </div>
-            <div className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-8 text-center">
-              <div className="font-[family-name:var(--font-text)] text-4xl font-semibold text-[var(--accent-700)]">86%</div>
-              <h3 className="mt-2 text-xl">Sustained Community Benefit</h3>
-              <p className="mt-2 text-[var(--ink-soft)]">Verified share of completed projects that continue to benefit communities independently.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 7. CEDP Impact — mint (swapped from white) */}
+      {/* 5. CEDP Impact — mint */}
       <CardGrid
         surface
         eyebrow="CEDP impact"

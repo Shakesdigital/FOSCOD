@@ -23,11 +23,11 @@ export async function Footer() {
   // Hard-coded Quick Links per the site spec — these always override CMS
   // rows so the footer stays consistent regardless of DB state.
   const quickLinks = [
-    { label: "Community Empowerment and Development", href: "/programs/community-empowerment-development" },
-    { label: "Global Learning and Education", href: "/programs/global-learning-exchange" },
+    { label: "Global Learning Exchange Program", href: "/programs/global-learning-exchange" },
+    { label: "Community Empowerment and Development Program", href: "/programs/community-empowerment-development" },
     { label: "Impact", href: "/impact/general" },
-    { label: "Volunteer or Intern", href: "/programs/global-learning-exchange" },
     { label: "Blog", href: "/stories" },
+    { label: "Support community work", href: "/donate" },
   ];
 
   return (
@@ -103,11 +103,11 @@ export async function Footer() {
             <Link href="/partners" className="font-[family-name:var(--font-text)] hover:text-white">
               Partner with us
             </Link>
-            <Link href="/programs/global-learning-exchange" className="font-[family-name:var(--font-text)] hover:text-white">
-              Volunteer or Intern
+            <Link href="/opportunities" className="font-[family-name:var(--font-text)] hover:text-white">
+              Explore opportunities
             </Link>
             <Link href="/donate" className="font-[family-name:var(--font-text)] hover:text-white">
-              Donate to a project
+              Support community work
             </Link>
             <Link href="/programs/refund-policy" className="font-[family-name:var(--font-text)] hover:text-white">
               Refund Policy

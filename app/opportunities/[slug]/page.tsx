@@ -51,8 +51,8 @@ export default async function OpportunityDetailPage({
   const o = await getOpportunity(slug);
   if (!o) notFound();
 
+  const backHref = "/opportunities";
   const isVolunteer = o.type === "volunteer";
-  const backHref = isVolunteer ? "/volunteer/opportunities" : "/internships/opportunities";
   const reqHeading = isVolunteer ? "Volunteer Requirements" : "Intern Requirements";
   const whyHeading = isVolunteer ? "Why choose this volunteer program?" : "Why choose this internship?";
   const galleryCount = o.gallery.length || 6;
@@ -61,7 +61,7 @@ export default async function OpportunityDetailPage({
     eyebrow: o.category,
     title: o.title,
     intro: o.excerpt,
-    cta: { href: "/programs/global-learning-exchange", label: "Volunteer or Intern" },
+    cta: { href: `/apply?opportunity=${o.slug}`, label: "Apply for this opportunity" },
     tone: "water",
   }];
 
@@ -85,6 +85,86 @@ export default async function OpportunityDetailPage({
                 <SectionHeading>Program Highlights</SectionHeading>
                 <p className="mt-3 text-[var(--muted)]">As a {o.category} {isVolunteer ? "volunteer" : "intern"}, you will:</p>
                 <BulletList items={o.highlights} />
+              </div>
+            )}
+
+            {(o.host_organization || o.purpose || o.learning_goals.length > 0 || o.tasks.length > 0 || o.supervision || o.timing || o.practical_arrangements || o.capacity || o.costs || o.learning_focus) && (
+              <div className="border-t border-[var(--border)] pt-8">
+                <SectionHeading>About this opportunity</SectionHeading>
+                <dl className="mt-4 max-w-[var(--measure)] space-y-4 text-[1.02rem] leading-relaxed text-[var(--ink-soft)]">
+                  {o.host_organization && (
+                    <div>
+                      <dt className="font-medium text-[var(--ink)]">Host</dt>
+                      <dd>{o.host_organization}</dd>
+                    </div>
+                  )}
+                  {o.purpose && (
+                    <div>
+                      <dt className="font-medium text-[var(--ink)]">Purpose</dt>
+                      <dd>{o.purpose}</dd>
+                    </div>
+                  )}
+                  {o.learning_focus && (
+                    <div>
+                      <dt className="font-medium text-[var(--ink)]">Learning focus</dt>
+                      <dd>{o.learning_focus}</dd>
+                    </div>
+                  )}
+                  {o.learning_goals.length > 0 && (
+                    <div>
+                      <dt className="font-medium text-[var(--ink)]">Learning goals</dt>
+                      <dd><BulletList items={o.learning_goals} /></dd>
+                    </div>
+                  )}
+                  {o.tasks.length > 0 && (
+                    <div>
+                      <dt className="font-medium text-[var(--ink)]">Main tasks and expected outputs</dt>
+                      <dd><BulletList items={o.tasks} /></dd>
+                    </div>
+                  )}
+                  {o.eligibility && (
+                    <div>
+                      <dt className="font-medium text-[var(--ink)]">Who can apply</dt>
+                      <dd>{o.eligibility}</dd>
+                    </div>
+                  )}
+                  {o.supervision && (
+                    <div>
+                      <dt className="font-medium text-[var(--ink)]">Supervision</dt>
+                      <dd>{o.supervision}</dd>
+                    </div>
+                  )}
+                  {o.timing && (
+                    <div>
+                      <dt className="font-medium text-[var(--ink)]">Timing</dt>
+                      <dd>{o.timing}</dd>
+                    </div>
+                  )}
+                  {o.capacity && (
+                    <div>
+                      <dt className="font-medium text-[var(--ink)]">Capacity</dt>
+                      <dd>{o.capacity}</dd>
+                    </div>
+                  )}
+                  {o.practical_arrangements && (
+                    <div>
+                      <dt className="font-medium text-[var(--ink)]">Practical arrangements</dt>
+                      <dd>{o.practical_arrangements}</dd>
+                    </div>
+                  )}
+                  {o.costs && (
+                    <div>
+                      <dt className="font-medium text-[var(--ink)]">Costs and support</dt>
+                      <dd>{o.costs}</dd>
+                    </div>
+                  )}
+                  {o.application_requirements && (
+                    <div>
+                      <dt className="font-medium text-[var(--ink)]">Application requirements</dt>
+                      <dd>{o.application_requirements}</dd>
+                    </div>
+                  )}
+                </dl>
               </div>
             )}
 
@@ -129,11 +209,22 @@ export default async function OpportunityDetailPage({
                 <p className="mt-1 text-[0.95rem] italic text-[var(--ink-soft)]">{o.duration}</p>
               </div>
               <div className="mt-6 text-center">
+                <h3 className="text-lg text-[var(--accent-700)]">Availability</h3>
+                <p className="mt-1 text-[0.95rem] italic text-[var(--ink-soft)]">
+                  {o.availability_status === "planned" ? "Planned — dates being confirmed" : o.availability_status === "paused" ? "Paused" : "Open"}
+                </p>
+                {o.last_confirmed_at && (
+                  <p className="mt-1 text-[0.78rem] text-[var(--muted)]">
+                    Last confirmed {new Date(o.last_confirmed_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
+                  </p>
+                )}
+              </div>
+              <div className="mt-6 text-center">
                 <Link
-                  href="/programs/global-learning-exchange"
+                  href={`/apply?opportunity=${o.slug}`}
                   className="inline-flex items-center justify-center rounded-[var(--radius-full)] bg-[var(--accent-600)] px-7 py-3 font-medium text-white transition-colors hover:bg-[var(--accent-700)]"
                 >
-                  Volunteer or Intern
+                  Apply or enquire
                 </Link>
               </div>
             </div>
@@ -157,13 +248,13 @@ export default async function OpportunityDetailPage({
       <section className="py-12 md:py-16">
         <div className="container-page flex flex-col items-center gap-4 text-center">
           <Link
-            href="/programs/global-learning-exchange"
+            href={`/apply?opportunity=${o.slug}`}
             className="inline-flex items-center justify-center rounded-[var(--radius-full)] bg-[var(--accent-600)] px-8 py-3.5 text-base font-medium text-white transition-colors hover:bg-[var(--accent-700)]"
           >
-            Volunteer or Intern
+            Apply or enquire
           </Link>
           <Link href={backHref} className="text-[0.9rem] text-[var(--accent-700)] hover:underline">
-            ← Back to all {isVolunteer ? "volunteer" : "internship"} opportunities
+            ← Back to all opportunities
           </Link>
         </div>
       </section>

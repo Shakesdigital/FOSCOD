@@ -31,11 +31,12 @@ export function ProjectArchiveGrid({
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Sync URL query params with filter changes
+  // Sync URL query params with filter changes (browser only)
   const handleFilterChange = (next: ProjectArchiveFilterValue) => {
     setFilter(next);
     setCurrentPage(1);
 
+    if (typeof window === "undefined") return;
     const params = new URLSearchParams();
     if (next.program !== "ALL") params.set("program", next.program);
     if (next.theme) params.set("theme", next.theme);

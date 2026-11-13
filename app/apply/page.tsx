@@ -1,257 +1,146 @@
 import { HeroSlider } from "@/components/site/HeroSlider";
-import { ProgramDatesTable, Steps, FeatureGrid, TestimonialCarousel } from "@/components/site/blocks";
-import { SubmitForm, type Field } from "@/components/forms/SubmitForm";
+import { Steps } from "@/components/site/blocks";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Button } from "@/components/ui/Button";
 import { pageMeta } from "@/lib/seo";
-import { getHeroSlides, getProgramDates, getAlumniExperiences } from "@/lib/content";
+import { getHeroSlides, getGlePathways, getGleDevelopmentSectors, getGleEngagementApproaches, getGleParticipationFormats, type GleDevelopmentSector } from "@/lib/content";
+import { getOpportunities } from "@/lib/opportunities";
+import UnifiedApplicationForm, { type WizardSector } from "@/components/forms/UnifiedApplicationForm";
 
 export const metadata = pageMeta(
-  "Apply to Join FOSCOD",
-  "Start your internship or volunteer journey in Uganda. Choose the pathway that fits your goals, timeline, and field interests."
+  "Plan your experience / Apply",
+  "Plan your GLE experience with FOSCOD: apply for an internship, volunteering placement, group project, service-learning trip or study tour, request placement guidance, or enquire as a group or trip coordinator."
 );
 
-const steps = [
-  { title: "Choose program type", body: "Internship, volunteer, group, or research." },
-  { title: "Submit application", body: "Tell us your goals and field interests." },
-  { title: "Review & matching", body: "FOSCOD reviews and matches your placement." },
-  { title: "Confirmation & deposit", body: "Secure your place." },
-  { title: "Pre-departure prep", body: "Logistics, health, and safety support." },
-  { title: "Arrival & orientation", body: "Local orientation and your placement begins." },
+// Maps ?type= slugs (from GLE page CTAs) to wizard experience-type rows.
+const TYPE_ALIASES: Record<string, string> = {
+  "group-project": "Group Project Placement",
+  "coordinated-group": "Coordinated Group Placement",
+  "service-learning-trip": "Service-Learning Trip",
+  "study-tour": "Study Tour Program",
+};
+
+const planningSteps = [
+  { title: "Share your interest", body: "Choose an experience type, thematic interests and participation format — or ask for guidance if you're unsure." },
+  { title: "Collaborative matching", body: "FOSCOD reviews your interest against community priorities, partner availability and supervision capacity." },
+  { title: "Placement planning", body: "Together we agree activities, learning objectives, responsibilities, supervision, outputs and ethical requirements." },
+  { title: "Prepare & arrive", body: "Orientation, cultural preparation and logistics are confirmed in writing before your placement begins." },
 ];
 
-const inquiryFields: Field[] = [
-  { name: "name", label: "Name", required: true },
-  { name: "email", label: "Email", type: "email", required: true },
-  { name: "message", label: "Message", type: "textarea", required: true },
-];
-
-const whyParticipateCards = [
-  {
-    title: "Hands-on Learning",
-    excerpt:
-      "Work directly with FOSCOD and local partners on real, field-based projects in clean energy, WASH, livelihoods, health, and the environment.",
-  },
-  {
-    title: "Community Development Skills",
-    excerpt:
-      "Learn needs assessment, project design, implementation, and ethical leadership from staff and community mentors who live this work.",
-  },
-  {
-    title: "Cross-cultural Immersion",
-    excerpt:
-      "A host-family experience and structured cultural preparation that builds genuine understanding and lasting global connections.",
-  },
-  {
-    title: "Personal and Professional Growth",
-    excerpt:
-      "Build project management, communication, adaptability, and intercultural competency that transfer to any career path.",
-  },
-  {
-    title: "Retreat and Excursions",
-    excerpt:
-      "Reflective debrief sessions, supervised site visits, and guided excursions to Uganda's landscapes and cultural sites.",
-  },
-  {
-    title: "Certificate Awards",
-    excerpt:
-      "A completion certificate from FOSCOD and a documented handover record you can use for academic credit or professional portfolios.",
-  },
-];
-
-const programStartDates = [
-  {
-    cohort: "Winter 2027",
-    period: "January – March 2027",
-    volunteer: "January 15, 2027",
-    internship: "January 15, 2027",
-    groupServiceTrip: "February 10, 2027",
-  },
-  {
-    cohort: "Spring 2027",
-    period: "April – June 2027",
-    volunteer: "April 6, 2027",
-    internship: "April 6, 2027",
-    groupServiceTrip: "May 5, 2027",
-  },
-  {
-    cohort: "Summer 2027",
-    period: "July – August 2027",
-    volunteer: "July 12, 2027",
-    internship: "July 12, 2027",
-    groupServiceTrip: "August 14, 2027",
-  },
-  {
-    cohort: "Fall 2027",
-    period: "September – November 2027",
-    volunteer: "September 13, 2027",
-    internship: "September 13, 2027",
-    groupServiceTrip: "October 18, 2027",
-  },
-];
-
-export default async function ApplyPage() {
-  const [heroSlides, dates, alumni] = await Promise.all([
+export default async function ApplyPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const [heroSlides, experienceTypes, sectors, approaches, formats, opportunities, params] = await Promise.all([
     getHeroSlides("apply"),
-    getProgramDates(),
-    getAlumniExperiences(),
+    getGlePathways(),
+    getGleDevelopmentSectors(),
+    getGleEngagementApproaches(),
+    getGleParticipationFormats(),
+    getOpportunities(),
+    searchParams,
   ]);
+
+  const typeParam = typeof params.type === "string" ? params.type : undefined;
+  const opportunityParam = typeof params.opportunity === "string" ? params.opportunity : undefined;
+
+  const prefillExperienceType = typeParam
+    ? (TYPE_ALIASES[typeParam] ?? experienceTypes.find((t) => t.title === typeParam)?.title)
+    : undefined;
+
+  const wizardSectors: WizardSector[] = sectors.map((s: GleDevelopmentSector) => ({
+    slug: s.slug,
+    label: s.title,
+    category: s.category ?? "partner",
+  }));
 
   return (
     <>
       <HeroSlider slides={heroSlides} />
 
-      {/* intro — mint (swapped) */}
-      <section className="bg-[var(--surface-2)] py-12 md:py-16">
-        <div className="container-page mx-auto max-w-2xl text-center">
-          <Eyebrow>How to apply</Eyebrow>
-          <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">Your journey starts here</h2>
-          <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
-            Choose the pathway that fits your goals, timeline, and field interests —
-            then send us your application and our team will be in touch.
+      {/* 1. Plan your experience */}
+      <section className="bg-[var(--surface-2)] py-14 md:py-20">
+        <div className="container-page">
+          <div className="mx-auto max-w-2xl text-center">
+            <Eyebrow>Plan your experience</Eyebrow>
+            <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">From interest to a confirmed placement</h2>
+            <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
+              One short application flow for internships, volunteering, group placements, service-learning trips
+              and study tours — with a placement-guidance option if you&apos;re not sure which program or
+              approach suits your objectives.
+            </p>
+          </div>
+          <div className="mt-10">
+            <Steps steps={planningSteps} />
+          </div>
+          <p className="mx-auto mt-8 max-w-2xl rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-5 text-center text-sm leading-relaxed text-[var(--ink-soft)]">
+            <strong>Please note:</strong> submitting an application or enquiry starts a matching process. It
+            does not guarantee acceptance or a particular host organization, project or research opportunity.
           </p>
         </div>
       </section>
 
-      {/* program dates — white (swapped) */}
-      <ProgramDatesTable
-        eyebrow="Program dates"
-        title="Upcoming intakes & partners"
-        intro="Indicative intakes and partner organisations — confirm exact dates with our team when you apply."
-        rows={dates}
-      />
-
-      {/* application procedure — mint (swapped) */}
-      <section className="bg-[var(--surface-2)] py-14 md:py-20">
+      {/* 2. The application form */}
+      <section id="apply-form" className="py-14 md:py-20">
         <div className="container-page">
-          <div className="mx-auto max-w-2xl text-center">
-            <Eyebrow>Application procedure</Eyebrow>
-            <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">From application to arrival</h2>
-          </div>
-          <div className="mt-10"><Steps steps={steps} /></div>
-        </div>
-      </section>
-
-      {/* program start dates — white */}
-      <section className="py-14 md:py-20">
-        <div className="container-page">
-          <div className="max-w-2xl">
-            <Eyebrow>Program start dates</Eyebrow>
-            <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">2027 intake schedule</h2>
-            <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
-              Indicative start dates for volunteering, internships, and global service
-              trips throughout 2027. Exact dates are confirmed with the current intake
-              brief — contact us to check availability and application deadlines.
-            </p>
-          </div>
-          <div className="mt-8 overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)]">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-[var(--accent-600)] text-white">
-                <tr>
-                  <th className="px-5 py-3 font-medium">Cohort</th>
-                  <th className="px-5 py-3 font-medium">Period</th>
-                  <th className="px-5 py-3 font-medium">Volunteer</th>
-                  <th className="px-5 py-3 font-medium">Internship</th>
-                  <th className="px-5 py-3 font-medium">Group Service Trip</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-[var(--border)]">
-                {programStartDates.map((row) => (
-                  <tr key={row.cohort} className="bg-[var(--surface)]">
-                    <td className="px-5 py-3 font-medium text-[var(--ink)]">{row.cohort}</td>
-                    <td className="px-5 py-3 text-[var(--muted)]">{row.period}</td>
-                    <td className="px-5 py-3 text-[var(--muted)]">{row.volunteer}</td>
-                    <td className="px-5 py-3 text-[var(--muted)]">{row.internship}</td>
-                    <td className="px-5 py-3 text-[var(--muted)]">{row.groupServiceTrip}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      {/* application form — white (swapped) */}
-      <section id="application-forms" className="py-14 md:py-20">
-        <div className="container-page">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-[clamp(1.7rem,3vw,2.3rem)]">Start your application</h2>
+          <div className="mx-auto mb-10 max-w-2xl text-center">
+            <Eyebrow>Apply or enquire</Eyebrow>
+            <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">Start your application</h2>
             <p className="mt-3 text-[var(--muted)]">
-              One unified form for all pathways — volunteering, internships, and
-              group service trips. You&rsquo;ll choose your program type within
-              the form, and it will adapt to show the fields that apply to you.
+              Your information is preserved between steps, and you can review everything before submitting.
             </p>
           </div>
-          <div className="mt-8 text-center">
-            <Button href="/apply/form" variant="primary" size="lg">
-              Volunteer or Intern
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* program fees — mint (swapped) */}
-      <section className="bg-[var(--surface-2)] py-14 md:py-20">
-        <div className="container-page mx-auto max-w-2xl text-center">
-          <Eyebrow>Program fees</Eyebrow>
-          <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">Transparent, all-inclusive fees</h2>
-          <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
-            Your program fee covers placement, supervision, accommodation or a host
-            family, orientation, and 24/7 local support — with a clear breakdown and
-            no hidden costs.
-          </p>
-          <div className="mt-7">
-            <Button href="/programs/program-fees" variant="secondary" size="md">More details</Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Why Participate in Internship and Volunteer Program — mint (swapped) */}
-      <section className="bg-[var(--surface-2)] py-16 md:py-24">
-        <div className="container-page">
-          <div className="mx-auto max-w-3xl text-center">
-            <Eyebrow>Why Participate in Internship and Volunteer Program</Eyebrow>
-            <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">A program built around real impact</h2>
-            <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
-              Every placement is tied to a genuine community priority, supervised by
-              FOSCOD staff and local mentors, supported by host families, and
-              concluded with a responsible handover.
-            </p>
-          </div>
-
-          <div className="mt-12">
-            <FeatureGrid
-              columns={3}
-              items={whyParticipateCards.map((c) => ({
-                title: c.title,
-                body: c.excerpt,
-              }))}
+          <div className="mx-auto max-w-4xl">
+            <UnifiedApplicationForm
+              experienceTypes={experienceTypes.map((t) => ({ slug: t.title, label: t.title }))}
+              sectors={wizardSectors}
+              approaches={approaches.map((a) => ({ slug: a.slug, label: a.title }))}
+              formats={formats.map((f) => ({ slug: f.slug, label: f.title }))}
+              opportunities={opportunities.map((o) => ({ slug: o.slug, label: o.title }))}
+              prefill={{
+                opportunity: opportunityParam,
+                experienceType: prefillExperienceType,
+                intent: typeParam === "guidance" ? "guidance" : (typeParam && typeParam.includes("group") ? "group" : null),
+              }}
             />
           </div>
         </div>
       </section>
 
-      {/* alumni experiences — mint (swapped); carousel with 3 cards per slide, loop */}
-      <TestimonialCarousel
-        eyebrow="Alumni experiences"
-        title="What our alumni say"
-        items={alumni}
-        cta={{ href: "/testimonials", label: "Read more reviews" }}
-        surface
-      />
+      {/* 3. Practical information */}
+      <section className="bg-[var(--surface-2)] py-14 md:py-20">
+        <div className="container-page">
+          <div className="mx-auto max-w-2xl text-center">
+            <Eyebrow>Practical information</Eyebrow>
+            <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">Fees, dates and arrangements</h2>
+            <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
+              Fees, inclusions, accommodation and cancellation terms are confirmed per opportunity in the
+              current intake brief — arrangements vary by host and placement type.
+            </p>
+            <div className="mt-7 flex flex-wrap justify-center gap-3">
+              <Button href="/programs/program-fees" variant="secondary">Fees & practical information</Button>
+              <Button href="/programs/refund-policy" variant="ghost">Cancellation & refund policy</Button>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      {/* application inquiry — white (swapped) */}
+      {/* 4. Guidance */}
       <section className="py-14 md:py-20">
         <div className="container-page">
           <div className="mx-auto max-w-2xl text-center">
-            <Eyebrow>Contact us</Eyebrow>
-            <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">Application inquiry form</h2>
+            <Eyebrow>Need guidance?</Eyebrow>
+            <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">Not sure which program suits you?</h2>
             <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
-              Not ready to apply yet? Send us a quick question and we&rsquo;ll help.
+              Choose &ldquo;request placement guidance&rdquo; as your experience type in the form above, or
+              contact FOSCOD directly — we will help you identify an appropriate program type, thematic area
+              and engagement approach before you commit.
             </p>
-          </div>
-          <div className="mx-auto mt-10 max-w-2xl">
-            <SubmitForm formType="contact" fields={inquiryFields} submitLabel="Send inquiry" />
+            <div className="mt-7 flex flex-wrap justify-center gap-3">
+              <Button href="/contact" variant="secondary">Contact FOSCOD</Button>
+              <Button href="/opportunities" variant="ghost">Browse the opportunities directory</Button>
+            </div>
           </div>
         </div>
       </section>

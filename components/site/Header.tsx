@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { primaryNav, site } from "@/lib/site";
+import { site, type NavItem } from "@/lib/site";
 
-
-export function Header() {
+export function Header({ items }: { items?: NavItem[] }) {
   const [open, setOpen] = useState(false);
   const [openGroup, setOpenGroup] = useState<string | null>(null);
+  const primaryNav = items ?? [];
 
 
   return (

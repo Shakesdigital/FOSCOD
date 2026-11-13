@@ -101,7 +101,7 @@ export function HowWeWork({
 /** SupportOurCause — the wireframe's recurring 3-way "ways to help" block. */
 export function SupportOurCause() {
   const cards = [
-    { title: "Volunteer", body: "Give your time and skills to community-led projects.", href: "/volunteer", label: "Learn more" },
+    { title: "Volunteer", body: "Give your time and skills to community-led projects.", href: "/programs/global-learning-exchange", label: "Learn more" },
     { title: "Partner with us", body: "Collaborate as a university, NGO, or funder.", href: "/partners", label: "Learn more" },
     { title: "Donate to a cause", body: "Fund WASH, clean energy, livelihoods, and more.", href: "/donate", label: "Learn more" },
   ];

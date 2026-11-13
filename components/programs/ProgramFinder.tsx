@@ -15,12 +15,12 @@ type Program = {
 };
 
 const programs: Program[] = [
-  { title: "WASH & Public Health Internship", type: "Internship", sector: "WASH", duration: "8 weeks", location: "Busoga", forWho: "Students", feeFrom: "TBC", href: "/internships" },
-  { title: "Renewable Energy Volunteer", type: "Volunteer", sector: "Renewable energy", duration: "4 weeks", location: "Mukono", forWho: "Professionals", feeFrom: "TBC", href: "/volunteer" },
+  { title: "WASH & Public Health Internship", type: "Internship", sector: "WASH", duration: "8 weeks", location: "Busoga", forWho: "Students", feeFrom: "TBC", href: "/opportunities" },
+  { title: "Renewable Energy Volunteer", type: "Volunteer", sector: "Renewable energy", duration: "4 weeks", location: "Mukono", forWho: "Professionals", feeFrom: "TBC", href: "/programs/global-learning-exchange" },
   { title: "Biochar & Climate Research", type: "Research", sector: "Climate", duration: "12 weeks", location: "Kalagala", forWho: "Researchers", feeFrom: "TBC", href: "/projects/biochar-uganda" },
-  { title: "University Cohort: Community Health", type: "Group", sector: "Health", duration: "10 weeks", location: "Buikwe", forWho: "University groups", feeFrom: "TBC", href: "/internships" },
-  { title: "Livelihoods & Enterprise Internship", type: "Internship", sector: "Livelihoods", duration: "8 weeks", location: "Buikwe", forWho: "Students", feeFrom: "TBC", href: "/internships" },
-  { title: "Communications & Storytelling", type: "Volunteer", sector: "Communications", duration: "4 weeks", location: "Jinja", forWho: "Professionals", feeFrom: "TBC", href: "/volunteer" },
+  { title: "University Cohort: Community Health", type: "Group", sector: "Health", duration: "10 weeks", location: "Buikwe", forWho: "University groups", feeFrom: "TBC", href: "/opportunities" },
+  { title: "Livelihoods & Enterprise Internship", type: "Internship", sector: "Livelihoods", duration: "8 weeks", location: "Buikwe", forWho: "Students", feeFrom: "TBC", href: "/opportunities" },
+  { title: "Communications & Storytelling", type: "Volunteer", sector: "Communications", duration: "4 weeks", location: "Jinja", forWho: "Professionals", feeFrom: "TBC", href: "/programs/global-learning-exchange" },
 ];
 
 const filters = {

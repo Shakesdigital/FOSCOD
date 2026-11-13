@@ -1,170 +1,225 @@
 "use client";
 
-import { useState } from "react";
-import { Field } from "./ApplicationForm";
-import { Button } from "@/components/ui/Button";
+import { useMemo, useState } from "react";
 
-/** UnifiedApplicationForm — a single dynamic form for all FOSCOD program types.
- *
- * After selecting a program type (Volunteer, Internship, Group Service Trip),
- * the form shows program-specific optional fields, then common fields for
- * personal details, accommodation, program preferences, motivation, health &
- * safety, references, and agreements.
+/** GLE application wizard — a short, adaptable flow:
+ *  Step 1  Your interest (experience type, classification, thematic
+ *          interests, engagement approach, participation format,
+ *          optional specific opportunity, learning focus for trips/tours)
+ *  Step 2  About you (adapts for individual vs group/trip coordinator)
+ *  Step 3  Practical details & motivation
+ *  Step 4  Review & submit (explains that submitting starts a matching
+ *          process and does not guarantee acceptance or a particular host)
  *
  * Submits to /api/submit with formType "application".
  */
 
-const programTypes = [
-  { value: "volunteer", label: "Volunteer" },
-  { value: "internship", label: "Internship" },
-  { value: "group-service-trip", label: "Group Service Trip" },
-];
+export type WizardOption = { slug: string; label: string };
+export type WizardSector = WizardOption & { category: "cedp" | "partner" };
 
-const gleSectors = [
-  "Clean Energy",
-  "WASH (Water, Sanitation & Hygiene)",
-  "Livelihoods & Economic Empowerment",
-  "Health & Community Wellbeing",
-  "Environment & Ecosystem Restoration",
-  "Research & Knowledge Exchange",
-  "Education & Capacity Building",
-  "Governance & Leadership",
-  "ICT, Media & Communications",
-];
+export type ApplicationWizardProps = {
+  experienceTypes: WizardOption[];
+  sectors: WizardSector[];
+  approaches: WizardOption[];
+  formats: WizardOption[];
+  opportunities: WizardOption[];
+  prefill?: {
+    opportunity?: string;
+    experienceType?: string;
+    intent?: "guidance" | "group" | null;
+  };
+};
 
-const cedpSubPrograms = [
-  "Green Skills & Renewable Energy Education",
-  "Clean Cooking & Health",
-  "Water, Sanitation & Hygiene (WASH)",
-  "Green Livelihoods & Economic Empowerment",
-  "Inclusive Leadership (Women, Youth & Climate)",
-  "Ecosystem Restoration & Carbon Offsets",
-];
+const EMPTY: Record<string, string> = {};
 
-const durations = [
-  "1-2 weeks",
-  "2-3 weeks",
-  "1 month",
-  "2 months",
-  "3-4 months",
-  "4-6 months",
-  "6-8 months",
-  "8-12 months",
-  "Flexible",
-];
+function TextInput({
+  id, label, required, type = "text", value, onChange, help,
+}: {
+  id: string; label: string; required?: boolean; type?: string;
+  value: string; onChange: (v: string) => void; help?: string;
+}) {
+  return (
+    <div>
+      <label htmlFor={id} className="block text-sm font-medium text-[var(--ink)]">
+        {label}
+        {required && <span className="ml-0.5 text-[var(--accent-600)]">*</span>}
+      </label>
+      <input
+        id={id}
+        type={type}
+        value={value}
+        required={required}
+        onChange={(e) => onChange(e.target.value)}
+        aria-describedby={help ? `${id}-help` : undefined}
+        className="mt-2 w-full rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--bg)] px-3.5 py-2.5 text-[0.95rem] outline-none focus:border-[var(--accent-600)]"
+      />
+      {help && <p id={`${id}-help`} className="mt-1 text-xs text-[var(--muted)]">{help}</p>}
+    </div>
+  );
+}
 
-/** Common fields shown to all applicants after program-type selection. */
-const commonFields: Field[] = [
-  // Personal details
-  { name: "firstName", label: "First name", required: true },
-  { name: "lastName", label: "Last name", required: true },
-  { name: "email", label: "Email address", type: "email", required: true },
-  { name: "phone", label: "Phone number", type: "tel", required: true },
-  { name: "dateOfBirth", label: "Date of birth", type: "date", required: true },
-  { name: "nationality", label: "Nationality", required: true },
-  { name: "countryOfResidence", label: "Country of residence", required: true },
-  { name: "passportNumber", label: "Passport number (if applicable)", required: false },
+function SelectInput({
+  id, label, required, value, onChange, options, placeholder = "Select…", help,
+}: {
+  id: string; label: string; required?: boolean; value: string;
+  onChange: (v: string) => void; options: WizardOption[] | string[]; placeholder?: string; help?: string;
+}) {
+  const opts: WizardOption[] = (options as (WizardOption | string)[]).map((o) =>
+    typeof o === "string" ? { slug: o, label: o } : o
+  );
+  return (
+    <div>
+      <label htmlFor={id} className="block text-sm font-medium text-[var(--ink)]">
+        {label}
+        {required && <span className="ml-0.5 text-[var(--accent-600)]">*</span>}
+      </label>
+      <select
+        id={id}
+        value={value}
+        required={required}
+        onChange={(e) => onChange(e.target.value)}
+        aria-describedby={help ? `${id}-help` : undefined}
+        className="mt-2 w-full rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--bg)] px-3.5 py-2.5 text-[0.95rem] outline-none focus:border-[var(--accent-600)]"
+      >
+        <option value="" disabled>{placeholder}</option>
+        {opts.map((o) => (
+          <option key={o.slug} value={o.slug}>{o.label}</option>
+        ))}
+      </select>
+      {help && <p id={`${id}-help`} className="mt-1 text-xs text-[var(--muted)]">{help}</p>}
+    </div>
+  );
+}
 
-  // Accommodation
-  { name: "accommodationPreference", label: "Preferred accommodation", required: true, type: "select", options: ["Host family", "Shared housing", "Single room", "I will arrange my own", "Other"] },
-  { name: "dietaryRequirements", label: "Dietary requirements or allergies", type: "textarea", required: false, full: true },
-  { name: "accessibilityNeeds", label: "Accessibility requirements", type: "textarea", required: false, full: true },
+function TextArea({
+  id, label, required, value, onChange, rows = 4, help,
+}: {
+  id: string; label: string; required?: boolean; value: string;
+  onChange: (v: string) => void; rows?: number; help?: string;
+}) {
+  return (
+    <div>
+      <label htmlFor={id} className="block text-sm font-medium text-[var(--ink)]">
+        {label}
+        {required && <span className="ml-0.5 text-[var(--accent-600)]">*</span>}
+      </label>
+      <textarea
+        id={id}
+        rows={rows}
+        value={value}
+        required={required}
+        onChange={(e) => onChange(e.target.value)}
+        aria-describedby={help ? `${id}-help` : undefined}
+        className="mt-2 w-full rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--bg)] px-3.5 py-2.5 text-[0.95rem] outline-none focus:border-[var(--accent-600)]"
+      />
+      {help && <p id={`${id}-help`} className="mt-1 text-xs text-[var(--muted)]">{help}</p>}
+    </div>
+  );
+}
 
-  // Program preferences
-  { name: "programArea", label: "Primary area of interest", required: true, type: "select", options: [...gleSectors, "Multiple areas", "Flexible (open to discussion)"] },
-  { name: "secondaryProgramArea", label: "Secondary area of interest (if multiple)", required: false, type: "select", options: [...gleSectors, ...cedpSubPrograms] },
-  { name: "preferredDuration", label: "Preferred duration", required: true, type: "select", options: durations },
-  { name: "availableStartDate", label: "Earliest start date", type: "date", required: true },
-  { name: "flexibleDates", label: "Are you flexible with dates?", required: true, type: "select", options: ["Yes", "No"] },
-  { name: "englishProficiency", label: "English proficiency", required: true, type: "select", options: ["Native", "Fluent", "Proficient", "Intermediate", "Basic"] },
-  { name: "otherLanguages", label: "Other languages spoken", type: "textarea", required: false, full: true },
+const GUIDANCE_OPTION: WizardOption = { slug: "guidance", label: "Not sure yet — request placement guidance" };
 
-  // Motivation
-  { name: "whyFoscod", label: "Why do you want to join FOSCOD?", type: "textarea", required: true, full: true },
-  { name: "motivationAndGoals", label: "What do you hope to give and learn?", type: "textarea", required: true, full: true },
-  { name: "experienceRelevant", label: "Relevant experience or skills", type: "textarea", required: false, full: true },
-
-  // Health & Safety
-  { name: "medicalConditions", label: "Medical conditions or allergies we should know about", type: "textarea", required: false, full: true },
-  { name: "emergencyContactName", label: "Emergency contact — Name", required: true },
-  { name: "emergencyContactPhone", label: "Emergency contact — Phone", type: "tel", required: true },
-  { name: "emergencyContactRelationship", label: "Emergency contact — Relationship", required: true },
-  { name: "emergencyContactEmail", label: "Emergency contact — Email", type: "email", required: false },
-  { name: "insuranceCoverage", label: "Do you have travel/health insurance?", required: true, type: "select", options: ["Yes", "No", "Planning to obtain"] },
-
-  // References
-  { name: "referee1Name", label: "Reference 1 — Name", required: true },
-  { name: "referee1Email", label: "Reference 1 — Email", type: "email", required: true },
-  { name: "referee1Phone", label: "Reference 1 — Phone", type: "tel", required: false },
-  { name: "referee1Relationship", label: "Reference 1 — Relationship", required: true },
-  { name: "referee2Name", label: "Reference 2 — Name", required: false },
-  { name: "referee2Email", label: "Reference 2 — Email", type: "email", required: false },
-  { name: "referee2Relationship", label: "Reference 2 — Relationship", required: false },
-
-  // Agreements
-  { name: "codeOfConductAgreement", label: "Do you agree to abide by FOSCOD's code of conduct and community guidelines?", required: true, type: "select", options: ["Yes, I agree"] },
-  { name: "photoStoryConsent", label: "Do you consent to FOSCOD using photos/videos taken during your program for promotional purposes?", required: true, type: "select", options: ["Yes", "No"] },
-  { name: "additionalComments", label: "Anything else we should know?", type: "textarea", required: false, full: true },
-];
-
-/** Group-specific fields shown only when "Group Service Trip" is selected. */
-const groupFields: Field[] = [
-  { name: "organizationName", label: "Organization / University name", required: true },
-  { name: "organizationType", label: "Organization type", required: true, type: "select", options: ["University", "College", "High school", "NGO / Non-profit", "Professional group", "Community group", "Other"] },
-  { name: "departmentOrFaculty", label: "Department / Faculty (if academic)", required: false },
-  { name: "groupSize", label: "Expected group size", type: "number", required: true },
-  { name: "participantAges", label: "Age range of participants", required: true, type: "select", options: ["18-21", "22-25", "26-35", "36-50", "Mixed / Other", "Specify in comments"] },
-  { name: "accompanyingStaff", label: "Number of accompanying staff/faculty", type: "number", required: true },
-  { name: "staffBios", label: "Brief bios of accompanying staff/faculty", type: "textarea", required: true, full: true },
-  { name: "academicCredit", label: "Is academic credit or recognition involved?", required: true, type: "select", options: ["Yes — academic credit", "Yes — other recognition", "No — personal enrichment", "Not sure"] },
-  { name: "learningOutcomes", label: "Intended learning outcomes / objectives", type: "textarea", required: true, full: true },
-  { name: "riskManagement", label: "How will your organization handle risk management?", type: "textarea", required: true, full: true },
-  { name: "travelInsurance", label: "Travel insurance responsibility", required: true, type: "select", options: ["Organization covers", "Participants arrange", "Shared cost", "Other"] },
-  { name: "institutionalRefereeName", label: "Institutional referee — Name", required: true },
-  { name: "institutionalRefereeTitle", label: "Institutional referee — Title", required: true },
-  { name: "institutionalRefereeEmail", label: "Institutional referee — Email", type: "email", required: true },
-  { name: "whyGroupFoscod", label: "Why do you want to bring your group to FOSCOD?", type: "textarea", required: true, full: true },
-];
-
-/** Internship-specific fields shown after program type selection. */
-const internshipFields: Field[] = [
-  { name: "academicStatus", label: "Current status", required: true, type: "select", options: ["Undergraduate student", "Graduate student", "Recent graduate", "Professional", "Other"] },
-  { name: "institution", label: "University / Institution", required: false },
-  { name: "fieldOfStudy", label: "Field of study", required: true },
-  { name: "graduationYear", label: "Expected graduation year", type: "number", required: false },
-];
-
-/** Volunteer-specific fields shown after program type selection. */
-const volunteerFields: Field[] = [
-  { name: "volunteerBackground", label: "Describe your relevant experience or skills", type: "textarea", required: true, full: true },
-  { name: "previousVolunteerIntl", label: "Have you volunteered or traveled internationally before?", type: "textarea", required: false, full: true },
-];
-
-export default function UnifiedApplicationForm() {
-  const [programType, setProgramType] = useState("");
+export default function UnifiedApplicationForm({
+  experienceTypes, sectors, approaches, formats, opportunities, prefill,
+}: ApplicationWizardProps) {
+  const [step, setStep] = useState(1);
+  const [values, setValues] = useState<Record<string, string>>(() => ({
+    ...(prefill?.opportunity ? { opportunity: prefill.opportunity } : {}),
+    ...(prefill?.experienceType ? { experienceType: prefill.experienceType } : {}),
+    ...(prefill?.intent === "guidance" ? { experienceType: "guidance" } : {}),
+    ...(prefill?.intent === "group" ? { groupEnquiry: "yes" } : {}),
+  }));
+  const [interests, setInterests] = useState<string[]>([]);
   const [state, setState] = useState<"idle" | "loading" | "done" | "error">("idle");
   const [message, setMessage] = useState("");
 
-  const showInternshipFields = programType === "internship";
-  const showVolunteerFields = programType === "volunteer";
-  const showGroupFields = programType === "group-service-trip";
+  const set = (k: string, v: string) => setValues((prev) => ({ ...prev, [k]: v }));
 
-  // Build the full field set dynamically
-  const allFields: Field[] = [
-    { name: "programType", label: "Program type", required: true, type: "select", options: programTypes.map((p) => p.label) },
-    { name: "gleSector", label: "GLE sector of interest", required: false, type: "select", options: [...gleSectors, "Multiple", "Not sure yet"] },
-    { name: "cedpSubProgram", label: "CEDP sub-program of interest", required: false, type: "select", options: [...cedpSubPrograms, "Multiple", "Not sure yet"] },
-    ...(showInternshipFields ? internshipFields : []),
-    ...(showVolunteerFields ? volunteerFields : []),
-    ...(showGroupFields ? groupFields : []),
-    ...commonFields,
-  ];
+  const experienceType = values.experienceType ?? "";
+  const isGuidance = experienceType === "guidance";
+  const isTripOrTour = experienceType === "service-learning-trip" || experienceType === "study-tour";
+  const isGroupish =
+    isTripOrTour ||
+    experienceType === "group-project" ||
+    experienceType === "coordinated-group" ||
+    values.groupEnquiry === "yes";
+
+  const classificationOptions = useMemo(() => {
+    if (isTripOrTour) return [{ slug: "not-applicable", label: "Not an internship/volunteering classification" }];
+    return [
+      { slug: "internship", label: "Internship" },
+      { slug: "volunteer", label: "Volunteering" },
+      { slug: "either", label: "Open to either internship or volunteering" },
+      { slug: "not-applicable", label: "Not applicable" },
+    ];
+  }, [isTripOrTour]);
+
+  const opportunityTitle = opportunities.find((o) => o.slug === values.opportunity)?.label ?? values.opportunity;
+  const experienceTitle = (isGuidance ? GUIDANCE_OPTION.label : experienceTypes.find((t) => t.slug === experienceType)?.label) ?? experienceType;
+
+  function validateStep(s: number): string | null {
+    const need = (k: string, label: string) =>
+      !values[k]?.trim() ? `${label} is required.` : null;
+    if (s === 1) {
+      if (!experienceType) return "Choose an experience type (or request guidance).";
+      if (!isGuidance && !isTripOrTour && !values.classification) return "Choose an internship/volunteering classification.";
+      if (isTripOrTour && !values.learningObjectives?.trim()) return "Learning objectives are required for trips and tours.";
+      return null;
+    }
+    if (s === 2) {
+      for (const [k, label] of [
+        ["firstName", "First name"], ["lastName", "Last name"],
+        ["email", "Email address"], ["phone", "Phone number"],
+      ] as const) {
+        const err = need(k, label);
+        if (err) return err;
+      }
+      if (isGroupish) {
+        for (const [k, label] of [
+          ["organizationName", "Organization / institution"], ["groupSize", "Expected group size"],
+        ] as const) {
+          const err = need(k, label);
+          if (err) return err;
+        }
+      }
+      return null;
+    }
+    if (s === 3) {
+      for (const [k, label] of [
+        ["preferredDuration", "Preferred duration"], ["availableStartDate", "Earliest start date"],
+        ["motivation", "What do you hope to give and learn?"],
+        ["emergencyContactName", "Emergency contact name"], ["emergencyContactPhone", "Emergency contact phone"],
+      ] as const) {
+        const err = need(k, label);
+        if (err) return err;
+      }
+      if (!values.codeOfConductAgreement) return "Please agree to the code of conduct to continue.";
+      return null;
+    }
+    return null;
+  }
+
+  function next() {
+    const err = validateStep(step);
+    if (err) { setMessage(err); return; }
+    setMessage("");
+    setStep((s) => Math.min(4, s + 1));
+    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function back() {
+    setMessage("");
+    setStep((s) => Math.max(1, s - 1));
+    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+  }
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setState("loading");
-    const form = new FormData(e.currentTarget);
-    const payload = Object.fromEntries(form.entries());
+    const payload = {
+      ...values,
+      thematicInterests: interests,
+    };
     try {
       const res = await fetch("/api/submit", {
         method: "POST",
@@ -177,161 +232,340 @@ export default function UnifiedApplicationForm() {
         setMessage("");
       } else {
         setState("error");
-        setMessage(data.error ?? "Something went wrong.");
+        setMessage(data.error ?? "Something went wrong — your application was not saved. Please try again.");
       }
     } catch {
       setState("error");
-      setMessage("Network error — please try again.");
+      setMessage("Network error — please try again. Your information has not been sent.");
     }
   }
 
   if (state === "done") {
     return (
-      <div className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-8 text-center">
+      <div className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-8 text-center" role="status">
         <p className="text-3xl text-[var(--success)]">✓</p>
         <h3 className="mt-3 text-xl font-medium text-[var(--ink)]">
           Thank you — your application has been received.
         </h3>
         <p className="mt-2 text-[var(--muted)]">
-          The FOSCOD team will review your details and be in touch within 5 business
-          days. We&rsquo;ll confirm next steps, program fees, and the current intake
-          brief for your preferred cohort.
+          Your submission starts a matching process: the FOSCOD team reviews your interest, thematic areas and
+          learning objectives against community priorities, partner availability and supervision capacity.
+          Matching takes time and does not guarantee acceptance or a particular host organization — we will be
+          in touch about next steps.
         </p>
       </div>
     );
   }
 
+  const reviewRows: [string, string][] = ([
+    ["Experience type", isGuidance ? "Guidance requested" : experienceTitle],
+    ["Classification", values.classification === "not-applicable" ? "Not applicable" : (values.classification ? String(values.classification) : "")],
+    ["Thematic interests", interests.map((s) => sectors.find((x) => x.slug === s)?.label ?? s).join(", ")],
+    ["Engagement approach", approaches.find((a) => a.slug === values.engagementApproach)?.label ?? (isTripOrTour ? "Learning focus (see objectives)" : "")],
+    ["Participation format", formats.find((f) => f.slug === values.participationFormat)?.label ?? ""],
+    ["Specific opportunity", opportunityTitle ?? ""],
+    ["Learning focus / objectives", [values.learningFocus, values.learningObjectives].filter(Boolean).join(" — ")],
+    ["Name", `${values.firstName ?? ""} ${values.lastName ?? ""}`.trim()],
+    ["Contact", [values.email, values.phone].filter(Boolean).join(" · ")],
+    ["Country of residence", values.countryOfResidence ?? ""],
+    ["Organization / institution", isGroupish ? `${values.organizationName ?? ""}${values.organizationType ? ` (${values.organizationType})` : ""}` : (values.institution ?? "")],
+    ["Group size", isGroupish ? (values.groupSize ?? "") : ""],
+    ["Preferred duration", values.preferredDuration ?? ""],
+    ["Earliest start date", values.availableStartDate ?? ""],
+    ["Accommodation preference", values.accommodationPreference ?? ""],
+    ["What do you hope to give and learn?", values.motivation ?? ""],
+    ["Emergency contact", values.emergencyContactName ? `${values.emergencyContactName} (${values.emergencyContactPhone ?? ""})` : ""],
+  ] as [string, string][]).filter(([, v]) => v && v.trim() !== "");
+
   return (
     <form
       onSubmit={onSubmit}
-      className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-6 md:p-8"
+      className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-6 md:p-10"
+      noValidate
     >
-      {/* honeypot */}
-      <input
-        type="text"
-        name="company_website"
-        tabIndex={-1}
-        autoComplete="off"
-        className="absolute left-[-9999px]"
-        aria-hidden
-      />
+      <input type="text" name="company_website" tabIndex={-1} autoComplete="off" className="absolute left-[-9999px]" aria-hidden />
 
-      {/* Program type selector — always shown at the top */}
-      {!programType ? (
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-[clamp(1.4rem,2.6vw,2rem)]">Which program are you interested in?</h2>
-          <p className="mt-3 text-[var(--muted)]">
-            Select the program type that best matches your interests. You can always
-            adjust this later if your plans change.
+      {/* progress */}
+      <ol className="mb-8 flex flex-wrap gap-x-2 gap-y-1 text-[0.78rem] font-[family-name:var(--font-text)] uppercase tracking-[0.1em] text-[var(--muted)]" aria-label="Application steps">
+        {["Your interest", "About you", "Practical details", "Review & submit"].map((label, i) => (
+          <li key={label} className={i + 1 === step ? "font-semibold text-[var(--accent-700)]" : undefined}>
+            {i + 1 > 1 && <span className="mx-1.5">→</span>}
+            <span aria-current={i + 1 === step ? "step" : undefined}>
+              {i + 1}. {label}
+            </span>
+          </li>
+        ))}
+      </ol>
+
+      {/* ---------- STEP 1 ---------- */}
+      {step === 1 && (
+        <div className="space-y-6">
+          <h2 className="text-[clamp(1.3rem,2.4vw,1.7rem)]">Your interest</h2>
+          <p className="text-sm leading-relaxed text-[var(--muted)]">
+            Your selections inform placement discussions — they do not automatically confirm a specific host,
+            project or research opportunity.
           </p>
-          <div className="mt-8 grid gap-4">
-            {programTypes.map((p) => (
-              <button
-                key={p.value}
-                type="button"
-                onClick={() => setProgramType(p.value)}
-                className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-2)] p-5 text-left transition-all hover:border-[var(--accent-500)] hover:bg-[var(--accent-50)]"
-              >
-                <span className="font-medium text-[var(--ink)]">{p.label}</span>
-                <p className="mt-1 text-sm text-[var(--muted)]">
-                  {p.value === "volunteer"
-                    ? "Give your time and skills to community-led projects with full local support."
-                    : p.value === "internship"
-                      ? "Supervised, credit-friendly field experience in your area of study or career."
-                      : "Faculty-led group programs and service trips with risk management built in."}
-                </p>
-              </button>
-            ))}
-          </div>
-          <p className="mt-6 text-xs text-[var(--muted)]">
-            Already have a program type in mind? It will be saved as the first field
-            in your form below.
-          </p>
-        </div>
-      ) : (
-        <>
-          {/* Hidden input to capture the selected program type */}
-          <input type="hidden" name="programType" value={programType} />
-
-          <div className="mb-6 flex items-center justify-between">
-            <div>
-              <span className="font-[family-name:var(--font-text)] text-[0.65rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
-                Program type: {programTypes.find((p) => p.value === programType)?.label}
-              </span>
-            </div>
-            <button
-              type="button"
-              onClick={() => setProgramType("")}
-              className="text-sm text-[var(--accent-700)] hover:underline"
-            >
-              Change program type
-            </button>
-          </div>
-
           <div className="grid gap-5 sm:grid-cols-2">
-            {allFields.map((f) => {
-              const isFull = f.full || f.type === "textarea";
-              return (
-                <div key={f.name} className={isFull ? "sm:col-span-2" : ""}>
-                  <label
-                    htmlFor={f.name}
-                    className="block text-sm font-medium text-[var(--ink)]"
-                  >
-                    {f.label}
-                    {f.required && <span className="ml-0.5 text-[var(--accent-600)]">*</span>}
-                  </label>
-                  {f.type === "textarea" ? (
-                    <textarea
-                      id={f.name}
-                      name={f.name}
-                      required={f.required}
-                      rows={4}
-                      className="mt-2 w-full rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--bg)] px-3.5 py-2.5 text-[0.95rem] outline-none focus:border-[var(--accent-600)]"
-                    />
-                  ) : f.type === "select" ? (
-                    <select
-                      id={f.name}
-                      name={f.name}
-                      required={f.required}
-                      defaultValue=""
-                      className="mt-2 w-full rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--bg)] px-3.5 py-2.5 text-[0.95rem] outline-none focus:border-[var(--accent-600)]"
-                    >
-                      <option value="" disabled>
-                        Select…
-                      </option>
-                      {f.options?.map((o) => (
-                        <option key={o} value={o}>
-                          {o}
-                        </option>
-                      ))}
-                    </select>
-                  ) : (
-                    <input
-                      id={f.name}
-                      name={f.name}
-                      type={f.type ?? "text"}
-                      required={f.required}
-                      className="mt-2 w-full rounded-[var(--radius-md)] border border-[var(--border-strong)] bg-[var(--bg)] px-3.5 py-2.5 text-[0.95rem] outline-none focus:border-[var(--accent-600)]"
-                    />
-                  )}
-                </div>
-              );
-            })}
+            <SelectInput
+              id="experienceType" label="Experience type" required
+              value={experienceType} onChange={(v) => set("experienceType", v)}
+              options={[...experienceTypes, GUIDANCE_OPTION]}
+            />
+            {!isTripOrTour && !isGuidance && (
+              <SelectInput
+                id="classification" label="Internship / volunteering classification" required
+                value={values.classification ?? ""} onChange={(v) => set("classification", v)}
+                options={classificationOptions}
+                placeholder="Select classification…"
+              />
+            )}
           </div>
 
-          {state === "error" && (
-            <p className="mt-4 text-sm text-[var(--error)]">{message}</p>
+          {isTripOrTour && (
+            <div className="space-y-5 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-2)] p-5">
+              <TextArea
+                id="learningObjectives" label="Learning objectives for this trip or tour" required
+                value={values.learningObjectives ?? ""} onChange={(v) => set("learningObjectives", v)}
+                help="What should participants learn or achieve? FOSCOD uses these to co-design the experience with your institution and local partners."
+              />
+              <TextInput
+                id="learningFocus" label="Preferred learning focus (optional)"
+                value={values.learningFocus ?? ""} onChange={(v) => set("learningFocus", v)}
+                help="e.g. community development practice, participatory research exposure, cultural exchange"
+              />
+            </div>
           )}
 
+          <fieldset>
+            <legend className="text-sm font-medium text-[var(--ink)]">
+              Thematic interests <span className="text-[var(--muted)]">(choose any that apply)</span>
+            </legend>
+            <div className="mt-3 grid gap-x-6 gap-y-2 sm:grid-cols-2">
+              {sectors.filter((s) => s.category === "cedp").map((s) => (
+                <label key={s.slug} className="flex items-start gap-2 text-[0.92rem]">
+                  <input
+                    type="checkbox"
+                    checked={interests.includes(s.slug)}
+                    onChange={(e) =>
+                      setInterests((prev) => (e.target.checked ? [...prev, s.slug] : prev.filter((x) => x !== s.slug)))
+                    }
+                    className="mt-1"
+                  />
+                  <span>
+                    {s.label}
+                    <span className="ml-1 text-[0.72rem] uppercase tracking-wide text-[var(--accent-700)]">CEDP</span>
+                  </span>
+                </label>
+              ))}
+              {sectors.filter((s) => s.category !== "cedp").map((s) => (
+                <label key={s.slug} className="flex items-start gap-2 text-[0.92rem]">
+                  <input
+                    type="checkbox"
+                    checked={interests.includes(s.slug)}
+                    onChange={(e) =>
+                      setInterests((prev) => (e.target.checked ? [...prev, s.slug] : prev.filter((x) => x !== s.slug)))
+                    }
+                    className="mt-1"
+                  />
+                  <span>{s.label}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          {!isTripOrTour && (
+            <div className="grid gap-5 sm:grid-cols-2">
+              <SelectInput
+                id="engagementApproach" label="Engagement approach (complementary emphases)"
+                value={values.engagementApproach ?? ""} onChange={(v) => set("engagementApproach", v)}
+                options={[...approaches, { slug: "not-sure", label: "Not sure — open to discussion" }]}
+                placeholder="Select approach…"
+              />
+              <SelectInput
+                id="participationFormat" label="Participation format"
+                value={values.participationFormat ?? ""} onChange={(v) => set("participationFormat", v)}
+                options={formats}
+              />
+            </div>
+          )}
+
+          <SelectInput
+            id="opportunity" label="Specific opportunity (optional)"
+            value={values.opportunity ?? ""} onChange={(v) => set("opportunity", v)}
+            options={[{ slug: "", label: "No specific opening — general interest" }, ...opportunities]}
+            placeholder="Select an opening…"
+            help="Leave empty to express interest without selecting a specific opening."
+          />
+        </div>
+      )}
+
+      {/* ---------- STEP 2 ---------- */}
+      {step === 2 && (
+        <div className="space-y-6">
+          <h2 className="text-[clamp(1.3rem,2.4vw,1.7rem)]">About you</h2>
+          <div className="grid gap-5 sm:grid-cols-2">
+            <TextInput id="firstName" label="First name" required value={values.firstName ?? ""} onChange={(v) => set("firstName", v)} />
+            <TextInput id="lastName" label="Last name" required value={values.lastName ?? ""} onChange={(v) => set("lastName", v)} />
+            <TextInput id="email" label="Email address" type="email" required value={values.email ?? ""} onChange={(v) => set("email", v)} />
+            <TextInput id="phone" label="Phone number (incl. country code)" type="tel" required value={values.phone ?? ""} onChange={(v) => set("phone", v)} />
+            <TextInput id="nationality" label="Nationality" value={values.nationality ?? ""} onChange={(v) => set("nationality", v)} />
+            <TextInput id="countryOfResidence" label="Country of residence" required value={values.countryOfResidence ?? ""} onChange={(v) => set("countryOfResidence", v)} />
+          </div>
+
+          {isGroupish ? (
+            <div className="space-y-5 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-2)] p-5">
+              <p className="text-sm font-medium">Group / institution / trip coordinator details</p>
+              <div className="grid gap-5 sm:grid-cols-2">
+                <TextInput id="organizationName" label="Organization / institution" required value={values.organizationName ?? ""} onChange={(v) => set("organizationName", v)} />
+                <SelectInput
+                  id="organizationType" label="Organization type"
+                  value={values.organizationType ?? ""} onChange={(v) => set("organizationType", v)}
+                  options={["University", "College", "High school", "NGO / Non-profit", "Professional group", "Community group", "Other"]}
+                />
+                <TextInput id="groupSize" label="Expected group size" type="number" required value={values.groupSize ?? ""} onChange={(v) => set("groupSize", v)} />
+                <TextInput id="accompanyingStaff" label="Accompanying staff / faculty (number)" type="number" value={values.accompanyingStaff ?? ""} onChange={(v) => set("accompanyingStaff", v)} />
+                <TextInput id="institutionalRefereeName" label="Institutional referee — name" value={values.institutionalRefereeName ?? ""} onChange={(v) => set("institutionalRefereeName", v)} />
+                <TextInput id="institutionalRefereeEmail" label="Institutional referee — email" type="email" value={values.institutionalRefereeEmail ?? ""} onChange={(v) => set("institutionalRefereeEmail", v)} />
+              </div>
+              <TextArea
+                id="academicContext" label="Academic credit or recognition involved? (optional)"
+                value={values.academicContext ?? ""} onChange={(v) => set("academicContext", v)}
+                help="e.g. course credit arranged by the home institution — the home institution remains responsible for approving credit."
+              />
+            </div>
+          ) : (
+            <div className="grid gap-5 sm:grid-cols-2">
+              <SelectInput
+                id="academicStatus" label="Current status"
+                value={values.academicStatus ?? ""} onChange={(v) => set("academicStatus", v)}
+                options={["Undergraduate student", "Graduate student", "Recent graduate", "Professional", "Other"]}
+                placeholder="Select status…"
+              />
+              <TextInput id="institution" label="University / institution (if applicable)" value={values.institution ?? ""} onChange={(v) => set("institution", v)} />
+              <TextInput id="fieldOfStudy" label="Field of study / profession" value={values.fieldOfStudy ?? ""} onChange={(v) => set("fieldOfStudy", v)} />
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ---------- STEP 3 ---------- */}
+      {step === 3 && (
+        <div className="space-y-6">
+          <h2 className="text-[clamp(1.3rem,2.4vw,1.7rem)]">Practical details & motivation</h2>
+          <div className="grid gap-5 sm:grid-cols-2">
+            <SelectInput
+              id="preferredDuration" label="Preferred duration" required
+              value={values.preferredDuration ?? ""} onChange={(v) => set("preferredDuration", v)}
+              options={["1-2 weeks", "2-3 weeks", "3-4 weeks", "1-2 months", "2-4 months", "4-6 months", "6-12 months", "Flexible"]}
+              placeholder="Select duration…"
+            />
+            <TextInput id="availableStartDate" label="Earliest start date" type="date" required value={values.availableStartDate ?? ""} onChange={(v) => set("availableStartDate", v)} />
+            <SelectInput
+              id="accommodationPreference" label="Accommodation preference"
+              value={values.accommodationPreference ?? ""} onChange={(v) => set("accommodationPreference", v)}
+              options={["Host family", "Shared housing", "Single room", "I will arrange my own", "Other — specify in notes"]}
+              placeholder="Select preference…"
+            />
+            <SelectInput
+              id="insurance" label="Travel / health insurance"
+              value={values.insurance ?? ""} onChange={(v) => set("insurance", v)}
+              options={["Yes", "Planning to obtain", "Not yet"]}
+              placeholder="Select…"
+            />
+          </div>
+          <TextArea id="motivation" label="What do you hope to give and learn?" required value={values.motivation ?? ""} onChange={(v) => set("motivation", v)} />
+          <TextArea id="relevantExperience" label="Relevant experience or skills (optional)" value={values.relevantExperience ?? ""} onChange={(v) => set("relevantExperience", v)} />
+          <TextArea id="dietaryAccessibility" label="Dietary requirements, allergies or accessibility needs (optional)" value={values.dietaryAccessibility ?? ""} onChange={(v) => set("dietaryAccessibility", v)} />
+          <div className="grid gap-5 sm:grid-cols-2">
+            <TextInput id="emergencyContactName" label="Emergency contact — name" required value={values.emergencyContactName ?? ""} onChange={(v) => set("emergencyContactName", v)} />
+            <TextInput id="emergencyContactPhone" label="Emergency contact — phone" type="tel" required value={values.emergencyContactPhone ?? ""} onChange={(v) => set("emergencyContactPhone", v)} />
+          </div>
+          <div className="space-y-3">
+            <label className="flex items-start gap-2 text-[0.92rem]">
+              <input
+                type="checkbox"
+                checked={values.codeOfConductAgreement === "yes"}
+                onChange={(e) => set("codeOfConductAgreement", e.target.checked ? "yes" : "")}
+                className="mt-1"
+              />
+              <span>
+                I agree to abide by FOSCOD&apos;s code of conduct, safeguarding requirements and rules for
+                photography, stories and research data. <span className="text-[var(--accent-600)]">*</span>
+              </span>
+            </label>
+            <label className="flex items-start gap-2 text-[0.92rem]">
+              <input
+                type="checkbox"
+                checked={values.photoConsent === "yes"}
+                onChange={(e) => set("photoConsent", e.target.checked ? "yes" : "no")}
+                className="mt-1"
+              />
+              <span>I consent to FOSCOD using photos and video from my program for promotional purposes (optional).</span>
+            </label>
+          </div>
+          <TextArea id="additionalComments" label="Anything else we should know? (optional)" value={values.additionalComments ?? ""} onChange={(v) => set("additionalComments", v)} />
+        </div>
+      )}
+
+      {/* ---------- STEP 4 ---------- */}
+      {step === 4 && (
+        <div className="space-y-6">
+          <h2 className="text-[clamp(1.3rem,2.4vw,1.7rem)]">Review your application</h2>
+          <p className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-2)] p-4 text-sm leading-relaxed text-[var(--ink-soft)]">
+            <strong>What happens after you submit:</strong> your submission starts a matching process. FOSCOD
+            reviews your interest, thematic areas and learning objectives against community priorities, partner
+            availability and program requirements. Submitting does not guarantee acceptance or a particular host
+            organization — we will confirm next steps with you in writing.
+          </p>
+          <dl className="divide-y divide-[var(--border)] overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)]">
+            {reviewRows.map(([k, v]) => (
+              <div key={k} className="grid gap-1 p-4 sm:grid-cols-[220px_1fr] sm:gap-4">
+                <dt className="text-sm font-medium text-[var(--ink)]">{k}</dt>
+                <dd className="text-sm text-[var(--ink-soft)]">{v}</dd>
+              </div>
+            ))}
+          </dl>
+          <p className="text-sm text-[var(--muted)]">
+            Use the Back button to change anything — your information is preserved between steps.
+          </p>
+        </div>
+      )}
+
+      {message && (
+        <p className="mt-5 text-sm text-[var(--error)]" role="alert">{message}</p>
+      )}
+
+      {/* nav */}
+      <div className="mt-8 flex items-center justify-between gap-4">
+        {step > 1 ? (
+          <button
+            type="button"
+            onClick={back}
+            className="inline-flex items-center justify-center rounded-[var(--radius-full)] border border-[var(--border-strong)] bg-transparent px-5 py-2.5 text-[0.95rem] font-medium text-[var(--ink)] transition-colors hover:border-[var(--ink)] hover:bg-[var(--surface)]"
+          >
+            Back
+          </button>
+        ) : (
+          <span />
+        )}
+        {step < 4 ? (
+          <button
+            type="button"
+            onClick={next}
+            className="inline-flex items-center justify-center rounded-[var(--radius-full)] bg-[var(--accent-600)] px-7 py-3 font-medium text-[var(--accent-fg)] transition-colors hover:bg-[var(--accent-700)]"
+          >
+            Continue
+          </button>
+        ) : (
           <button
             type="submit"
             disabled={state === "loading"}
-            className="mt-6 inline-flex items-center justify-center rounded-[var(--radius-full)] bg-[var(--accent-600)] px-7 py-3 font-medium text-[var(--accent-fg)] transition-colors hover:bg-[var(--accent-700)] disabled:opacity-60"
+            className="inline-flex items-center justify-center rounded-[var(--radius-full)] bg-[var(--accent-600)] px-7 py-3 font-medium text-[var(--accent-fg)] transition-colors hover:bg-[var(--accent-700)] disabled:opacity-60"
           >
-            {state === "loading" ? "Sending…" : "Submit application"}
+            {state === "loading" ? "Submitting…" : "Submit application"}
           </button>
-        </>
-      )}
+        )}
+      </div>
     </form>
   );
 }

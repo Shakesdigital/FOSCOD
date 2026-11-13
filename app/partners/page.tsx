@@ -12,12 +12,10 @@ export const metadata = pageMeta(
 );
 
 const types = [
-  { title: "Funders & grantmakers", body: "Develop a theme- or project-specific concept with agreed outcomes, budget assumptions, safeguards, learning questions, and reporting milestones.", kicker: "Resource partnership" },
-  { title: "Universities & researchers", body: "Co-design faculty-led learning, supervised placements, or community-based research with academic and local value defined together.", kicker: "Knowledge partnership" },
-  { title: "NGOs & community organizations", body: "Build a consortium, referral, capacity-strengthening, or delivery relationship with transparent roles, costs, attribution, and risk.", kicker: "Delivery partnership" },
-  { title: "Government & public institutions", body: "Coordinate with local mandates, community priorities, technical standards, referral routes, and public reporting needs.", kicker: "Public coordination" },
-  { title: "Technical & responsible business partners", body: "Contribute relevant technology, expertise, market access, equipment, quality assurance, or long-term project support.", kicker: "Technical partnership" },
-  { title: "Community stakeholders", body: "Bring a priority, local knowledge, implementation role, feedback, or concern into a clear and respectful conversation.", kicker: "Local partnership" },
+  { title: "Local organizations — host participants", body: "Host FOSCOD-facilitated interns, volunteers or group placements in your sector, with roles, supervision and support agreed in writing.", kicker: "Hosting partnership" },
+  { title: "Universities & educational institutions", body: "Co-design faculty-led learning, group placements, service-learning trips, study tours, or community-based research with academic and local value defined together.", kicker: "Knowledge partnership" },
+  { title: "Development, funding & technical partners", body: "Support a theme- or project-specific concept with agreed outcomes, budget assumptions, safeguards, learning questions, and reporting milestones.", kicker: "Resource partnership" },
+  { title: "Other collaboration proposals", body: "Bring another idea — consortium, referral, capacity strengthening, technology, market access, or coordination — into a clear and respectful conversation.", kicker: "Open conversation" },
 ];
 
 const process = [
@@ -40,9 +38,13 @@ const fields: Field[] = [
   { name: "org_name", label: "Organization", required: true },
   { name: "contact_name", label: "Contact name", required: true },
   { name: "email", label: "Email", type: "email", required: true },
-  { name: "partnership_type", label: "Partnership type", type: "select", options: ["Funder / Grantmaker", "University / Research", "NGO / Community organization", "Government / Public institution", "Technical / Business", "Community stakeholder"] },
-  { name: "interest", label: "Area of collaboration", type: "select", options: ["Green skills & renewable energy", "Clean cooking & health", "Water, sanitation & hygiene", "Green livelihoods", "Inclusive leadership", "Ecosystem restoration / carbon", "Global learning & exchange"] },
-  { name: "message", label: "Tell us about your goals", type: "textarea", required: true },
+  { name: "phone", label: "Phone / WhatsApp (optional)", type: "tel" },
+  { name: "partnership_type", label: "Partnership type", type: "select", required: true, options: ["Local organization interested in hosting participants", "University or educational institution", "Development, funding or technical partner", "Other collaboration proposal"] },
+  { name: "interest", label: "Area of collaboration", type: "select", options: ["Hosting GLE participants", "Clean energy & climate resilience", "Water, sanitation & community health", "Sustainable livelihoods, skills & economic empowerment", "Research & learning collaboration", "Other"] },
+  { name: "contribution", label: "What you would contribute — or need from FOSCOD", type: "textarea", required: true },
+  { name: "location", label: "Location (yours / proposed work area)" },
+  { name: "timeframe", label: "Timeframe" },
+  { name: "message", label: "Tell us about your goals (optional)", type: "textarea" },
 ];
 
 export default async function PartnersPage() {

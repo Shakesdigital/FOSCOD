@@ -72,12 +72,9 @@ export const cmsPages: CmsPageDef[] = [
         sort: { column: "order_column", ascending: true },
         presets: { page_slug: "home" },
       }),
-      section("talking-about-us", "Talking about us", "home-talking-about-us", "Editorial intro block directly under the hero.", { single: true }),
-      section("programs", "Programs section", "programs", "The two flagship program cards (GLE and CEDP) shown mid-page."),
-      section("audience-paths", "Audience paths", "home-audience-paths", "The “Find your way into the work” pathway cards.", {
-        sort: { column: "order_column", ascending: true },
-      }),
-      section("responsible-engagement", "Responsible collaboration", "home-responsible-engagement", "The numbered steps under “What responsible collaboration means here”.", {
+      section("talking-about-us", "Who we are", "home-talking-about-us", "One short editorial strip under the hero.", { single: true }),
+      section("programs", "Programs section", "programs", "The two flagship program cards (GLE and CEDP)."),
+      section("impact-metrics", "Impact snapshot", "impact-metrics", "Verified, dated figures shown in the homepage proof strip.", {
         sort: { column: "order_column", ascending: true },
       }),
       {
@@ -88,7 +85,7 @@ export const cmsPages: CmsPageDef[] = [
         href: "/admin/articles",
         linkLabel: "Manage in Articles",
       },
-      section("involvement-cards", "Get involved cards", "home-involvement-cards", "Volunteer, Partner, and Donate pathway cards near the foot of the page.", {
+      section("involvement-cards", "Get involved cards", "home-involvement-cards", "The three pathway cards: learn, partner, support.", {
         sort: { column: "order_column", ascending: true },
       }),
       section("partners", "Partner logos", "partners", "Partner logos strip at the bottom of the homepage.", {
@@ -120,16 +117,10 @@ export const cmsPages: CmsPageDef[] = [
       section("areas-of-focus", "Areas of focus", "cedp-areas-of-focus", "The three thematic area cards.", {
         sort: { column: "order_column", ascending: true },
       }),
-      section("process-steps", "Process steps", "cedp-process-steps", "The “From priority to ownership” sequence.", {
+      section("accomplishments", "Accomplishments", "cedp-accomplishments", "Reported evidence from Kalagala Parish (2022 – October 2026), with source attribution. Outputs, continuing work and indicative future priorities.", {
         sort: { column: "order_column", ascending: true },
       }),
-      section("sub-programs", "Sub-programs", "sub-programs", "The six sub-programs mapped to Strategic Goals 1–6.", {
-        sort: { column: "order_column", ascending: true },
-      }),
-      section("impact-stories-cards", "Impact stories carousel", "cedp-impact-stories", "Story cards in the CEDP impacts carousel.", {
-        sort: { column: "order_column", ascending: true },
-      }),
-      section("impact-cards", "Impact cards", "cedp-impact-cards", "Impact cards for the CEDP impact section.", {
+      section("impact-cards", "Impact cards", "cedp-impact-cards", "Headline impact cards for the CEDP impact section.", {
         sort: { column: "order_column", ascending: true },
       }),
     ],
@@ -151,16 +142,22 @@ export const cmsPages: CmsPageDef[] = [
     key: "gle",
     title: "GLE program",
     path: "/programs/global-learning-exchange",
-    description: "Global Learning & Exchange landing page.",
+    description: "Global Learning Exchange Program (GLE) landing page.",
     sections: [
-      section("introduction", "Introduction", "gle-introduction", "The introduction section under the hero.", { single: true }),
-      section("pathways", "Pathway cards", "gle-pathways", "The four “Find your pathway” cards.", {
+      section("introduction", "Introduction", "gle-introduction", "The approved program description under the hero.", { single: true }),
+      section("pathways", "Experience types", "gle-pathways", "The five GLE program types (Step 1).", {
+        sort: { column: "order_column", ascending: true },
+      }),
+      section("sectors", "Thematic areas", "gle-development-sectors", "Step 2 thematic interests — CEDP focus areas and local partner sectors.", {
+        sort: { column: "order_column", ascending: true },
+      }),
+      section("engagement-approaches", "Engagement approaches", "gle-engagement-approaches", "Step 3 complementary engagement emphases.", {
+        sort: { column: "order_column", ascending: true },
+      }),
+      section("participation-formats", "Participation formats", "gle-participation-formats", "Step 4 in-person and virtual participation.", {
         sort: { column: "order_column", ascending: true },
       }),
       section("apply", "Apply section", "gle-apply-section", "The apply call-to-action near the foot of the page.", { single: true }),
-      section("sectors", "Development sectors", "gle-development-sectors", "Thematic sectors used to filter impact stories.", {
-        sort: { column: "order_column", ascending: true },
-      }),
     ],
   },
   {
@@ -232,11 +229,11 @@ export const cmsPages: CmsPageDef[] = [
   },
   {
     key: "opportunities",
-    title: "Volunteer & internships",
-    path: "/volunteer",
-    description: "Open internship and volunteer placements and their detail pages.",
+    title: "Opportunities",
+    path: "/opportunities",
+    description: "The searchable opportunities directory and its detail pages.",
     sections: [
-      section("opportunities", "Open opportunities", "opportunities", "Listed placements for volunteers and interns."),
+      section("opportunities", "Open opportunities", "opportunities", "Listed placements for interns, volunteers, groups, trips and tours."),
     ],
   },
   {

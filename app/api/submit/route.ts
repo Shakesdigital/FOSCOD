@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 const ALLOWED = new Set([
   "application",
@@ -22,6 +23,7 @@ const TYPE_TO_CATEGORY: Record<string, string> = {
   partner: "partnership",
   donor: "donation",
   contact: "partnership",
+  alumni: "alumni",
   newsletter: "newsletter",
 };
 
@@ -60,9 +62,15 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "Submissions are temporarily unavailable. Please email info@foscod.org." }, { status: 503 });
   }
 
-  const supabase = await createClient();
-  const { data: submission, error } = (await supabase
-    ?.from("form_submissions")
+  // Server-side insert with the service-role client: the public write path
+  // must not depend on a public SELECT policy, and the notification payload
+  // needs the saved row back.
+  const admin = createAdminClient();
+  if (!admin) {
+    return NextResponse.json({ ok: false, error: "Submissions are temporarily unavailable. Please email info@foscod.org." }, { status: 503 });
+  }
+  const { data: submission, error } = (await admin
+    .from("form_submissions")
     .insert({ type, form_category: TYPE_TO_CATEGORY[type] ?? null, payload })
     .select("id, type, form_category, payload, created_at")
     .single()) ?? { data: null, error: { message: "No client" } };
