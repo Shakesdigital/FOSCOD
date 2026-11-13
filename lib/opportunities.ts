@@ -16,6 +16,7 @@ export type OpportunitySummary = {
   participation_format: string | null;
   availability_status: string;
   last_confirmed_at: string | null;
+  featured_image_url: string | null;
 };
 
 export type Opportunity = OpportunitySummary & {
@@ -42,7 +43,7 @@ export type Opportunity = OpportunitySummary & {
 // Opportunities are never invented as local fallbacks. Editors publish only
 // current, verified openings from the CMS.
 const SUMMARY_COLUMNS =
-  "slug,title,type,category,location,duration,excerpt,experience_type,sector_slugs,engagement_approach,participation_format,availability_status,last_confirmed_at";
+  "slug,title,type,category,location,duration,excerpt,experience_type,sector_slugs,engagement_approach,participation_format,availability_status,last_confirmed_at,featured_image_url";
 
 export async function getOpportunities(type?: OpportunityType): Promise<OpportunitySummary[]> {
   if (!isSupabaseConfigured()) return [];
@@ -72,6 +73,7 @@ function mapSummary(item: Record<string, unknown>): OpportunitySummary {
     participation_format: (item.participation_format as string) ?? null,
     availability_status: (item.availability_status as string) ?? "open",
     last_confirmed_at: (item.last_confirmed_at as string) ?? null,
+    featured_image_url: (item.featured_image_url as string) ?? null,
   };
 }
 

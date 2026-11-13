@@ -145,19 +145,37 @@ export const cmsPages: CmsPageDef[] = [
     description: "Global Learning Exchange Program (GLE) landing page.",
     sections: [
       section("introduction", "Introduction", "gle-introduction", "The approved program description under the hero.", { single: true }),
-      section("pathways", "Experience types", "gle-pathways", "The five GLE program types (Step 1).", {
+      section("program-cards", "Program cards", "gle-program-cards", "The two cards under the introduction: volunteer program and internship program.", {
         sort: { column: "order_column", ascending: true },
       }),
-      section("sectors", "Thematic areas", "gle-development-sectors", "Step 2 thematic interests — CEDP focus areas and local partner sectors.", {
+      section("target-audience", "Target audience", "gle-target-audience", "Who takes part — the 'Target audience' section.", {
         sort: { column: "order_column", ascending: true },
       }),
-      section("engagement-approaches", "Engagement approaches", "gle-engagement-approaches", "Step 3 complementary engagement emphases.", {
-        sort: { column: "order_column", ascending: true },
-      }),
-      section("participation-formats", "Participation formats", "gle-participation-formats", "Step 4 in-person and virtual participation.", {
+      section("benefits", "Program benefits", "gle-benefits", "The 'Program benefits' section.", {
         sort: { column: "order_column", ascending: true },
       }),
       section("apply", "Apply section", "gle-apply-section", "The apply call-to-action near the foot of the page.", { single: true }),
+      section("dates-note", "Start dates", "program-dates", "Upcoming intake rows for the Start dates section. When empty, the page shows a scheduling note instead."),
+    ],
+  },
+  {
+    key: "gle-opportunities",
+    title: "GLE opportunities",
+    path: "/opportunities",
+    description: "Opportunities directory page. Experience types, thematic areas and participation formats below feed the directory filters.",
+    sections: [
+      section("pathways", "Experience types", "gle-pathways", "Experience types used as directory filters (also the GLE taxonomy).", {
+        sort: { column: "order_column", ascending: true },
+      }),
+      section("sectors", "Thematic areas", "gle-development-sectors", "Thematic interests — CEDP focus areas and local partner sectors (directory filters).", {
+        sort: { column: "order_column", ascending: true },
+      }),
+      section("engagement-approaches", "Engagement approaches", "gle-engagement-approaches", "Engagement approaches (GLE taxonomy).", {
+        sort: { column: "order_column", ascending: true },
+      }),
+      section("participation-formats", "Participation formats", "gle-participation-formats", "Participation formats (directory filters).", {
+        sort: { column: "order_column", ascending: true },
+      }),
     ],
   },
   {

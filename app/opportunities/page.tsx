@@ -15,7 +15,15 @@ export const metadata = pageMeta(
   "Search current internship, volunteering, group, trip and study-tour opportunities hosted by FOSCOD CEDP and local partner organizations across Uganda."
 );
 
-export default async function OpportunitiesPage() {
+export default async function OpportunitiesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ type?: string }>;
+}) {
+  const { type } = await searchParams;
+  const initialType: "internship" | "volunteer" | undefined =
+    type === "internship" || type === "volunteer" ? type : undefined;
+
   const [opportunities, experienceTypes, sectors, formats] = await Promise.all([
     getOpportunities(),
     getGlePathways(),
@@ -30,15 +38,32 @@ export default async function OpportunitiesPage() {
     formats: formats.map((f) => ({ slug: f.slug, label: f.title })),
   };
 
+  const heroCopy = initialType
+    ? initialType === "internship"
+      ? {
+          title: "Internship opportunities",
+          intro:
+            "Supervised internships with FOSCOD's community program (CEDP) and local partner organizations — structured as individual, group or global service trip formats. Each placement is matched to your learning objectives and a community-defined priority, with a named supervisor and agreed outputs.",
+        }
+      : {
+          title: "Volunteer opportunities",
+          intro:
+            "Volunteering placements with FOSCOD's community program (CEDP) and local partner organizations — structured as individual, group or global service trip formats. You contribute to community-defined priorities under local supervision, with orientation, guided reflection and cultural exchange.",
+        }
+    : {
+        title: "Find your opportunity",
+        intro:
+          "One directory for internships, volunteering, group placements, service-learning trips and study tours — hosted by FOSCOD's community program (CEDP) and local partner organizations across Uganda. Each listing names its host, purpose, learning goals, supervision and practical arrangements.",
+      };
+
   return (
     <>
       <HeroSlider
         slides={[
           {
             eyebrow: "Global Learning Exchange Program",
-            title: "Find your opportunity",
-            intro:
-              "One directory for internships, volunteering, group placements, service-learning trips and study tours — hosted by FOSCOD's community program (CEDP) and local partner organizations across Uganda. Each listing names its host, purpose, learning goals, supervision and practical arrangements.",
+            title: heroCopy.title,
+            intro: heroCopy.intro,
             cta: { href: "/apply", label: "Express interest without selecting an opening" },
             tone: "forest",
           },
@@ -46,7 +71,7 @@ export default async function OpportunitiesPage() {
       />
 
       <section className="py-14 md:py-20" aria-label="Opportunities directory">
-        <OpportunitiesDirectory opportunities={opportunities} facets={facets} />
+        <OpportunitiesDirectory opportunities={opportunities} facets={facets} initialType={initialType} />
       </section>
 
       <section className="bg-[var(--surface-2)] py-14 md:py-16">

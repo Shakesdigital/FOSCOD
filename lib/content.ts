@@ -3583,6 +3583,109 @@ export async function getGleApplySection(): Promise<GleApplySection> {
 }
 
 /* ============================================================
+   GLE landing sections (0038): program cards, target audience, benefits
+   ============================================================ */
+
+export type GleIconCard = {
+  title: string;
+  body: string;
+  icon?: string;
+};
+
+const gleProgramCardsFallback: GlePathwayCard[] = [
+  {
+    title: "Volunteer Program",
+    body: "A structured volunteering placement with FOSCOD's Community Empowerment and Development Program (CEDP) or a local partner organization. You contribute to community-defined priorities under local supervision, with orientation, guided reflection and cultural exchange.",
+    href: "/opportunities?type=volunteer",
+    cta: "Browse volunteer placements",
+    kicker: "Give your time and skills",
+    tag: "Volunteering",
+    icon: "volunteer",
+    tone: "forest",
+  },
+  {
+    title: "Internship Program",
+    body: "A supervised internship aligned to your learning objectives — a defined role, a named supervisor, regular monitoring and reflection, and a useful handover that strengthens the host organization.",
+    href: "/opportunities?type=internship",
+    cta: "Browse internships",
+    kicker: "Build career experience",
+    tag: "Internship",
+    icon: "energy",
+    tone: "water",
+  },
+];
+
+const gleTargetAudienceFallback: GleIconCard[] = [
+  { title: "University & college students", body: "Supervised field learning tied to your studies, from semester placements to short service-learning trips.", icon: "education" },
+  { title: "Graduates & career starters", body: "Practical experience in community-based development that strengthens your CV and professional direction.", icon: "volunteer" },
+  { title: "Professionals & career breakers", body: "Mid-career contributions — skills-based volunteering, project support or research exposure in a new context.", icon: "enterprise" },
+  { title: "Researchers & postgraduates", body: "Community-based participatory research (CBPR) designed, carried out and shared with local partners.", icon: "research" },
+  { title: "University & institution groups", body: "Faculty-led group projects, coordinated placements, service-learning trips and study tours of eight days or more.", icon: "partner" },
+];
+
+const gleBenefitsFallback: GleIconCard[] = [
+  { title: "Community-defined roles", body: "Work on priorities identified with communities and local partners — not manufactured tasks.", icon: "volunteer" },
+  { title: "Named local supervisor", body: "Orientation, mentorship, practical guidance and monitoring from an experienced local supervisor.", icon: "partner" },
+  { title: "Arrangements confirmed in writing", body: "Accommodation arrangement, local transport and an emergency contact are confirmed for your specific intake before placement.", icon: "enterprise" },
+  { title: "Host-family cultural exchange", body: "Live and learn alongside host families, local leaders and community organizations in genuine two-way exchange.", icon: "livelihoods" },
+  { title: "Reflection & continuity", body: "Guided reflection, a review of outcomes with community partners, and documented lessons that support continuing development.", icon: "research" },
+  { title: "Academic alignment", body: "FOSCOD can align activities and evidence of learning with your institution; your home institution remains responsible for approving academic credit.", icon: "education" },
+];
+
+export async function getGleProgramCards(): Promise<GlePathwayCard[]> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    const { data } = (await supabase
+      ?.from("gle_program_cards")
+      .select("title,body,href,cta,kicker,tag,image_url,image_alt,icon,tone")
+      .eq("visible", true)
+      .order("order_column", { ascending: true })) ?? { data: null };
+    if (data && data.length) {
+      return data.map((p) => ({
+        title: p.title,
+        body: p.body ?? "",
+        href: p.href ?? "",
+        cta: p.cta ?? "Learn more",
+        kicker: p.kicker ?? undefined,
+        tag: p.tag ?? undefined,
+        imageUrl: p.image_url ?? undefined,
+        imageAlt: p.image_alt ?? undefined,
+        icon: p.icon ?? undefined,
+        tone: p.tone ?? undefined,
+      }));
+    }
+  }
+  return gleProgramCardsFallback;
+}
+
+async function getGleIconCards(table: "gle_target_audience" | "gle_benefits"): Promise<GleIconCard[]> {
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    const { data } = (await supabase
+      ?.from(table)
+      .select("title,body,icon")
+      .eq("visible", true)
+      .order("order_column", { ascending: true })) ?? { data: null };
+    if (data && data.length) {
+      return data.map((c) => ({
+        title: c.title,
+        body: c.body ?? "",
+        icon: c.icon ?? undefined,
+      }));
+    }
+  }
+  return table === "gle_target_audience" ? gleTargetAudienceFallback : gleBenefitsFallback;
+}
+
+export function getGleTargetAudience(): Promise<GleIconCard[]> {
+  return getGleIconCards("gle_target_audience");
+}
+
+export function getGleBenefits(): Promise<GleIconCard[]> {
+  return getGleIconCards("gle_benefits");
+}
+
+/* ============================================================
    Footer (CMS-backed)
    ============================================================ */
 

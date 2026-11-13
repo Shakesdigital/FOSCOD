@@ -297,14 +297,17 @@ export function CTABand({
   body,
   actions,
   tightBottom = false,
+  bg,
 }: {
   title: string;
   body?: string;
   actions: { href: string; label: string; variant?: "primary" | "secondary" | "ghost" }[];
   tightBottom?: boolean;
+  /** full Tailwind background class for the wrapping band */
+  bg?: string;
 }) {
   return (
-    <section className={`container-page py-20 ${tightBottom ? "pb-4 md:pb-6" : ""}`}>
+    <section className={`container-page py-20 ${bg ?? ""} ${tightBottom ? "pb-4 md:pb-6" : ""}`}>
       <div className="relative overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] px-8 py-14 text-center md:px-16">
         <div
           className="pointer-events-none absolute inset-0 -z-10"
@@ -422,16 +425,23 @@ export function ProgramDatesTable({
   intro,
   rows,
   surface = false,
+  bg,
+  firstLabel = "Country",
+  secondLabel = "Companies",
 }: {
   eyebrow?: string;
   title?: string;
   intro?: string;
   rows: { country: string; companies: string; confirmed: boolean }[];
   surface?: boolean;
+  /** full Tailwind background class — overrides surface */
+  bg?: string;
+  firstLabel?: string;
+  secondLabel?: string;
 }) {
   if (!rows.length) return null;
   return (
-    <section className={`py-14 md:py-20 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
+    <section className={`py-14 md:py-20 ${bg ?? (surface ? "bg-[var(--surface-2)]" : "")}`}>
       <div className="container-page">
         <div className="max-w-2xl">
           <Eyebrow>{eyebrow}</Eyebrow>
@@ -443,8 +453,8 @@ export function ProgramDatesTable({
             <thead className="bg-[var(--accent-600)] text-white">
               <tr>
                 <th className="w-12 px-5 py-3 font-medium" aria-label="Confirmed"></th>
-                <th className="px-5 py-3 font-medium">Country</th>
-                <th className="px-5 py-3 font-medium">Companies</th>
+                <th className="px-5 py-3 font-medium">{firstLabel}</th>
+                <th className="px-5 py-3 font-medium">{secondLabel}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[var(--border)]">
@@ -635,6 +645,7 @@ export function IntroSection({
   ctaLabel,
   ctaHref,
   surface = false,
+  bg,
   align = "left",
   noImage = false,
 }: {
@@ -646,11 +657,13 @@ export function IntroSection({
   ctaLabel?: string;
   ctaHref?: string;
   surface?: boolean;
+  /** full Tailwind background class, e.g. "bg-[var(--forest-50)]" — overrides surface */
+  bg?: string;
   align?: "left" | "center";
   noImage?: boolean;
 }) {
   return (
-    <section className={`py-16 md:py-24 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
+    <section className={`py-16 md:py-24 ${bg ?? (surface ? "bg-[var(--surface-2)]" : "")}`}>
       <div className="container-page">
         <div className={`mx-auto ${align === "center" ? "max-w-2xl text-center" : "max-w-3xl"}`}>
           {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
@@ -719,6 +732,7 @@ export function ApplySection({
   ctaLabel,
   ctaHref,
   surface = false,
+  bg,
 }: {
   title: string;
   eyebrow?: string;
@@ -728,9 +742,11 @@ export function ApplySection({
   ctaLabel?: string;
   ctaHref?: string;
   surface?: boolean;
+  /** full Tailwind background class, e.g. "bg-[var(--accent-50)]" — overrides surface */
+  bg?: string;
 }) {
   return (
-    <section className={`py-16 md:py-24 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
+    <section className={`py-16 md:py-24 ${bg ?? (surface ? "bg-[var(--surface-2)]" : "")}`}>
       <div className="container-page">
         <div className="mx-auto max-w-2xl text-center">
           {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
@@ -781,6 +797,7 @@ export function TestimonialCarousel({
   title,
   intro,
   surface = false,
+  bg,
   cta,
 }: {
   items: { quote: string; name: string; program?: string; cohort?: string }[];
@@ -788,6 +805,8 @@ export function TestimonialCarousel({
   title?: string;
   intro?: string;
   surface?: boolean;
+  /** full Tailwind background class — overrides surface */
+  bg?: string;
   cta?: { href: string; label: string };
 }) {
   if (!items.length) return null;
@@ -803,7 +822,7 @@ export function TestimonialCarousel({
   const visibleItems = items.slice(startIndex, startIndex + 3);
 
   return (
-    <section className={`py-16 md:py-24 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
+    <section className={`py-16 md:py-24 ${bg ?? (surface ? "bg-[var(--surface-2)]" : "")}`}>
       <div className="container-page">
         <div className="mx-auto max-w-2xl text-center">
           {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
@@ -891,6 +910,129 @@ export function TestimonialCarousel({
     </section>
   );
 }
+/** CardsCarousel — a slider showing 3 media/story cards per slide
+ *  with prev/next arrows and dot indicators. Loops continuously.
+ *  Powers the opportunities carousel on the GLE landing page. */
+export function CardsCarousel({
+  items,
+  eyebrow,
+  title,
+  intro,
+  surface = false,
+  bg,
+  cta,
+}: {
+  items: GridCard[];
+  eyebrow?: string;
+  title?: string;
+  intro?: string;
+  surface?: boolean;
+  /** full Tailwind background class — overrides surface */
+  bg?: string;
+  cta?: { href: string; label: string };
+}) {
+  if (!items.length) return null;
+
+  const totalSlides = Math.ceil(items.length / 3);
+  const [current, setCurrent] = useState(0);
+
+  const prev = () => setCurrent((prev) => (prev - 1 + totalSlides) % totalSlides);
+  const next = () => setCurrent((prev) => (prev + 1) % totalSlides);
+  const goTo = (idx: number) => setCurrent(idx);
+
+  const startIndex = current * 3;
+  const visibleItems = items.slice(startIndex, startIndex + 3);
+
+  return (
+    <section className={`py-16 md:py-24 ${bg ?? (surface ? "bg-[var(--surface-2)]" : "")}`}>
+      <div className="container-page">
+        <div className="mx-auto max-w-2xl text-center">
+          {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+          {title && (
+            <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">{title}</h2>
+          )}
+          {intro && (
+            <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">{intro}</p>
+          )}
+        </div>
+
+        <div className="relative mt-12">
+          <ul className="grid gap-6 md:grid-cols-3">
+            {visibleItems.map((c) => (
+              <li key={c.title + c.href} className="group h-full">
+                <ContentCard
+                  title={c.title}
+                  excerpt={c.excerpt}
+                  href={c.href}
+                  ctaLabel={c.ctaLabel || "Read more"}
+                  kicker={c.kicker}
+                  tag={c.tag}
+                  imageRatio="4/3"
+                  tone={c.tone}
+                  imageUrl={c.imageUrl ?? undefined}
+                  imageAlt={c.imageAlt ?? undefined}
+                  icon={c.icon}
+                  asLink={Boolean(c.href)}
+                />
+              </li>
+            ))}
+          </ul>
+
+          {/* Navigation */}
+          {totalSlides > 1 && (
+            <>
+              <button
+                type="button"
+                onClick={prev}
+                aria-label="Previous cards"
+                className="absolute -left-4 top-1/2 -translate-y-1/2 rounded-full border border-[var(--border)] bg-[var(--surface)] p-2 text-[var(--ink)] hover:bg-[var(--accent-50)]"
+              >
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 5l-4 4 4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                onClick={next}
+                aria-label="Next cards"
+                className="absolute -right-4 top-1/2 -translate-y-1/2 rounded-full border border-[var(--border)] bg-[var(--surface)] p-2 text-[var(--ink)] hover:bg-[var(--accent-50)]"
+              >
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 5l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            </>
+          )}
+
+          {/* Dot indicators */}
+          {totalSlides > 1 && (
+            <div className="mt-8 flex justify-center gap-1.5">
+              {Array.from({ length: totalSlides }).map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => goTo(i)}
+                  aria-label={`Slide ${i + 1} of ${totalSlides}`}
+                  className={`h-2 w-2 rounded-full transition-all ${i === current ? "bg-[var(--accent-600)] w-6" : "bg-[var(--border-strong)]"}`}
+                />
+              ))}
+            </div>
+          )}
+
+          {/* Center-aligned CTA below the carousel */}
+          {cta && (
+            <div className="mt-10 text-center">
+              <Button href={cta.href} variant="secondary" size="md">
+                {cta.label}
+              </Button>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export function TeamPreview({
   eyebrow = "Our team",
   title,

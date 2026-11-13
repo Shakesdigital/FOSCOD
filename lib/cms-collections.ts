@@ -990,6 +990,64 @@ export const cmsCollections: CmsCollection[] = [
   },
 
   {
+    key: "gle-program-cards",
+    table: "gle_program_cards",
+    label: "GLE: Program cards",
+    singular: "program card",
+    titleField: "title",
+    cluster: "settings",
+    description: "The two cards under the introduction: volunteer program and internship program.",
+    fields: [
+      { name: "title", label: "Card title", required: true },
+      { name: "body", label: "Description", type: "textarea", required: true },
+      { name: "href", label: "Link URL", type: "url", required: true, help: "e.g. /opportunities?type=volunteer" },
+      { name: "cta", label: "CTA button label" },
+      { name: "kicker", label: "Kicker label" },
+      { name: "tag", label: "Badge label" },
+      { name: "image_url", label: "Featured image URL", type: "image" },
+      { name: "image_alt", label: "Image alt text" },
+      { name: "icon", label: "Icon", help: "House icon name (volunteer, energy, education, research, partner, enterprise, livelihoods, health, water, environment, donate) — shown only when no image is set." },
+      { name: "tone", label: "Tone", type: "select", options: [{ label: "Earth", value: "earth" }, { label: "Water", value: "water" }, { label: "Forest", value: "forest" }], help: "Duotone fallback colour for the image slot." },
+      yesNo("visible", "Visible"),
+      { name: "order_column", label: "Display order", type: "number" },
+    ],
+  },
+
+  {
+    key: "gle-target-audience",
+    table: "gle_target_audience",
+    label: "GLE: Target audience",
+    singular: "audience card",
+    titleField: "title",
+    cluster: "settings",
+    description: "The 'Who takes part' section on the GLE landing page.",
+    fields: [
+      { name: "title", label: "Card title", required: true },
+      { name: "body", label: "Description", type: "textarea", required: true },
+      { name: "icon", label: "Icon", help: "House icon name (volunteer, energy, education, research, partner, enterprise, livelihoods, health, water, environment, donate)." },
+      yesNo("visible", "Visible"),
+      { name: "order_column", label: "Display order", type: "number" },
+    ],
+  },
+
+  {
+    key: "gle-benefits",
+    table: "gle_benefits",
+    label: "GLE: Program benefits",
+    singular: "benefit card",
+    titleField: "title",
+    cluster: "settings",
+    description: "The 'Program benefits' section on the GLE landing page.",
+    fields: [
+      { name: "title", label: "Card title", required: true },
+      { name: "body", label: "Description", type: "textarea", required: true },
+      { name: "icon", label: "Icon", help: "House icon name (volunteer, energy, education, research, partner, enterprise, livelihoods, health, water, environment, donate)." },
+      yesNo("visible", "Visible"),
+      { name: "order_column", label: "Display order", type: "number" },
+    ],
+  },
+
+  {
     key: "gle-apply-section",
     table: "gle_apply_section",
     label: "GLE: Apply section",
@@ -1006,6 +1064,23 @@ export const cmsCollections: CmsCollection[] = [
       { name: "cta_label", label: "CTA button label", required: true },
       { name: "cta_href", label: "CTA link", type: "url", required: true },
       yesNo("visible", "Visible"),
+    ],
+  },
+
+  {
+    key: "program-dates",
+    table: "program_dates",
+    label: "Start dates (intakes)",
+    singular: "intake row",
+    titleField: "country",
+    cluster: "settings",
+    description: "Upcoming intake rows for the Start dates section. When empty, the page shows a scheduling note instead.",
+    fields: [
+      { name: "country", label: "Intake / period", required: true, help: "e.g. 'Jan – Mar 2027 intake' or a date window" },
+      { name: "companies", label: "Hosts or details", help: "Which hosts/formats apply, or scheduling notes" },
+      yesNo("confirmed", "Confirmed"),
+      yesNo("visible", "Visible"),
+      { name: "order_column", label: "Display order", type: "number" },
     ],
   },
 

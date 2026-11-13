@@ -1,41 +1,36 @@
 import { HeroSlider } from "@/components/site/HeroSlider";
+import { Button } from "@/components/ui/Button";
 import {
   IntroSection,
   ApplySection,
   FeatureGrid,
-  Steps,
   CTABand,
   FAQ,
+  ProgramDatesTable,
+  TestimonialCarousel,
+  CardsCarousel,
 } from "@/components/site/blocks";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { SectionHeader } from "@/components/site/Section";
 import { pageMeta } from "@/lib/seo";
+import { getOpportunities, type OpportunitySummary } from "@/lib/opportunities";
 import {
   getHeroSlides,
-  getGlePathways,
   getGleIntroduction,
+  getGleProgramCards,
+  getGleTargetAudience,
+  getGleBenefits,
+  getProgramDates,
+  getAllTestimonials,
   getGleApplySection,
-  getGleDevelopmentSectors,
-  getGleEngagementApproaches,
-  getGleParticipationFormats,
-  type GleDevelopmentSector,
-  type GleTaxonomyItem,
+  type GlePathwayCard,
+  type GleIconCard,
+  type Testimonial,
 } from "@/lib/content";
 
 export const metadata = pageMeta(
   "Global Learning Exchange Program (GLE)",
   "FOSCOD's Global Learning Exchange Program (GLE) designs and facilitates internships, volunteering, research, service learning and study tours in collaboration with local communities and partner organizations in Uganda."
 );
-
-/* "How we develop your GLE experience" — the five phases from the
-   approved program description. */
-const experiencePhases = [
-  { title: "Understanding your interests", body: "We review your academic background, skills, learning objectives and preferred program options." },
-  { title: "Identifying suitable opportunities", body: "We explore community priorities, available projects, research needs and potential host organizations." },
-  { title: "Collaborative placement planning", body: "We agree on activities, learning objectives, responsibilities, supervision, expected outputs and ethical requirements." },
-  { title: "Supported engagement & learning", body: "FOSCOD provides orientation, mentorship, practical guidance, monitoring and opportunities for reflection." },
-  { title: "Knowledge sharing & continuity", body: "We review outcomes with community partners, share findings and document lessons to support continuing development." },
-];
 
 const gleFaqs = [
   { q: "Who defines the work?", a: "FOSCOD develops roles from priorities identified with communities and local partners. An applicant's interests help with matching, but do not replace the community-defined purpose of the work." },
@@ -47,88 +42,62 @@ const gleFaqs = [
   { q: "Does applying guarantee a placement?", a: "No. Submitting an application starts a matching process that considers community priorities, partner availability and program requirements — it does not guarantee acceptance or a particular host organization." },
 ];
 
-function StepBlock({
-  step,
-  title,
-  children,
-}: {
-  step: string;
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="mt-14 first:mt-10">
-      <div className="flex items-baseline gap-3">
-        <span className="font-[family-name:var(--font-mono)] text-sm uppercase tracking-[0.14em] text-[var(--accent-700)]">
-          Step {step}
-        </span>
-        <h3 className="text-xl font-semibold md:text-2xl">{title}</h3>
-      </div>
-      <div className="mt-6">{children}</div>
-    </div>
-  );
+/* Program cards (volunteer / internship) → FeatureGrid items. */
+function programCardItems(cards: GlePathwayCard[]) {
+  return cards.map((p) => ({
+    title: p.title,
+    body: p.body,
+    href: p.href,
+    cta: p.cta,
+    kicker: p.kicker,
+    imageUrl: p.imageUrl,
+    imageAlt: p.imageAlt,
+    icon: p.icon,
+    tone: p.tone,
+    tag: p.tag,
+  }));
 }
 
-function SectorList({ sectors, category }: { sectors: GleDevelopmentSector[]; category: "cedp" | "partner" }) {
-  const items = sectors.filter((s) => s.category === category);
-  if (category === "cedp") {
-    return (
-      <div className="grid gap-4 md:grid-cols-3">
-        {items.map((s) => (
-          <div key={s.slug} className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-5">
-            <p className="font-semibold">{s.title}</p>
-            {s.description && (
-              <p className="mt-2 text-sm leading-relaxed text-[var(--ink-soft)]">{s.description}</p>
-            )}
-          </div>
-        ))}
-      </div>
-    );
-  }
-  return (
-    <ul className="flex flex-wrap gap-2">
-      {items.map((s) => (
-        <li
-          key={s.slug}
-          className="rounded-full border border-[var(--border)] bg-[var(--surface)] px-4 py-2 text-sm"
-        >
-          {s.title}
-        </li>
-      ))}
-    </ul>
-  );
+/* Audience / benefits → icon cards. */
+function iconCardItems(cards: GleIconCard[]) {
+  return cards.map((c) => ({ title: c.title, body: c.body, icon: c.icon }));
 }
 
-function ApproachOrFormatList({ items, columns }: { items: GleTaxonomyItem[]; columns: 1 | 3 }) {
-  return (
-    <div className={`grid gap-4 ${columns === 3 ? "md:grid-cols-3" : "md:grid-cols-2"}`}>
-      {items.map((a) => (
-        <div key={a.slug} className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-6">
-          <p className="font-semibold">{a.title}</p>
-          <p className="mt-2 text-sm leading-relaxed text-[var(--ink-soft)]">{a.description}</p>
-        </div>
-      ))}
-    </div>
-  );
+/* Published opportunities → carousel cards (heading, image, excerpt, CTA). */
+function opportunityCards(opportunities: OpportunitySummary[]) {
+  return opportunities.slice(0, 9).map((o) => ({
+    title: o.title,
+    excerpt: o.excerpt,
+    href: `/opportunities/${o.slug}`,
+    ctaLabel: "Read more",
+    kicker: [o.category, o.duration].filter(Boolean).join(" · ") || undefined,
+    tag: o.type ? o.type.charAt(0).toUpperCase() + o.type.slice(1) : undefined,
+    imageUrl: o.featured_image_url,
+    tone: o.type === "internship" ? ("water" as const) : o.type === "volunteer" ? ("forest" as const) : undefined,
+  }));
 }
 
 export default async function GlePage() {
-  const [heroSlides, introduction, pathways, sectors, approaches, formats, applySection] =
+  const [heroSlides, introduction, programCards, audience, benefits, dates, testimonials, opportunities, applySection] =
     await Promise.all([
       getHeroSlides("global-learning-exchange"),
       getGleIntroduction(),
-      getGlePathways(),
-      getGleDevelopmentSectors(),
-      getGleEngagementApproaches(),
-      getGleParticipationFormats(),
+      getGleProgramCards(),
+      getGleTargetAudience(),
+      getGleBenefits(),
+      getProgramDates(),
+      getAllTestimonials(),
+      getOpportunities(),
       getGleApplySection(),
     ]);
 
+  const carouselTestimonials: Testimonial[] = testimonials;
+
   return (
     <>
+      {/* ===== 1. Landing: hero + introduction + two program cards ===== */}
       <HeroSlider slides={heroSlides} />
 
-      {/* 2. Introduction — the approved program description (CMS) */}
       <IntroSection
         title={introduction.title}
         eyebrow={introduction.eyebrow}
@@ -139,154 +108,139 @@ export default async function GlePage() {
         ctaHref={introduction.ctaHref}
       />
 
-      {/* 3. Explore your opportunities in four steps */}
-      <section className="bg-[var(--surface-2)] py-16 md:py-24">
+      <section className="pb-16 md:pb-24" aria-label="Choose your program">
         <div className="container-page">
           <SectionHeader
-            eyebrow="Explore GLE opportunities"
-            title="Explore your opportunities in four steps"
-            intro="GLE offers diverse learning and engagement opportunities through FOSCOD's Community Empowerment and Development Program (CEDP) and a network of local partner organizations. Programs are designed to align participants' academic and professional learning objectives with community priorities, local knowledge and partner expertise."
+            eyebrow="Two ways to take part"
+            title="Volunteer or intern with GLE"
+            intro="Both programs run as individual, group or global service trip formats, with shared development sectors from FOSCOD's Community Empowerment and Development Program (CEDP) and local partner organizations."
             align="center"
           />
-
-          {/* Step 1 — program type */}
-          <StepBlock step="1" title="Choose your program type">
-            <FeatureGrid
-              columns={2}
-              items={pathways.map((p) => ({
-                title: p.title,
-                body: p.body,
-                href: p.href,
-                cta: p.cta,
-                kicker: p.kicker,
-                imageUrl: p.imageUrl,
-                imageAlt: p.imageAlt,
-                icon: p.icon,
-                tone: p.tone,
-                tag: p.tag,
-              }))}
-            />
-          </StepBlock>
-
-          {/* Step 2 — thematic interests (multiple selections allowed) */}
-          <StepBlock step="2" title="Choose your thematic areas">
-            <p className="max-w-3xl text-[var(--ink-soft)]">
-              Participants may select one or more thematic interests from FOSCOD's program and its local
-              partner organizations. Placement opportunities depend on partner availability, program
-              requirements and agreed learning objectives.
-            </p>
-            <div className="mt-6 space-y-8">
-              <div>
-                <p className="mb-3 font-medium">A. FOSCOD&apos;s Community Empowerment and Development Program (CEDP)</p>
-                <SectorList sectors={sectors} category="cedp" />
-              </div>
-              <div>
-                <p className="mb-3 font-medium">B. Local partner organizations&apos; development sectors</p>
-                <SectorList sectors={sectors} category="partner" />
-              </div>
-            </div>
-          </StepBlock>
-
-          {/* Step 3 — engagement approach (complementary emphases) */}
-          <StepBlock step="3" title="Choose your engagement approach">
-            <p className="max-w-3xl text-[var(--ink-soft)]">
-              The three approaches are complementary — a participant may select a primary focus or pursue an
-              integrated experience, depending on community priorities, learning objectives and placement
-              opportunities.
-            </p>
-            <div className="mt-6">
-              <ApproachOrFormatList items={approaches} columns={3} />
-            </div>
-            <p className="mt-6 max-w-3xl rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-5 text-sm leading-relaxed text-[var(--ink-soft)]">
-              <strong>For service-learning trips and study tours:</strong> instead of a research or project
-              classification, participants or sponsoring institutions identify their preferred thematic areas
-              and learning objectives. FOSCOD collaborates with institutions and local partners to design
-              suitable experiences that may combine community development practice, participatory learning,
-              research exposure, reflection and cultural exchange.
-            </p>
-          </StepBlock>
-
-          {/* Step 4 — participation format */}
-          <StepBlock step="4" title="Choose your participation format">
-            <ApproachOrFormatList items={formats} columns={1} />
-          </StepBlock>
+          <div className="mt-12">
+            <FeatureGrid columns={2} items={programCardItems(programCards)} />
+          </div>
         </div>
       </section>
 
-      {/* 4. Ethical commitment + how the experience is developed */}
-      <section className="py-16 md:py-24">
+      {/* ===== 2. Target audience ===== */}
+      <section className="bg-[var(--surface-2)] py-16 md:py-24" aria-label="Target audience">
         <div className="container-page">
-          <div className="mx-auto max-w-2xl text-center">
-            <Eyebrow>Our commitment to ethical community engagement</Eyebrow>
-            <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">
-              Communities and participants are active partners
-            </h2>
-            <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
-              FOSCOD&apos;s community-engaged learning is grounded in meaningful participation, mutual respect,
-              shared responsibility and sustainable development. We recognize communities, participants, host
-              organizations and sponsoring institutions as active partners who bring valuable knowledge, skills
-              and experiences. Our approach promotes locally defined priorities, community ownership,
-              reciprocal learning and responsible contributions that generate value for all partners and
-              strengthen development beyond individual placements.
-            </p>
-          </div>
-          <div className="mt-10">
-            <SectionHeader
-              eyebrow="How we develop your GLE experience"
-              title="From interests to lasting outcomes"
-              align="center"
-            />
-            <div className="mt-10">
-              <Steps steps={experiencePhases} />
-            </div>
+          <SectionHeader
+            eyebrow="Target audience"
+            title="Who takes part"
+            intro="GLE connects students, professionals, researchers and university groups with structured, supervised field learning in Uganda."
+            align="center"
+          />
+          <div className="mt-12">
+            <FeatureGrid columns={3} items={iconCardItems(audience)} />
           </div>
         </div>
       </section>
 
-      {/* 5. Apply */}
-      <ApplySection
-        title={applySection.title}
-        eyebrow={applySection.eyebrow}
-        body={applySection.body}
-        imageUrl={applySection.imageUrl}
-        imageAlt={applySection.imageAlt}
-        ctaLabel={applySection.ctaLabel}
-        ctaHref={applySection.ctaHref}
+      {/* ===== 3. Program benefits ===== */}
+      <section className="bg-[var(--forest-50)] py-16 md:py-24" aria-label="Program benefits">
+        <div className="container-page">
+          <SectionHeader
+            eyebrow="Program benefits"
+            title="What you gain — and what the community gains"
+            intro="Placements are designed so participants grow professionally and interculturally while communities receive useful, ethical contributions."
+            align="center"
+          />
+          <div className="mt-12">
+            <FeatureGrid columns={3} items={iconCardItems(benefits)} />
+          </div>
+        </div>
+      </section>
+
+      {/* ===== Opportunities carousel (published openings only) ===== */}
+      <CardsCarousel
+        eyebrow="Current openings"
+        title="Live opportunities"
+        intro="A sample of openings currently published in the opportunities directory. Each listing names its host, purpose, learning goals, supervision and practical arrangements."
+        items={opportunityCards(opportunities)}
+        cta={{ href: "/opportunities", label: "View all opportunities" }}
+        bg="bg-[var(--water-50)]"
       />
 
-      {/* 6. Before you apply */}
-      <section className="bg-[var(--surface-2)] py-16 md:py-20">
-        <div className="container-page">
-          <div className="mx-auto max-w-2xl text-center">
-            <Eyebrow>Before you apply</Eyebrow>
-            <h2 className="mt-4 text-[clamp(1.7rem,3vw,2.3rem)]">
-              Questions responsible participants ask
-            </h2>
-            <p className="mt-4 leading-relaxed text-[var(--ink-soft)]">
-              Open roles should name their purpose, boundaries, expected outputs, supervisor, timing, requirements, and costs. If a detail is still being verified, FOSCOD will confirm it before placement.
-            </p>
+      {/* ===== 4. Start dates ===== */}
+      {dates.length > 0 ? (
+        <ProgramDatesTable
+          eyebrow="Program dates"
+          title="Start dates"
+          intro="Placements are scheduled individually. Confirmed intake windows appear below; timing, support and costs are always confirmed in writing before placement."
+          rows={dates}
+          bg="bg-[var(--accent-50)]"
+          firstLabel="Intake"
+          secondLabel="Details"
+        />
+      ) : (
+        <section className="bg-[var(--accent-50)] py-16 md:py-24" aria-label="Start dates">
+          <div className="container-page">
+            <div className="mx-auto max-w-2xl text-center">
+              <SectionHeader
+                eyebrow="Program dates"
+                title="Start dates"
+                intro="Placements are scheduled individually — matched to community priorities, partner availability and your learning objectives. Confirmed intake windows will appear here once scheduled; timing, support and costs are always confirmed in writing before placement."
+                align="center"
+              />
+              <div className="mt-8 flex flex-wrap justify-center gap-3">
+                <Button href="/apply?type=guidance">Request placement guidance</Button>
+                <Button href="/opportunities" variant="secondary">Explore opportunities</Button>
+              </div>
+            </div>
           </div>
-          <div className="mt-10">
-            <FAQ items={gleFaqs} />
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
-      {/* 7. CTA band */}
-      <section className="py-16 md:py-20">
-        <div className="container-page">
-          <CTABand
-            title="Begin your GLE journey"
-            body="Explore opportunities that match your interests and learning objectives, request placement guidance, or partner your institution. Submitting an application starts a matching process — it does not guarantee acceptance or a particular host."
-            actions={[
-              { href: "/opportunities", label: "Explore opportunities" },
-              { href: "/apply?type=guidance", label: "Request placement guidance", variant: "secondary" },
-              { href: "/partners", label: "Partner your institution", variant: "ghost" },
-            ]}
-            tightBottom
-          />
-        </div>
-      </section>
+      {/* ===== 5. Testimonials (published only) ===== */}
+      <TestimonialCarousel
+        eyebrow="Participant voices"
+        title="What participants say"
+        intro="Stories from alumni of FOSCOD placements. Each published story has a named participant and confirmed permission."
+        items={carouselTestimonials.map((t) => ({ quote: t.quote, name: t.name, program: t.program, cohort: t.cohort }))}
+        cta={{ href: "/testimonials", label: "Read all testimonials" }}
+        bg="bg-[var(--surface-2)]"
+      />
+
+      {/* ===== 6. Application details ===== */}
+      <div className="bg-[var(--accent-100)]">
+        <ApplySection
+          title={applySection.title}
+          eyebrow={applySection.eyebrow}
+          body={applySection.body}
+          imageUrl={applySection.imageUrl}
+          imageAlt={applySection.imageAlt}
+          ctaLabel={applySection.ctaLabel}
+          ctaHref={applySection.ctaHref}
+          bg="bg-[var(--accent-100)]"
+        />
+
+        <section className="pb-16 md:pb-24" aria-label="Before you apply">
+          <div className="container-page">
+            <div className="mx-auto max-w-2xl text-center">
+              <h2 className="text-[clamp(1.7rem,3vw,2.3rem)]">Questions responsible participants ask</h2>
+              <p className="mt-4 leading-relaxed text-[var(--ink-soft)]">
+                Open roles should name their purpose, boundaries, expected outputs, supervisor, timing, requirements, and costs. If a detail is still being verified, FOSCOD will confirm it before placement.
+              </p>
+            </div>
+            <div className="mt-10">
+              <FAQ items={gleFaqs} />
+            </div>
+          </div>
+        </section>
+
+        <CTABand
+          bg="bg-[var(--accent-100)]"
+          title="Begin your GLE journey"
+          body="Explore opportunities that match your interests and learning objectives, request placement guidance, or partner your institution. Submitting an application starts a matching process — it does not guarantee acceptance or a particular host."
+          actions={[
+            { href: "/opportunities", label: "Explore opportunities" },
+            { href: "/apply?type=guidance", label: "Request placement guidance", variant: "secondary" },
+            { href: "/partners", label: "Partner your institution", variant: "ghost" },
+          ]}
+          tightBottom
+        />
+      </div>
     </>
   );
 }

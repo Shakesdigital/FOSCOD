@@ -58,17 +58,20 @@ export function OpportunitiesDirectory({
   opportunities,
   facets,
   noun = "opportunities",
+  initialType,
 }: {
   opportunities: OpportunitySummary[];
   facets: OpportunityFacets;
   noun?: string;
+  /** preselect the internship/volunteer classification (from ?type=) */
+  initialType?: "internship" | "volunteer";
 }) {
   const [query, setQuery] = useState("");
   const [experienceType, setExperienceType] = useState("all");
   const [sector, setSector] = useState("all");
   const [location, setLocation] = useState("all");
   const [format, setFormat] = useState("all");
-  const [classification, setClassification] = useState("all");
+  const [classification, setClassification] = useState(initialType ?? "all");
   const [page, setPage] = useState(1);
 
   const filtered = useMemo(() => {
