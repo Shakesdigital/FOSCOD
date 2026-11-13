@@ -2,7 +2,6 @@ import { HeroSlider } from "@/components/site/HeroSlider";
 import { Button } from "@/components/ui/Button";
 import {
   IntroSection,
-  ApplySection,
   FeatureGrid,
   CTABand,
   FAQ,
@@ -21,7 +20,6 @@ import {
   getGleBenefits,
   getProgramDates,
   getAllTestimonials,
-  getGleApplySection,
   type GlePathwayCard,
   type GleIconCard,
   type Testimonial,
@@ -78,7 +76,7 @@ function opportunityCards(opportunities: OpportunitySummary[]) {
 }
 
 export default async function GlePage() {
-  const [heroSlides, introduction, programCards, audience, benefits, dates, testimonials, opportunities, applySection] =
+  const [heroSlides, introduction, programCards, audience, benefits, dates, testimonials, opportunities] =
     await Promise.all([
       getHeroSlides("global-learning-exchange"),
       getGleIntroduction(),
@@ -88,7 +86,6 @@ export default async function GlePage() {
       getProgramDates(),
       getAllTestimonials(),
       getOpportunities(),
-      getGleApplySection(),
     ]);
 
   const carouselTestimonials: Testimonial[] = testimonials;
@@ -108,7 +105,7 @@ export default async function GlePage() {
         ctaHref={introduction.ctaHref}
       />
 
-      <section className="pb-16 md:pb-24" aria-label="Choose your program">
+      <section className="bg-[var(--surface-2)] py-16 md:py-24" aria-label="Choose your program">
         <div className="container-page">
           <SectionHeader
             eyebrow="Two ways to take part"
@@ -123,7 +120,7 @@ export default async function GlePage() {
       </section>
 
       {/* ===== 2. Target audience ===== */}
-      <section className="bg-[var(--surface-2)] py-16 md:py-24" aria-label="Target audience">
+      <section className="bg-[var(--forest-50)] py-16 md:py-24" aria-label="Target audience">
         <div className="container-page">
           <SectionHeader
             eyebrow="Target audience"
@@ -138,7 +135,7 @@ export default async function GlePage() {
       </section>
 
       {/* ===== 3. Program benefits ===== */}
-      <section className="bg-[var(--forest-50)] py-16 md:py-24" aria-label="Program benefits">
+      <section className="py-16 md:py-24" aria-label="Program benefits">
         <div className="container-page">
           <SectionHeader
             eyebrow="Program benefits"
@@ -159,7 +156,7 @@ export default async function GlePage() {
         intro="A sample of openings currently published in the opportunities directory. Each listing names its host, purpose, learning goals, supervision and practical arrangements."
         items={opportunityCards(opportunities)}
         cta={{ href: "/opportunities", label: "View all opportunities" }}
-        bg="bg-[var(--water-50)]"
+        bg="bg-[var(--surface-2)]"
       />
 
       {/* ===== 4. Start dates ===== */}
@@ -169,12 +166,12 @@ export default async function GlePage() {
           title="Start dates"
           intro="Placements are scheduled individually. Confirmed intake windows appear below; timing, support and costs are always confirmed in writing before placement."
           rows={dates}
-          bg="bg-[var(--accent-50)]"
+          bg="bg-[var(--forest-50)]"
           firstLabel="Intake"
           secondLabel="Details"
         />
       ) : (
-        <section className="bg-[var(--accent-50)] py-16 md:py-24" aria-label="Start dates">
+        <section className="bg-[var(--forest-50)] py-16 md:py-24" aria-label="Start dates">
           <div className="container-page">
             <div className="mx-auto max-w-2xl text-center">
               <SectionHeader
@@ -192,7 +189,19 @@ export default async function GlePage() {
         </section>
       )}
 
-      {/* ===== 5. Testimonials (published only) ===== */}
+      {/* ===== 5. Take Part: Begin Your GLE Journey ===== */}
+      <CTABand
+        eyebrow="Take part"
+        title="Begin your GLE journey"
+        body="Explore opportunities that match your interests and learning objectives, request placement guidance, or partner your institution. Submitting an application starts a matching process — it does not guarantee acceptance or a particular host."
+        actions={[
+          { href: "/apply", label: "Start your application" },
+          { href: "/opportunities", label: "Explore opportunities", variant: "secondary" },
+          { href: "/apply?type=guidance", label: "Request placement guidance", variant: "ghost" },
+        ]}
+      />
+
+      {/* ===== 6. What participants say (published only) ===== */}
       <TestimonialCarousel
         eyebrow="Participant voices"
         title="What participants say"
@@ -202,45 +211,20 @@ export default async function GlePage() {
         bg="bg-[var(--surface-2)]"
       />
 
-      {/* ===== 6. Application details ===== */}
-      <div className="bg-[var(--accent-100)]">
-        <ApplySection
-          title={applySection.title}
-          eyebrow={applySection.eyebrow}
-          body={applySection.body}
-          imageUrl={applySection.imageUrl}
-          imageAlt={applySection.imageAlt}
-          ctaLabel={applySection.ctaLabel}
-          ctaHref={applySection.ctaHref}
-          bg="bg-[var(--accent-100)]"
-        />
-
-        <section className="pb-16 md:pb-24" aria-label="Before you apply">
-          <div className="container-page">
-            <div className="mx-auto max-w-2xl text-center">
-              <h2 className="text-[clamp(1.7rem,3vw,2.3rem)]">Questions responsible participants ask</h2>
-              <p className="mt-4 leading-relaxed text-[var(--ink-soft)]">
-                Open roles should name their purpose, boundaries, expected outputs, supervisor, timing, requirements, and costs. If a detail is still being verified, FOSCOD will confirm it before placement.
-              </p>
-            </div>
-            <div className="mt-10">
-              <FAQ items={gleFaqs} />
-            </div>
+      {/* ===== 7. Questions participants ask ===== */}
+      <section className="bg-[var(--forest-50)] py-16 md:py-24" aria-label="Before you apply">
+        <div className="container-page">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-[clamp(1.7rem,3vw,2.3rem)]">Questions responsible participants ask</h2>
+            <p className="mt-4 leading-relaxed text-[var(--ink-soft)]">
+              Open roles should name their purpose, boundaries, expected outputs, supervisor, timing, requirements, and costs. If a detail is still being verified, FOSCOD will confirm it before placement.
+            </p>
           </div>
-        </section>
-
-        <CTABand
-          bg="bg-[var(--accent-100)]"
-          title="Begin your GLE journey"
-          body="Explore opportunities that match your interests and learning objectives, request placement guidance, or partner your institution. Submitting an application starts a matching process — it does not guarantee acceptance or a particular host."
-          actions={[
-            { href: "/opportunities", label: "Explore opportunities" },
-            { href: "/apply?type=guidance", label: "Request placement guidance", variant: "secondary" },
-            { href: "/partners", label: "Partner your institution", variant: "ghost" },
-          ]}
-          tightBottom
-        />
-      </div>
+          <div className="mt-10">
+            <FAQ items={gleFaqs} />
+          </div>
+        </div>
+      </section>
     </>
   );
 }

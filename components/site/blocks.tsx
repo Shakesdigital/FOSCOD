@@ -294,12 +294,14 @@ export function FAQ({ items }: { items: { q: string; a: string }[] }) {
 /** CTABand — closing call to action used at the foot of inner pages. */
 export function CTABand({
   title,
+  eyebrow,
   body,
   actions,
   tightBottom = false,
   bg,
 }: {
   title: string;
+  eyebrow?: string;
   body?: string;
   actions: { href: string; label: string; variant?: "primary" | "secondary" | "ghost" }[];
   tightBottom?: boolean;
@@ -317,6 +319,7 @@ export function CTABand({
           }}
           aria-hidden
         />
+        {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
         <h2 className="mx-auto max-w-2xl text-[clamp(1.8rem,3.5vw,2.6rem)]">{title}</h2>
         {body && (
           <p className="mx-auto mt-4 max-w-xl leading-relaxed text-[var(--ink-soft)]">

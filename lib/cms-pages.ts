@@ -154,7 +154,6 @@ export const cmsPages: CmsPageDef[] = [
       section("benefits", "Program benefits", "gle-benefits", "The 'Program benefits' section.", {
         sort: { column: "order_column", ascending: true },
       }),
-      section("apply", "Apply section", "gle-apply-section", "The apply call-to-action near the foot of the page.", { single: true }),
       section("dates-note", "Start dates", "program-dates", "Upcoming intake rows for the Start dates section. When empty, the page shows a scheduling note instead."),
     ],
   },
