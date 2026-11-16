@@ -69,31 +69,6 @@ export default async function VolunteerPage() {
         </div>
       </section>
 
-      {/* ===== Volunteer package & benefits ===== */}
-      <section id="package" className="scroll-mt-36 py-16 md:py-24" aria-label="Volunteer package and benefits">
-        <div className="container-page">
-          <SectionHeader eyebrow={c.package.eyebrow} title={c.package.title} intro={c.package.intro} align="center" />
-          <div className="mt-12 grid gap-10 lg:grid-cols-2">
-            <div>
-              <h3 className="text-center text-xl text-[var(--accent-700)] lg:text-left">{c.package.packageLabel}</h3>
-              <div className="mt-6 grid gap-5">
-                {c.package.items.map((p) => (
-                  <ExpandableCard key={p.title} title={p.title} intro={p.intro} body={p.body} tone="forest" />
-                ))}
-              </div>
-            </div>
-            <div>
-              <h3 className="text-center text-xl text-[var(--accent-700)] lg:text-left">{c.package.benefitsLabel}</h3>
-              <div className="mt-6 grid gap-5">
-                {c.package.benefits.map((b) => (
-                  <ExpandableCard key={b.title} title={b.title} intro={b.intro} body={b.body} tone="water" />
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ===== Who can volunteer ===== */}
       <PhotoBand
         id="eligibility"
@@ -102,7 +77,9 @@ export default async function VolunteerPage() {
         body={c.eligibility.intro}
         bullets={c.eligibility.bullets}
         tone="forest"
-        align="left"
+        imageUrl="/images/gle/volunteer/who-can-volunteer.jpg"
+        imageAlt="A FOSCOD volunteer taking notes beside community members against a brick wall in Jinja, Uganda"
+        align="right"
       />
 
       {/* ===== Live opportunities carousel (published openings only) ===== */}
@@ -186,17 +163,9 @@ export default async function VolunteerPage() {
         title={c.duration.title}
         body={c.duration.body}
         tone="earth"
+        imageUrl="/images/gle/volunteer/duration.jpg"
+        imageAlt="A FOSCOD volunteer sitting with children against a mud wall in a Ugandan community"
         align="right"
-      />
-
-      {/* ===== Location ===== */}
-      <IntroSection
-        title={c.location.title}
-        eyebrow={c.location.eyebrow}
-        body={c.location.body}
-        ctaLabel={c.location.cta.label}
-        ctaHref={c.location.cta.href}
-        noImage
       />
 
       {/* ===== Program fees ===== */}
@@ -207,6 +176,8 @@ export default async function VolunteerPage() {
         body={c.fees.body}
         cta={c.fees.cta}
         tone="water"
+        imageUrl="/images/gle/volunteer/fees.jpg"
+        imageAlt="A FOSCOD volunteer reviewing documents with community members in a village in Jinja, Uganda"
         align="left"
       />
 
@@ -228,22 +199,6 @@ export default async function VolunteerPage() {
         </div>
       </section>
 
-      {/* ===== FAQs ===== */}
-      <section id="faqs" className="scroll-mt-36 py-16 md:py-24" aria-label="Frequently asked questions">
-        <div className="container-page">
-          <div className="mx-auto max-w-2xl text-center">
-            <SectionHeader
-              eyebrow="Frequently asked questions"
-              title="Questions volunteers ask"
-              align="center"
-            />
-          </div>
-          <div className="mt-10">
-            <FAQ items={c.faqs} />
-          </div>
-        </div>
-      </section>
-
       {/* ===== Alumni voices (published only) ===== */}
       <TestimonialCarousel
         eyebrow={c.voices.eyebrow}
@@ -261,6 +216,22 @@ export default async function VolunteerPage() {
         body={c.finalCta.body}
         actions={c.finalCta.actions}
       />
+
+      {/* ===== FAQs ===== */}
+      <section id="faqs" className="scroll-mt-36 py-16 md:py-24" aria-label="Frequently asked questions">
+        <div className="container-page">
+          <div className="mx-auto max-w-2xl text-center">
+            <SectionHeader
+              eyebrow="Frequently asked questions"
+              title="Questions volunteers ask"
+              align="center"
+            />
+          </div>
+          <div className="mt-10">
+            <FAQ items={c.faqs} />
+          </div>
+        </div>
+      </section>
     </>
   );
 }

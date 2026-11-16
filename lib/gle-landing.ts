@@ -131,17 +131,15 @@ const volunteer: GleLandingContent = {
   subNav: [
     { href: "#about", label: "About" },
     { href: "#types", label: "Types of volunteering" },
-    { href: "#package", label: "Package & benefits" },
     { href: "#eligibility", label: "Who can volunteer" },
     { href: "#opportunities", label: "Opportunities" },
     { href: "#impact", label: "Impact" },
     { href: "#dates", label: "Start dates" },
     { href: "#fees", label: "Fees" },
     { href: "#duration", label: "Duration" },
-    { href: "#location", label: "Location" },
     { href: "#how", label: "How to apply" },
-    { href: "#faqs", label: "FAQs" },
     { href: "#voices", label: "Alumni experiences" },
+    { href: "#faqs", label: "FAQs" },
   ],
   about: {
     eyebrow: "About the volunteer program",

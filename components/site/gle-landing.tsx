@@ -149,9 +149,7 @@ export function ExpandableCard({
             {icon}
           </span>
         </div>
-      ) : (
-        <div className="h-2 w-full" style={{ backgroundImage: bandTones[tone] }} aria-hidden />
-      )}
+      ) : null}
       <details className="group flex flex-1 flex-col px-6 py-5">
         <summary className="flex cursor-pointer list-none flex-col marker:hidden">
           {heading}
