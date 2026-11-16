@@ -1,22 +1,35 @@
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import type { Partner } from "@/lib/content";
 
-/** PartnerLogos — horizontally scrolling logo loop from the CMS partners collection.
- *  Grayscale logos with hover color reveal, animated infinite scroll.
- *  Falls back to a static text strip when no logos are present. */
+type PartnerLogo = { name: string; src: string };
+
+/** Curated partner logos (sourced from each partner's official site, white
+ *  backgrounds removed, trimmed to equal visual weight). Kept static so the
+ *  strip always renders complete — CMS partners rows carry no logos. */
+const partnerLogos: PartnerLogo[] = [
+  { name: "AIESEC", src: "/images/partners/aiesec.svg" },
+  { name: "The Community-Based Global Learning Collaborative", src: "/images/partners/cbglc.png" },
+  { name: "Fort Lewis College", src: "/images/partners/fortlewis.svg" },
+  { name: "IDIWA — Integrated Disabled Women Activities", src: "/images/partners/idiwa.png" },
+  { name: "Kaya Responsible Travel", src: "/images/partners/kaya.svg" },
+  { name: "Myriad Canada", src: "/images/partners/myriad.svg" },
+  { name: "Northwestern University", src: "/images/partners/northwestern.svg" },
+  { name: "ROOTS Internships", src: "/images/partners/roots.png" },
+  { name: "St. Francis Health Care Services", src: "/images/partners/stfrancis.png" },
+  { name: "SustainMe", src: "/images/partners/sustainme.png" },
+  { name: "Together for a New Africa", src: "/images/partners/together.png" },
+];
+
+/** PartnerLogos — horizontally scrolling logo loop. Equal-size cells, uniform
+ *  gaps, grayscale with hover color reveal. Marquee animation unchanged. */
 export function PartnerLogos({
-  partners,
   eyebrow = "Our partners",
   title = "Working with institutions and public partners",
 }: {
-  partners: Partner[];
   eyebrow?: string;
   title?: string;
 }) {
-  // Duplicate partners so the animation can scroll seamlessly
-  const allPartners = partners.length > 0 ? [...partners, ...partners] : [];
-  const fallbackNames = ["University Partner", "Community CBO", "Local NGO", "Climate Funder", "Research Institute", "District Government"];
-  const displaySet = partners.length > 0 ? partners : fallbackNames;
+  // Duplicate the set so the animation can scroll seamlessly
+  const allPartners = [...partnerLogos, ...partnerLogos];
 
   return (
     <section className="bg-[var(--surface-2)] py-14 md:py-20">
@@ -33,7 +46,7 @@ export function PartnerLogos({
               __html: `
                 @media (prefers-reduced-motion: no-preference) {
                   .partner-scroll {
-                    animation: scroll-left 30s linear infinite;
+                    animation: scroll-left 40s linear infinite;
                   }
                 }
                 @keyframes scroll-left {
@@ -44,42 +57,22 @@ export function PartnerLogos({
             }}
           />
           <div
-            className={`flex items-center gap-10 whitespace-nowrap ${
-              partners.length > 0 ? "partner-scroll md:gap-16" : "animate-none"
-            }`}
+            className="partner-scroll flex items-center gap-10 whitespace-nowrap md:gap-16"
             aria-label="Partner logos"
           >
-            {partners.length > 0
-              ? allPartners.map((p, i) => (
-                  <div
-                    key={`${p.name}-${i}`}
-                    className="flex items-center grayscale opacity-65 transition-all hover:grayscale-0 hover:opacity-100"
-                  >
-                    {p.logo_url ? (
-                      <img
-                        src={p.logo_url}
-                        alt={p.logo_alt || p.name}
-                        className="h-10 max-w-[160px] object-contain"
-                        loading={i < 10 ? "eager" : "lazy"}
-                        width={160}
-                        height={40}
-                      />
-                    ) : (
-                      <span className="font-[family-name:var(--font-text)] text-[0.7rem] uppercase tracking-[0.16em] text-[var(--muted)]">
-                        {p.name}
-                      </span>
-                    )}
-                  </div>
-                ))
-              : (displaySet as string[]).map((name, i) => (
-                  <span
-                    key={i}
-                    className="font-[family-name:var(--font-text)] text-[0.7rem] uppercase tracking-[0.16em] text-[var(--muted)]"
-                  >
-                    {name}
-                  </span>
-                ))
-            }
+            {allPartners.map((p, i) => (
+              <div
+                key={`${p.name}-${i}`}
+                className="flex h-16 w-40 shrink-0 items-center justify-center grayscale opacity-65 transition-all hover:grayscale-0 hover:opacity-100"
+              >
+                <img
+                  src={p.src}
+                  alt={p.name}
+                  className="max-h-full max-w-full object-contain"
+                  loading={i < partnerLogos.length ? "eager" : "lazy"}
+                />
+              </div>
+            ))}
           </div>
         </div>
       </div>

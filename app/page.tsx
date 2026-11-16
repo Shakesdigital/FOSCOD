@@ -4,16 +4,15 @@ import { HowYouCanGetInvolved } from "@/components/home/HowYouCanGetInvolved";
 import { ImpactSnapshot } from "@/components/home/ImpactSnapshot";
 import { PartnerLogos } from "@/components/home/PartnerLogos";
 import { ProgramsSection } from "@/components/site/blocks";
-import { getHeroSlides, getPrograms, getPartners, getTalkingAboutUs, getInvolvementCards, getImpactMetrics } from "@/lib/content";
+import { getHeroSlides, getPrograms, getTalkingAboutUs, getInvolvementCards, getImpactMetrics } from "@/lib/content";
 
 /** Homepage — a traffic director, not a story (per the landing-page research):
  *  one sentence of who we are, the two programs, proof we can stand behind,
  *  then three clear pathways into the work. */
 export default async function HomePage() {
-  const [heroSlides, programs, partners, talkingAboutUsData, involvementCards, metrics] = await Promise.all([
+  const [heroSlides, programs, talkingAboutUsData, involvementCards, metrics] = await Promise.all([
     getHeroSlides("home"),
     getPrograms(),
-    getPartners(),
     getTalkingAboutUs(),
     getInvolvementCards(),
     getImpactMetrics(),
@@ -47,7 +46,7 @@ export default async function HomePage() {
       />
 
       {/* Partners strip — quiet trust signal */}
-      <PartnerLogos partners={partners} />
+      <PartnerLogos />
     </>
   );
 }

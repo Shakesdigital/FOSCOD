@@ -2,6 +2,25 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { ContentCard } from "@/components/ui/ContentCard";
 import type { InvolvementCard } from "@/lib/content";
 
+/** Canonical pathway cards. CMS rows duplicate each card with image and icon
+ *  variants (and titles vary: "Donate to a cause" vs "Donate to our project"),
+ *  so incoming cards are reduced to exactly these three, icon-based, no image. */
+const canonicalCards: { match: RegExp; icon: string }[] = [
+  { match: /^volunteer/i, icon: "volunteer" },
+  { match: /^partner/i, icon: "partner" },
+  { match: /^donate/i, icon: "donate" },
+];
+
+function normalizeCards(cards: InvolvementCard[]): InvolvementCard[] {
+  return canonicalCards
+    .map(({ match, icon }): InvolvementCard | null => {
+      const matches = cards.filter((c) => match.test(c.title));
+      const card = matches.find((c) => c.icon && !c.imageUrl) ?? matches[0];
+      return card ? { ...card, icon, imageUrl: undefined, imageAlt: undefined } : null;
+    })
+    .filter((c): c is InvolvementCard => c !== null);
+}
+
 /** HowYouCanGetInvolved — three pathway cards after the homepage programs section.
  *  Replaces the former Featured Projects carousel.
  *  Cards match the ProjectCarousel card design: border, rounded, hover lift, PhotoSlot. */
@@ -18,6 +37,7 @@ export function HowYouCanGetInvolved({
   intro?: string;
   surface?: boolean;
 }) {
+  const normalized = normalizeCards(cards);
   return (
     <section className={`py-14 md:py-20 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
       <div className="container-page">
@@ -28,7 +48,7 @@ export function HowYouCanGetInvolved({
         </div>
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {cards.map((card, i) => (
+          {normalized.map((card, i) => (
             <div key={card.title} className="group h-full">
               <ContentCard
                 title={card.title}

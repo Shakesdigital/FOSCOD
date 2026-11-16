@@ -4,7 +4,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
 import { PartnerLogos } from "@/components/home/PartnerLogos";
 import { pageMeta } from "@/lib/seo";
-import { getHeroSlides, getPartners, getAboutContent } from "@/lib/content";
+import { getHeroSlides, getAboutContent } from "@/lib/content";
 
 export const metadata = pageMeta(
   "About Us",
@@ -12,9 +12,8 @@ export const metadata = pageMeta(
 );
 
 export default async function AboutPage() {
-  const [heroSlides, partners, about] = await Promise.all([
+  const [heroSlides, about] = await Promise.all([
     getHeroSlides("about"),
-    getPartners(),
     getAboutContent(),
   ]);
 
@@ -147,7 +146,7 @@ export default async function AboutPage() {
       </section>
 
       {/* Partners — scrolling carousel */}
-      <PartnerLogos partners={partners} eyebrow="Our partners" title="Collaboration across sectors and borders" />
+      <PartnerLogos eyebrow="Our partners" title="Collaboration across sectors and borders" />
 
       {/* Want to work with us — CTABand with background and thicker border */}
       <div className="border-2 border-[var(--border-strong)] py-4">
