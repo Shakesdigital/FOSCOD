@@ -37,9 +37,9 @@ export function SubNav({ items }: { items: { href: string; label: string }[] }) 
   );
 }
 
-/** PhotoBand — a full-bleed duotone (or photo) section with a legible content
- *  card floating over it. Carries the former site's "photo + overlay text"
- *  sections (eligibility, fees, duration) into the new design system. */
+/** PhotoBand — a brand-gradient section with the content card on one side and,
+ *  when a photo is supplied, a contained image on the other that melts into
+ *  the band (tone wash + soft edge fade) instead of filling the background. */
 export function PhotoBand({
   id,
   eyebrow,
@@ -63,42 +63,67 @@ export function PhotoBand({
   imageAlt?: string;
   align?: "left" | "right";
 }) {
+  const card = (
+    <div
+      className={`w-full max-w-xl rounded-[var(--radius-xl)] border border-white/20 bg-[color-mix(in_srgb,var(--surface)_88%,transparent)] p-8 shadow-[var(--shadow-lg)] backdrop-blur-md md:p-10`}
+    >
+      {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+      <h2 id={`${id ?? title}-heading`} className="mt-3 text-[clamp(1.5rem,2.6vw,2rem)]">{title}</h2>
+      {body && <p className="mt-4 leading-relaxed text-[var(--ink-soft)]">{body}</p>}
+      {bullets && (
+        <ul className="mt-4 space-y-2.5">
+          {bullets.map((b) => (
+            <li key={b} className="flex items-start gap-2.5 text-[0.95rem] leading-relaxed text-[var(--ink-soft)]">
+              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--accent-600)]" aria-hidden />
+              {b}
+            </li>
+          ))}
+        </ul>
+      )}
+      {cta && (
+        <div className="mt-7">
+          <Button href={cta.href} variant="primary" size="md">{cta.label}</Button>
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <section id={id} className="relative isolate overflow-hidden py-20 md:py-28" aria-labelledby={`${id ?? title}-heading`}>
+      <div className="absolute inset-0 -z-20" style={{ backgroundImage: bandTones[tone] }} aria-hidden />
       {imageUrl ? (
-        <img src={imageUrl} alt={imageAlt ?? ""} className="absolute inset-0 -z-20 h-full w-full object-cover" loading="lazy" />
-      ) : (
-        <div className="absolute inset-0 -z-20" style={{ backgroundImage: bandTones[tone] }} aria-hidden />
-      )}
-      <div
-        className="absolute inset-0 -z-10"
-        style={{ background: "linear-gradient(180deg, rgba(13,32,30,.30) 0%, rgba(13,32,30,.18) 40%, rgba(13,32,30,.45) 100%)" }}
-        aria-hidden
-      />
-      <div className={`container-page flex ${align === "right" ? "justify-end" : "justify-start"}`}>
-        <div
-          className={`w-full max-w-xl rounded-[var(--radius-xl)] border border-white/20 bg-[color-mix(in_srgb,var(--surface)_88%,transparent)] p-8 shadow-[var(--shadow-lg)] backdrop-blur-md md:p-10`}
-        >
-          {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
-          <h2 id={`${id ?? title}-heading`} className="mt-3 text-[clamp(1.5rem,2.6vw,2rem)]">{title}</h2>
-          {body && <p className="mt-4 leading-relaxed text-[var(--ink-soft)]">{body}</p>}
-          {bullets && (
-            <ul className="mt-4 space-y-2.5">
-              {bullets.map((b) => (
-                <li key={b} className="flex items-start gap-2.5 text-[0.95rem] leading-relaxed text-[var(--ink-soft)]">
-                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--accent-600)]" aria-hidden />
-                  {b}
-                </li>
-              ))}
-            </ul>
-          )}
-          {cta && (
-            <div className="mt-7">
-              <Button href={cta.href} variant="primary" size="md">{cta.label}</Button>
-            </div>
-          )}
+        <div className="container-page grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+          <div className={align === "right" ? "flex lg:order-2 lg:justify-end" : "flex"}>{card}</div>
+          <div
+            className={`relative w-full max-w-lg overflow-hidden self-center rounded-[var(--radius-lg)] shadow-[var(--shadow-lg)] ${
+              align === "right" ? "lg:order-1 lg:justify-self-end" : "lg:justify-self-start"
+            }`}
+          >
+            <img
+              src={imageUrl}
+              alt={imageAlt ?? ""}
+              className="block h-auto max-h-[540px] w-full object-cover"
+              loading="lazy"
+            />
+            {/* tone wash + inner-edge fade make the photo melt into the band */}
+            <div
+              className="pointer-events-none absolute inset-0 opacity-25"
+              style={{ backgroundImage: bandTones[tone] }}
+              aria-hidden
+            />
+            <div
+              className={`pointer-events-none absolute inset-y-0 w-1/3 ${
+                align === "right"
+                  ? "right-0 bg-gradient-to-l from-[var(--accent-700)]/70 to-transparent"
+                  : "left-0 bg-gradient-to-r from-[var(--accent-700)]/70 to-transparent"
+              }`}
+              aria-hidden
+            />
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className={`container-page flex ${align === "right" ? "justify-end" : "justify-start"}`}>{card}</div>
+      )}
     </section>
   );
 }
