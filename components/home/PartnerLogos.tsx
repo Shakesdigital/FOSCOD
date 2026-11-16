@@ -1,6 +1,6 @@
 import { Eyebrow } from "@/components/ui/Eyebrow";
 
-type PartnerLogo = { name: string; src: string };
+type PartnerLogo = { name: string; src: string; /** Optional background — light logos keep their original white card so they read on the pale section. */ bg?: string };
 
 /** Curated partner logos (sourced from each partner's official site, white
  *  backgrounds removed, trimmed to equal visual weight). Kept static so the
@@ -14,9 +14,9 @@ const partnerLogos: PartnerLogo[] = [
   { name: "Myriad Canada", src: "/images/partners/myriad.svg" },
   { name: "Northwestern University", src: "/images/partners/northwestern.svg" },
   { name: "ROOTS Internships", src: "/images/partners/roots.png" },
-  { name: "St. Francis Health Care Services", src: "/images/partners/stfrancis.png" },
-  { name: "SustainMe", src: "/images/partners/sustainme.png" },
-  { name: "Together for a New Africa", src: "/images/partners/together.png" },
+  { name: "St. Francis Health Care Services", src: "/images/partners/stfrancis.png", bg: "#ffffff" },
+  { name: "SustainMe", src: "/images/partners/sustainme.png", bg: "#ffffff" },
+  { name: "Together for a New Africa", src: "/images/partners/together.png", bg: "#ffffff" },
 ];
 
 /** PartnerLogos — horizontally scrolling logo loop. Equal-size cells, uniform
@@ -63,7 +63,8 @@ export function PartnerLogos({
             {allPartners.map((p, i) => (
               <div
                 key={`${p.name}-${i}`}
-                className="flex h-16 w-40 shrink-0 items-center justify-center transition-transform hover:scale-105"
+                className={`flex h-16 w-40 shrink-0 items-center justify-center transition-transform hover:scale-105 ${p.bg ? "p-2" : ""}`}
+                style={p.bg ? { backgroundColor: p.bg } : undefined}
               >
                 <img
                   src={p.src}
