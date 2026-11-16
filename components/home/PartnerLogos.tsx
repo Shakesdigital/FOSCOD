@@ -69,7 +69,7 @@ export function PartnerLogos({
                   src={p.src}
                   alt={p.name}
                   className="max-h-full max-w-full object-contain"
-                  loading={i < partnerLogos.length ? "eager" : "lazy"}
+                  loading="eager"
                 />
               </div>
             ))}
