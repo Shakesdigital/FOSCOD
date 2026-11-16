@@ -49,6 +49,16 @@ export function PartnerLogos({
                     animation: scroll-left 40s linear infinite;
                   }
                 }
+                /* No animation -> static wrapped grid so every logo is visible */
+                @media (prefers-reduced-motion: reduce) {
+                  .partner-scroll {
+                    flex-wrap: wrap;
+                    justify-content: center;
+                  }
+                  .partner-dup {
+                    display: none;
+                  }
+                }
                 @keyframes scroll-left {
                   0% { transform: translateX(0); }
                   100% { transform: translateX(-50%); }
@@ -63,7 +73,7 @@ export function PartnerLogos({
             {allPartners.map((p, i) => (
               <div
                 key={`${p.name}-${i}`}
-                className={`flex h-16 w-40 shrink-0 items-center justify-center transition-transform hover:scale-105 ${p.bg ? "p-2" : ""}`}
+                className={`flex h-16 w-40 shrink-0 items-center justify-center transition-transform hover:scale-105 ${p.bg ? "p-2" : ""} ${i >= partnerLogos.length ? "partner-dup" : ""}`}
                 style={p.bg ? { backgroundColor: p.bg } : undefined}
               >
                 <img
