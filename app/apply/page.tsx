@@ -14,6 +14,8 @@ export const metadata = pageMeta(
 
 // Maps ?type= slugs (from GLE page CTAs) to wizard experience-type rows.
 const TYPE_ALIASES: Record<string, string> = {
+  volunteer: "Individual Internship or Volunteer Placement",
+  internship: "Individual Internship or Volunteer Placement",
   "group-project": "Group Project Placement",
   "coordinated-group": "Coordinated Group Placement",
   "service-learning-trip": "Service-Learning Trip",

@@ -928,6 +928,42 @@ const heroSlides: Record<string, HeroSlide[]> = {
       tone: "forest",
     },
   ],
+  "gle-volunteer": [
+    {
+      eyebrow: "Volunteer program · Global Learning Exchange",
+      title: "Give your time where it counts",
+      intro: "Community-defined volunteering in Jinja, Iganga and Buikwe — individual, group or global service trip — with local supervision, cultural immersion and guided reflection.",
+      cta: { href: "/apply?type=volunteer", label: "Start your volunteer application" },
+      cta2: { href: "/opportunities?type=volunteer", label: "Browse volunteer placements" },
+      tone: "forest",
+    },
+    {
+      eyebrow: "Learning together",
+      title: "Volunteers learn. Communities lead.",
+      intro: "Every placement is built around a priority the community itself has defined — your contribution supports their plan, with reflection and cultural exchange throughout.",
+      cta: { href: "#how", label: "How it works" },
+      cta2: { href: "/programs/program-fees", label: "View fees" },
+      tone: "water",
+    },
+  ],
+  "gle-internship": [
+    {
+      eyebrow: "Internship program · Global Learning Exchange",
+      title: "Internships that build careers — and serve communities",
+      intro: "Supervised placements aligned to your learning objectives: a defined role, named supervision, agreed outputs and a useful handover — individual, group or global service trip.",
+      cta: { href: "/apply?type=internship", label: "Start your internship application" },
+      cta2: { href: "/opportunities?type=internship", label: "Browse internships" },
+      tone: "water",
+    },
+    {
+      eyebrow: "Professional growth",
+      title: "Turn your studies into practice in Uganda",
+      intro: "Work on clean energy, WASH, livelihoods, health and research priorities with FOSCOD's CEDP and local partner organizations.",
+      cta: { href: "#how", label: "How it works" },
+      cta2: { href: "/programs/program-fees", label: "View fees" },
+      tone: "forest",
+    },
+  ],
   volunteer: [
     {
       eyebrow: "Volunteer",
@@ -3596,8 +3632,8 @@ const gleProgramCardsFallback: GlePathwayCard[] = [
   {
     title: "Volunteer Program",
     body: "A structured volunteering placement with FOSCOD's Community Empowerment and Development Program (CEDP) or a local partner organization. You contribute to community-defined priorities under local supervision, with orientation, guided reflection and cultural exchange.",
-    href: "/opportunities?type=volunteer",
-    cta: "Browse volunteer placements",
+    href: "/programs/global-learning-exchange/volunteer",
+    cta: "Explore the volunteer program",
     kicker: "Give your time and skills",
     tag: "Volunteering",
     icon: "volunteer",
@@ -3606,8 +3642,8 @@ const gleProgramCardsFallback: GlePathwayCard[] = [
   {
     title: "Internship Program",
     body: "A supervised internship aligned to your learning objectives — a defined role, a named supervisor, regular monitoring and reflection, and a useful handover that strengthens the host organization.",
-    href: "/opportunities?type=internship",
-    cta: "Browse internships",
+    href: "/programs/global-learning-exchange/internship",
+    cta: "Explore the internship program",
     kicker: "Build career experience",
     tag: "Internship",
     icon: "energy",
@@ -3624,12 +3660,12 @@ const gleTargetAudienceFallback: GleIconCard[] = [
 ];
 
 const gleBenefitsFallback: GleIconCard[] = [
-  { title: "Community-defined roles", body: "Work on priorities identified with communities and local partners — not manufactured tasks.", icon: "volunteer" },
-  { title: "Named local supervisor", body: "Orientation, mentorship, practical guidance and monitoring from an experienced local supervisor.", icon: "partner" },
-  { title: "Arrangements confirmed in writing", body: "Accommodation arrangement, local transport and an emergency contact are confirmed for your specific intake before placement.", icon: "enterprise" },
-  { title: "Host-family cultural exchange", body: "Live and learn alongside host families, local leaders and community organizations in genuine two-way exchange.", icon: "livelihoods" },
-  { title: "Reflection & continuity", body: "Guided reflection, a review of outcomes with community partners, and documented lessons that support continuing development.", icon: "research" },
-  { title: "Academic alignment", body: "FOSCOD can align activities and evidence of learning with your institution; your home institution remains responsible for approving academic credit.", icon: "education" },
+  { title: "Hands on Learning", body: "You'll directly work with FOSCOD in collaboration with local partner community organization to engage in specific field-based learning that aligns with your interests", icon: "volunteer" },
+  { title: "Community Development Skills", body: "You will focus on sustainable community based development, and learn skills like Community engagement, Resource management, implementation, evaluation and ethical leadership", icon: "livelihoods" },
+  { title: "Cross-Cultural Immersion", body: "Work directly with FOSCOD and its local host organizations and communities, deepening your global awareness while strengthening your ability to collaborate in diverse environments", icon: "partner" },
+  { title: "Personal and Professional Growth", body: "You will strengthen your problem-solving, leadership, and adaptability skills while making a tangible difference in people's lives.", icon: "education" },
+  { title: "Retreats and Excursions", body: "You'll involve yourself in tourism, travel and group bonding activities, while also experiencing Ugandan culture through immersive activities, regardless of natural beauty, cultural or social significance.", icon: "environment" },
+  { title: "Certificate Award", body: "Upon the completion of the program, you will be awarded a certificate recognizing your positive contributions to Ugandan communities, which will enhance your resume.", icon: "enterprise" },
 ];
 
 export async function getGleProgramCards(): Promise<GlePathwayCard[]> {
