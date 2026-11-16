@@ -63,7 +63,7 @@ export function PartnerLogos({
             {allPartners.map((p, i) => (
               <div
                 key={`${p.name}-${i}`}
-                className="flex h-16 w-40 shrink-0 items-center justify-center grayscale opacity-65 transition-all hover:grayscale-0 hover:opacity-100"
+                className="flex h-16 w-40 shrink-0 items-center justify-center transition-transform hover:scale-105"
               >
                 <img
                   src={p.src}
