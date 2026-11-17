@@ -77,10 +77,9 @@ export default async function VolunteerPage() {
           intro={c.opportunities.intro}
           items={opportunityCards(opportunities)}
           cta={c.opportunities.cta}
-          bg="bg-[var(--surface-2)]"
         />
       ) : (
-        <section id="opportunities" className="scroll-mt-36 bg-[var(--surface-2)] py-16 md:py-24" aria-label="Volunteer opportunities">
+        <section id="opportunities" className="scroll-mt-36 py-16 md:py-24" aria-label="Volunteer opportunities">
           <div className="container-page">
             <div className="mx-auto max-w-2xl text-center">
               <SectionHeader
@@ -105,7 +104,7 @@ export default async function VolunteerPage() {
         title={c.eligibility.title}
         body={c.eligibility.intro}
         bullets={c.eligibility.bullets}
-        tone="forest"
+        tone="earth"
         imageUrl="/images/gle/volunteer/who-can-volunteer.jpg"
         imageAlt="A FOSCOD volunteer taking notes beside community members against a brick wall in Jinja, Uganda"
         align="right"
@@ -118,12 +117,11 @@ export default async function VolunteerPage() {
           title="Start dates"
           intro="Placements are scheduled individually. Confirmed intake windows appear below; timing, support and costs are always confirmed in writing before placement."
           rows={dates}
-          bg="bg-[var(--forest-50)]"
           firstLabel="Intake"
           secondLabel="Details"
         />
       ) : (
-        <section id="dates" className="scroll-mt-36 bg-[var(--forest-50)] py-16 md:py-24" aria-label="Start dates">
+        <section id="dates" className="scroll-mt-36 py-16 md:py-24" aria-label="Start dates">
           <div className="container-page">
             <div className="mx-auto max-w-2xl text-center">
               <SectionHeader
@@ -147,7 +145,7 @@ export default async function VolunteerPage() {
         eyebrow={c.duration.eyebrow}
         title={c.duration.title}
         body={c.duration.body}
-        tone="earth"
+        tone="forest"
         imageUrl="/images/gle/volunteer/duration.jpg"
         imageAlt="A FOSCOD volunteer sitting with children against a mud wall in a Ugandan community"
         align="left"
