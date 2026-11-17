@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/Button";
 import type { HeroSlide } from "@/lib/content";
 
 const toneGradients: Record<string, string> = {
-  earth: "linear-gradient(135deg, #7d3a23, #a8553a 55%, #c98a5f)",
+  earth: "linear-gradient(135deg, #14324f, #1c5a80 55%, #4a90b8)",
   water: "linear-gradient(135deg, #123f3a, #1c6e66 55%, #5fa39a)",
   forest: "linear-gradient(135deg, #23381f, #2f5d3a 55%, #6f9c63)",
 };

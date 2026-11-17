@@ -79,7 +79,7 @@ export default async function VolunteerPage() {
         tone="forest"
         imageUrl="/images/gle/volunteer/who-can-volunteer.jpg"
         imageAlt="A FOSCOD volunteer taking notes beside community members against a brick wall in Jinja, Uganda"
-        align="left"
+        align="right"
       />
 
       {/* ===== Live opportunities carousel (published openings only) ===== */}
@@ -178,7 +178,7 @@ export default async function VolunteerPage() {
         tone="water"
         imageUrl="/images/gle/volunteer/fees.jpg"
         imageAlt="A FOSCOD volunteer reviewing documents with community members in a village in Jinja, Uganda"
-        align="left"
+        align="right"
       />
 
       {/* ===== How to apply — numbered stages ===== */}
