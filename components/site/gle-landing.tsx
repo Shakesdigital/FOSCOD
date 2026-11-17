@@ -8,8 +8,17 @@ import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 
+/** PhotoBand — a home-page-colored section (white / pale mint / ink) with the
+ *  content card on one side and, when a photo is supplied, a contained image
+ *  on the other that melts into the band (tone wash + soft edge fade). */
+const bandBgs: Record<"earth" | "water" | "forest", string> = {
+  earth: "var(--ink)", // dark strip, as home's impact snapshot
+  water: "var(--surface)", // white
+  forest: "var(--surface-2)", // pale mint — the alternating section tint
+};
+
 const bandTones: Record<string, string> = {
-  earth: "linear-gradient(135deg, #14324f, #1c5a80 55%, #4a90b8)",
+  earth: "linear-gradient(135deg, #7d3a23, #a8553a 55%, #c98a5f)",
   water: "linear-gradient(135deg, #123f3a, #1c6e66 55%, #5fa39a)",
   forest: "linear-gradient(135deg, #23381f, #2f5d3a 55%, #6f9c63)",
 };
@@ -90,7 +99,7 @@ export function PhotoBand({
 
   return (
     <section id={id} className="relative isolate overflow-hidden py-20 md:py-28" aria-labelledby={`${id ?? title}-heading`}>
-      <div className="absolute inset-0 -z-20" style={{ backgroundImage: bandTones[tone] }} aria-hidden />
+      <div className="absolute inset-0 -z-20" style={{ background: bandBgs[tone] }} aria-hidden />
       {imageUrl ? (
         <div className="container-page grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
           <div className={align === "right" ? "flex lg:order-2 lg:justify-end" : "flex"}>{card}</div>
@@ -105,18 +114,19 @@ export function PhotoBand({
               className="block h-auto max-h-[540px] w-full object-cover"
               loading="lazy"
             />
-            {/* tone wash + inner-edge fade make the photo melt into the band */}
+            {/* band-color wash + inner-edge fade make the photo melt into the section */}
             <div
-              className="pointer-events-none absolute inset-0 opacity-25"
-              style={{ backgroundImage: bandTones[tone] }}
+              className="pointer-events-none absolute inset-0 opacity-20"
+              style={{ backgroundColor: bandBgs[tone] }}
               aria-hidden
             />
             <div
               className={`pointer-events-none absolute inset-y-0 w-1/3 ${
-                align === "right"
-                  ? "right-0 bg-gradient-to-l from-[var(--accent-700)]/70 to-transparent"
-                  : "left-0 bg-gradient-to-r from-[var(--accent-700)]/70 to-transparent"
+                align === "right" ? "right-0" : "left-0"
               }`}
+              style={{
+                background: `linear-gradient(to ${align === "right" ? "left" : "right"}, ${bandBgs[tone]} 0%, transparent 100%)`,
+              }}
               aria-hidden
             />
           </div>

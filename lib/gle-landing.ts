@@ -131,12 +131,12 @@ const volunteer: GleLandingContent = {
   subNav: [
     { href: "#about", label: "About" },
     { href: "#types", label: "Types of volunteering" },
+    { href: "#opportunities", label: "Projects" },
     { href: "#eligibility", label: "Who can volunteer" },
     { href: "#dates", label: "Start dates" },
     { href: "#duration", label: "Duration" },
     { href: "#fees", label: "Fees" },
     { href: "#how", label: "How to apply" },
-    { href: "#opportunities", label: "Projects" },
     { href: "#impact", label: "Impact" },
     { href: "#voices", label: "Alumni experiences" },
     { href: "#faqs", label: "FAQs" },

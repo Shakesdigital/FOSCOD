@@ -23,7 +23,7 @@ export function PhotoSlot({
 }) {
   const tones: Record<string, string> = {
     earth:
-      "from-[#14324f] via-[#1c5a80] to-[#4a90b8]",
+      "from-[#7d3a23] via-[#a8553a] to-[#c98a5f]",
     water:
       "from-[#123f3a] via-[#1c6e66] to-[#5fa39a]",
     forest:

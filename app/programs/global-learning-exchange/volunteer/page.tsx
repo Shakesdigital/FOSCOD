@@ -69,6 +69,35 @@ export default async function VolunteerPage() {
         </div>
       </section>
 
+      {/* ===== Live opportunities carousel (published openings only) ===== */}
+      {opportunities.length > 0 ? (
+        <CardsCarousel
+          eyebrow={c.opportunities.eyebrow}
+          title={c.opportunities.title}
+          intro={c.opportunities.intro}
+          items={opportunityCards(opportunities)}
+          cta={c.opportunities.cta}
+          bg="bg-[var(--surface-2)]"
+        />
+      ) : (
+        <section id="opportunities" className="scroll-mt-36 bg-[var(--surface-2)] py-16 md:py-24" aria-label="Volunteer opportunities">
+          <div className="container-page">
+            <div className="mx-auto max-w-2xl text-center">
+              <SectionHeader
+                eyebrow={c.opportunities.eyebrow}
+                title="Volunteer openings are published as they are confirmed"
+                intro="Openings appear in the opportunities directory once verified with hosts. Meanwhile, browse the directory or contact us — we match interests to community priorities as placements open."
+                align="center"
+              />
+              <div className="mt-8 flex flex-wrap justify-center gap-3">
+                <Button href={c.opportunities.cta.href}>{c.opportunities.cta.label}</Button>
+                <Button href="/contact" variant="secondary">Contact us</Button>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* ===== Who can volunteer ===== */}
       <PhotoBand
         id="eligibility"
@@ -154,35 +183,6 @@ export default async function VolunteerPage() {
           </p>
         </div>
       </section>
-
-      {/* ===== Live opportunities carousel (published openings only) ===== */}
-      {opportunities.length > 0 ? (
-        <CardsCarousel
-          eyebrow={c.opportunities.eyebrow}
-          title={c.opportunities.title}
-          intro={c.opportunities.intro}
-          items={opportunityCards(opportunities)}
-          cta={c.opportunities.cta}
-          bg="bg-[var(--surface-2)]"
-        />
-      ) : (
-        <section id="opportunities" className="scroll-mt-36 bg-[var(--surface-2)] py-16 md:py-24" aria-label="Volunteer opportunities">
-          <div className="container-page">
-            <div className="mx-auto max-w-2xl text-center">
-              <SectionHeader
-                eyebrow={c.opportunities.eyebrow}
-                title="Volunteer openings are published as they are confirmed"
-                intro="Openings appear in the opportunities directory once verified with hosts. Meanwhile, browse the directory or contact us — we match interests to community priorities as placements open."
-                align="center"
-              />
-              <div className="mt-8 flex flex-wrap justify-center gap-3">
-                <Button href={c.opportunities.cta.href}>{c.opportunities.cta.label}</Button>
-                <Button href="/contact" variant="secondary">Contact us</Button>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* ===== Volunteer project impact ===== */}
       <section id="impact" className="scroll-mt-36 py-16 md:py-24" aria-label="Volunteer project impact">
