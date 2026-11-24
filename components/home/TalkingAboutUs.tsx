@@ -7,7 +7,7 @@ import type { TalkingAboutUsData } from "@/lib/content";
  *  Links to the About page for readers who want to know more about FOSCOD. */
 export function TalkingAboutUs({ content }: { content: TalkingAboutUsData }) {
   return (
-    <section className="bg-[var(--surface-2)] py-16 md:py-24">
+    <section className="bg-[var(--surface-2)] py-10 md:py-14">
       <div className="container-page mx-auto max-w-3xl text-center">
         <Eyebrow>{content.eyebrow}</Eyebrow>
         <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">{content.title}</h2>

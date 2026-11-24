@@ -1,8 +1,15 @@
+"use client";
+
+import { useState } from "react";
+
 /**
  * PhotoSlot — a designed placeholder for real FOSCOD field photography.
  * The content pack makes field photos the primary visual language; until those
  * assets are loaded via the CMS media library, these slots show a warm duotone
- * block with a caption naming the intended shot. Swap `src` in once available.
+ * block with a caption naming the intended shot.
+ *
+ * If an image URL is provided but the file is missing (404), the slot degrades
+ * gracefully back to the duotone block instead of rendering a broken image.
  */
 export function PhotoSlot({
   caption,
@@ -12,6 +19,7 @@ export function PhotoSlot({
   ratio = "4/5",
   imageUrl,
   alt,
+  bare = false,
 }: {
   caption: string;
   tag?: string;
@@ -20,7 +28,11 @@ export function PhotoSlot({
   ratio?: string;
   imageUrl?: string;
   alt?: string;
+  /** Edge-to-edge image area without its own border/radius (for card headers). */
+  bare?: boolean;
 }) {
+  const [failed, setFailed] = useState(false);
+
   const tones: Record<string, string> = {
     earth:
       "from-[#7d3a23] via-[#a8553a] to-[#c98a5f]",
@@ -32,20 +44,21 @@ export function PhotoSlot({
 
   return (
     <figure
-      className={`group relative isolate overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] ${className}`}
+      className={`${bare ? "relative isolate overflow-hidden" : "group relative isolate overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)]"} ${className}`}
       style={{ aspectRatio: ratio }}
     >
-      {imageUrl ? (
+      {/* duotone fallback — always rendered underneath the real photo */}
+      <div
+        className={`absolute inset-0 bg-gradient-to-br ${tones[tone]}`}
+        aria-hidden
+      />
+      {imageUrl && !failed && (
         <img
           src={imageUrl}
           alt={alt ?? caption}
           className="absolute inset-0 h-full w-full object-cover"
           loading="lazy"
-        />
-      ) : (
-        <div
-          className={`absolute inset-0 bg-gradient-to-br ${tones[tone]}`}
-          aria-hidden
+          onError={() => setFailed(true)}
         />
       )}
       {/* subtle grain/texture via layered radial highlights */}

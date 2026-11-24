@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
-import type { OpportunitySummary } from "@/lib/opportunities";
+import type { OpportunitySummary } from "@/lib/opportunity-model";
+import { opportunityCategory } from "@/lib/opportunity-model";
 
 const tones = ["forest", "water", "earth"] as const;
 
@@ -21,9 +22,13 @@ function ClockIcon() {
   );
 }
 
-/** OpportunityCard — a polished internship/volunteer project card
- *  (image + category badge, location & duration meta, green Read More). */
+/** OpportunityCard — a polished project-opportunity card
+ *  (featured image + category badge, location & duration meta, summary and a
+ *  green "Read More" that opens the independent detail page). */
 export function OpportunityCard({ o, index = 0 }: { o: OpportunitySummary; index?: number }) {
+  const category = opportunityCategory(o);
+  const categoryLabel = category === "gle" ? "Global & Education-Led" : "Community Development";
+
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-sm)] transition-all duration-200 hover:-translate-y-1 hover:shadow-[var(--shadow-md)]">
       <div className="relative">
@@ -31,17 +36,22 @@ export function OpportunityCard({ o, index = 0 }: { o: OpportunitySummary; index
           tone={tones[index % 3]}
           ratio="16/10"
           caption={o.title}
+          imageUrl={o.featured_image_url ?? undefined}
+          alt={o.title}
           className="rounded-none border-0 border-b border-[var(--border)]"
         />
-        {o.category && (
-          <span className="absolute right-3 top-3 z-10 rounded-[var(--radius-full)] bg-[var(--accent-600)] px-3 py-1 text-[0.68rem] font-medium text-white shadow-[var(--shadow-sm)]">
-            {o.category}
-          </span>
-        )}
+        <span className="absolute right-3 top-3 z-10 rounded-[var(--radius-full)] bg-[var(--accent-600)] px-3 py-1 text-[0.68rem] font-medium text-white shadow-[var(--shadow-sm)]">
+          {categoryLabel}
+        </span>
       </div>
 
       <div className="flex flex-1 flex-col p-5">
-        <h3 className="text-[1.05rem] font-medium leading-snug text-[var(--ink)]">{o.title}</h3>
+        {o.category && (
+          <p className="font-[family-name:var(--font-text)] text-[0.62rem] uppercase tracking-[0.14em] text-[var(--accent-700)]">
+            {o.category}
+          </p>
+        )}
+        <h3 className="mt-1.5 text-[1.05rem] font-medium leading-snug text-[var(--ink)]">{o.title}</h3>
 
         <div className="mt-2.5 flex flex-wrap gap-x-4 gap-y-1 font-[family-name:var(--font-text)] text-[0.68rem] text-[var(--muted)]">
           {o.location && <span className="inline-flex items-center gap-1.5"><PinIcon />{o.location}</span>}

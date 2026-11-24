@@ -308,3 +308,32 @@
     }
   }
 }
+
+/* Looping partner-sector carousel on the GLE thematic-area sections. */
+@keyframes gle-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.gle-marquee-track {
+  animation: gle-marquee 55s linear infinite;
+}
+
+.gle-marquee:hover .gle-marquee-track,
+.gle-marquee:focus-within .gle-marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gle-marquee {
+    overflow-x: auto;
+  }
+
+  .gle-marquee-track {
+    animation: none;
+  }
+}

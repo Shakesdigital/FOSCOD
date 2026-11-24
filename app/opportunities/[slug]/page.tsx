@@ -63,6 +63,7 @@ export default async function OpportunityDetailPage({
     intro: o.excerpt,
     cta: { href: `/apply?opportunity=${o.slug}`, label: "Apply for this opportunity" },
     tone: "water",
+    imageUrl: o.featured_image_url ?? undefined,
   }];
 
   return (

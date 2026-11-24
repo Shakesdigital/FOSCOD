@@ -32,6 +32,7 @@ export default async function HomePage() {
         title="Two ways to work with FOSCOD"
         intro="Whether you come to learn or to invest, the work stays community-led and locally owned."
         items={programs}
+        compact
       />
 
       {/* 4. Proof — verified, dated impact figures */}
@@ -43,10 +44,11 @@ export default async function HomePage() {
         eyebrow="How you can get involved"
         title="Your pathway into the work"
         intro="Learn with us, partner on a priority, or support community-led work — each pathway is supervised, community-linked, and transparent."
+        compact
       />
 
       {/* Partners strip — quiet trust signal */}
-      <PartnerLogos />
+      <PartnerLogos compact />
     </>
   );
 }

@@ -30,16 +30,18 @@ export function HowYouCanGetInvolved({
   title = "Your pathway into the work",
   intro,
   surface = false,
+  compact = false,
 }: {
   cards: InvolvementCard[];
   eyebrow?: string;
   title?: string;
   intro?: string;
   surface?: boolean;
+  compact?: boolean;
 }) {
   const normalized = normalizeCards(cards);
   return (
-    <section className={`py-14 md:py-20 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
+    <section className={`${compact ? "py-10 md:py-14" : "py-14 md:py-20"} ${surface ? "bg-[var(--surface-2)]" : ""}`}>
       <div className="container-page">
         <div className="mx-auto max-w-2xl text-center">
           <Eyebrow>{eyebrow}</Eyebrow>

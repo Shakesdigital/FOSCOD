@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { Button } from "@/components/ui/Button";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
 import { CommunityIcon, resolveCommunityIcon } from "@/components/ui/CommunityIcon";
+import { resolveOpportunityCtaHref } from "@/lib/opportunity-cta";
 
 /**
  * ContentCard — a single, unified card component for every card-like surface
@@ -73,6 +74,8 @@ export function ContentCard({
   const tones = ["forest", "water", "earth"] as const;
   const fallbackTone = tones[Math.abs(title.length) % 3];
   const resolvedTone = tone ?? fallbackTone;
+  // CTAs that invite exploring opportunities always resolve to the directory.
+  const resolvedHref = resolveOpportunityCtaHref(href, ctaLabel) ?? href;
 
   const mediaEl = (
     <>
@@ -128,9 +131,9 @@ export function ContentCard({
         </p>
       )}
       {children && <div className="mt-2">{children}</div>}
-      {href && (
+      {resolvedHref && (
         <Button
-          href={href}
+          href={resolvedHref}
           variant="secondary"
           size="sm"
           className="mt-4 self-start"
@@ -144,9 +147,9 @@ export function ContentCard({
   const cardClasses =
     "group flex h-full flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[var(--border-strong)] hover:shadow-[var(--shadow-md)]";
 
-  if (asLink && href) {
+  if (asLink && resolvedHref) {
     return (
-      <Link href={href} className={`${cardClasses} ${className}`}>
+      <Link href={resolvedHref} className={`${cardClasses} ${className}`}>
         {showMedia && mediaEl}
         {contentEl}
       </Link>

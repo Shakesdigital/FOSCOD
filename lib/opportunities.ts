@@ -1,44 +1,16 @@
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
+import type { Opportunity, OpportunitySummary, OpportunityType } from "@/lib/opportunity-model";
 
-export type OpportunityType = "internship" | "volunteer";
-
-export type OpportunitySummary = {
-  slug: string;
-  title: string;
-  type: OpportunityType | null;
-  category: string;
-  location: string;
-  duration: string;
-  excerpt: string;
-  experience_type: string | null;
-  sector_slugs: string[];
-  engagement_approach: string | null;
-  participation_format: string | null;
-  availability_status: string;
-  last_confirmed_at: string | null;
-  featured_image_url: string | null;
-};
-
-export type Opportunity = OpportunitySummary & {
-  about: string;
-  highlights: string[];
-  requirements: string[];
-  whyChoose: string[];
-  sdgs: string[];
-  gallery: string[];
-  learning_focus: string | null;
-  host_organization: string | null;
-  purpose: string | null;
-  learning_goals: string[];
-  tasks: string[];
-  eligibility: string | null;
-  supervision: string | null;
-  timing: string | null;
-  practical_arrangements: string | null;
-  capacity: string | null;
-  costs: string | null;
-  application_requirements: string | null;
-};
+// Re-export the client-safe model so existing server-side imports keep working.
+export {
+  GLE_EXPERIENCE_TYPES,
+  isGleOpportunity,
+  opportunityCategory,
+  type Opportunity,
+  type OpportunityCategory,
+  type OpportunitySummary,
+  type OpportunityType,
+} from "@/lib/opportunity-model";
 
 // Opportunities are never invented as local fallbacks. Editors publish only
 // current, verified openings from the CMS.

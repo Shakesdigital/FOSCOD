@@ -5,7 +5,7 @@ import type { ImpactMetric } from "@/lib/content";
 export function ImpactSnapshot({ metrics }: { metrics: ImpactMetric[] }) {
   return (
     <section className="bg-[var(--ink)] text-[var(--bg)]">
-      <div className="container-page py-16 md:py-24">
+      <div className="container-page py-10 md:py-14">
         <div className="flex flex-wrap items-center justify-center gap-6">
           <div className="mx-auto max-w-xl text-center">
             <span className="eyebrow text-[var(--accent-300)] [&::before]:bg-[var(--accent-300)]">

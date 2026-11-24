@@ -41,7 +41,7 @@ export function TestimonialCard({
           {name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
         </div>
       )}
-      <blockquote className="text-xl italic leading-relaxed text-[var(--ink-soft)]">
+      <blockquote className="text-[1.05rem] italic leading-relaxed text-[var(--ink-soft)]">
         &ldquo;{quote}&rdquo;
       </blockquote>
       <figcaption className="mt-auto">

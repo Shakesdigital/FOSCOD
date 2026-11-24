@@ -24,15 +24,17 @@ const partnerLogos: PartnerLogo[] = [
 export function PartnerLogos({
   eyebrow = "Our partners",
   title = "Working with institutions and public partners",
+  compact = false,
 }: {
   eyebrow?: string;
   title?: string;
+  compact?: boolean;
 }) {
   // Duplicate the set so the animation can scroll seamlessly
   const allPartners = [...partnerLogos, ...partnerLogos];
 
   return (
-    <section className="bg-[var(--surface-2)] py-14 md:py-20">
+    <section className={`bg-[var(--surface-2)] ${compact ? "py-10 md:py-14" : "py-14 md:py-20"}`}>
       <div className="container-page">
         <div className="mx-auto max-w-2xl text-center">
           <Eyebrow>{eyebrow}</Eyebrow>

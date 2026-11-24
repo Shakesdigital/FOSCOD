@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
+import { resolveOpportunityCtaHref } from "@/lib/opportunity-cta";
 
 type Variant = "primary" | "secondary" | "outline" | "ghost" | "on-dark";
 type Size = "sm" | "md" | "lg";
@@ -32,6 +33,8 @@ type ButtonAsLink = {
   size?: Size;
   className?: string;
   children: ReactNode;
+  /** Set false to use `href` verbatim, skipping the explore-opportunities normalization. */
+  resolveCta?: boolean;
 } & Omit<ComponentProps<typeof Link>, "href" | "className">;
 
 export function Button({
@@ -40,10 +43,18 @@ export function Button({
   size = "md",
   className = "",
   children,
+  resolveCta = true,
   ...rest
 }: ButtonAsLink) {
+  // CTAs that invite exploring opportunities always resolve to the directory,
+  // unless a caller explicitly opts out (e.g. the volunteer/internship cards,
+  // which must land on their own program pages).
+  const resolvedHref =
+    (resolveCta
+      ? resolveOpportunityCtaHref(href, typeof children === "string" ? children : undefined)
+      : href) ?? href;
   return (
-    <Link href={href} className={`${base} ${sizes[size]} ${variants[variant]} ${className}`} {...rest}>
+    <Link href={resolvedHref} className={`${base} ${sizes[size]} ${variants[variant]} ${className}`} {...rest}>
       {children}
     </Link>
   );

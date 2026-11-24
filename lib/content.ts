@@ -214,7 +214,7 @@ const pathways: Pathway[] = [
     kicker: "For students, researchers & universities",
     title: "Join a Global Learning Program",
     body: "Work alongside communities, host families, and local leaders on real projects in clean energy, WASH, livelihoods, health, and research. Structured field learning with 24/7 in-country support.",
-    href: "/programs/global-learning-exchange",
+    href: "/opportunities",
     cta: "Find a project opportunity fit",
     tone: "water",
   },
@@ -2000,7 +2000,7 @@ const involvementCardsFallback: InvolvementCard[] = [
   {
     title: "Volunteer intern",
     body: "Join a supervised placement matched to your skills and a community-defined priority — with local support, host families, and structured learning outcomes.",
-    href: "/programs/global-learning-exchange",
+    href: "/opportunities",
     ctaLabel: "Explore opportunities",
     icon: "volunteer",
   },
@@ -2249,7 +2249,8 @@ const cedpAreasOfFocusFallback: CedpAreaOfFocus[] = [
     title: "Clean energy and climate resilience",
     description:
       "Clean cooking, solar energy, e-mobility, environment conservation, climate adaptation, and related climate initiatives that build community resilience.",
-    icon: "🔥",
+    imageUrl: "/images/cedp/clean-energy.jpg",
+    imageAlt: "Solar panels and clean cookstoves in a rural Ugandan homestead",
     tone: "earth",
     ctaLabel: "Explore clean energy projects",
     ctaHref: "/programs/cedp/areas/clean-energy-climate-resilience",
@@ -2259,7 +2260,8 @@ const cedpAreasOfFocusFallback: CedpAreaOfFocus[] = [
     title: "Water sanitation and healthy communities",
     description:
       "Safe water, spring protection, sanitation, hygiene, water systems, and related community health and environment practices.",
-    icon: "💧",
+    imageUrl: "/images/cedp/water.jpg",
+    imageAlt: "Community members collecting clean water from a protected spring",
     tone: "water",
     ctaLabel: "Explore water projects",
     ctaHref: "/programs/cedp/areas/water-sanitation-health-communities",
@@ -2269,7 +2271,8 @@ const cedpAreasOfFocusFallback: CedpAreaOfFocus[] = [
     title: "Sustainable livelihoods and economic empowerment",
     description:
       "VSLAs, women enterprises, climate-smart agriculture, kitchen gardens, green businesses, and other livelihood opportunities.",
-    icon: "🌱",
+    imageUrl: "/images/cedp/livelihoods.jpg",
+    imageAlt: "Women's savings group meeting with green enterprise training",
     tone: "forest",
     ctaLabel: "Explore livelihood projects",
     ctaHref: "/programs/cedp/areas/sustainable-livelihoods-economic-empowerment",
@@ -2332,31 +2335,49 @@ const cedpImpactStoryCardsFallback: CedpImpactStoryCard[] = [
 
 const cedpImpactCardsFallback: CedpImpactCard[] = [
   {
-    title: "Clean energy that powers a livelihood",
-    excerpt: "In Naluvule, a solar-powered salon turned an unreliable income into a growing business.",
-    href: "/impact/stories/solar-powered-salon-naluvule/full",
-    projectSlug: "solar-powered-water-system-naluvule",
-    storySlug: "solar-powered-salon-naluvule",
-    ctaLabel: "Read the story",
-    verifiedOutcome: "3 households gained reliable evening lighting and new income streams",
+    title: "Clean cooking reaching vulnerable households",
+    excerpt:
+      "An improved-cookstove pilot targeting 200 vulnerable households, with 81 improved charcoal stoves distributed by October 2026 and community-led monitoring underway.",
+    imageUrl: "/images/cedp/cooking.jpg",
+    imageAlt: "Improved charcoal cookstove in a Kalagala Parish kitchen",
+    href: "/projects/renewable-energy",
+    projectSlug: "renewable-energy",
+    ctaLabel: "Read more",
+    verifiedOutcome: "81 improved charcoal stoves distributed by October 2026 (Myriad Canada-supported pilot)",
   },
   {
-    title: "Protected springs and hygiene education",
-    excerpt: "Across Busoga, protected water springs and hygiene education are reducing illness and restoring dignity.",
-    href: "/impact/stories/water-is-life-lubani/full",
-    projectSlug: "water-spring-protection-naluvule",
-    storySlug: "water-is-life-lubani",
-    ctaLabel: "Read the story",
-    verifiedOutcome: "Water access improved for 120 households with 86% sustained use after 12 months",
+    title: "Protected springs and local water stewardship",
+    excerpt:
+      "Two community water springs in Naluvule protected, with spring-user committees formed to lead local oversight and sustainability.",
+    imageUrl: "/images/cedp/spring.jpg",
+    imageAlt: "Protected community water spring in Naluvule",
+    href: "/projects/wash",
+    projectSlug: "wash",
+    ctaLabel: "Read more",
+    verifiedOutcome: "2 springs protected; spring-user committees active",
   },
   {
-    title: "Regenerating land with biochar",
-    excerpt: "In Kalagala Parish, invasive water hyacinth becomes biochar — healthier soil, cleaner cooking, and new income.",
-    href: "/impact/stories/regenerating-land-with-biochar/full",
-    projectSlug: "carbon-credit-project",
-    storySlug: "regenerating-land-with-biochar",
-    ctaLabel: "Read the story",
-    verifiedOutcome: "0.5 hectares of degraded land restored with 500 biochar units produced",
+    title: "Greening Kalagala",
+    excerpt:
+      "A community tree-planting initiative running since 2022 — household planting and Kalagala UMEA Primary School — promoting environmental awareness and local stewardship.",
+    imageUrl: "/images/cedp/forest.jpg",
+    imageAlt: "Community tree planting along the Mabira Forest edge",
+    href: "/projects/greening-kalagala",
+    projectSlug: "greening-kalagala",
+    ctaLabel: "Read more",
+    verifiedOutcome: "Community initiative running since 2022",
+  },
+  {
+    title: "Green mobility and clean-powered enterprise",
+    excerpt:
+      "Electric bicycles, cargo bikes and tuk-tuks (provided by WRFA) powering women's transport and income opportunities, plus a solar salon in Naluvule and a solar charging hub in Kyambogo.",
+    imageUrl: "/images/cedp/green-mobility.jpg",
+    imageAlt: "Women's group with electric cargo bikes",
+    href: "/projects/sustainable-livelihood-green-enterprises",
+    projectSlug: "sustainable-livelihood-green-enterprises",
+    ctaLabel: "Read more",
+    verifiedOutcome:
+      "6 e-bikes, 10 cargo bikes, 3 tuk-tuks via WRFA; solar salon and charging hub installed",
   },
 ];
 
@@ -2493,6 +2514,8 @@ export type CedpAccomplishment = {
   attribution?: string;
   period?: string;
   kind: "output" | "continuing" | "future";
+  imageUrl?: string;
+  imageAlt?: string;
 };
 
 const cedpAccomplishmentsFallback: CedpAccomplishment[] = [];
@@ -2503,7 +2526,7 @@ export async function getCedpAccomplishments(): Promise<CedpAccomplishment[]> {
     if (!supabase) return cedpAccomplishmentsFallback;
     const { data } = (await supabase
       ?.from("cedp_accomplishments")
-      .select("area_slug,title,description,attribution,period,kind")
+      .select("area_slug,title,description,attribution,period,kind,image_url,image_alt")
       .eq("visible", true)
       .order("order_column", { ascending: true })) ?? { data: null };
     if (data && data.length) {
@@ -2514,6 +2537,8 @@ export async function getCedpAccomplishments(): Promise<CedpAccomplishment[]> {
         attribution: a.attribution ?? undefined,
         period: a.period ?? undefined,
         kind: (a.kind as CedpAccomplishment["kind"]) ?? "output",
+        imageUrl: a.image_url ?? undefined,
+        imageAlt: a.image_alt ?? undefined,
       }));
     }
   }
@@ -2601,7 +2626,7 @@ const cedpAreasFallback: CedpArea[] = [
       {
         title: "Volunteer intern",
         body: "Join a supervised placement in solar energy, clean cooking, or ecosystem restoration — with local support and a host-family experience.",
-        href: "/programs/global-learning-exchange",
+        href: "/opportunities",
         ctaLabel: "Explore opportunities",
         icon: "energy",
       },
@@ -2638,7 +2663,7 @@ const cedpAreasFallback: CedpArea[] = [
       {
         title: "Volunteer intern",
         body: "Work on safe-water infrastructure, sanitation campaigns, or hygiene education with full local supervision and 24/7 support.",
-        href: "/programs/global-learning-exchange",
+        href: "/opportunities",
         ctaLabel: "Explore opportunities",
         icon: "water",
       },
@@ -2675,7 +2700,7 @@ const cedpAreasFallback: CedpArea[] = [
       {
         title: "Volunteer intern",
         body: "Support climate-smart agriculture, green enterprise incubation, or women's economic empowerment programs with field-based supervision.",
-        href: "/programs/global-learning-exchange",
+        href: "/opportunities",
         ctaLabel: "Explore opportunities",
         icon: "livelihoods",
       },
@@ -3356,7 +3381,7 @@ const generalImpactPagesFallback: Record<string, GeneralImpactPage> = {
     getInvolvedTitle: "Your pathway into the work",
     getInvolvedIntro: "Join, partner, or support — every contribution is tied to a community-defined priority with clear evidence and consent.",
     getInvolvedCards: [
-      { title: "Volunteer intern", body: "Join a supervised placement matched to your skills and a community-defined priority.", href: "/programs/global-learning-exchange", ctaLabel: "Explore opportunities", icon: "volunteer" },
+      { title: "Volunteer intern", body: "Join a supervised placement matched to your skills and a community-defined priority.", href: "/opportunities", ctaLabel: "Explore opportunities", icon: "volunteer" },
       { title: "Partner with us", body: "Co-design clean-energy, WASH, livelihoods, or research partnerships around real community priorities.", href: "/partners", ctaLabel: "Partner with FOSCOD", icon: "partner" },
       { title: "Donate to a cause", body: "Fund a named project or priority with transparent, community-led reporting.", href: "/donate", ctaLabel: "Start a giving inquiry", icon: "donate" },
     ],

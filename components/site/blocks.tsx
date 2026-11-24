@@ -299,6 +299,7 @@ export function CTABand({
   actions,
   tightBottom = false,
   bg,
+  compact = false,
 }: {
   title: string;
   eyebrow?: string;
@@ -307,10 +308,12 @@ export function CTABand({
   tightBottom?: boolean;
   /** full Tailwind background class for the wrapping band */
   bg?: string;
+  /** tighter vertical rhythm for landing pages */
+  compact?: boolean;
 }) {
   return (
-    <section className={`container-page py-20 ${bg ?? ""} ${tightBottom ? "pb-4 md:pb-6" : ""}`}>
-      <div className="relative overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] px-8 py-14 text-center md:px-16">
+    <section className={`container-page ${compact ? "py-10 md:py-14" : "py-20"} ${bg ?? ""} ${tightBottom ? "pb-4 md:pb-6" : ""}`}>
+      <div className={`relative overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] text-center ${compact ? "px-6 py-10 md:px-12" : "px-8 py-14 md:px-16"}`}>
         <div
           className="pointer-events-none absolute inset-0 -z-10"
           style={{
@@ -346,6 +349,7 @@ export function ProgramsSection({
   intro,
   items,
   surface = false,
+  compact = false,
   ctaLabel = "Learn more",
 }: {
   eyebrow: string;
@@ -353,10 +357,11 @@ export function ProgramsSection({
   intro?: string;
   items: { slug: string; title: string; summary: string; href: string; tone: "earth" | "water" | "forest"; pillar?: string; featured_image_url?: string | null; featured_image_alt?: string | null }[];
   surface?: boolean;
+  compact?: boolean;
   ctaLabel?: string;
 }) {
   return (
-    <section className={`py-14 md:py-20 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
+    <section className={`${compact ? "py-10 md:py-14" : "py-14 md:py-20"} ${surface ? "bg-[var(--surface-2)]" : ""}`}>
       <div className="container-page">
         <div className="mx-auto max-w-2xl text-center">
           <Eyebrow>{eyebrow}</Eyebrow>
@@ -511,6 +516,8 @@ export type GridCard = {
   media?: boolean;
   /** mark as a video card → adds a play affordance over the thumbnail */
   video?: boolean;
+  /** optional meta line rendered below the excerpt (e.g. completion date) */
+  meta?: string;
 };
 
 export function CardGrid({
@@ -520,6 +527,7 @@ export function CardGrid({
   items,
   more,
   surface = false,
+  bg,
   align = "center",
   columns = 3,
 }: {
@@ -529,12 +537,14 @@ export function CardGrid({
   items: GridCard[];
   more?: { href: string; label: string };
   surface?: boolean;
+  /** full Tailwind background class — overrides surface */
+  bg?: string;
   align?: "left" | "center";
   columns?: 2 | 3;
 }) {
   if (!items.length) return null;
   return (
-    <section className={`py-14 md:py-20 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
+    <section className={`py-14 md:py-20 ${bg ?? (surface ? "bg-[var(--surface-2)]" : "")}`}>
       <div className="container-page">
         <div className={align === "center" ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
           <Eyebrow>{eyebrow}</Eyebrow>
@@ -560,6 +570,7 @@ export function CardGrid({
                 imageAlt={c.imageAlt}
                 icon={c.icon}
                 video={c.video}
+                meta={c.meta}
                 asLink={Boolean(c.href)}
               />
             </li>
@@ -947,7 +958,7 @@ export function CardsCarousel({
   const visibleItems = items.slice(startIndex, startIndex + 3);
 
   return (
-    <section className={`py-16 md:py-24 ${bg ?? (surface ? "bg-[var(--surface-2)]" : "")}`}>
+    <section className={`py-10 md:py-14 ${bg ?? (surface ? "bg-[var(--surface-2)]" : "")}`}>
       <div className="container-page">
         <div className="mx-auto max-w-2xl text-center">
           {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
@@ -959,7 +970,7 @@ export function CardsCarousel({
           )}
         </div>
 
-        <div className="relative mt-12">
+        <div className="relative mt-8">
           <ul className="grid gap-6 md:grid-cols-3">
             {visibleItems.map((c) => (
               <li key={c.title + c.href} className="group h-full">
@@ -975,6 +986,7 @@ export function CardsCarousel({
                   imageUrl={c.imageUrl ?? undefined}
                   imageAlt={c.imageAlt ?? undefined}
                   icon={c.icon}
+                  meta={c.meta}
                   asLink={Boolean(c.href)}
                 />
               </li>

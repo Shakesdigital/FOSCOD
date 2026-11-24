@@ -122,7 +122,7 @@ export default async function GleLandingPage() {
       <SectionDivider />
 
       {/* EXPLORE OPPORTUNITIES */}
-      <section className="py-16 md:py-24" aria-label={gleExplore.title}>
+      <section className="bg-[var(--surface-2)] py-10 md:py-14" aria-label={gleExplore.title}>
         <div className="container-page">
           <ContentBlock maxWidth="2xl" spacing="normal">
             <SectionHeader
@@ -145,7 +145,7 @@ export default async function GleLandingPage() {
 
       {/* MATCHING PROCESS */}
       <section
-        className="bg-[var(--surface-2)] py-16 md:py-24"
+        className="py-10 md:py-14"
         aria-label={gleMatching.title}
       >
         <div className="container-page">
@@ -176,12 +176,13 @@ export default async function GleLandingPage() {
         imageUrl={resolveGlePhoto(introduction.imageUrl, glePhotoFallbacks.community)}
         imageAlt={introduction.imageAlt ?? "A FOSCOD volunteer working with community members"}
         reverse
+        surface
       />
 
       <SectionDivider />
 
       {/* PROGRAM PATHWAYS - Two column cards */}
-      <section className="py-16 md:py-24" aria-label="Internship and volunteer programs">
+      <section className="py-10 md:py-14" aria-label="Internship and volunteer programs">
         <div className="container-page">
           <ContentBlock maxWidth="2xl" spacing="normal">
             <SectionHeader
@@ -218,7 +219,7 @@ export default async function GleLandingPage() {
                   <h3 className="text-[1.5rem] leading-snug font-medium text-[var(--ink)]">{program.title}</h3>
                   <p className="mt-4 flex-1 leading-relaxed text-[var(--ink-soft)]">{program.description}</p>
                   <div className="mt-6">
-                    <Button href={program.href} variant="primary" size="md" className="w-full sm:w-auto">
+                    <Button href={program.href} variant="primary" size="md" className="w-full sm:w-auto" resolveCta={false}>
                       {program.cta}
                     </Button>
                   </div>
@@ -232,7 +233,7 @@ export default async function GleLandingPage() {
       <SectionDivider />
 
       {/* WHY PARTICIPATE - Benefits grid */}
-      <section className="bg-[var(--surface-2)] py-16 md:py-24" aria-label="Why participate in GLE">
+      <section className="bg-[var(--surface-2)] py-10 md:py-14" aria-label="Why participate in GLE">
         <div className="container-page">
           <ContentBlock maxWidth="2xl" spacing="normal">
             <SectionHeader
@@ -271,7 +272,7 @@ export default async function GleLandingPage() {
       <SectionDivider />
 
       {/* APPLICATION PROCESS OVERVIEW */}
-      <section className="py-16 md:py-24" aria-label="How to apply overview">
+      <section className="py-10 md:py-14" aria-label="How to apply overview">
         <div className="container-page">
           <ContentBlock maxWidth="2xl" spacing="normal">
             <SectionHeader
@@ -282,7 +283,7 @@ export default async function GleLandingPage() {
             />
           </ContentBlock>
 
-          <ContentBlock className="mt-12" maxWidth="3xl" spacing="normal">
+          <ContentBlock className="mt-10" maxWidth="full" spacing="normal">
             <GleTimeline
               steps={[
                 { title: "Apply & share your interests", body: "Submit the application form with your background, skills, thematic interests and preferred program type. Applying starts a conversation — it is not a commitment." },
@@ -315,6 +316,7 @@ export default async function GleLandingPage() {
         imageUrl={resolveGlePhoto(applySection.imageUrl, glePhotoFallbacks.learning)}
         imageAlt={applySection.imageAlt ?? "FOSCOD participants on a community learning visit"}
         cta={{ href: gleLinks.apply, label: "Apply Today" }}
+        surface
       />
     </>
   );

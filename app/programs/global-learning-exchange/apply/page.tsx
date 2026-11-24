@@ -1,9 +1,11 @@
-import { CTABand } from "@/components/site/blocks";
+import { CTABand, FAQ, ProgramDatesTable } from "@/components/site/blocks";
 import { SectionHeader } from "@/components/site/Section";
 import { GleHero, GleNav, GleProcessSteps, GlePhotoText } from "@/components/site/gle-page";
 import GleApplicationForm from "@/components/forms/GleApplicationForm";
+import { Button } from "@/components/ui/Button";
 import { pageMeta } from "@/lib/seo";
-import { getGlePathways } from "@/lib/content";
+import { getGlePathways, getProgramDates } from "@/lib/content";
+import { gleLandingContent } from "@/lib/gle-landing";
 import { parseGleApplicationSelections } from "@/lib/gle-selections";
 import {
   gleApply,
@@ -28,7 +30,11 @@ export default async function GleApplyPage({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const [params, photos] = await Promise.all([searchParams, getGlePathways()]);
+  const [params, photos, dates] = await Promise.all([
+    searchParams,
+    getGlePathways(),
+    getProgramDates(),
+  ]);
   const search = new URLSearchParams();
   for (const [key, value] of Object.entries(params)) {
     if (Array.isArray(value)) value.forEach((item) => search.append(key, item));
@@ -40,6 +46,19 @@ export default async function GleApplyPage({
   ];
   const initialSelections = parseGleApplicationSelections(search, allowedThemes);
   const ethicsPhoto = photos.find((photo) => photo.imageUrl);
+  const faqSource = initialSelections.pathway
+    ? gleLandingContent[initialSelections.pathway].faqs
+    : [
+        ...gleLandingContent.volunteer.faqs,
+        ...gleLandingContent.internship.faqs,
+      ];
+  const faqs = Array.from(new Map(faqSource.map((item) => [item.q, item])).values());
+  const faqTitle =
+    initialSelections.pathway === "volunteer"
+      ? "Questions volunteers ask"
+      : initialSelections.pathway === "internship"
+        ? "Questions interns ask"
+        : "Questions applicants ask";
 
   return (
     <>
@@ -102,7 +121,38 @@ export default async function GleApplyPage({
         </div>
       </section>
 
-      {/* 3. Ethical engagement */}
+      {/* 3. Start dates */}
+      <div id="dates" className="scroll-mt-36">
+        {dates.length > 0 ? (
+          <ProgramDatesTable
+            eyebrow="Program dates"
+            title="Start dates"
+            intro="Placements are scheduled individually. Confirmed intake windows appear below; timing, support and costs are always confirmed in writing before placement."
+            rows={dates}
+            firstLabel="Intake"
+            secondLabel="Details"
+          />
+        ) : (
+          <section className="py-16 md:py-24" aria-label="Start dates">
+            <div className="container-page">
+              <div className="mx-auto max-w-2xl text-center">
+                <SectionHeader
+                  eyebrow="Program dates"
+                  title="Start dates"
+                  intro="Placements are scheduled individually — matched to community priorities, partner availability and your availability. Confirmed intake windows will appear here once scheduled; timing, support and costs are always confirmed in writing before placement."
+                  align="center"
+                />
+                <div className="mt-8 flex flex-wrap justify-center gap-3">
+                  <Button href="#application">Start your application</Button>
+                  <Button href="/contact" variant="secondary">Contact us</Button>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+      </div>
+
+      {/* 4. Ethical engagement */}
       <GlePhotoText
         title={gleEthics.title}
         paragraphs={gleEthics.paragraphs}
@@ -110,7 +160,7 @@ export default async function GleApplyPage({
         imageAlt={ethicsPhoto?.imageAlt ?? "FOSCOD participants learning with local communities"}
       />
 
-      {/* 4. Begin your journey */}
+      {/* 5. Begin your journey */}
       <section className="bg-[var(--forest-50)] py-16 md:py-24" aria-labelledby="begin-heading">
         <div className="container-page mx-auto max-w-3xl text-center">
           <div id="begin-heading">
@@ -120,7 +170,7 @@ export default async function GleApplyPage({
         </div>
       </section>
 
-      {/* 5. Start your application */}
+      {/* 6. Start your application */}
       <section id="application" className="scroll-mt-36 py-16 md:py-24" aria-labelledby="application-heading">
         <div className="container-page">
           <div className="mx-auto max-w-3xl text-center">
@@ -131,6 +181,16 @@ export default async function GleApplyPage({
           </div>
           <div className="mx-auto mt-10 max-w-4xl">
             <GleApplicationForm initialSelections={initialSelections} />
+          </div>
+        </div>
+      </section>
+
+      {/* 7. Frequently asked questions */}
+      <section id="faqs" className="scroll-mt-36 bg-[var(--surface-2)] py-16 md:py-24" aria-label="Frequently asked questions">
+        <div className="container-page">
+          <SectionHeader eyebrow="Frequently asked questions" title={faqTitle} align="center" />
+          <div className="mx-auto mt-10 max-w-3xl">
+            <FAQ items={faqs} />
           </div>
         </div>
       </section>

@@ -1,13 +1,9 @@
 import { CTABand } from "@/components/site/blocks";
-import { HeroSlider } from "@/components/site/HeroSlider";
-import { OpportunitiesDirectory, type OpportunityFacets } from "@/components/site/OpportunitiesDirectory";
+import { OpportunityHero } from "@/components/site/OpportunityHero";
+import { OpportunitiesLanding, type OpportunityLandingFacets } from "@/components/site/OpportunitiesLanding";
+import { Eyebrow } from "@/components/ui/Eyebrow";
 import { getOpportunities } from "@/lib/opportunities";
-import {
-  getGlePathways,
-  getGleDevelopmentSectors,
-  getGleParticipationFormats,
-  type HeroSlide,
-} from "@/lib/content";
+import { getGleDevelopmentSectors } from "@/lib/content";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata = pageMeta(
@@ -24,18 +20,19 @@ export default async function OpportunitiesPage({
   const initialType: "internship" | "volunteer" | undefined =
     type === "internship" || type === "volunteer" ? type : undefined;
 
-  const [opportunities, experienceTypes, sectors, formats] = await Promise.all([
+  const [opportunities, sectors] = await Promise.all([
     getOpportunities(),
-    getGlePathways(),
     getGleDevelopmentSectors(),
-    getGleParticipationFormats(),
   ]);
 
-  const facets: OpportunityFacets = {
-    experienceTypes: experienceTypes.map((p) => ({ slug: p.title, label: p.title })),
-    sectors: sectors.map((s) => ({ slug: s.slug, label: s.title })),
-    locations: Array.from(new Set(opportunities.map((o) => o.location).filter(Boolean))).sort(),
-    formats: formats.map((f) => ({ slug: f.slug, label: f.title })),
+  // Project areas = distinct opportunity `category` values (e.g. "WASH & Health").
+  const projectOptions = Array.from(
+    new Set(opportunities.map((o) => o.category).filter(Boolean))
+  ).sort();
+
+  const facets: OpportunityLandingFacets = {
+    projects: projectOptions,
+    themes: sectors.map((s) => ({ slug: s.slug, label: s.title })),
   };
 
   const heroCopy = initialType
@@ -50,30 +47,46 @@ export default async function OpportunitiesPage({
           intro:
             "Volunteering placements with FOSCOD's community program (CEDP) and local partner organizations — structured as individual, group or global service trip formats. You contribute to community-defined priorities under local supervision, with orientation, guided reflection and cultural exchange.",
         }
-    : {
-        title: "Find your opportunity",
-        intro:
-          "One directory for internships, volunteering, group placements, service-learning trips and study tours — hosted by FOSCOD's community program (CEDP) and local partner organizations across Uganda. Each listing names its host, purpose, learning goals, supervision and practical arrangements.",
-      };
+    : undefined;
 
   return (
     <>
-      <HeroSlider
-        slides={[
-          {
-            eyebrow: "Global Learning Exchange Program",
-            title: heroCopy.title,
-            intro: heroCopy.intro,
-            cta: { href: "/apply", label: "Express interest without selecting an opening" },
-            tone: "forest",
-          },
-        ]}
+      {/* 1. Hero */}
+      <OpportunityHero
+        title={heroCopy?.title}
+        intro={heroCopy?.intro}
+        imageUrl="/images/gle/volunteer/who-can-volunteer.jpg"
+        imageAlt="A FOSCOD participant working alongside community members in Jinja, Uganda"
       />
 
-      <section className="py-14 md:py-20" aria-label="Opportunities directory">
-        <OpportunitiesDirectory opportunities={opportunities} facets={facets} initialType={initialType} />
+      {/* 2. Title + brief introduction */}
+      <section className="py-14 md:py-20">
+        <div className="container-page">
+          <div className="max-w-3xl">
+            <Eyebrow>Opportunities directory</Eyebrow>
+            <h2 className="mt-4 text-[clamp(1.8rem,3.2vw,2.5rem)]">
+              Explore project opportunities that fit your goals
+            </h2>
+            <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
+              Browse community environment development and global, education-led opportunities hosted by
+              FOSCOD&apos;s CEDP and local partner organizations across Uganda. Use the filter tool to narrow
+              by category, project, thematic area or participation format — then open any card to read the
+              full brief and apply.
+            </p>
+          </div>
+        </div>
       </section>
 
+      {/* 3. Sticky filter tool + card listings */}
+      <section id="opportunities" className="scroll-mt-24 pb-16 md:pb-24" aria-label="Opportunities directory">
+        <OpportunitiesLanding
+          opportunities={opportunities}
+          facets={facets}
+          initialType={initialType}
+        />
+      </section>
+
+      {/* 4. Closing CTA */}
       <section className="bg-[var(--surface-2)] py-14 md:py-16">
         <div className="container-page">
           <CTABand

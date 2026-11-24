@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import type { HeroSlide } from "@/lib/content";
+import { resolveOpportunityCtaHref } from "@/lib/opportunity-cta";
 
 const toneGradients: Record<string, string> = {
   earth: "linear-gradient(135deg, #7d3a23, #a8553a 55%, #c98a5f)",
@@ -116,7 +117,7 @@ export function HeroSlider({
                     )}
                     {slide.cta2 && (
                       <a
-                        href={slide.cta2.href}
+                        href={resolveOpportunityCtaHref(slide.cta2.href, slide.cta2.label)}
                         tabIndex={active ? 0 : -1}
                         className="inline-flex items-center justify-center gap-2 rounded-[var(--radius-full)] border border-white/70 px-7 py-3.5 text-base font-medium text-white transition-colors hover:bg-white hover:text-[var(--ink)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                       >

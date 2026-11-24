@@ -84,6 +84,7 @@ export function GlePhotoText({
   imageAlt,
   reverse = false,
   cta,
+  surface = false,
 }: {
   id?: string;
   title?: string;
@@ -92,9 +93,11 @@ export function GlePhotoText({
   imageAlt?: string;
   reverse?: boolean;
   cta?: { href: string; label: string };
+  /** tint the section background (mint) so adjacent sections alternate */
+  surface?: boolean;
 }) {
   return (
-    <section id={id} className="py-16 md:py-24">
+    <section id={id} className={`py-10 md:py-14 ${surface ? "bg-[var(--surface-2)]" : ""}`}>
       <div className="container-page grid items-center gap-10 md:grid-cols-2">
         <div className={reverse ? "md:order-2" : ""}>
           {imageUrl ? (
@@ -233,10 +236,10 @@ function ProgramTypeLinks({ program }: { program: GleProgramType }) {
   if (program.slug === "individual") {
     return (
       <div className="mt-5 flex flex-wrap gap-2">
-        <Button href={gleLinks.volunteer} variant="primary" size="sm">
+        <Button href={gleLinks.volunteer} variant="primary" size="sm" resolveCta={false}>
           {gleUi.volunteerCta}
         </Button>
-        <Button href={gleLinks.internship} variant="primary" size="sm">
+        <Button href={gleLinks.internship} variant="primary" size="sm" resolveCta={false}>
           {gleUi.internshipCta}
         </Button>
       </div>
@@ -259,28 +262,41 @@ export function GleTimeline({
   firstStepHref?: string;
 }) {
   return (
-    <div className="relative mx-auto max-w-3xl">
-      <div className="pointer-events-none absolute bottom-5 left-4 top-5 w-px bg-[var(--accent-200)]" aria-hidden />
-      <ol className="space-y-5">
-        {steps.map((step, index) => (
-          <li key={step.title} className="relative flex gap-4">
-            <span className="relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--accent-600)] font-[family-name:var(--font-text)] text-xs font-semibold text-white">
-              {String(index + 1).padStart(2, "0")}
-            </span>
-            <div className="min-w-0 flex-1 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-5 md:p-6">
-              <h3 className="text-lg leading-snug font-medium text-[var(--ink)]">
-                {index === 0 && firstStepHref ? (
-                  <Link href={firstStepHref} className="underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-600)]">
-                    {step.title}
-                  </Link>
-                ) : step.title}
-              </h3>
-              {step.body && (
-                <p className="mt-2 text-[0.92rem] leading-relaxed text-[var(--muted)]">{step.body}</p>
-              )}
-            </div>
-          </li>
-        ))}
+    <div className="relative mx-auto max-w-4xl">
+      {/* Mobile: single left rail. Desktop: a centered rail with the steps
+          alternating left/right so the sequence reads as a connected flow. */}
+      <div className="pointer-events-none absolute bottom-6 left-4 top-6 w-px bg-[var(--accent-200)] md:hidden" aria-hidden />
+      <div className="pointer-events-none absolute bottom-6 left-1/2 top-6 hidden w-px -translate-x-1/2 bg-[var(--accent-200)] md:block" aria-hidden />
+      <ol className="space-y-6">
+        {steps.map((step, index) => {
+          const isRight = index % 2 === 0;
+          return (
+            <li
+              key={step.title}
+              className="relative md:grid md:grid-cols-2 md:items-center md:gap-12"
+            >
+              <span className="absolute left-4 top-5 z-10 flex h-8 w-8 -translate-x-1/2 items-center justify-center rounded-full bg-[var(--accent-600)] font-[family-name:var(--font-text)] text-xs font-semibold text-white md:left-1/2">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <div
+                className={`ml-12 min-w-0 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-5 text-left md:ml-0 md:p-6 ${
+                  isRight ? "md:col-start-2" : "md:col-start-1"
+                }`}
+              >
+                <h3 className="text-lg leading-snug font-medium text-[var(--ink)]">
+                  {index === 0 && firstStepHref ? (
+                    <Link href={firstStepHref} className="underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-600)]">
+                      {step.title}
+                    </Link>
+                  ) : step.title}
+                </h3>
+                {step.body && (
+                  <p className="mt-2 text-[0.92rem] leading-relaxed text-[var(--muted)]">{step.body}</p>
+                )}
+              </div>
+            </li>
+          );
+        })}
       </ol>
     </div>
   );
