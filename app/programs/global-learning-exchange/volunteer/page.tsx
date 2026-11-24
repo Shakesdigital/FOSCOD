@@ -1,13 +1,47 @@
 import { HeroSlider } from "@/components/site/HeroSlider";
-import { IntroSection, FAQ, ProgramDatesTable, TestimonialCarousel, CardsCarousel, Steps, CTABand } from "@/components/site/blocks";
+import {
+  ApplyBand,
+  CardsCarousel,
+  CTABand,
+  FAQ,
+  IntroSection,
+  ProgramDatesTable,
+  TestimonialCarousel,
+} from "@/components/site/blocks";
 import { SectionHeader } from "@/components/site/Section";
-import { SubNav, PhotoBand, ExpandableCard, StatsRow } from "@/components/site/gle-landing";
+import { GleBreadcrumb, GleTimeline } from "@/components/site/gle-page";
+import { GleSelectionSections } from "@/components/site/gle-selectors";
+import {
+  ExpandableCard,
+  PhotoBand,
+  StatsRow,
+  SubNav,
+  ContentBlock,
+  SectionDivider,
+  CardGrid,
+} from "@/components/site/gle-landing";
 import { StatCard } from "@/components/site/StatGrid";
 import { Button } from "@/components/ui/Button";
 import { pageMeta } from "@/lib/seo";
 import { getOpportunities, type OpportunitySummary } from "@/lib/opportunities";
-import { getHeroSlides, getProgramDates, getAllTestimonials, getImpactStats } from "@/lib/content";
-import { gleLandingContent, selectImpactStats, selectTestimonials } from "@/lib/gle-landing";
+import {
+  getAllTestimonials,
+  getHeroSlides,
+  getImpactStats,
+  getProgramDates,
+} from "@/lib/content";
+import {
+  gleLandingContent,
+  selectImpactStats,
+  selectTestimonials,
+} from "@/lib/gle-landing";
+import { gleLinks } from "@/lib/gle-pages";
+import {
+  buildGleApplicationHref,
+  retargetGleApplyHref,
+} from "@/lib/gle-selections";
+
+const pathway = "volunteer" as const;
 
 export const metadata = pageMeta(
   "Volunteer Program — Global Learning Exchange",
@@ -16,7 +50,13 @@ export const metadata = pageMeta(
 
 export default async function VolunteerPage() {
   const c = gleLandingContent.volunteer;
-  const [heroSlides, dates, allTestimonials, impactStats, opportunities] = await Promise.all([
+  const [
+    sourceHeroSlides,
+    dates,
+    allTestimonials,
+    impactStats,
+    opportunities,
+  ] = await Promise.all([
     getHeroSlides(c.heroSlug),
     getProgramDates(),
     getAllTestimonials(),
@@ -24,80 +64,202 @@ export default async function VolunteerPage() {
     getOpportunities("volunteer"),
   ]);
 
+  const applicationHref = buildGleApplicationHref(pathway, { program: "individual" });
+  const guidanceHref = buildGleApplicationHref(pathway, {
+    program: "individual",
+    programGuidance: true,
+  });
+  const heroSlides = sourceHeroSlides.map((slide) => ({
+    ...slide,
+    cta: slide.cta
+      ? { ...slide.cta, href: retargetGleApplyHref(slide.cta.href, pathway) }
+      : undefined,
+    cta2: slide.cta2
+      ? { ...slide.cta2, href: retargetGleApplyHref(slide.cta2.href, pathway) }
+      : undefined,
+  }));
+
   const opportunityCards = (list: OpportunitySummary[]) =>
-    list.slice(0, 9).map((o) => ({
-      title: o.title,
-      excerpt: o.excerpt,
-      href: `/opportunities/${o.slug}`,
+    list.slice(0, 9).map((opportunity) => ({
+      title: opportunity.title,
+      excerpt: opportunity.excerpt,
+      href: `/opportunities/${opportunity.slug}`,
       ctaLabel: "Read more",
-      kicker: [o.category, o.duration].filter(Boolean).join(" · ") || undefined,
+      kicker: [opportunity.category, opportunity.duration].filter(Boolean).join(" · ") || undefined,
       tag: "Volunteer",
-      imageUrl: o.featured_image_url,
+      imageUrl: opportunity.featured_image_url,
       tone: "forest" as const,
     }));
 
   const stats = selectImpactStats(impactStats, c.impact.metrics);
   const voiceItems = selectTestimonials(allTestimonials, c.kind);
+  const finalActions = c.finalCta.actions.map((action) => ({
+    ...action,
+    href: retargetGleApplyHref(action.href, pathway),
+  }));
 
   return (
     <>
+      <GleBreadcrumb current="Volunteer" />
       <HeroSlider slides={heroSlides} />
-
       <SubNav items={c.subNav} />
 
-      {/* ===== About the volunteer program ===== */}
-      <IntroSection
-        title={c.about.title}
-        eyebrow={c.about.eyebrow}
-        body={c.about.body}
-        ctaLabel={c.about.ctaLabel}
-        ctaHref={c.about.ctaHref}
-      />
-
-      {/* ===== Types of volunteer programs ===== */}
-      <section id="types" className="scroll-mt-36 bg-[var(--surface-2)] py-16 md:py-24" aria-label="Types of volunteer programs">
-        <div className="container-page">
-          <SectionHeader eyebrow={c.types.eyebrow} title={c.types.title} intro={c.types.intro} align="center" />
-          <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {c.types.items.map((t) => (
-              <ExpandableCard key={t.title} title={t.title} intro={t.intro} body={t.body} tag={t.tag} tone={t.tone} />
+      {/* ABOUT SECTION */}
+      <section className="py-16 md:py-24" aria-labelledby="about-heading">
+        <ContentBlock id="about" maxWidth="2xl" spacing="loose">
+          <SectionHeader
+            eyebrow={c.about.eyebrow}
+            title={c.about.title}
+            align="center"
+          />
+          <div className="prose-space max-w-3xl">
+            {c.about.body.split("\n\n").map((para, i) => (
+              <p key={i} className="leading-relaxed text-[var(--ink-soft)]">{para}</p>
             ))}
           </div>
+          <div className="mt-8 text-center">
+            <Button href={c.about.ctaHref} variant="primary" size="md">
+              {c.about.ctaLabel}
+            </Button>
+          </div>
+        </ContentBlock>
+      </section>
+
+      <SectionDivider />
+
+      {/* VOLUNTEER TYPES */}
+      <section
+        id="types"
+        className="scroll-mt-36 bg-[var(--surface-2)] py-16 md:py-24"
+        aria-label="Types of volunteer programs"
+      >
+        <div className="container-page">
+          <ContentBlock maxWidth="2xl" spacing="normal">
+            <SectionHeader eyebrow={c.types.eyebrow} title={c.types.title} intro={c.types.intro} align="center" />
+          </ContentBlock>
+
+          <CardGrid columns={3} items={
+            c.types.items.map((item) => (
+              <ExpandableCard
+                key={item.title}
+                title={item.title}
+                intro={item.intro}
+                body={item.body}
+                tag={item.tag}
+                tone={item.tone}
+                size="feature"
+              />
+            ))
+          } />
+
           {c.types.note && (
-            <p className="mx-auto mt-8 max-w-2xl text-center text-[0.92rem] leading-relaxed text-[var(--muted)]">{c.types.note}</p>
+            <ContentBlock className="mt-10" maxWidth="2xl" spacing="tight">
+              <p className="text-center text-[0.92rem] leading-relaxed text-[var(--muted)]">
+                {c.types.note}
+              </p>
+            </ContentBlock>
           )}
+          
+          <ContentBlock className="mt-8" maxWidth="2xl" spacing="tight">
+            <div className="text-center">
+              <Button href={gleLinks.opportunities} variant="ghost" size="sm">
+                See all GLE program types
+              </Button>
+            </div>
+          </ContentBlock>
         </div>
       </section>
 
-      {/* ===== Live opportunities carousel (published openings only) ===== */}
-      {opportunities.length > 0 ? (
-        <CardsCarousel
-          eyebrow={c.opportunities.eyebrow}
-          title={c.opportunities.title}
-          intro={c.opportunities.intro}
-          items={opportunityCards(opportunities)}
-          cta={c.opportunities.cta}
-        />
-      ) : (
-        <section id="opportunities" className="scroll-mt-36 py-16 md:py-24" aria-label="Volunteer opportunities">
-          <div className="container-page">
-            <div className="mx-auto max-w-2xl text-center">
-              <SectionHeader
-                eyebrow={c.opportunities.eyebrow}
-                title="Volunteer openings are published as they are confirmed"
-                intro="Openings appear in the opportunities directory once verified with hosts. Meanwhile, browse the directory or contact us — we match interests to community priorities as placements open."
-                align="center"
-              />
-              <div className="mt-8 flex flex-wrap justify-center gap-3">
-                <Button href={c.opportunities.cta.href}>{c.opportunities.cta.label}</Button>
-                <Button href="/contact" variant="secondary">Contact us</Button>
+      <SectionDivider />
+
+      {/* VOLUNTEER PACKAGE & BENEFITS */}
+      <section
+        id="opportunities"
+        className="scroll-mt-36 py-16 md:py-24"
+        aria-label="Volunteer package and benefits"
+      >
+        <div className="container-page">
+          <ContentBlock maxWidth="2xl" spacing="normal">
+            <SectionHeader
+              eyebrow={c.package.eyebrow}
+              title="Volunteer Package & Benefits"
+              intro={c.package.intro}
+              align="center"
+            />
+          </ContentBlock>
+
+          <div className="mt-12 grid gap-10 lg:grid-cols-2">
+            <div>
+              <h3 className="text-center text-xl text-[var(--accent-700)] lg:text-left mb-2">{c.package.packageLabel}</h3>
+              <p className="text-center text-sm text-[var(--muted)] lg:text-left mb-6">Expand each item to see what it covers</p>
+              <div className="grid gap-5">
+                {c.package.items.map((item) => (
+                  <ExpandableCard
+                    key={item.title}
+                    title={item.title}
+                    intro={item.intro}
+                    body={item.body}
+                    tone="forest"
+                    size="compact"
+                  />
+                ))}
+              </div>
+            </div>
+            <div>
+              <h3 className="text-center text-xl text-[var(--accent-700)] lg:text-left mb-2">{c.package.benefitsLabel}</h3>
+              <p className="text-center text-sm text-[var(--muted)] lg:text-left mb-6">Expand each benefit to learn more</p>
+              <div className="grid gap-5">
+                {c.package.benefits.map((benefit) => (
+                  <ExpandableCard
+                    key={benefit.title}
+                    title={benefit.title}
+                    intro={benefit.intro}
+                    body={benefit.body}
+                    tone="forest"
+                    size="compact"
+                  />
+                ))}
               </div>
             </div>
           </div>
-        </section>
-      )}
 
-      {/* ===== Who can volunteer ===== */}
+          <div id="current-openings" className="scroll-mt-36 mt-14">
+            {opportunities.length > 0 ? (
+              <CardsCarousel
+                eyebrow={c.opportunities.eyebrow}
+                title={c.opportunities.title}
+                intro={c.opportunities.intro}
+                items={opportunityCards(opportunities)}
+                cta={c.opportunities.cta}
+              />
+            ) : (
+              <div className="py-8">
+                <ContentBlock maxWidth="2xl" spacing="normal">
+                  <SectionHeader
+                    eyebrow={c.opportunities.eyebrow}
+                    title="Volunteer openings are published as they are confirmed"
+                    intro="Openings appear in the opportunities directory once verified with hosts. Meanwhile, browse the directory or contact us — we match interests to community priorities as placements open."
+                    align="center"
+                  />
+                  <div className="mt-8 flex flex-wrap justify-center gap-3">
+                    <Button href={c.opportunities.cta.href}>{c.opportunities.cta.label}</Button>
+                    <Button href="/contact" variant="secondary">Contact us</Button>
+                  </div>
+                </ContentBlock>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      <SectionDivider />
+
+      {/* THEMATIC AREAS & ENGAGEMENT APPROACH - Interactive Selection */}
+      <GleSelectionSections pathway={pathway} />
+
+      <SectionDivider />
+
+      {/* ELIGIBILITY */}
       <PhotoBand
         id="eligibility"
         eyebrow={c.eligibility.eyebrow}
@@ -108,22 +270,48 @@ export default async function VolunteerPage() {
         imageUrl="/images/gle/volunteer/who-can-volunteer.jpg"
         imageAlt="A FOSCOD volunteer taking notes beside community members against a brick wall in Jinja, Uganda"
         align="right"
+        variant="split"
       />
 
-      {/* ===== Start dates ===== */}
+      <SectionDivider />
+
+      {/* IMPACT */}
+      <section id="impact" className="scroll-mt-36 py-16 md:py-24" aria-label="Volunteer project impact">
+        <div className="container-page">
+          <ContentBlock maxWidth="2xl" spacing="normal">
+            <SectionHeader eyebrow={c.impact.eyebrow} title={c.impact.title} align="center" />
+          </ContentBlock>
+          <StatsRow>
+            {stats.map((stat) => (
+              <StatCard key={stat.label} value={stat.value} label={stat.label} note={stat.note} />
+            ))}
+          </StatsRow>
+          <ContentBlock className="mt-10" maxWidth="2xl" spacing="tight">
+            <div className="text-center">
+              <Button href={c.impact.cta.href} variant="secondary" size="md">{c.impact.cta.label}</Button>
+            </div>
+          </ContentBlock>
+        </div>
+      </section>
+
+      <SectionDivider />
+
+      {/* PROGRAM DATES */}
       {dates.length > 0 ? (
-        <ProgramDatesTable
-          eyebrow="Program dates"
-          title="Start dates"
-          intro="Placements are scheduled individually. Confirmed intake windows appear below; timing, support and costs are always confirmed in writing before placement."
-          rows={dates}
-          firstLabel="Intake"
-          secondLabel="Details"
-        />
+        <div id="dates" className="scroll-mt-36">
+          <ProgramDatesTable
+            eyebrow="Program dates"
+            title="Start dates"
+            intro="Placements are scheduled individually. Confirmed intake windows appear below; timing, support and costs are always confirmed in writing before placement."
+            rows={dates}
+            firstLabel="Intake"
+            secondLabel="Details"
+          />
+        </div>
       ) : (
         <section id="dates" className="scroll-mt-36 py-16 md:py-24" aria-label="Start dates">
           <div className="container-page">
-            <div className="mx-auto max-w-2xl text-center">
+            <ContentBlock maxWidth="2xl" spacing="normal">
               <SectionHeader
                 eyebrow="Program dates"
                 title="Start dates"
@@ -131,15 +319,17 @@ export default async function VolunteerPage() {
                 align="center"
               />
               <div className="mt-8 flex flex-wrap justify-center gap-3">
-                <Button href="/apply?type=guidance">Request placement guidance</Button>
+                <Button href={guidanceHref}>Request placement guidance</Button>
                 <Button href="/contact" variant="secondary">Contact us</Button>
               </div>
-            </div>
+            </ContentBlock>
           </div>
         </section>
       )}
 
-      {/* ===== Duration ===== */}
+      <SectionDivider />
+
+      {/* DURATION */}
       <PhotoBand
         id="duration"
         eyebrow={c.duration.eyebrow}
@@ -149,9 +339,40 @@ export default async function VolunteerPage() {
         imageUrl="/images/gle/volunteer/duration.jpg"
         imageAlt="A FOSCOD volunteer sitting with children against a mud wall in a Ugandan community"
         align="left"
+        variant="split"
       />
 
-      {/* ===== Program fees ===== */}
+      <SectionDivider />
+
+      {/* LOCATION */}
+      <div id="location" className="scroll-mt-36">
+        <IntroSection
+          title={c.location.title}
+          eyebrow={c.location.eyebrow}
+          body={c.location.body}
+          ctaLabel={c.location.cta.label}
+          ctaHref={c.location.cta.href}
+          noImage
+        />
+      </div>
+
+      <SectionDivider />
+
+      {/* FAQs */}
+      <section id="faqs" className="scroll-mt-36 py-16 md:py-24" aria-label="Frequently asked questions">
+        <div className="container-page">
+          <ContentBlock maxWidth="2xl" spacing="normal">
+            <SectionHeader eyebrow="Frequently asked questions" title="Questions volunteers ask" align="center" />
+          </ContentBlock>
+          <ContentBlock className="mt-10" maxWidth="3xl" spacing="normal">
+            <FAQ items={c.faqs} />
+          </ContentBlock>
+        </div>
+      </section>
+
+      <SectionDivider />
+
+      {/* FEES */}
       <PhotoBand
         id="fees"
         eyebrow={c.fees.eyebrow}
@@ -162,74 +383,57 @@ export default async function VolunteerPage() {
         imageUrl="/images/gle/volunteer/fees.jpg"
         imageAlt="A FOSCOD volunteer reviewing documents with community members in a village in Jinja, Uganda"
         align="right"
+        variant="split"
       />
 
-      {/* ===== How to apply — numbered stages ===== */}
+      <SectionDivider />
+
+      {/* HOW TO APPLY */}
       <section id="how" className="scroll-mt-36 bg-[var(--surface-2)] py-16 md:py-24" aria-label="How to apply">
         <div className="container-page">
-          <SectionHeader
-            eyebrow="How to apply"
-            title="From application to placement, step by step"
-            intro="FOSCOD works collaboratively with you, your institution, communities and partner organizations to develop a meaningful and mutually beneficial experience."
-            align="center"
-          />
-          <div className="mt-12">
-            <Steps steps={c.applySteps} />
-          </div>
-          <p className="mx-auto mt-8 max-w-2xl text-center text-[0.92rem] leading-relaxed text-[var(--muted)]">
-            Submitting an application starts a matching process — it does not guarantee acceptance or a particular host organization.
-          </p>
-        </div>
-      </section>
-
-      {/* ===== Volunteer project impact ===== */}
-      <section id="impact" className="scroll-mt-36 py-16 md:py-24" aria-label="Volunteer project impact">
-        <div className="container-page">
-          <SectionHeader eyebrow={c.impact.eyebrow} title={c.impact.title} align="center" />
-          <StatsRow>
-            {stats.map((s) => (
-              <StatCard key={s.label} value={s.value} label={s.label} note={s.note} />
-            ))}
-          </StatsRow>
-          <div className="mt-10 text-center">
-            <Button href={c.impact.cta.href} variant="secondary" size="md">{c.impact.cta.label}</Button>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== Alumni voices (published only) ===== */}
-      <TestimonialCarousel
-        eyebrow={c.voices.eyebrow}
-        title={c.voices.title}
-        intro={c.voices.intro}
-        items={voiceItems}
-        cta={c.voices.cta}
-        bg="bg-[var(--surface-2)]"
-      />
-
-      {/* ===== Final CTA ===== */}
-      <CTABand
-        eyebrow={c.finalCta.eyebrow}
-        title={c.finalCta.title}
-        body={c.finalCta.body}
-        actions={c.finalCta.actions}
-      />
-
-      {/* ===== FAQs ===== */}
-      <section id="faqs" className="scroll-mt-36 py-16 md:py-24" aria-label="Frequently asked questions">
-        <div className="container-page">
-          <div className="mx-auto max-w-2xl text-center">
+          <ContentBlock maxWidth="2xl" spacing="normal">
             <SectionHeader
-              eyebrow="Frequently asked questions"
-              title="Questions volunteers ask"
+              eyebrow="How to apply"
+              title="From application to placement, step by step"
+              intro="FOSCOD works collaboratively with you, your institution, communities and partner organizations to develop a meaningful and mutually beneficial experience."
               align="center"
             />
-          </div>
-          <div className="mt-10">
-            <FAQ items={c.faqs} />
-          </div>
+          </ContentBlock>
+          <ContentBlock className="mt-12" maxWidth="3xl" spacing="normal">
+            <GleTimeline steps={c.applySteps} firstStepHref={applicationHref} />
+          </ContentBlock>
+          <ContentBlock className="mt-8" maxWidth="2xl" spacing="tight">
+            <p className="text-center text-[0.92rem] leading-relaxed text-[var(--muted)]">
+              Submitting an application starts a matching process — it does not guarantee acceptance or a particular host organization.
+            </p>
+          </ContentBlock>
         </div>
       </section>
+
+      <SectionDivider />
+
+      {/* FINAL CTA & APPLY BAND */}
+      <div id="apply" className="scroll-mt-36">
+        <CTABand
+          eyebrow={c.finalCta.eyebrow}
+          title={c.finalCta.title}
+          body={c.finalCta.body}
+          actions={finalActions}
+        />
+      </div>
+
+      <div id="voices" className="scroll-mt-36">
+        <TestimonialCarousel
+          eyebrow={c.voices.eyebrow}
+          title={c.voices.title}
+          intro={c.voices.intro}
+          items={voiceItems}
+          cta={c.voices.cta}
+          bg="bg-[var(--surface-2)]"
+        />
+      </div>
+
+      <ApplyBand label={c.finalCta.actions[0].label} href={applicationHref} />
     </>
   );
 }
