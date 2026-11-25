@@ -13,7 +13,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/programs/global-learning-exchange",
     "/programs/global-learning-exchange/volunteer",
     "/programs/global-learning-exchange/internship",
-    "/programs/global-learning-exchange/opportunities",
     "/programs/global-learning-exchange/apply",
     "/programs/community-empowerment-development",
     "/programs/cedp/areas/clean-energy-climate-resilience",

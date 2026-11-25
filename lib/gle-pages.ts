@@ -13,7 +13,7 @@ export const gleLinks = {
   overview: GLE,
   volunteer: `${GLE}/volunteer`,
   internship: `${GLE}/internship`,
-  opportunities: `${GLE}/opportunities`,
+  opportunities: "/opportunities",
   apply: `${GLE}/apply`,
 } as const;
 

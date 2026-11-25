@@ -44,7 +44,8 @@ export function SubNav({
       aria-label={label}
       className="sticky top-16 z-40 border-b border-[var(--border-strong)] bg-[var(--surface)]/95 backdrop-blur-sm shadow-[var(--shadow-sm)] md:top-20"
     >
-      <div className="container-page flex gap-1.5 overflow-x-auto py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div className="container-page overflow-x-auto py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="mx-auto flex w-max justify-center gap-1.5">
         {items.map((item) => {
           const isActive = active === item.href;
           return (
@@ -62,6 +63,7 @@ export function SubNav({
             </Link>
           );
         })}
+        </div>
       </div>
     </nav>
   );

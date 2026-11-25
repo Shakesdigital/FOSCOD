@@ -35,6 +35,7 @@ const legacyRedirects = [
   ["/volunteer/opportunities", "/opportunities"],
   ["/volunteer/:path*", "/programs/global-learning-exchange"],
   ["/programs/finder", "/opportunities"],
+  ["/programs/global-learning-exchange/opportunities", "/opportunities"],
   ["/programs/cedp/green-skills-renewable-energy", "/programs/cedp/areas/clean-energy-climate-resilience"],
   ["/programs/cedp/clean-cooking-health", "/programs/cedp/areas/clean-energy-climate-resilience"],
   ["/programs/cedp/ecosystem-restoration-carbon-offsets", "/programs/cedp/areas/clean-energy-climate-resilience"],

@@ -1,6 +1,6 @@
-import { CTABand, FAQ, ProgramDatesTable } from "@/components/site/blocks";
+import { FAQ, ProgramDatesTable } from "@/components/site/blocks";
 import { SectionHeader } from "@/components/site/Section";
-import { GleHero, GleNav, GleProcessSteps, GlePhotoText } from "@/components/site/gle-page";
+import { GleHero, GleNav, GleProcessSteps } from "@/components/site/gle-page";
 import GleApplicationForm from "@/components/forms/GleApplicationForm";
 import { Button } from "@/components/ui/Button";
 import { pageMeta } from "@/lib/seo";
@@ -9,9 +9,7 @@ import { gleLandingContent } from "@/lib/gle-landing";
 import { parseGleApplicationSelections } from "@/lib/gle-selections";
 import {
   gleApply,
-  gleBegin,
   gleDevelopmentProcess,
-  gleEthics,
   gleIntro,
   gleParticipation,
   gleUi,
@@ -45,7 +43,6 @@ export default async function GleApplyPage({
     ...gleThematic.partners.sectors,
   ];
   const initialSelections = parseGleApplicationSelections(search, allowedThemes);
-  const ethicsPhoto = photos.find((photo) => photo.imageUrl);
   const faqSource = initialSelections.pathway
     ? gleLandingContent[initialSelections.pathway].faqs
     : [
@@ -60,14 +57,43 @@ export default async function GleApplyPage({
         ? "Questions interns ask"
         : "Questions applicants ask";
 
+  // Featured image for each participation-format card (falls back to a GLE photo).
+  const formatPhotos = gleParticipation.formats.map((_, index) => {
+    const photo = photos[index] ?? photos[0];
+    return {
+      imageUrl: resolveGlePhoto(
+        photo?.imageUrl,
+        index === 0 ? glePhotoFallbacks.preparation : glePhotoFallbacks.community
+      ),
+      imageAlt: photo?.imageAlt,
+    };
+  });
+
   return (
     <>
       <GleHero slug="global-learning-exchange" eyebrow={gleUi.applyLabel} title={gleIntro.title} />
 
       <GleNav />
 
-      {/* 1. Participation format */}
-      <section className="py-16 md:py-24" aria-labelledby="format-heading">
+      {/* 1. Introduction to the application */}
+      <section className="py-10 md:py-14" aria-labelledby="intro-heading">
+        <div className="container-page">
+          <div className="mx-auto max-w-3xl text-center">
+            <div id="intro-heading">
+              <SectionHeader
+                eyebrow={gleUi.applyLabel}
+                title="Applying to Global Learning Exchange"
+                intro="One guided application for internships, volunteering, group placements, service-learning trips and study tours. It helps us match your goals, skills and availability with community-defined priorities and partner organizations — starting a conversation, not a commitment."
+                align="center"
+              />
+            </div>
+            <p className="mt-4 italic leading-relaxed text-[var(--muted)]">{gleApply.note}</p>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. Participation format */}
+      <section className="bg-[var(--surface-2)] py-10 md:py-14" aria-labelledby="format-heading">
         <div className="container-page">
           <div id="format-heading">
             <SectionHeader eyebrow="Step 4" title="Choose Your Participation Format" align="center" />
@@ -75,49 +101,34 @@ export default async function GleApplyPage({
           <p className="mx-auto mt-4 max-w-2xl text-center italic leading-relaxed text-[var(--muted)]">
             {gleParticipation.stepIntro}
           </p>
-          <div className="mx-auto mt-12 grid max-w-5xl gap-5 md:grid-cols-2">
-            {gleParticipation.formats.map((f) => (
+          <div className="mx-auto mt-10 grid max-w-5xl gap-5 md:grid-cols-2">
+            {gleParticipation.formats.map((f, index) => (
               <div
                 key={f.title}
-                className="flex h-full flex-col rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-6 md:p-7"
+                className="flex h-full flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]"
               >
-                <h3 className="text-lg leading-snug font-medium text-[var(--ink)]">{f.title}</h3>
-                {f.paragraphs.map((para, i) => (
-                  <p key={i} className="mt-3 text-[0.92rem] leading-relaxed text-[var(--muted)]">
-                    {para}
-                  </p>
-                ))}
-                {f.note && (
-                  <p className="mt-4 border-t border-[var(--border)] pt-4 text-[0.9rem] italic leading-relaxed text-[var(--muted)]">
-                    {f.note}
-                  </p>
-                )}
+                <div className="relative aspect-[16/9] overflow-hidden">
+                  <img
+                    src={formatPhotos[index].imageUrl}
+                    alt={formatPhotos[index].imageAlt ?? f.title}
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="flex flex-1 flex-col p-6 md:p-7">
+                  <h3 className="text-lg leading-snug font-medium text-[var(--ink)]">{f.title}</h3>
+                  {f.paragraphs.map((para, i) => (
+                    <p key={i} className="mt-3 text-[0.92rem] leading-relaxed text-[var(--muted)]">
+                      {para}
+                    </p>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
           <p className="mx-auto mt-5 max-w-3xl text-center text-sm leading-relaxed text-[var(--muted)]">
             Available choices in the application form depend on your selected program type.
           </p>
-        </div>
-      </section>
-
-      {/* 2. How we develop your experience */}
-      <section className="bg-[var(--surface-2)] py-16 md:py-24" aria-labelledby="process-heading">
-        <div className="container-page">
-          <div id="process-heading">
-            <SectionHeader
-              eyebrow="Our process"
-              title={gleDevelopmentProcess.title}
-              intro={gleDevelopmentProcess.intro}
-              align="center"
-            />
-          </div>
-          <p className="mx-auto mt-6 max-w-2xl text-center leading-relaxed text-[var(--ink-soft)]">
-            {gleDevelopmentProcess.lead}
-          </p>
-          <div className="mt-12">
-            <GleProcessSteps />
-          </div>
         </div>
       </section>
 
@@ -133,7 +144,7 @@ export default async function GleApplyPage({
             secondLabel="Details"
           />
         ) : (
-          <section className="py-16 md:py-24" aria-label="Start dates">
+          <section className="py-10 md:py-14" aria-label="Start dates">
             <div className="container-page">
               <div className="mx-auto max-w-2xl text-center">
                 <SectionHeader
@@ -152,26 +163,52 @@ export default async function GleApplyPage({
         )}
       </div>
 
-      {/* 4. Ethical engagement */}
-      <GlePhotoText
-        title={gleEthics.title}
-        paragraphs={gleEthics.paragraphs}
-        imageUrl={resolveGlePhoto(ethicsPhoto?.imageUrl, glePhotoFallbacks.community)}
-        imageAlt={ethicsPhoto?.imageAlt ?? "FOSCOD participants learning with local communities"}
-      />
-
-      {/* 5. Begin your journey */}
-      <section className="bg-[var(--forest-50)] py-16 md:py-24" aria-labelledby="begin-heading">
-        <div className="container-page mx-auto max-w-3xl text-center">
-          <div id="begin-heading">
-            <SectionHeader eyebrow={gleUi.nextStepEyebrow} title={gleBegin.title} align="center" />
+      {/* 4. Program fees */}
+      <section id="fees" className="scroll-mt-36 bg-[var(--surface-2)] py-10 md:py-14" aria-labelledby="fees-heading">
+        <div className="container-page">
+          <div className="mx-auto max-w-2xl text-center">
+            <div id="fees-heading">
+              <SectionHeader
+                eyebrow="Program fees"
+                title="Fees &amp; what is included"
+                align="center"
+              />
+            </div>
+            <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">
+              Program fees vary by placement type, duration and host. Each opportunity&rsquo;s intake brief sets
+              out inclusions, accommodation and cancellation terms. Review the full fee schedule and refund
+              policy before you apply.
+            </p>
+            <div className="mt-7 flex flex-wrap justify-center gap-3">
+              <Button href="/programs/program-fees" variant="secondary">View program fees</Button>
+              <Button href="/programs/refund-policy" variant="ghost">Cancellation &amp; refund policy</Button>
+            </div>
           </div>
-          <p className="mt-4 text-lg leading-relaxed text-[var(--ink-soft)]">{gleBegin.body}</p>
+        </div>
+      </section>
+
+      {/* 5. How we develop your experience */}
+      <section className="py-10 md:py-14" aria-labelledby="process-heading">
+        <div className="container-page">
+          <div id="process-heading">
+            <SectionHeader
+              eyebrow="Our process"
+              title={gleDevelopmentProcess.title}
+              intro={gleDevelopmentProcess.intro}
+              align="center"
+            />
+          </div>
+          <p className="mx-auto mt-6 max-w-2xl text-center leading-relaxed text-[var(--ink-soft)]">
+            {gleDevelopmentProcess.lead}
+          </p>
+          <div className="mt-10">
+            <GleProcessSteps />
+          </div>
         </div>
       </section>
 
       {/* 6. Start your application */}
-      <section id="application" className="scroll-mt-36 py-16 md:py-24" aria-labelledby="application-heading">
+      <section id="application" className="scroll-mt-36 bg-[var(--surface-2)] py-10 md:py-14" aria-labelledby="application-heading">
         <div className="container-page">
           <div className="mx-auto max-w-3xl text-center">
             <div id="application-heading">
@@ -186,7 +223,7 @@ export default async function GleApplyPage({
       </section>
 
       {/* 7. Frequently asked questions */}
-      <section id="faqs" className="scroll-mt-36 bg-[var(--surface-2)] py-16 md:py-24" aria-label="Frequently asked questions">
+      <section id="faqs" className="scroll-mt-36 py-10 md:py-14" aria-label="Frequently asked questions">
         <div className="container-page">
           <SectionHeader eyebrow="Frequently asked questions" title={faqTitle} align="center" />
           <div className="mx-auto mt-10 max-w-3xl">
@@ -194,13 +231,6 @@ export default async function GleApplyPage({
           </div>
         </div>
       </section>
-
-      <CTABand
-        eyebrow={gleUi.nextStepEyebrow}
-        title={gleBegin.title}
-        body={gleBegin.body}
-        actions={[{ href: "#application", label: "Continue to application" }]}
-      />
     </>
   );
 }

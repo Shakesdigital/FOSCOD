@@ -1,4 +1,4 @@
-import { GleHero, GleNav, GlePhotoText } from "@/components/site/gle-page";
+import { GleHero, GleNav, GlePhotoText, GleTimeline } from "@/components/site/gle-page";
 import { Button } from "@/components/ui/Button";
 import { SectionHeader } from "@/components/site/Section";
 import { pageMeta } from "@/lib/seo";
@@ -10,21 +10,15 @@ import {
   getGleProgramCards,
 } from "@/lib/content";
 import {
+  gleEthics,
   gleExplore,
   gleIntro,
   gleLinks,
-  gleMatching,
   glePhotoFallbacks,
   gleUi,
   resolveGlePhoto,
 } from "@/lib/gle-pages";
-import {
-  ContentBlock,
-  SectionDivider,
-  CardGrid,
-  PhotoBand,
-} from "@/components/site/gle-landing";
-import { GleTimeline } from "@/components/site/gle-page";
+import { ContentBlock, CardGrid } from "@/components/site/gle-landing";
 
 export const metadata = pageMeta(
   "Global Learning Exchange (GLE)",
@@ -67,9 +61,6 @@ export default async function GleLandingPage() {
   const benefitPhotos = availablePhotos.length
     ? availablePhotos
     : Object.values(glePhotoFallbacks).map((imageUrl) => ({ imageUrl, imageAlt: undefined }));
-  const introductionPhoto = pathways.find(
-    (photo) => resolveGlePhoto(photo.imageUrl, "") && photo.imageUrl !== introduction.imageUrl
-  );
 
   const programCardsData = [
     {
@@ -112,63 +103,6 @@ export default async function GleLandingPage() {
       />
       <GleNav />
 
-      {/* INTRODUCTION */}
-      <GlePhotoText
-        paragraphs={gleIntro.paragraphs}
-        imageUrl={resolveGlePhoto(introductionPhoto?.imageUrl, glePhotoFallbacks.learning)}
-        imageAlt={introductionPhoto?.imageAlt ?? "FOSCOD participants learning with local communities"}
-      />
-
-      <SectionDivider />
-
-      {/* EXPLORE OPPORTUNITIES */}
-      <section className="bg-[var(--surface-2)] py-10 md:py-14" aria-label={gleExplore.title}>
-        <div className="container-page">
-          <ContentBlock maxWidth="2xl" spacing="normal">
-            <SectionHeader
-              eyebrow={gleUi.exploreEyebrow}
-              title={gleExplore.title}
-              intro={gleExplore.paragraphs[0]}
-              align="center"
-            />
-            <p className="leading-relaxed text-[var(--ink-soft)]">{gleExplore.paragraphs[1]}</p>
-            <div className="mt-8 text-center">
-              <Button href={gleLinks.opportunities} size="lg">
-                {gleUi.exploreCta}
-              </Button>
-            </div>
-          </ContentBlock>
-        </div>
-      </section>
-
-      <SectionDivider />
-
-      {/* MATCHING PROCESS */}
-      <section
-        className="py-10 md:py-14"
-        aria-label={gleMatching.title}
-      >
-        <div className="container-page">
-          <ContentBlock maxWidth="3xl" spacing="normal">
-            <SectionHeader
-              eyebrow={gleUi.matchingEyebrow}
-              title={gleMatching.title}
-              align="center"
-            />
-            <div className="prose-space">
-              {gleMatching.paragraphs.map((paragraph, index) => (
-                <p key={paragraph} className={`${index ? "mt-4" : ""} leading-relaxed text-[var(--ink-soft)]`}>
-                  {paragraph}
-                </p>
-              ))}
-              <p className="mt-5 italic leading-relaxed text-[var(--muted)]">{gleMatching.note}</p>
-            </div>
-          </ContentBlock>
-        </div>
-      </section>
-
-      <SectionDivider />
-
       {/* ABOUT PROGRAMS */}
       <GlePhotoText
         title="About Our Internship & Volunteer Programs"
@@ -178,8 +112,6 @@ export default async function GleLandingPage() {
         reverse
         surface
       />
-
-      <SectionDivider />
 
       {/* PROGRAM PATHWAYS - Two column cards */}
       <section className="py-10 md:py-14" aria-label="Internship and volunteer programs">
@@ -230,8 +162,6 @@ export default async function GleLandingPage() {
         </div>
       </section>
 
-      <SectionDivider />
-
       {/* WHY PARTICIPATE - Benefits grid */}
       <section className="bg-[var(--surface-2)] py-10 md:py-14" aria-label="Why participate in GLE">
         <div className="container-page">
@@ -269,7 +199,35 @@ export default async function GleLandingPage() {
         </div>
       </section>
 
-      <SectionDivider />
+      {/* EXPLORE OPPORTUNITIES */}
+      <section className="py-10 md:py-14" aria-label={gleExplore.title}>
+        <div className="container-page">
+          <ContentBlock maxWidth="2xl" spacing="normal">
+            <SectionHeader
+              eyebrow={gleUi.exploreEyebrow}
+              title={gleExplore.title}
+              intro={gleExplore.paragraphs[0]}
+              align="center"
+            />
+            <p className="leading-relaxed text-[var(--ink-soft)]">{gleExplore.paragraphs[1]}</p>
+            <div className="mt-8 text-center">
+              <Button href={gleLinks.opportunities} size="lg">
+                {gleUi.exploreCta}
+              </Button>
+            </div>
+          </ContentBlock>
+        </div>
+      </section>
+
+      {/* OUR COMMITMENT TO ETHICAL COMMUNITY ENGAGEMENT */}
+      <GlePhotoText
+        title={gleEthics.title}
+        paragraphs={gleEthics.paragraphs}
+        imageUrl={resolveGlePhoto(volunteer?.imageUrl, glePhotoFallbacks.community)}
+        imageAlt={volunteer?.imageAlt ?? "FOSCOD participants learning with local communities"}
+        reverse
+        surface
+      />
 
       {/* APPLICATION PROCESS OVERVIEW */}
       <section className="py-10 md:py-14" aria-label="How to apply overview">
@@ -305,8 +263,6 @@ export default async function GleLandingPage() {
         </div>
       </section>
 
-      <SectionDivider />
-
       {/* FINAL CTA */}
       <GlePhotoText
         title="Your Internship or Volunteer journey starts here"
@@ -318,6 +274,7 @@ export default async function GleLandingPage() {
         cta={{ href: gleLinks.apply, label: "Apply Today" }}
         surface
       />
+
     </>
   );
 }

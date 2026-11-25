@@ -116,7 +116,7 @@ export default async function InternshipPage() {
 
           <ContentBlock className="mt-6" maxWidth="2xl" spacing="tight">
             <div className="text-center">
-              <Button href="/programs/global-learning-exchange/opportunities" variant="ghost" size="sm">
+              <Button href="/opportunities" variant="ghost" size="sm">
                 See all GLE program types
               </Button>
             </div>
