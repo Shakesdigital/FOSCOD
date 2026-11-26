@@ -1,7 +1,7 @@
+import Link from "next/link";
 import { SectionHeader } from "@/components/site/Section";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
-import { Button } from "@/components/ui/Button";
 import { PartnerSectorsCarousel } from "@/components/site/PartnerSectorsCarousel";
 import { ExpandableCard, SectionDivider } from "@/components/site/gle-landing";
 import { gleEngagement, gleThematic } from "@/lib/gle-pages";
@@ -80,7 +80,7 @@ export function GleSelectionSections({ pathway }: { pathway: GlePathway }) {
               {gleThematic.cedp.areas.map((area, index) => (
                 <div
                   key={area.title}
-                  className="overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] transition-shadow duration-300 hover:shadow-[var(--shadow-md)]"
+                  className="flex h-full flex-col overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] transition-shadow duration-300 hover:shadow-[var(--shadow-md)]"
                 >
                   <PhotoSlot
                     caption={area.imageAlt ?? area.title}
@@ -90,18 +90,19 @@ export function GleSelectionSections({ pathway }: { pathway: GlePathway }) {
                     alt={area.imageAlt ?? area.title}
                     bare
                   />
-                  <div className="flex h-full flex-col p-5">
+                  <div className="flex flex-1 flex-col p-5">
                     <h4 className="text-[1.02rem] leading-snug font-medium text-[var(--ink)]">
                       {area.title}
                     </h4>
                     <p className="mt-2 text-[0.9rem] leading-relaxed text-[var(--muted)]">
                       {area.body}
                     </p>
-                    <div className="mt-auto pt-5">
-                      <Button href={area.href} variant="ghost" size="sm">
-                        Explore this focus area
-                      </Button>
-                    </div>
+                    <Link
+                      href={area.href}
+                      className="mt-auto inline-flex items-center gap-1.5 pt-5 text-sm font-medium text-[var(--accent-700)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-700)]"
+                    >
+                      Explore this focus area <span aria-hidden="true">→</span>
+                    </Link>
                   </div>
                 </div>
               ))}
