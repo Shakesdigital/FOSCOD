@@ -1,0 +1,1 @@
+- [Commit and push completed work](commit-and-push.md) — after verification, commit task changes and push to main.

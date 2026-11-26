@@ -8,7 +8,6 @@ import {
   PhotoBand,
   SubNav,
   ContentBlock,
-  CardGrid,
   IntroSplit,
   PackageGrid,
 } from "@/components/site/gle-landing";
@@ -93,8 +92,8 @@ export default async function VolunteerPage() {
             <SectionHeader eyebrow={c.types.eyebrow} title={c.types.title} intro={c.types.intro} align="center" />
           </ContentBlock>
 
-          <CardGrid columns={3} equalRows items={
-            c.types.items.map((item) => (
+          <PackageGrid>
+            {c.types.items.map((item) => (
               <ExpandableCard
                 key={item.title}
                 title={item.title}
@@ -104,8 +103,8 @@ export default async function VolunteerPage() {
                 tone={item.tone}
                 size="feature"
               />
-            ))
-          } />
+            ))}
+          </PackageGrid>
 
           {c.types.note && (
             <ContentBlock className="mt-8" maxWidth="2xl" spacing="tight">
@@ -207,6 +206,19 @@ export default async function VolunteerPage() {
         variant="split"
       />
 
+      {/* ALUMNI EXPERIENCES */}
+      <div id="voices" className="scroll-mt-36">
+        <GleAlumniExperiences
+          eyebrow={c.voices.eyebrow}
+          title={c.voices.title}
+          intro={c.voices.intro}
+          items={voiceItems}
+          cta={c.voices.cta}
+          video={c.voices.video}
+          videoSide="right"
+        />
+      </div>
+
       {/* FEES */}
       <PhotoBand
         id="fees"
@@ -232,17 +244,6 @@ export default async function VolunteerPage() {
         />
       </div>
 
-      {/* ALUMNI EXPERIENCES */}
-      <div id="voices" className="scroll-mt-36">
-        <GleAlumniExperiences
-          eyebrow={c.voices.eyebrow}
-          title={c.voices.title}
-          intro={c.voices.intro}
-          items={voiceItems}
-          cta={c.voices.cta}
-          video={c.voices.video}
-        />
-      </div>
     </>
   );
 }

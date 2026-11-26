@@ -44,7 +44,7 @@ export function PhotoSlot({
 
   return (
     <figure
-      className={`${bare ? "relative isolate overflow-hidden" : "group relative isolate overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)]"} ${className}`}
+      className={`${bare ? "relative isolate overflow-hidden" : "group relative isolate overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border-strong)]"} ${className}`}
       style={{ aspectRatio: ratio }}
     >
       {/* duotone fallback — always rendered underneath the real photo */}
@@ -61,7 +61,8 @@ export function PhotoSlot({
           onError={() => setFailed(true)}
         />
       )}
-      {/* subtle grain/texture via layered radial highlights */}
+      {/* Texture belongs to the placeholder, never over a real photograph. */}
+      {(!imageUrl || failed) && (
       <div
         className="absolute inset-0 opacity-30 mix-blend-soft-light"
         style={{
@@ -70,6 +71,7 @@ export function PhotoSlot({
         }}
         aria-hidden
       />
+      )}
       {tag && (
         <span className="absolute left-4 top-4 z-10 rounded-[var(--radius-full)] bg-black/35 px-3 py-1 font-[family-name:var(--font-text)] text-[0.65rem] uppercase tracking-[0.14em] text-white backdrop-blur-sm">
           {tag}

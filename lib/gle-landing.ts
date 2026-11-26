@@ -250,42 +250,42 @@ const volunteer: GleLandingContent = {
     items: [
       {
         title: "Pre-arrival preparation",
-        intro: "Getting ready for a meaningful journey.",
+        intro: "Before you travel we brief you on the program, your role, cultural guidance and logistics so you arrive prepared and confident.",
         body: "Before you travel we brief you on the program, your role and its boundaries, cultural guidance, packing and logistics — and the background reading that grounds your placement in the community's own priorities.",
       },
       {
         title: "Arrival & orientation",
-        intro: "Your first days, well supported.",
+        intro: "Your first days include orientation with the FOSCOD team, an introduction to your host community, and language and culture basics.",
         body: "Orientation with the FOSCOD team, an introduction to your host community and organization, language and culture basics, and a guided look around the project area in Njeru, Buikwe and greater Jinja.",
       },
       {
         title: "Community project design",
-        intro: "Shaping the work with the community.",
+        intro: "Together with your host community and supervisor, you shape a plan of work that reflects local priorities and a clear, useful role for you.",
         body: "With your host community and supervisory arrangement you shape the plan of work — what the community needs, what your role covers, how you'll work together, and what a useful contribution looks like.",
       },
       {
         title: "Project implementation",
-        intro: "Hands-on contribution, locally supervised.",
+        intro: "You contribute hands-on alongside community members and partner staff, within your agreed role and with regular check-ins and monitoring.",
         body: "You work on the project alongside community members and partner staff — contributing time, skills and ideas within your agreed role, with regular check-ins and monitoring.",
       },
       {
         title: "Mid-term retreats",
-        intro: "Rest, reflection and exchange.",
+        intro: "Halfway through, a group retreat gives you time with other volunteers and interns to share experiences, reflect and re-energize.",
         body: "Halfway through your placement, a group retreat offers a change of pace — time with other volunteers and interns to share experiences, reflect and re-energize for the second half.",
       },
       {
         title: "Reflection sessions",
-        intro: "Turning field experience into learning.",
+        intro: "Regular guided reflection — journaling, group discussion and supervisor feedback — helps you turn field experience into lasting learning.",
         body: "Regular guided reflection — journaling, group discussion and feedback with your supervisor — helps you process what you're learning about development, culture and yourself.",
       },
       {
         title: "Housing",
-        intro: "A safe base in community life.",
+        intro: "You stay with a carefully selected host family or in program accommodation, with everyday Ugandan life and a supportive household around you.",
         body: "Stay with a carefully selected host family or in program accommodation — everyday Ugandan life at the centre of your experience, with a supportive household around you.",
       },
       {
         title: "Certificates & documented handover",
-        intro: "Finishing well.",
+        intro: "You complete a documented handover so the work continues after you leave, and receive a certificate recognizing your contribution.",
         body: "At the end of your placement you complete a documented handover so the work continues after you leave, and receive a certificate recognizing your contribution to Ugandan communities.",
       },
     ],
@@ -443,42 +443,42 @@ const internship: GleLandingContent = {
     items: [
       {
         title: "Pre-arrival preparation",
-        intro: "Preparation before you travel.",
+        intro: "Before you travel we brief you on the program, your role, learning objectives and logistics so your internship starts productively.",
         body: "Program briefing, role and boundary expectations, learning-objective alignment with your institution where relevant, cultural guidance and logistics — so your internship starts productively on day one.",
       },
       {
         title: "Arrival & orientation",
-        intro: "Your first days, well supported.",
+        intro: "Your first days include orientation with the FOSCOD team, an introduction to your host organization, and language and culture basics.",
         body: "Orientation with the FOSCOD team, introduction to your host organization and community, language and culture basics, and a guided look around the project area in Njeru, Buikwe and greater Jinja.",
       },
       {
         title: "Community project design",
-        intro: "Agreeing the scope of your internship.",
+        intro: "With your supervisor and host organization, you agree the plan of work: role, activities, objectives, supervision and expected outputs.",
         body: "With your supervisor and host organization you agree the plan of work: role, activities, learning objectives, responsibilities, supervision, expected outputs and ethical requirements.",
       },
       {
         title: "Project implementation",
-        intro: "Carrying the work through.",
+        intro: "You carry your agreed work through implementation on a live community initiative, learning practical project and budget management as you go.",
         body: "You take your agreed work through implementation on a live community initiative — learning practical project and budget management as you go, with regular check-ins and monitoring.",
       },
       {
         title: "Mid-term retreats",
-        intro: "Rest, reflection and exchange.",
+        intro: "Halfway through, a group retreat gives you time with other interns and volunteers to share experiences, reflect and re-energize.",
         body: "Halfway through your placement, a group retreat offers a change of pace — time with other interns and volunteers to share experiences, reflect and re-energize for the second half.",
       },
       {
         title: "Reflection sessions",
-        intro: "Turning field experience into learning.",
+        intro: "Regular guided reflection — journaling, group discussion and supervisor feedback — helps you turn field experience into lasting learning.",
         body: "Regular guided reflection — journaling, group discussion and feedback with your supervisor — helps you process what you're learning about development, research and yourself.",
       },
       {
         title: "Housing",
-        intro: "A safe base in community life.",
+        intro: "You stay with a carefully selected host family or in program accommodation, with everyday Ugandan life and a supportive household around you.",
         body: "Stay with a carefully selected host family or in program accommodation — everyday Ugandan life at the centre of your experience, with a supportive household around you.",
       },
       {
         title: "Certificates & documented handover",
-        intro: "Finishing well — and leaving something useful.",
+        intro: "You present your work, submit a final report and complete a documented handover so the host keeps what you built — plus a certificate.",
         body: "You present your work to the host organization and community partners, submit a final report and complete a documented handover so the host keeps what you built. You also receive a certificate recognizing your contribution.",
       },
     ],

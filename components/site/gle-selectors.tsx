@@ -36,7 +36,7 @@ export function GleSelectionSections({ pathway }: { pathway: GlePathway }) {
     <>
       <section
         id="thematic-areas"
-        className="scroll-mt-36 bg-[var(--surface-2)] py-10 md:py-14"
+        className="scroll-mt-36 bg-[var(--surface)] py-10 md:py-14"
         aria-label="Thematic areas"
       >
         <div className="container-page">
@@ -137,7 +137,7 @@ export function GleSelectionSections({ pathway }: { pathway: GlePathway }) {
 
       <section
         id="engagement-approach"
-        className="scroll-mt-36 py-10 md:py-14"
+        className="scroll-mt-36 bg-[var(--surface-2)] py-10 md:py-14"
         aria-label="Engagement approach"
       >
         <div className="container-page">

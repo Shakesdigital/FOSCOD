@@ -32,9 +32,7 @@ const bandTones: Record<string, string> = {
   neutral: "linear-gradient(135deg, #3d3d3d, #5a5a5a 55%, #8a8a8a)",
 };
 
-/** PhotoBand — a brand-gradient section with the content card on one side and,
- *  when a photo is supplied, a contained image on the other that melts into
- *  the band (tone wash + soft edge fade) instead of filling the background. */
+/** PhotoBand — content paired with a plain, lightly bordered photograph. */
 export function PhotoBand({
   id,
   eyebrow,
@@ -134,7 +132,7 @@ export function PhotoBand({
           <div className="container-page grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
             <div className={align === "right" ? "flex lg:order-2 lg:justify-end" : "flex"}>{card}</div>
             <div
-              className={`relative w-full max-w-lg overflow-hidden self-center rounded-[var(--radius-xl)] shadow-[var(--shadow-xl)] ${
+              className={`relative w-full max-w-lg overflow-hidden self-center rounded-[var(--radius-xl)] border border-[var(--border-strong)] ${
                 align === "right" ? "lg:order-1 lg:justify-self-end" : "lg:justify-self-start"
               }`}
             >
@@ -143,17 +141,6 @@ export function PhotoBand({
                 alt={imageAlt ?? ""}
                 className="block h-auto max-h-[500px] w-full object-cover"
                 loading="lazy"
-              />
-              {/* band-color wash + inner-edge fade make the photo melt into the section */}
-              <div className="pointer-events-none absolute inset-0 opacity-15" style={{ backgroundColor: bgColor }} aria-hidden="true" />
-              <div
-                className={`pointer-events-none absolute inset-y-0 w-1/3 ${
-                  align === "right" ? "right-0" : "left-0"
-                }`}
-                style={{
-                  background: `linear-gradient(to ${align === "right" ? "left" : "right"}, ${bgColor} 0%, transparent 100%)`,
-                }}
-                aria-hidden="true"
               />
             </div>
           </div>
@@ -172,7 +159,7 @@ export function PhotoBand({
         <div className="container-page grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
           <div className={align === "right" ? "flex lg:order-2 lg:justify-end" : "flex"}>{card}</div>
           <div
-            className={`relative w-full max-w-lg overflow-hidden self-center rounded-[var(--radius-lg)] shadow-[var(--shadow-lg)] ${
+            className={`relative w-full max-w-lg overflow-hidden self-center rounded-[var(--radius-lg)] border border-[var(--border-strong)] ${
               align === "right" ? "lg:order-1 lg:justify-self-end" : "lg:justify-self-start"
             }`}
           >
@@ -181,16 +168,6 @@ export function PhotoBand({
               alt={imageAlt ?? ""}
               className="block h-auto max-h-[540px] w-full object-cover"
               loading="lazy"
-            />
-            <div className="pointer-events-none absolute inset-0 opacity-20" style={{ backgroundColor: bgColor }} aria-hidden="true" />
-            <div
-              className={`pointer-events-none absolute inset-y-0 w-1/3 ${
-                align === "right" ? "right-0" : "left-0"
-              }`}
-              style={{
-                background: `linear-gradient(to ${align === "right" ? "left" : "right"}, ${bgColor} 0%, transparent 100%)`,
-              }}
-              aria-hidden="true"
             />
           </div>
         </div>
@@ -354,7 +331,6 @@ export function IntroSplit({
             ratio="4/5"
             imageUrl={imageUrl}
             alt={imageAlt}
-            className="shadow-[var(--shadow-lg)]"
           />
         </div>
         <div className="lg:order-2 lg:max-w-2xl lg:justify-self-end">
@@ -383,11 +359,16 @@ export function IntroSplit({
  *  centered when the item count is not a multiple of three. */
 export function PackageGrid({ children }: { children: ReactNode[] }) {
   return (
-    <ul className="flex flex-wrap justify-center gap-6" role="list">
+    <ul className="grid auto-rows-fr grid-cols-1 gap-6 sm:grid-cols-4 lg:grid-cols-6" role="list">
       {children.map((child, index) => (
         <li
           key={index}
-          className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]"
+           className={`min-w-0 sm:col-span-2 ${
+             children.length % 2 === 1 && index === children.length - 1 ? "sm:col-start-2 lg:col-start-auto" : ""
+           } ${
+             children.length % 3 === 2 && index === children.length - 2 ? "lg:col-start-2" :
+             children.length % 3 === 1 && index === children.length - 1 ? "lg:col-start-3" : ""
+           }`}
         >
           {child}
         </li>

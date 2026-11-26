@@ -9,7 +9,7 @@ import { VideoPlayer } from "@/components/site/VideoPlayer";
 const tones = ["forest", "water", "earth"] as const;
 
 /** GleAlumniExperiences — a split alumni section: a single fading testimonial
- *  slider on the left and an alumni video on the right, with a full-stories
+ *  slider beside an alumni video, with a full-stories
  *  link below. The track auto-advances, pauses on hover/focus, and respects
  *  reduced-motion preferences. */
 export function GleAlumniExperiences({
@@ -19,6 +19,7 @@ export function GleAlumniExperiences({
   items,
   cta,
   video,
+  videoSide = "left",
 }: {
   eyebrow?: string;
   title?: string;
@@ -26,6 +27,7 @@ export function GleAlumniExperiences({
   items: { quote: string; name: string; program?: string; cohort?: string; photoUrl?: string }[];
   cta?: { href: string; label: string };
   video?: { url: string; title: string; caption?: string; thumbnailUrl?: string };
+  videoSide?: "left" | "right";
 }) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -46,7 +48,7 @@ export function GleAlumniExperiences({
   if (!count) return null;
 
   return (
-    <section className="bg-[var(--surface-2)] py-10 md:py-14" aria-label="Alumni experiences">
+    <section className="bg-[var(--water-50)] py-10 md:py-14" aria-label="Alumni experiences">
       <div className="container-page">
         <div className="mx-auto max-w-2xl text-center">
           {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
@@ -55,9 +57,20 @@ export function GleAlumniExperiences({
         </div>
 
         <div className="mt-8 grid gap-6 lg:grid-cols-2 lg:gap-8">
-          {/* Fading testimonial slider */}
+          {/* Alumni video — left */}
+          <div className={`flex flex-col ${videoSide === "left" ? "lg:order-1" : "lg:order-2"}`}>
+            <VideoPlayer
+              videoUrl={video?.url}
+              thumbnailUrl={video?.thumbnailUrl}
+              thumbnailAlt={video?.title ?? "FOSCOD alumni testimonial video"}
+              title={video?.title}
+              caption={video?.caption}
+            />
+          </div>
+
+          {/* Fading testimonial slider — right */}
           <div
-            className="flex flex-col"
+            className={`flex flex-col ${videoSide === "left" ? "lg:order-2" : "lg:order-1"}`}
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
             onFocusCapture={() => setPaused(true)}
@@ -138,17 +151,6 @@ export function GleAlumniExperiences({
             <p className="sr-only" aria-live="polite">
               Testimonial {index + 1} of {count}
             </p>
-          </div>
-
-          {/* Alumni video */}
-          <div className="flex flex-col">
-            <VideoPlayer
-              videoUrl={video?.url}
-              thumbnailUrl={video?.thumbnailUrl}
-              thumbnailAlt={video?.title ?? "FOSCOD alumni testimonial video"}
-              title={video?.title}
-              caption={video?.caption}
-            />
           </div>
         </div>
 
