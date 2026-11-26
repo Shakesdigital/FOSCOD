@@ -60,8 +60,8 @@ export default async function CedpPage() {
       {/* 1. Hero (kept as-is) */}
       <HeroSlider slides={heroSlides} />
 
-      {/* 2. Model — eyebrow + title centered on top, image left, prose right */}
-      <section className="py-16 md:py-24">
+      {/* 2. Model — teal/mint brand surface */}
+      <section className="bg-[var(--surface-2)] py-16 md:py-24">
         <div className="container-page">
           <div className="mx-auto max-w-2xl text-center">
             <Eyebrow>The model</Eyebrow>
@@ -120,8 +120,9 @@ export default async function CedpPage() {
         </div>
       </Section>
 
-      {/* 4. Evidence — delivered & continuing projects as a one-row slider */}
+      {/* 4. Evidence — delivered & continuing projects as a one-row looping slider */}
       <CardsCarousel
+        bg="bg-[var(--surface-2)]"
         eyebrow="Evidence"
         title="What communities have achieved with FOSCOD's support"
         intro="Reported accomplishments in Kalagala Parish, 2022 – October 2026. Delivered projects are shown first, followed by work still continuing. Source: FOSCOD contribution to the Wakisi Division budget conference, submitted by the Executive Director, November 2026."
@@ -130,7 +131,7 @@ export default async function CedpPage() {
 
       {/* 4b. Future priorities — compact note */}
       {future.length > 0 && (
-        <section className="pb-16 md:pb-24">
+        <section className="bg-[var(--surface)] pb-16 md:pb-24">
           <div className="container-page">
             <div className="mx-auto max-w-3xl rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-2)] p-6">
               <h3 className="text-lg font-semibold">Future priorities (indicative)</h3>
@@ -180,9 +181,9 @@ export default async function CedpPage() {
         </div>
       </section>
 
-      {/* 6. CEDP Impact — one-row, touch-friendly carousel */}
+      {/* 6. CEDP Impact — white, one-row, touch-friendly looping carousel */}
       <CardsCarousel
-        bg="bg-[var(--surface-2)]"
+        bg="bg-[var(--surface)]"
         eyebrow="CEDP impact"
         title="Impact cards from community-led work"
         intro="Verified outcomes from projects across clean energy, water, and livelihoods — each reflecting the priorities communities set for themselves."
@@ -199,8 +200,8 @@ export default async function CedpPage() {
         }))}
       />
 
-      {/* 7. Support community-led development — white */}
-      <section className="py-16 md:py-24">
+      {/* 7. Support community-led development — teal/mint brand surface */}
+      <section className="bg-[var(--surface-2)] py-16 md:py-24">
         <div className="container-page">
           <CTABand
             title="Support community-led development"

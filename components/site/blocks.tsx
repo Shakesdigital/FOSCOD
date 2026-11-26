@@ -948,6 +948,7 @@ export function CardsCarousel({
 
   const totalSlides = Math.ceil(items.length / 3);
   const [current, setCurrent] = useState(0);
+  const [paused, setPaused] = useState(false);
   const touchStartX = useRef<number | null>(null);
 
   const prev = () => setCurrent((prev) => (prev - 1 + totalSlides) % totalSlides);
@@ -964,7 +965,16 @@ export function CardsCarousel({
     if (Math.abs(delta) < 45 || totalSlides <= 1) return;
     if (delta > 0) next();
     else prev();
+    setPaused(false);
   };
+
+  useEffect(() => {
+    if (totalSlides <= 1 || paused) return;
+    const timer = window.setInterval(() => {
+      setCurrent((slide) => (slide + 1) % totalSlides);
+    }, 7000);
+    return () => window.clearInterval(timer);
+  }, [paused, totalSlides]);
 
   const startIndex = current * 3;
   const visibleItems = items.slice(startIndex, startIndex + 3);
@@ -974,6 +984,8 @@ export function CardsCarousel({
       className={`py-10 md:py-14 ${bg ?? (surface ? "bg-[var(--surface-2)]" : "")}`}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
     >
       <div className="container-page">
         <div className="mx-auto max-w-2xl text-center">
