@@ -8,3 +8,5 @@ On 2026-11-26, the user requested that completed work always be committed and pu
 
 **Why:** Delivery should include publishing the changes, not only editing local files.
 **How to apply:** Verify completed changes, check the branch and remote, commit task-related files and push to main. Preserve unrelated work. Never force-push or overwrite remote changes; report any blocker.
+
+Keep APInex/OpenCode configuration work separate from FOSCOD website work. Never include global OpenCode credentials or provider changes in website commits.
