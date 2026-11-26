@@ -191,6 +191,8 @@ const volunteer: GleLandingContent = {
     { href: "#engagement-approach", label: "Engagement approach" },
     { href: "#eligibility", label: "Who can volunteer" },
     { href: "#voices", label: "Alumni experiences" },
+    { href: "#fees", label: "Program fees" },
+    { href: "#apply", label: "Apply" },
   ],
   about: {
     eyebrow: "About the volunteer program",
@@ -384,6 +386,8 @@ const internship: GleLandingContent = {
     { href: "#engagement-approach", label: "Engagement approach" },
     { href: "#eligibility", label: "Who can apply" },
     { href: "#voices", label: "Alumni experiences" },
+    { href: "#fees", label: "Program fees" },
+    { href: "#apply", label: "Apply" },
   ],
   about: {
     eyebrow: "About the internship program",
