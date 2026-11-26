@@ -1,5 +1,5 @@
 import { HeroSlider } from "@/components/site/HeroSlider";
-import { Prose, CardGrid, CTABand, CardsCarousel, type GridCard } from "@/components/site/blocks";
+import { Prose, CTABand, CardsCarousel, type GridCard } from "@/components/site/blocks";
 import { Section, SectionHeader } from "@/components/site/Section";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { ContentCard } from "@/components/ui/ContentCard";
@@ -92,8 +92,8 @@ export default async function CedpPage() {
         </div>
       </section>
 
-      {/* 3. Areas of focus — mint, real images */}
-      <Section surface>
+      {/* 3. Areas of focus — white */}
+      <Section>
         <SectionHeader
           eyebrow="Areas of focus"
           title="Lasting change rarely fits into one sector"
@@ -180,9 +180,9 @@ export default async function CedpPage() {
         </div>
       </section>
 
-      {/* 6. CEDP Impact — its own section, pale teal, featured images */}
-      <CardGrid
-        bg="bg-[var(--accent-50)]"
+      {/* 6. CEDP Impact — one-row, touch-friendly carousel */}
+      <CardsCarousel
+        bg="bg-[var(--surface-2)]"
         eyebrow="CEDP impact"
         title="Impact cards from community-led work"
         intro="Verified outcomes from projects across clean energy, water, and livelihoods — each reflecting the priorities communities set for themselves."
@@ -199,8 +199,8 @@ export default async function CedpPage() {
         }))}
       />
 
-      {/* 7. Support community-led development — its own section, pale forest */}
-      <section className="bg-[var(--forest-50)] py-16 md:py-24">
+      {/* 7. Support community-led development — white */}
+      <section className="py-16 md:py-24">
         <div className="container-page">
           <CTABand
             title="Support community-led development"

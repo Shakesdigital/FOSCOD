@@ -827,7 +827,6 @@ export function TestimonialCarousel({
 
   const totalSlides = Math.ceil(items.length / 3);
   const [current, setCurrent] = useState(0);
-
   const prev = () => setCurrent((prev) => (prev - 1 + totalSlides) % totalSlides);
   const next = () => setCurrent((prev) => (prev + 1) % totalSlides);
   const goTo = (idx: number) => setCurrent(idx);
@@ -949,16 +948,33 @@ export function CardsCarousel({
 
   const totalSlides = Math.ceil(items.length / 3);
   const [current, setCurrent] = useState(0);
+  const touchStartX = useRef<number | null>(null);
 
   const prev = () => setCurrent((prev) => (prev - 1 + totalSlides) % totalSlides);
   const next = () => setCurrent((prev) => (prev + 1) % totalSlides);
   const goTo = (idx: number) => setCurrent(idx);
+  const handleTouchStart = (event: React.TouchEvent<HTMLElement>) => {
+    touchStartX.current = event.touches[0]?.clientX ?? null;
+  };
+  const handleTouchEnd = (event: React.TouchEvent<HTMLElement>) => {
+    if (touchStartX.current === null) return;
+    const endX = event.changedTouches[0]?.clientX;
+    const delta = endX === undefined ? 0 : touchStartX.current - endX;
+    touchStartX.current = null;
+    if (Math.abs(delta) < 45 || totalSlides <= 1) return;
+    if (delta > 0) next();
+    else prev();
+  };
 
   const startIndex = current * 3;
   const visibleItems = items.slice(startIndex, startIndex + 3);
 
   return (
-    <section className={`py-10 md:py-14 ${bg ?? (surface ? "bg-[var(--surface-2)]" : "")}`}>
+    <section
+      className={`py-10 md:py-14 ${bg ?? (surface ? "bg-[var(--surface-2)]" : "")}`}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
       <div className="container-page">
         <div className="mx-auto max-w-2xl text-center">
           {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
