@@ -55,7 +55,7 @@ export const primaryNav: NavItem[] = [
   },
   { label: "Opportunities", href: "/opportunities" },
   { label: "Apply", href: "/apply" },
-  { label: "Impact", href: "/impact/general" },
+  { label: "Impact", href: "/impact" },
   { label: "About Us", href: "/about" },
   { label: "Contact Us", href: "/contact" },
 ];
@@ -93,7 +93,7 @@ export const footerNav: { heading: string; links: NavChild[] }[] = [
   {
     heading: "Impact",
     links: [
-      { label: "Impact Overview", href: "/impact/general" },
+      { label: "Impact Overview", href: "/impact" },
       { label: "Impact Stories", href: "/impact/stories" },
       { label: "Projects", href: "/projects/archive" },
       { label: "Downloads & Reports", href: "/impact#downloads" },

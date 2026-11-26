@@ -755,7 +755,7 @@ delete from public.footer_nav where column_key = 'quick-links';
 insert into public.footer_nav (column_key, label, href, order_column, visible) values
   ('quick-links', 'Global Learning Exchange Program', '/programs/global-learning-exchange', 1, true),
   ('quick-links', 'Community Empowerment and Development Program', '/programs/community-empowerment-development', 2, true),
-  ('quick-links', 'Impact', '/impact/general', 3, true),
+  ('quick-links', 'Impact', '/impact', 3, true),
   ('quick-links', 'Blog', '/stories', 4, true),
   ('quick-links', 'Support community work', '/donate', 5, true);
 

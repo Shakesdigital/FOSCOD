@@ -25,7 +25,7 @@ export async function Footer() {
   const quickLinks = [
     { label: "Global Learning Exchange Program", href: "/programs/global-learning-exchange" },
     { label: "Community Empowerment and Development Program", href: "/programs/community-empowerment-development" },
-    { label: "Impact", href: "/impact/general" },
+    { label: "Impact", href: "/impact" },
     { label: "Blog", href: "/stories" },
     { label: "Support community work", href: "/donate" },
   ];
