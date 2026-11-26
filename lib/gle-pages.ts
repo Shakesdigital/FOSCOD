@@ -164,6 +164,7 @@ export const gleThematic = {
       {
         title: "1. Clean Energy & Climate Resilience",
         body: "Promoting clean energy, climate adaptation, afforestation, ecosystem restoration and sustainable environmental practices.",
+        href: "/programs/cedp/areas/clean-energy-climate-resilience",
         icon: "energy",
         imageUrl: "/images/gle/thematic/clean-energy.jpg",
         imageAlt: "Solar panels and clean energy infrastructure in a rural Ugandan community",
@@ -171,6 +172,7 @@ export const gleThematic = {
       {
         title: "2. Water, Sanitation & Community Health",
         body: "Improving access to safe water, sanitation and hygiene while promoting community health awareness, disease prevention and appropriate referrals.",
+        href: "/programs/cedp/areas/water-sanitation-health-communities",
         icon: "water",
         imageUrl: "/images/gle/thematic/water-sanitation.jpg",
         imageAlt: "A protected community water source and sanitation project in Uganda",
@@ -178,6 +180,7 @@ export const gleThematic = {
       {
         title: "3. Sustainable Livelihoods, Skills & Economic Empowerment",
         body: "Strengthening livelihoods through skills development, agroecology, agroforestry, food security, savings, entrepreneurship and income generation.",
+        href: "/programs/cedp/areas/sustainable-livelihoods-economic-empowerment",
         icon: "livelihoods",
         imageUrl: "/images/gle/thematic/sustainable-livelihoods.jpg",
         imageAlt: "Community members in a sustainable livelihoods and skills training session",

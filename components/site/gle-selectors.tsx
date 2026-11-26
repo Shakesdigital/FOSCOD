@@ -1,6 +1,7 @@
 import { SectionHeader } from "@/components/site/Section";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
+import { Button } from "@/components/ui/Button";
 import { PartnerSectorsCarousel } from "@/components/site/PartnerSectorsCarousel";
 import { ExpandableCard, SectionDivider } from "@/components/site/gle-landing";
 import { gleEngagement, gleThematic } from "@/lib/gle-pages";
@@ -89,13 +90,18 @@ export function GleSelectionSections({ pathway }: { pathway: GlePathway }) {
                     alt={area.imageAlt ?? area.title}
                     bare
                   />
-                  <div className="p-5">
+                  <div className="flex h-full flex-col p-5">
                     <h4 className="text-[1.02rem] leading-snug font-medium text-[var(--ink)]">
                       {area.title}
                     </h4>
                     <p className="mt-2 text-[0.9rem] leading-relaxed text-[var(--muted)]">
                       {area.body}
                     </p>
+                    <div className="mt-auto pt-5">
+                      <Button href={area.href} variant="ghost" size="sm">
+                        Explore this focus area
+                      </Button>
+                    </div>
                   </div>
                 </div>
               ))}
